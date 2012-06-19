@@ -1,9 +1,9 @@
 //Classe herite de Sprite. Elle permet de stocket plusieurs inages et de les faire se suivre.
 //Meme parametres que Sprite sauf que imgRectArray est un tableau de imgRect (les differentes images qui compose l'animation)
-function SpriteAnime(x, y, width, height, imgRectArray, parentView, fps)
+function SpriteAnime(x, y, width, height, imgRectArray, fps)
 {
 	this.superClass = Sprite;
-	this.superClass(x, y, width, height, imgRectArray[0], parentView);
+	this.superClass(x, y, width, height, imgRectArray[0]);
 	delete this.superclass;
 	
 	this.imgRectArray = imgRectArray;

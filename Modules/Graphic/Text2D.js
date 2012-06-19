@@ -139,7 +139,7 @@ Text2D.prototype.setFont = function(font)
 }
 
 //Dessine l'objet texte.
-Text2D.prototype.draw = function(context, view)
+Text2D.prototype.draw = function(context)
 {
  context.save();
  var saveFont = context.font;

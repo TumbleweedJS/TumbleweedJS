@@ -1,6 +1,6 @@
 //la classe sprite permet de pouvoir specifier un sprite a partir d'une position x, une position y, une largeur,
 //un hauteur, un rectangle de texture, et une vue parente a laquelle l'associer
-function Sprite(x, y, width, height, imgRect, parentView)
+function Sprite(x, y, width, height, imgRect)
 {
  this.x = x;
  this.y = y;
@@ -13,7 +13,6 @@ function Sprite(x, y, width, height, imgRect, parentView)
  this.scaleY = 1.0;
  this.rotation = 0.0;
  this.imgRect = imgRect;
- this.parentView = parentView;
 }
 
 //permet de pouvoir setter le centre de l'objet Sprite
@@ -54,7 +53,7 @@ Sprite.prototype.getAlpha = function()
 //permet de pouvoir dessiner un sprite sur une view.
 //il faut forcement que le sprite soit associer a une view pour que le dessin fonctionne
 //Sprite.prototype.draw = function(context, view, x_local, y_local)
-Sprite.prototype.draw = function(context, view)
+Sprite.prototype.draw = function(context)
 {
  context.save();
  var saveAlpha = context.globalAlpha;

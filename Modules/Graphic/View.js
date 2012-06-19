@@ -182,7 +182,7 @@ tmp_ctx = this.context;
   {
   if (this.listSprite[i].getX() < this.width && this.listSprite[i].getX() + this.listSprite[i].getWidth() >= 0 &&
       this.listSprite[i].getY() < this.height && this.listSprite[i].getY() + this.listSprite[i].getHeight() >= 0)
-     this.listSprite[i].draw(tmp_ctx, this);
+     this.listSprite[i].draw(tmp_ctx);
    i++;
   }
   tmp_ctx.restore();
