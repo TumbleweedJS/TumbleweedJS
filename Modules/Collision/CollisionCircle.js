@@ -23,7 +23,13 @@ function CollisionCircle(x, y, radius)
 //Si result vaux false, alors l'objet cercle n'est pas en collision avec l'objet cercle2.
 CollisionCircle.prototype.isCollidingCircle = function(circle)
 {
- //TODO, code de collision cercle cercle (en prenant en compte les rotations of course).
+ var circle_x = circle.getX();
+ var dist = Math.sqrl((circle_x - this.x)*(circle_x - this.x)) + ((circle_y - this.y)*(circle_y - this.y)));
+ if (dist < this.radius + circle.getRadius())
+  {
+   return true;
+  }
+  return false;
 }
 
 //Fonction permettant de pouvoir tester les collisions du cercle avec une box
@@ -114,4 +120,11 @@ CollisionCircle.prototype.setCenterPoint = function(valX, valY)
 CollisionCircle.prototype.getCenterPoint = function()
 {
  return {x: x_centerPoint, y: y_centerPoint};
+}
+
+
+//Permet de recuperer le radius du cercle
+CollisionCircle.prototype.getRadius = function()
+{
+ return this.radius;
 }
