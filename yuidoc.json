@@ -1,0 +1,10 @@
+{
+    "name": "TumbleweedJS",
+    "Description": "The TumbleweedJS API",
+    "version": "0.1.0",
+    "url": "http://api.tumbleweed-studio.net",
+    "options": {
+    	"outdir": "./docs",
+	"paths": ["./modules/"]
+    }
+}
