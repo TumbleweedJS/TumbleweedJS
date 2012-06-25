@@ -16,6 +16,46 @@ function CollisionBox(x, y, w, h)
  this.angle = 0;
 }
 
+//Fonction permettant de pouvoir tester si un point est dans la box
+//px est l'abscisse du point
+//py est l'ordonnee du point
+CollisionBox.prototype.isPointInside = function(px, py)
+{
+ if (px >= this.getX() && px <= this.getX() + this.getWidth() &&
+	 py >= this.getY() && py <= this.getY() + this.getHeight())
+  return true;
+ else
+  return false;
+}
+
+//Fonction permettant de pouvoir tester si un segment est en collision avec un cercle.
+//[ax; ay] definissent le point de depart du segment
+//[bx;by] definissent le point de fin du segment
+//circle represente le cercle avec lequel on veux tester l'intersection
+CollisionBox.prototype.isSegmentCollidingCircle = function(val_a_x, val_a_y, val_b_x, val_b_y, circle)
+{
+ var a_x = val_a_x;
+ var a_y = val_a_y;
+ var b_x = val_b_x;
+ var b_y = val_b_y;
+ var v_x = b_x - a_x;
+ var v_y = b_y - a_y;
+ var radius = circle.getRadius();
+ a_x = a_x - circle.getX();
+ a_y = a_y - circle.getY();
+var delta = (((2 * a_x * v_x) + (2 * a_y * v_y)) * ((2 * a_x * v_x) + (2 * a_y * v_y))) - (4 * ((v_x * v_x) + (v_y * v_y)) * ((a_x * a_x) + (a_y * a_y) - (radius * radius)));
+ if (delta >= 0)
+  {
+   if ((((2 * a_x * v_x + 2 * a_y * v_y) * -1) + (Math.sqrt(delta)))/(2 * ((v_x * v_x) + (v_y * v_y))) < 1.0 && 
+       (((2 * a_x * v_x + 2 * a_y * v_y) * -1) + (Math.sqrt(delta)))/(2 * ((v_x * v_x) + (v_y * v_y))) > 0.0)
+	   return true;
+   if ((((2 * a_x * v_x + 2 * a_y * v_y) * -1) - (Math.sqrt(delta)))/(2 * ((v_x * v_x) + (v_y * v_y))) < 1.0 && 
+       (((2 * a_x * v_x + 2 * a_y * v_y) * -1) - (Math.sqrt(delta)))/(2 * ((v_x * v_x) + (v_y * v_y))) > 0.0)
+	   return true;
+  }
+ return false;
+}
+
 //Fonction permettant de pouvoir tester les collisions de la box avec un cercle.
 //considerons l'exemple suivant
 //var cercle = new CollisionCircle(x,y,radius);
@@ -25,7 +65,29 @@ function CollisionBox(x, y, w, h)
 //Si result vaux false, alors l'objet box n'est pas en collision avec l'objet cercle.
 CollisionBox.prototype.isCollidingCircle = function(circle)
 {
- //TODO, code de collision cercle box (en prenant en compte les rotations of course).
+var radius = circle.getRadius();
+
+ if (this.isSegmentCollidingCircle(this.x, this.y, this.x + this.w, this.y, circle))
+  return true; 
+if (this.isSegmentCollidingCircle(this.x + this.w, this.y, this.x + this.w, this.y + this.h, circle))
+  return true; 
+ if (this.isSegmentCollidingCircle(this.x + this.w, this.y + this.h, this.x, this.y + this.h, circle))
+  return true;
+ if (this.isSegmentCollidingCircle(this.x, this.y + this.h, this.x, this.y, circle))
+  return true;
+  //On check si le centre du cercle est dans la box.
+  if (circle.getX() > this.x && circle.getX() < this.x + this.w && circle.getY() > this.y && circle.getY() < this.y + this.h)
+   return true;
+  //on check si les sommets de la box sont a une distance plus petite que le rayon du cercle
+  if (Math.sqrt(((this.x - circle.getX()) * (this.x - circle.getX())) + ((this.y - circle.getY()) * (this.y - circle.getY()))) < radius)
+   return true;
+  if (Math.sqrt(((this.x + this.w - circle.getX()) * (this.x + this.w - circle.getX())) + ((this.y - circle.getY()) * (this.y - circle.getY()))) < radius)
+   return true;
+  if (Math.sqrt(((this.x + this.w - circle.getX()) * (this.x + this.w - circle.getX())) + ((this.y + this.h - circle.getY()) * (this.y + this.h - circle.getY()))) < radius)
+   return true;
+  if (Math.sqrt(((this.x - circle.getX()) * (this.x - circle.getX())) + ((this.y + this.h - circle.getY()) * (this.y + this.h - circle.getY()))) < radius)
+   return true;
+ return false;
 }
 
 //Fonction permettant de pouvoir tester les collisions de la box avec une autre box
@@ -37,7 +99,20 @@ CollisionBox.prototype.isCollidingCircle = function(circle)
 //Si result vaux false, alors l'objet box1 et l'objet box2 ne sont pas en collision.
 CollisionBox.prototype.isCollidingBox = function(box)
 {
- //TODO, code de collision box box (en prenant en compte les rotations.)
+ var box_x = box.getX();
+ var box_y = box.getY();
+ var box_width = box.getWidth();
+ var box_height = box.getHeight();
+ 
+ if (this.x + this.w < box_x)
+  return false;
+ if (this.x > box_x + box_width)
+  return false;
+ if (this.y + box_height < box_y)
+  return false;
+ if (this.y > box_y + box_height)
+  return false;
+return true;
 }
 
 //Fonction permettant de configurer la position horizontale de la box
@@ -86,34 +161,4 @@ CollisionBox.prototype.setHeight = function(val)
 CollisionBox.prototype.getHeight = function()
 {
  return this.h;
-}
-
-
-//Fonction permettant de configurer la rotation de la box
-CollisionBox.prototype.setRotation = function(val)
-{
- this.angle = val;
-}
-
-//Fonction permettant de recuperer la rotation de la box
-CollisionBox.prototype.getRotation = function()
-{
- return this.angle;
-}
-
-//Fonction permettant de set le point central de la box (c'est lui qui joue le role de pivot de rotation)
-CollisionBox.prototype.setCenterPoint = function(valX, valY)
-{
- this.x_centerPoint = valX;
- this.y_centerPoint = valY;
-}
-
-//Permet de recuperer le centerPoint de la box (le point de pivot de rotation de la box) via un objet contenant les coordonnees x et y.
-//Par exemple pour recuperer les coordonnees du centerPoint de la box, il faut faire
-//var center_point = box.getCenterPoint();
-//var x_center_point = center_point.x;
-//var y_center_point = center_point.y;
-CollisionBox.prototype.getCenterPoint = function()
-{
- return {x: x_centerPoint, y: y_centerPoint};
 }
