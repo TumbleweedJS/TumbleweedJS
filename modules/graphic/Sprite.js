@@ -1,5 +1,13 @@
-//la classe sprite permet de pouvoir specifier un sprite a partir d'une position x, une position y, une largeur,
-//un hauteur, un rectangle de texture, et une vue parente a laquelle l'associer
+/**
+@module Graphic
+*/
+
+/**
+la classe sprite permet de pouvoir specifier un sprite a partir d'une position x, une position y, une largeur,
+un hauteur, un rectangle de texture, et une vue parente a laquelle l'associer
+@class Sprite
+@constructor
+*/
 function Sprite(x, y, width, height, imgRect)
 {
  this.x = x;
@@ -15,10 +23,14 @@ function Sprite(x, y, width, height, imgRect)
  this.imgRect = imgRect;
 }
 
-//permet de pouvoir setter le centre de l'objet Sprite
-//ce centre represente le point de rotation du sprite.
-//les coordonnees du point ne doivent pas deborder des dimensions du sprite
-//autrement dit x doit etre < a width et y doit etre inferieur a height.
+/**
+permet de pouvoir setter le centre de l'objet Sprite
+ce centre represente le point de rotation du sprite.
+les coordonnees du point ne doivent pas deborder des dimensions du sprite
+autrement dit x doit etre < a width et y doit etre inferieur a height.
+
+@method setCenterPoint
+*/
 Sprite.prototype.setCenterPoint = function(x, y)
 {
  if (x >= 0 && x <= this.width && y >= 0 && y <= this.height)
@@ -28,7 +40,12 @@ Sprite.prototype.setCenterPoint = function(x, y)
   }
 }
 
-//permet de set la valeur alpha (transparence) du sprite (1.0 opaque 0.0 totalement transparent, en fait la valeur est le facteur d'opacite)
+/**
+permet de set la valeur alpha (transparence) du sprite (1.0 opaque 0.0 totalement transparent, en fait la valeur est le facteur d'opacite)
+
+@method setAlpha
+@param {Integer} alpha transparency value. Must be between 0 and 1.
+*/
 Sprite.prototype.setAlpha = function(alpha)
 {
  if (alpha > 1.0)

@@ -1,9 +1,18 @@
-//la classe view joue le role de conteneur.
-//cette classe peut contenir d'autres view que l'on ajoute avec pushView
-//Le view peuvent contenir des sprites.
-//pour ajouter un sprite a une view il faut utiliser la methode pushSprite
-//le constructeur de la view prend en parametre  le context, la position x;y,
-//une largeur une hauteur.
+/**
+@module Graphic
+*/
+
+/**
+la classe view joue le role de conteneur.
+cette classe peut contenir d'autres view que l'on ajoute avec pushView
+Le view peuvent contenir des sprites.
+pour ajouter un sprite a une view il faut utiliser la methode pushSprite
+le constructeur de la view prend en parametre  le context, la position x;y,
+une largeur une hauteur.
+
+@class View
+@constructor
+*/
 function View(context, x, y, width, height)
 {
  this.x = x;
@@ -22,13 +31,19 @@ function View(context, x, y, width, height)
  this.y_scale = 1.0;
 }
 
-//Permet de recuperer la width
+/**
+Permet de recuperer la width
+@method getWidth
+*/
 View.prototype.getWidth = function()
 {
  return this.width;
 }
 
-//Permet de recuperer la height
+/**
+Permet de recuperer la height
+@method getHeight
+*/
 View.prototype.getHeight = function()
 {
  return this.height;
