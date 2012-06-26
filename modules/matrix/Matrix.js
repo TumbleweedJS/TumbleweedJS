@@ -29,6 +29,87 @@ function Matrix(width, height) {
   }
 }
 
+//permet de multiplier la matrice courante par une matrice de scale
+//si l'operation reussie, la fonction renvoi true, sinon la fonction renvoi false.
+//x est le coefficient multiplicateur des abscisses
+//y est le coefficient multiplicateur des ordonnees
+Matrix.prototype.scale = function(x, y) {
+  var tmp_matrix = new Matrix(3, 3);
+  tmp_matrix.setData(3, 3, [x, 0, 0,
+                            0, y, 0,
+                            0, 0, 1]);
+  var result = this.multByMatrix(tmp_matrix);
+  if (result == false)
+    return false;
+  var i = 0;
+  var j = 0;
+  while (i < this.getHeight())
+  {
+    j = 0;
+    while (j < this.getWidth())
+    {
+      this.setScalar(i, j, tmp_matrix.getScalar(i, j));
+      j++;
+    }
+    i++;
+  }
+  return true;
+}
+
+//Permet de multiplier la matrice courante par une matrice de rotation
+//si l'operation reussie, la fonction renvoi true, sinon la fonction renvoi false.
+//angle est l'angle en degree representant la rotation
+Matrix.prototype.rotate = function(angle) {
+  var tmp_matrix = new Matrix(3, 3);
+  var rad_angle = angle / 180 * Math.PI;
+  tmp_matrix.setData(3, 3, [Math.cos(rad_angle), -Math.sin(rad_angle), 0,
+                            Math.sin(rad_angle), Math.cos(rad_angle), 0,
+                            0, 0, 1]);
+  var result = this.multByMatrix(tmp_matrix);
+  if (result == false)
+    return false;
+  var i = 0;
+  var j = 0;
+  while (i < this.getHeight())
+  {
+    j = 0;
+    while (j < this.getWidth())
+    {
+      this.setScalar(i, j, tmp_matrix.getScalar(i, j));
+      j++;
+    }
+    i++;
+  }
+  return true; 
+}
+
+//Permet de multiplier la matrice courante par une matrice de translation
+//si l'operation reussie, la fonction renvoi true sinon la fonction renvoi false.
+//x represente la translation sur les abscisses
+//y represente la translation sur les ordonnees
+Matrix.prototype.translate = function(x, y) {
+  var tmp_matrix = new Matrix(3, 3);
+  tmp_matrix.setData(3, 3, [1, 0, x,
+                            0, 1, y,
+                            0, 0, 1]);
+  var result = this.multByMatrix(tmp_matrix);
+  if (result == false)
+    return false;
+  var i = 0;
+  var j = 0;
+  while (i < this.getHeight())
+  {
+    j = 0;
+    while (j < this.getWidth())
+    {
+      this.setScalar(i, j, tmp_matrix.getScalar(i, j));
+      j++;
+    }
+    i++;
+  }
+  return true;
+}
+
 //Permet de set les donnees de la matrice
 //on redefinit la hauteur de la matrice par i
 //on redefinit la largeur de la matrice par j
