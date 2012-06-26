@@ -95,17 +95,17 @@ var map = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,];
 
  var img_floor = new Image();
- img_floor.src = "images/herbe.png";
+ img_floor.src = "../images/herbe.png";
  var img_bumper = new Image();
- img_bumper.src = "images/trampoline.png";
+ img_bumper.src = "../images/trampoline.png";
  var img_crate = new Image();
- img_crate.src = "images/caisse_cassable.png";
+ img_crate.src = "../images/caisse_cassable.png";
  var img_rabbit = new Image();
- img_rabbit.src = "images/lapin_pointe_nyan.png";
+ img_rabbit.src = "../images/lapin_pointe_nyan.png";
  var img_ciel = new Image();
- img_ciel.src = "images/sky.png";
+ img_ciel.src = "../images/sky.png";
  var img_montagne = new Image();
- img_montagne.src = "images/parallax_montage1.png";
+ img_montagne.src = "../images/parallax_montage1.png";
  
  var img_floor_rect = new ImageRect(img_floor, 0, 0, 64,64);
  var img_bumper_rect = new ImageRect(img_bumper, 0, 0, 64,64);
