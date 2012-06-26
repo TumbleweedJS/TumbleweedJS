@@ -86,6 +86,16 @@ CollisionCircle.prototype.isPointInside = function(px, py)
 //Si result vaux false, alors l'objet cercle et l'objet box ne sont pas en collision.
 CollisionCircle.prototype.isCollidingBox = function(box)
 {
+ //On check si la boite englobante du cercle rentre en collision avec this
+ if (this.x + this.radius < box.getX())
+  return false;
+ if (this.x - this.radius > box.getX() + box.getWidth())
+  return false;
+ if (this.y + this.radius < box.getY())
+  return false;
+ if (this.y - this.radius > box.getY() + box.getHeight())
+  return false;
+ //On check si les segments de la boite rentrent en collision avec le cercle
  if (this.isCollidingSegment(box.getX(), box.getY(), box.getX() + box.getWidth(), box.getY()))
   return true;
  if (this.isCollidingSegment(box.getX() + box.getWidth(), box.getY(), box.getX() + box.getWidth(), box.getY() + box.getHeight()))
@@ -98,13 +108,13 @@ CollisionCircle.prototype.isCollidingBox = function(box)
   if (this.getX() > box.getX() && this.getX() < box.getX() + box.getWidth() && this.getY() > box.getY() && this.getY() < box.getY() + box.getHeight())
    return true;
   //on check si les sommets de la box sont a une distance plus petite que le rayon du cercle
-  if (Math.sqrt(((box.getX() - this.getX()) * (box.getX() - this.getX())) + ((box.getY() - this.getY()) * (box.getY() - this.getY()))) < radius)
+  if (Math.sqrt(((box.getX() - this.getX()) * (box.getX() - this.getX())) + ((box.getY() - this.getY()) * (box.getY() - this.getY()))) < this.radius)
    return true;
-  if (Math.sqrt(((box.getX() + box.getWidth() - this.getX()) * (box.getX() + box.getWidth() - this.getX())) + ((box.getY() - this.getY()) * (box.getY() - this.getY()))) < radius)
+  if (Math.sqrt(((box.getX() + box.getWidth() - this.getX()) * (box.getX() + box.getWidth() - this.getX())) + ((box.getY() - this.getY()) * (box.getY() - this.getY()))) < this.radius)
    return true;
-  if (Math.sqrt(((box.getX() + box.getWidth() - this.getX()) * (box.getX() + box.getWidth() - this.getX())) + ((box.getY() + box.getHeight() - this.getY()) * (box.getY() + box.getHeight() - this.getY()))) < radius)
+  if (Math.sqrt(((box.getX() + box.getWidth() - this.getX()) * (box.getX() + box.getWidth() - this.getX())) + ((box.getY() + box.getHeight() - this.getY()) * (box.getY() + box.getHeight() - this.getY()))) < this.radius)
    return true;
-  if (Math.sqrt(((box.getX() - this.getX()) * (box.getX() - this.getX())) + ((box.getY() + box.getHeight() - this.getY()) * (box.getY() + box.getHeight() - this.getY()))) < radius)
+  if (Math.sqrt(((box.getX() - this.getX()) * (box.getX() - this.getX())) + ((box.getY() + box.getHeight() - this.getY()) * (box.getY() + box.getHeight() - this.getY()))) < this.radius)
    return true;
  return false;
 }

@@ -67,6 +67,16 @@ CollisionBox.prototype.isCollidingCircle = function(circle)
 {
 var radius = circle.getRadius();
 
+ //On check si la boite englobante du cercle rentre en collision avec this
+ if (circle.getX() + radius < this.x)
+  return false;
+ if (circle.getX() - radius > this.x + this.w)
+  return false;
+ if (circle.getY() + radius < this.y)
+  return false;
+ if (this.y - radius > this.y + this.h)
+  return false;
+ //On check si un des segments de la box rentre en collision avec le cercle
  if (this.isSegmentCollidingCircle(this.x, this.y, this.x + this.w, this.y, circle))
   return true; 
 if (this.isSegmentCollidingCircle(this.x + this.w, this.y, this.x + this.w, this.y + this.h, circle))
@@ -108,7 +118,7 @@ CollisionBox.prototype.isCollidingBox = function(box)
   return false;
  if (this.x > box_x + box_width)
   return false;
- if (this.y + box_height < box_y)
+ if (this.y + this.h < box_y)
   return false;
  if (this.y > box_y + box_height)
   return false;
