@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <style>
+      p { clear: both; }
+    </style>
+      <script src="../../modules/sound/TWSound.js"></script>
+      <script src="../../modules/sound/TWSoundChannel.js"></script>
+      <script src="../../modules/sound/TWSoundManager.js"></script>
+      <script type="text/javascript">
+
+          var manager = TWSoundManager.init();
+
+          var id1 = manager.add("assets/Game-Shot.mp3|assets/Game-Shot.ogg", 10);
+          var id2 = manager.add("assets/Game-Death.mp3|assets/Game-Death.ogg", 10);
+
+          manager.loadAll();
+          manager.allInstancesReady = function() {
+
+          }
+      </script>
+  </head>
+  <body>
+    <h1>Test</h1>
+    <a href="javascript:manager.getPlayableSound(id1).play();">Test 1</a>
+    <a href="javascript:manager.getPlayableSound(id2).play();">Test 2</a>
+    <a href="javascript:manager.setMasterVolume(manager.masterVolume += 0.1);">Volume +</a>
+    <a href="javascript:manager.setMasterVolume(manager.masterVolume -= 0.1);">Volume -</a>
+
+  </body>
+</html>
