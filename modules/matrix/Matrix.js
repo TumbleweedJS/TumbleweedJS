@@ -48,7 +48,7 @@ Matrix.prototype.scale = function(x, y) {
     j = 0;
     while (j < this.getWidth())
     {
-      this.setScalar(i, j, tmp_matrix.getScalar(i, j));
+      this.setScalar(i, j, result.getScalar(i, j));
       j++;
     }
     i++;
@@ -75,7 +75,7 @@ Matrix.prototype.rotate = function(angle) {
     j = 0;
     while (j < this.getWidth())
     {
-      this.setScalar(i, j, tmp_matrix.getScalar(i, j));
+      this.setScalar(i, j, result.getScalar(i, j));
       j++;
     }
     i++;
@@ -102,7 +102,7 @@ Matrix.prototype.translate = function(x, y) {
     j = 0;
     while (j < this.getWidth())
     {
-      this.setScalar(i, j, tmp_matrix.getScalar(i, j));
+      this.setScalar(i, j, result.getScalar(i, j));
       j++;
     }
     i++;
