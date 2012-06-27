@@ -1,11 +1,18 @@
-//La classe Text2D permet de definir un objet capable d'afficher du texte
-//x position locale du texte en abscisse
-//y position locale du texte en ordonnee
-//size taille de la police
-//fontName nom de la police a utiliser
-//text texte a afficher.
-//par exemple, pour creer un objet texte qui s'affiche a la position [50;60] avec une taille de 15 en police calibri on fait
-//var mytext = new Text2D(50, 60, 15, 'calibri', 'Bonjour le monde.');
+/**
+@module Graphic
+*/
+
+/**
+Text2D is a class that allow you to display text on the canvas context.
+For example, if yo want to create a Text2D object who display the text "Hello World" at the [50;60] position, with a size of 15 in calibri font, the you should do :
+new Text2D(50, 60, 'Calibri', 'Hello World');
+@class Text2D
+@constructor
+@param {integer} the x parameter represent the x coordinate of the text on the canvas context
+@param {integer} the y parameter represent the y coordinate of the text on the canvas context
+@param {string} the name of the font to load, for example, if you want to use the Calibri font, then, the font parameter should be equals to 'Calibri'
+@param {string} the text to display on the canvas context.
+*/
 function Text2D(x, y, size, fontName, text)
 {
  this.x = x;
@@ -25,7 +32,12 @@ function Text2D(x, y, size, fontName, text)
  this.fontStyle = ""; //"" = normal, "italic" = italic, "bold" = bold
 }
 
-//Permet d'obtenir la largeur du texte, on doit forcement fournir le context pour pouvoir mesurer le texte
+/**
+The getWidth method allow you to get the width of the text
+currently this method is not working because the metrics functions of HTML5 on the canvas to measure text require an access to the context.
+@method getWidth
+@return {integer} currently this function always return 0.
+*/
 Text2D.prototype.getWidth = function()
 {
  //var metrics = ctx.measureText(this.text);
@@ -33,47 +45,76 @@ Text2D.prototype.getWidth = function()
  return 0;
 }
 
-//Permet d'obtenir la hauteur du texte, on doit forcement fournir le context pour pouvoir mesurer le texte
+/**
+The getHeight method allow you to get the height of the text
+currently this method is not working because the metrics functions of HTML5 on the canvas to measure text require an access to the context.
+@method getHeight
+@return {integer} currently this function always return 0.
+*/
 Text2D.prototype.getHeight = function()
 {
  //var metrics = ctx.measureText(this.text);
  return 0;
 }
 
-//Permet de definir le point de centre (pour les rotations les translations des objets texte)
+/**
+The setCenterPoint method allow you to set the point of rotation of the test
+@method setCenterPoint
+@param {integer} x coordinate of the center point of the text, note that x and y values are expressed in local orthonormal system of the Text2D
+@param {integer} y coordinate of the center point of the text, note that y and x values are expressed in local orthonormal system of the Text2D
+*/
 Text2D.prototype.setCenterPoint = function(x, y)
 {
  this.x_centerPoint = x;
  this.y_centerPoint = y;
 }
 
-//Permet de recuperer le x
+/**
+The getX method allow you to get the x coordinate of the Text2D object
+@method getX
+@return {integer} the x coordinate of the Text2D
+*/
 Text2D.prototype.getX = function()
 {
  return this.x;
 }
 
-//Permet de recuperer le y
+/**
+The getY method allow you to get the y coordinate of the Text2D object
+@method getY
+@return {integer} the xy coordinate of the Text2D
+*/
 Text2D.prototype.getY = function()
 {
  return this.y;
 }
 
-//Permet de definir la mise a l'echelle du texte
+/**The setScale method allow you to set the scale of the Text2D
+@method setScale
+@param {float} the scale factor of the x axis
+@param {float} the scale factor of the y axis
+*/
 Text2D.prototype.setScale = function(x, y)
 {
  this.scaleX = x;
  this.scaleY = y;
 }
 
-//Permet de definir la rotation du texte
+/**The setRotation method allow you to set the angle of rotation of the Text2D object
+@method setRotation
+@param {float} degree value of the angle of rotation
+*/
 Text2D.prototype.setRotation = function(rot)
 {
  this.rotation = rot / 180.0 * Math.PI;
 }
 
-//la methode setRVBColor permet de pouvoir definir la couleur du texte.
-//la valeur des compansantes red, green et blue vont de 0 a 255.
+/**The setRVBColor method allow you to set the color of the Text2D object
+@method setRVBColor
+@param {integer} red value, must be beetween 0 and 255
+@param {integer} green value, must be beetween 0 and 255
+@param {integer} blue value, must be beetween 0 and 255
+*/
 Text2D.prototype.setRVBColor = function(red, green, blue)
 {
  this.redColor = red;
@@ -81,7 +122,11 @@ Text2D.prototype.setRVBColor = function(red, green, blue)
  this.blueColor = blue;
 }
 
-//permet de set la transparence du text
+/**
+The setAlpha method allow you to set the transparency value of the Text2D object
+@method setAlpha
+@param {float} alpha parameter must be beetween 0.0 and 1.0
+*/
 Text2D.prototype.setAlpha = function(alpha)
 {
  if (alpha > 1.0)
@@ -97,16 +142,21 @@ Text2D.prototype.setAlpha = function(alpha)
  this.alpha = alpha;
 }
 
-//permet de get la transparence du text
+/**
+The getAlpha method allow you to get the transparency value of the Text2D object
+@method getAlpha
+@return {float} return the transparency value of the Text2D, value beetween 0.0 and 1.0
+*/
 Text2D.prototype.getAlpha = function()
 {
  return this.alpha;
 }
 
-//setFontStyle permet de definir le style de la police
-//italic = ecriture italique
-//bold = ecriture grasse
-//normal = ecriture normale
+/**
+The setFontStyle method allow you to set the font style of the Text2D object
+@method setFontStyle
+@param {string} style of the font, there's 3 font styles, 'italic', 'bold' and 'normal', if the fontStyle parameter doesn't match any of these values, then the setFontStyle will have no effect.
+*/
 Text2D.prototype.setFontStyle = function(fontStyle)
 {
  if (fontStyle == "italic")
@@ -117,28 +167,53 @@ Text2D.prototype.setFontStyle = function(fontStyle)
     this.fontStyle = "";
 }
 
-//permet de definir la taille de la police (meme grandeur que la taille de police dans les editeurs de texte type Word)
-//par exemple, pour que la police soit de taille 10 on fait
-//setSize(10);
+/**
+The setSize method allow you to set the size of the Text2D object.
+@method setSize
+@param {integer} size of the font contained by the Text2D object, the size are the sames in the word processing softwares.
+@return {boolean} return true if the size parameter value is valid, return false if the size parameter is not valid.
+*/
 Text2D.prototype.setSize = function(size)
 {
- this.size = size + "pt";
+ if (size > 0)
+ {
+  this.size = size + "pt";
+  return true;
+ }
+ else
+ {
+  return false;
+ }
 }
 
-//Permet de definir le texte a afficher
+/**
+The setText method allow you to set a text to display to the Text2D object.
+@method setText
+@param {string} text to display
+*/
 Text2D.prototype.setText = function(text)
 {
  this.text = text;
 }
 
-//permet de definir la police a utiliser, par exemple pour utiliser la police calibri on fait
-//setFont("calibri");
+/**
+The setFont method allow you to set a font to the Text2D object
+@method setFont
+@param {string} value of the font to load, for example, if you want to load the Calibri font, you should do this => my_text2d_object.setFont('calibri');
+@return {boolean} always return true.
+*/
 Text2D.prototype.setFont = function(font)
 {
  this.fontName = font;
+ return true;
 }
 
-//Dessine l'objet texte.
+/**
+The draw method allow you to draw the Text2D on the canvas
+@method draw
+@param {canvasContext2d} context on which draw method will draw.
+@return {boolean} always return true
+*/
 Text2D.prototype.draw = function(context)
 {
  context.save();
@@ -153,4 +228,5 @@ Text2D.prototype.draw = function(context)
  context.transform(1, 0, 0, 1, this.x_centerPoint * -1, this.y_centerPoint * -1);
  context.fillText(this.text, 0, 0);
  context.restore();
+ return true;
 }

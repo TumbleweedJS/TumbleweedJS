@@ -3,10 +3,14 @@
 */
 
 /**
-la classe sprite permet de pouvoir specifier un sprite a partir d'une position x, une position y, une largeur,
-un hauteur, un rectangle de texture, et une vue parente a laquelle l'associer
+The class Sprite let you specify a Sprite object from x and y coordinates, the width and the height of the Sprite and the imageRect to display.
 @class Sprite
 @constructor
+@param {integer} value on the x axis
+@param {integer} value on the y axis
+@param {integer} width of the Sprite
+@param {integer} height of the Sprite
+@param {imgRect} the imgRect who specify the inner part of a picture to display
 */
 function Sprite(x, y, width, height, imgRect)
 {
@@ -24,12 +28,10 @@ function Sprite(x, y, width, height, imgRect)
 }
 
 /**
-permet de pouvoir setter le centre de l'objet Sprite
-ce centre represente le point de rotation du sprite.
-les coordonnees du point ne doivent pas deborder des dimensions du sprite
-autrement dit x doit etre < a width et y doit etre inferieur a height.
-
+The setCenterPoint method allow you to specify the rotation center of an object Sprite
 @method setCenterPoint
+@param {integer} set the x value of the centerPoint of the Sprite (note that this x value is on the local orthonormal system of the sprite)
+@param {integer} set the y value of the centerPoint of the Sprite (note that this y value is on the local orthonormal system of the sprite)
 */
 Sprite.prototype.setCenterPoint = function(x, y)
 {
@@ -41,8 +43,7 @@ Sprite.prototype.setCenterPoint = function(x, y)
 }
 
 /**
-permet de set la valeur alpha (transparence) du sprite (1.0 opaque 0.0 totalement transparent, en fait la valeur est le facteur d'opacite)
-
+This method allow you to specify the transparency value of the Sprite
 @method setAlpha
 @param {Integer} alpha transparency value. Must be between 0 and 1.
 */
@@ -61,15 +62,20 @@ Sprite.prototype.setAlpha = function(alpha)
  this.alpha = alpha;
 }
 
-//permet de get la transparence du sprite
+/**
+This method allow you to get the transparency value of the Sprite
+@method getAlpha
+*/
 Sprite.prototype.getAlpha = function()
 {
  return this.alpha;
 }
 
-//permet de pouvoir dessiner un sprite sur une view.
-//il faut forcement que le sprite soit associer a une view pour que le dessin fonctionne
-//Sprite.prototype.draw = function(context, view, x_local, y_local)
+/**
+This method allow you to draw the sprite on the specified context
+@method draw
+@param {canvasContext2d} the canvas's context which will be drawn on by the draw method.
+*/
 Sprite.prototype.draw = function(context)
 {
  context.save();
@@ -83,76 +89,105 @@ Sprite.prototype.draw = function(context)
  context.restore();
 }
 
-//permet de pouvoir specifier le x du sprite
+/**
+This method allow you to set the x coordinate of the Sprite object
+@method setX
+@param {x} the x position of the Sprite to be set
+*/
 Sprite.prototype.setX = function(x)
 {
  this.x = x;
 }
 
-//permet de pouvoir specifier le y du sprite
+/**
+This method allow you to set the y coordinate of the Sprite object
+@method setY
+@param {y} the y position of the Sprite to be set
+*/
 Sprite.prototype.setY = function(y)
 {
  this.y = y;
 }
 
 
-//permet de pouvoir specifier l'angle du sprite
+/**
+The method allow to specify the angle of rotation of the Sprite
+@method setAngle
+@param {float} the angle parameter is a degree value who specify the rotation of the Sprite
+*/
 Sprite.prototype.setAngle = function(angle)
 {
  this.rotation = angle / 180.0 * Math.PI;
 }
 
-//permet de pouvoir recuperer l'angle du sprite
+/**
+The method getAngle allow you to get the angle of rotation of the Sprite
+@method getAngle
+@return {float} the rotation angle of the Sprite in degree value
+*/
 Sprite.prototype.getAngle = function()
 {
- return this.rotation;
+ return this.rotation * 180.0 / Math.PI;
 }
 
-//permet de pouvoir set la scale du sprite (autrement dit la mise a l'echelle)
+/**
+The method setScale allow you to specify the scale factors of the Sprite
+@method setScale
+@param {float} the x parameter specify the x factor of scale of the Sprite
+@param {float} the y parameter specify the y factor of scale of the Sprite
+*/
 Sprite.prototype.setScale = function(x, y)
 {
  this.scaleX = x;
  this.scaleY = y;
 }
 
-//permet de pouvoir recuperer la scale du sprite (autrement dit la mise a l'echelle)
+/**
+The method getScale allow you to get the scale factors of the Sprite
+@method getScale
+@return {array} the return value is an object containing the scale factors as this {scaleX : valx, scaleY : valy}
+*/
 Sprite.prototype.getScale = function()
 {
  return {scaleX: this.scaleX, scaleY: this.scaleY};
 }
 
-//permet de recuperer la coordonnee x du sprite
+/**
+The method getX allow you to get the x value of the Sprite (the abscissa value of the Sprite)
+@method getX
+@return {integer} return the absissa value of the Sprite
+*/
 Sprite.prototype.getX = function()
 {
  return this.x;
 }
 
-//permet de recuperer la coordonne y du sprite
+/**
+The method getY allow you to get the y value of the Sprite (the vertical axis value of the Sprite)
+@method getY
+@return {integer} return the vertical axis value of the Sprite
+*/
 Sprite.prototype.getY = function ()
 {
  return this.y;
 }
 
-//permet de recuperer la height du sprite
+/**
+The method getHeight allow you to get the height of the Sprite
+@method getHeight
+@return {integer} return the height value of this Sprite
+*/
 Sprite.prototype.getHeight = function ()
 {
  return this.height;
 }
 
-//permet de recuperer la width du sprite
+/**
+The method getWidth allow you to get the width of the Sprite
+@method getWidth
+@return {integer} return the Width value of this Sprite
+*/
 Sprite.prototype.getWidth = function()
 {
  return this.width;
-}
-
-//permet de pouvoir set la view a laquelle appartient le sprite
-Sprite.prototype.setView = function(view)
-{
- this.parentView = view;
-}
-
-//permet de pouvoir recuperer la view a laquelle appartient le sprite
-Sprite.prototype.getView = function()
-{
- return this.parentView;
 }
