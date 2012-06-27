@@ -9,6 +9,9 @@ TW.Event = TW.Event || {};
 /**
    Namespace that contain all possibles values for input keyboard.  
    Each property is a constant representing a keyboard key.
+
+   a variable of type Event.Key must be one of the values
+   defined on this class.
    
    @class Key
    @static
@@ -295,10 +298,31 @@ TW.Event.Key = {
    @static
 */
 TW.Event.KeyboardService = {
+    /**
+       Array of all keyboard keys actually down.
+       @property {Array} keyDown
+     */
     keyDown: [],
+
+    /**
+       Array of all keyboard keys down before the last update.
+       @property {Array} oldKeyDown
+     */
     oldKeyDown: [],
+
+    /**
+       Array of callback function
+       @property {Array} _callback
+       @private
+     */
     _callBack: [],
 
+    /**
+       initialize the keyboard service.  
+       Must be called before any use.
+
+       @method initialize
+    */
     initialize: function() {
         window.onkeydown = _updateDown;
         window.onkeyup = _updateUp;
@@ -307,15 +331,35 @@ TW.Event.KeyboardService = {
         oldKeyDown = [];
     },
 
+    /**
+       Adding a callback
+
+       @method addCallback
+       @param {Function} callback
+       @return {Number} number of registered callback
+     */
     addCallback: function(fun) {
 	_callback.push(fun);
 	return _callback.length;
     },
 
+    /**
+       Remove a callback
+
+       @method deleteCallback
+       @param {Number} funId array index of the callback  
+     */
     deleteCallback: function(funId) {
 	_callback.splice(funId, 1);
     },
 
+    /**
+       Update the state when a key is pressed
+
+       @method _updateDown
+       @param {Event.Key} event the keyboard key value
+       @private
+     */
     _updateDown: function(event) {
 	_updateArray();
 
@@ -327,6 +371,13 @@ TW.Event.KeyboardService = {
 	keyDown.push(event.keyCode);
     },
 
+    /**
+       Update the state when a key is released
+
+       @method _updateUp
+       @param {Event.Key} event the keyboard key value
+       @private
+     */
     _updateUp: function(event) {
         _updateArray();
 
@@ -337,6 +388,14 @@ TW.Event.KeyboardService = {
         }
     },
 
+    /**
+       Check if a keyboard key is down
+       
+       @method isKeyDown
+       @param {Event.Key} keyCode the value of the keyboard key
+       @return {bool} `true` if keyCode is down;
+         otherwise `false`
+    */
     isKeyDown: function(keyCode) {
         for(var it = 0; it < keyDown.length; it++) {
             if (keyDown[it] == keyCode) {
@@ -346,6 +405,14 @@ TW.Event.KeyboardService = {
         return false;
     },
 
+    /**
+       Check if a keyboard key was down before the last update
+       
+       @method isOldKeyDown
+       @param {Event.Key} keyCode the value of the keyboard key
+       @return {bool} `true` if keyCode was down;
+         otherwise `false`
+    */
     isOldKeyDown: function(keyCode) {
         for(var it = 0; it < oldKeyDown.length; it++) {
             if (oldKeyDown[it] == keyCode) {
@@ -355,10 +422,27 @@ TW.Event.KeyboardService = {
         return false;
     },
 
+    /**
+       Check if a keyboard key is up
+       
+       @method isKeyUp
+       @param {Event.Key} keyCode the value of the keyboard key
+       @return {bool} `true` if keyCode is up;
+         otherwise `false`
+    */
     isKeyUp: function(keyCode) {
 	return !isKeyDown(keyCode);
     },
 
+    /**
+       Check if a keyboard key is pressed.
+       A key is pressed if its status changes from up to down.
+       
+       @method isKeyDown
+       @param {Event.Key} keyCode the value of the keyboard key
+       @return {bool} `true` if keyCode is pressed;
+         otherwise `false`
+    */
     isKeyPressed: function(keyCode) {
         if (this.isOldKeyDown(keyCode) && this.isKeyUp(keyCode)) {
             for(var it = 0; it < oldKeyDown.length; it++) {
@@ -371,17 +455,27 @@ TW.Event.KeyboardService = {
         return false;
     },
 
+    /**
+       ???
+       
+       @method update
+     */
     update: function() {
         for(var it = 0; it < _callBack.length; it++) {
             _callBack[it]();
         }
     },
 
+    /**
+       Move keyDown to oldKeyDown.
+
+       @method _updateArray
+       @private
+     */
     _updateArray: function() {
-        oldKeyDown.length = 0;
+        oldKeyDown = [];
         for (var it = 0; it < keyDown.length; it++) {
             oldKeyDown.push(keyDown[it]);
 	}
     }
-
 };
