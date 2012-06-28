@@ -496,6 +496,11 @@ TW.Event.KeyboardService = function() {
 
 
 /**
+   Used for compatibility
+   @module Event
+*/
+
+/**
    @class KeyEnum
    @deprecated replaced by `Event.Key`
 */
