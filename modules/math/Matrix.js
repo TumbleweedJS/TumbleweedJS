@@ -118,7 +118,7 @@ TW.Math.Matrix = function() {
     /**
        Apply a translation to this matrix.
 
-       @method rotate
+       @method translate
        @param {Number} x translation in abscissa
        @param {Number} y translation in ordinate
        @chainable
