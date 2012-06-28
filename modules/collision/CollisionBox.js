@@ -14,6 +14,7 @@ function CollisionBox(x, y, w, h)
  this.x_centerPoint = 0;
  this.y_centerPoint = 0;
  this.angle = 0;
+ this.debug_mode = false;
 }
 
 //Fonction permettant de pouvoir tester si un point est dans la box
@@ -171,4 +172,26 @@ CollisionBox.prototype.setHeight = function(val)
 CollisionBox.prototype.getHeight = function()
 {
  return this.h;
+}
+
+//Fonction permettant de set le debug mode (afin de pouvoir dessiner le contour des box et des circles si necessaire)
+CollisionBox.prototype.setDebug = function(true_of_false)
+{
+ this.debug_mode = true_or_false;
+}
+
+//Fonction permettant de dessiner sur le context la boite de collision
+CollisionBox.prototype.draw = function(context)
+{
+ if (context && this.debug_mode)
+ {
+  //Permet de sauvegarder le context
+  context.save();
+  //Set a l'identity la matrice de transformation
+  context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+  context.fillStyle = "rgb("+0+", "+0+", "+0+")";
+  context.strokeRect(this.x, this.y, this.w, this.h);
+  //Permet de restorer le context
+  context.restore();
+ }
 }

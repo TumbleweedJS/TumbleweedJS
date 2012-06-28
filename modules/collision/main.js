@@ -70,6 +70,7 @@ CollideManager.prototype.draw = function(context)
  var  i = 0;
  while (i < length)
  {
+  //this.collideArrayBox[i].getCollision().draw(context);
   this.collideArrayBox[i].draw(context);
   i++;
  }
@@ -77,6 +78,7 @@ CollideManager.prototype.draw = function(context)
  length = this.collideArrayCircle.length;
  while (i < length)
  {
+  //this.collideArrayCircle[i].getCollision().draw(context);
   this.collideArrayCircle[i].draw(context);
   i++;
  }
@@ -241,6 +243,11 @@ function Rect(x, y, w, h){
  this.dir_y = Math.random() * 5;
 }
 
+Rect.prototype.getCollision = function()
+{
+ return this.box;
+}
+
 Rect.prototype.setDir = function(x, y)
 {
  this.dir_x = x;
@@ -344,6 +351,11 @@ function Circle(x, y, radius){
  this.b = 0;
  this.dir_x = Math.random() * 5;
  this.dir_y = Math.random() * 5;
+}
+
+Circle.prototype.getCollision = function()
+{
+ return this.circle;
 }
 
 Circle.prototype.setDir = function(x, y)

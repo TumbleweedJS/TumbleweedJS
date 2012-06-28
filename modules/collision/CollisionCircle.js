@@ -12,6 +12,7 @@ function CollisionCircle(x, y, radius)
  this.x_centerPoint = 0;
  this.y_centerPoint = 0;
  this.angle = 0;
+ this.debug_mode = false;
 }
 
 //Fonction permettant de pouvoir tester les collisions du cercle avec un autre cercle.
@@ -173,3 +174,30 @@ CollisionCircle.prototype.getRadius = function()
 {
  return this.radius;
 }
+
+
+//Fonction permettant de set le debug mode (afin de pouvoir dessiner le contour des cercles lorsque la collisionCircle est en mode debug)
+CollisionCircle.prototype.setDebug = function(true_of_false)
+{
+ this.debug_mode = true_or_false;
+}
+
+//Fonction permettant de dessiner sur le context le cercle de collision
+CollisionCircle.prototype.draw = function(context)
+{
+ if (context && this.debug_mode)
+ {
+  //Permet de sauvegarder le context
+  context.save();
+  //Set a l'identity la matrice de transformation
+  context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+  context.fillStyle = "rgb("+0+", "+0+", "+0+")";
+  context.beginPath();
+  context.arc(this.x, this.y, this.radius, 0, Math.PI * 2.0, true);
+  context.closePath();
+  context.stroke();
+  //Permet de restorer le context
+  context.restore();
+ }
+}
+
