@@ -140,7 +140,7 @@ Window.prototype.pushView = function(view)
 //permet de retirer une view de la window
 Window.prototype.popView = function(ref)
 {
- var size = this.viewList.length();
+ var size = this.viewList.length;
  var i = 0;
 
  while (i < size)
