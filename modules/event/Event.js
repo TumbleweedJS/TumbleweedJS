@@ -297,25 +297,25 @@ TW.Event.Key = {
    @class KeyboardService
    @static
 */
-TW.Event.KeyboardService = {
+TW.Event.KeyboardService = function() {
     /**
        Array of all keyboard keys actually down.
        @property {Array} keyDown
      */
-    keyDown: [],
+    var keyDown = [];
 
     /**
        Array of all keyboard keys down before the last update.
        @property {Array} oldKeyDown
      */
-    oldKeyDown: [],
+    var oldKeyDown = [];
 
     /**
        Array of callback function
        @property {Array} _callback
        @private
      */
-    _callBack: [],
+    var _callback = [];
 
     /**
        initialize the keyboard service.  
@@ -323,13 +323,13 @@ TW.Event.KeyboardService = {
 
        @method initialize
     */
-    initialize: function() {
+    function initialize() {
         window.onkeydown = _updateDown;
         window.onkeyup = _updateUp;
-        keyDown = [];
-        _callBack = [];
-        oldKeyDown = [];
-    },
+        keyDown.length = 0;
+        _callback.length = 0;
+        oldKeyDown.length = 0;
+    }
 
     /**
        Adding a callback
@@ -338,10 +338,10 @@ TW.Event.KeyboardService = {
        @param {Function} callback
        @return {Number} number of registered callback
      */
-    addCallback: function(fun) {
+    function addCallback(fun) {
 	_callback.push(fun);
 	return _callback.length;
-    },
+    }
 
     /**
        Remove a callback
@@ -349,9 +349,9 @@ TW.Event.KeyboardService = {
        @method deleteCallback
        @param {Number} funId array index of the callback  
      */
-    deleteCallback: function(funId) {
+    function deleteCallback(funId) {
 	_callback.splice(funId, 1);
-    },
+    }
 
     /**
        Update the state when a key is pressed
@@ -360,16 +360,16 @@ TW.Event.KeyboardService = {
        @param {Event.Key} event the keyboard key value
        @private
      */
-    _updateDown: function(event) {
+    function _updateDown(event) {
 	_updateArray();
-
+	
 	for (var it = 0; it > keyDown.length; it++) {
 	    if (keyDown[it] === event.keyCode) {
 		return;
 	    }
 	}
 	keyDown.push(event.keyCode);
-    },
+    }
 
     /**
        Update the state when a key is released
@@ -378,7 +378,7 @@ TW.Event.KeyboardService = {
        @param {Event.Key} event the keyboard key value
        @private
      */
-    _updateUp: function(event) {
+    function _updateUp(event) {
         _updateArray();
 
         for(var it = 0; it < keyDown.length; it++) {
@@ -386,7 +386,7 @@ TW.Event.KeyboardService = {
                 keyDown.splice(it, 1);
 	    }
         }
-    },
+    }
 
     /**
        Check if a keyboard key is down
@@ -396,14 +396,14 @@ TW.Event.KeyboardService = {
        @return {bool} `true` if keyCode is down;
          otherwise `false`
     */
-    isKeyDown: function(keyCode) {
+    function isKeyDown(keyCode) {
         for(var it = 0; it < keyDown.length; it++) {
             if (keyDown[it] == keyCode) {
                 return true;
             }
 	}
         return false;
-    },
+    }
 
     /**
        Check if a keyboard key was down before the last update
@@ -413,14 +413,14 @@ TW.Event.KeyboardService = {
        @return {bool} `true` if keyCode was down;
          otherwise `false`
     */
-    isOldKeyDown: function(keyCode) {
+    function isOldKeyDown(keyCode) {
         for(var it = 0; it < oldKeyDown.length; it++) {
             if (oldKeyDown[it] == keyCode) {
                 return true;
             }
 	}
         return false;
-    },
+    }
 
     /**
        Check if a keyboard key is up
@@ -430,9 +430,9 @@ TW.Event.KeyboardService = {
        @return {bool} `true` if keyCode is up;
          otherwise `false`
     */
-    isKeyUp: function(keyCode) {
+    function isKeyUp(keyCode) {
 	return !isKeyDown(keyCode);
-    },
+    }
 
     /**
        Check if a keyboard key is pressed.
@@ -443,7 +443,7 @@ TW.Event.KeyboardService = {
        @return {bool} `true` if keyCode is pressed;
          otherwise `false`
     */
-    isKeyPressed: function(keyCode) {
+    function isKeyPressed(keyCode) {
         if (this.isOldKeyDown(keyCode) && this.isKeyUp(keyCode)) {
             for(var it = 0; it < oldKeyDown.length; it++) {
                 if (oldKeyDown[it] == keyCode) {
@@ -453,18 +453,18 @@ TW.Event.KeyboardService = {
             return true;
         }
         return false;
-    },
+    }
 
     /**
        ???
        
        @method update
      */
-    update: function() {
-        for(var it = 0; it < _callBack.length; it++) {
-            _callBack[it]();
+    function update() {
+        for(var it = 0; it < _callback.length; it++) {
+            _callback[it]();
         }
-    },
+    }
 
     /**
        Move keyDown to oldKeyDown.
@@ -472,10 +472,44 @@ TW.Event.KeyboardService = {
        @method _updateArray
        @private
      */
-    _updateArray: function() {
-        oldKeyDown = [];
+    function _updateArray() {
+        oldKeyDown.length = 0;
         for (var it = 0; it < keyDown.length; it++) {
             oldKeyDown.push(keyDown[it]);
 	}
     }
+
+    //public service interface.
+    return {
+	keyDown: keyDown,
+	oldKeyDown: oldKeyDown,
+	initialize: initialize,
+	addCallback: addCallback,
+	deleteCallback: deleteCallback,
+	isKeyDown: isKeyDown,
+	isOldKeyDown: isOldKeyDown,
+	isKeyUp: isKeyUp,
+	isKeyPressed: isKeyPressed,
+	update: update
+    };
+}();
+
+
+/**
+   @class KeyEnum
+   @deprecated replaced by `Event.Key`
+*/
+var KeyEnum = TW.Event.Key;
+
+/**
+   @class EventManager
+   @deprecated replaced by `Event.KeyboardService`
+*/
+var EventManager = function() {
+        this.Initialize = TW.Event.KeyboardService.initialize;
+        this.Update = TW.Event.KeyboardService.update;
+        this.addCallBack = TW.Event.KeyboardService.addCallback;
+        this.deleteCallBack = TW.Event.KeyboardService.deleteCallback;
 };
+
+EventManager.prototype = TW.Event.KeyboardService;
