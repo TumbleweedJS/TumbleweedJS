@@ -8,7 +8,7 @@ TW.Math = TW.Math || {};
 
 TW.Math.Matrix = function() {
 
-    /*
+    /**
       Matrix class, represent a matrix objet
       for perform geometric calcul.
       The default matrix is the identity matrix.
