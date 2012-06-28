@@ -1,520 +1,273 @@
 /**
- * @module Event
- * @namespace Event
+ * Created with JetBrains WebStorm.
+ * User: Olousouzian
+ * Date: 6/11/12
+ * Time: 6:29 PM
+ * To change this template use File | Settings | File Templates.
  */
 
-var TW = TW || {};
-TW.Event = TW.Event || {};
+/*
+ Class Event
+ */
 
-/**
-   Namespace that contain all possibles values for input keyboard.  
-   Each property is a constant representing a keyboard key.
+var KeyEnum = {
+    Backspace : "8",
+    Tab : "9",
+    Enter : "13",
+    Shift : "16",
+    Ctrl : "17",
+    Alt : "18",
+    Pause : "19",
+    CapsLock : "20",
+    Escape : "27",
+    PageUp : "33",
+    PageDown : "34",
+    End : "35",
+    Home : "36",
+    LeftArrow : "37",
+    UpArrow : "38",
+    RightArrow : "39",
+    DownArrow : "40",
+    Insert : "45",
+    Delete : "46",
+    0 : "48",
+    1 : "49",
+    2 : "50",
+    3 : "51",
+    4 : "52",
+    5 : "53",
+    6 : "54",
+    7 : "55",
+    8 : "56",
+    9 : "57",
+    A : "65",
+    B : "66",
+    C : "67",
+    D : "68",
+    E : "69",
+    F : "70",
+    G : "71",
+    H : "72",
+    I : "73",
+    J : "74",
+    K : "75",
+    L : "76",
+    M : "77",
+    N : "78",
+    O : "79",
+    P : "80",
+    Q : "81",
+    R : "82",
+    S : "83",
+    T : "84",
+    U : "85",
+    V : "86",
+    W : "87",
+    X : "88",
+    Y : "89",
+    Z : "90",
+    F1 : "112",
+    F2 : "113",
+    F3 : "114",
+    F4 : "115",
+    F5 : "116",
+    F6 : "117",
+    F7 : "118",
+    F8 : "119",
+    F9 : "120",
+    F10 : "121",
+    F11 : "122",
+    F12 : "123",
+    Space : "32"
+}
 
-   a variable of type Event.Key must be one of the values
-   defined on this class.
-   
-   @class Key
-   @static
-*/
-TW.Event.Key = {
-    /**
-       @property Backspace {Number}
-    */
-    Backspace: 8,
-    /**
-       @property Tab {Number}
-    */
-    Tab: 9,
-    /**
-       @property Enter {Number}
-    */
-    Enter: 13,
-    /**
-       @property Shift {Number}
-    */
-    Shift: 16,
-    /**
-       @property Ctrl {Number}
-    */
-    Ctrl: 17,
-    /**
-       @property Alt {Number}
-    */
-    Alt: 18,
-    /**
-       @property Pause {Number}
-    */
-    Pause: 19,
-    /**
-       @property CapsLock {Number}
-    */
-    CapsLock: 20,
-    /**
-       @property Escape {Number}
-    */
-    Escape: 27,
-    /**
-       @property PageUp {Number}
-    */
-    PageUp: 33,
-    /**
-       @property PageDown {Number}
-    */
-    PageDown: 34,
-    /**
-       @property End {Number}
-    */
-    End: 35,
-    /**
-       @property Home {Number}
-    */
-    Home: 36,
-    /**
-       @property LeftArrow {Number}
-    */
-    LeftArrow: 37,
-    /**
-       @property UpArrow {Number}
-    */
-    UpArrow: 38,
-    /**
-       @property RightArrow {Number}
-    */
-    RightArrow: 39,
-    /**
-       @property DownArrow {Number}
-    */
-    DownArrow: 40,
-    /**
-       @property Insert {Number}
-    */
-    Insert: 45,
-    /**
-       @property Delete {Number}
-    */
-    Delete: 46,
-    /**
-       @property 0 {Number}
-    */
-    0: 48,
-    /**
-       @property 1 {Number}
-    */
-    1: 49,
-    /**
-       @property 2 {Number}
-    */
-    2: 50,
-    /**
-       @property 3 {Number}
-    */
-    3: 51,
-    /**
-       @property 4 {Number}
-    */
-    4: 52,
-    /**
-       @property 5 {Number}
-    */
-    5: 53,
-    /**
-       @property 6 {Number}
-    */
-    6: 54,
-    /**
-       @property 7 {Number}
-    */
-    7: 55,
-    /**
-       @property 8 {Number}
-    */
-    8: 56,
-    /**
-       @property 9 {Number}
-    */
-    9: 57,
-    /**
-       @property A {Number}
-    */
-    A: 65,
-    /**
-       @property B {Number}
-    */
-    B: 66,
-    /**
-       @property C {Number}
-    */
-    C: 67,
-    /**
-       @property D {Number}
-    */
-    D: 68,
-    /**
-       @property E {Number}
-    */
-    E: 69,
-    /**
-       @property F {Number}
-    */
-    F: 70,
-    /**
-       @property G {Number}
-    */
-    G: 71,
-    /**
-       @property H {Number}
-    */
-    H: 72,
-    /**
-       @property I {Number}
-    */
-    I: 73,
-    /**
-       @property J {Number}
-    */
-    J: 74,
-    /**
-       @property K {Number}
-    */
-    K: 75,
-    /**
-       @property L {Number}
-    */
-    L: 76,
-    /**
-       @property M {Number}
-    */
-    M: 77,
-    /**
-       @property N {Number}
-    */
-    N: 78,
-    /**
-       @property O {Number}
-    */
-    O: 79,
-    /**
-       @property P {Number}
-    */
-    P: 80,
-    /**
-       @property Q {Number}
-    */
-    Q: 81,
-    /**
-       @property R {Number}
-    */
-    R: 82,
-    /**
-       @property S {Number}
-    */
-    S: 83,
-    /**
-       @property T {Number}
-    */
-    T: 84,
-    /**
-       @property U {Number}
-    */
-    U: 85,
-    /**
-       @property V {Number}
-    */
-    V: 86,
-    /**
-       @property W {Number}
-    */
-    W: 87,
-    /**
-       @property X {Number}
-    */
-    X: 88,
-    /**
-       @property Y {Number}
-    */
-    Y: 89,
-    /**
-       @property Z {Number}
-    */
-    Z: 90,
-    /**
-       @property F1 {Number}
-    */
-    F1: 112,
-    /**
-       @property F2 {Number}
-    */
-    F2: 113,
-    /**
-       @property F3 {Number}
-    */
-    F3: 114,
-    /**
-       @property F4 {Number}
-    */
-    F4: 115,
-    /**
-       @property F5 {Number}
-    */
-    F5: 116,
-    /**
-       @property F6 {Number}
-    */
-    F6: 117,
-    /**
-       @property F7 {Number}
-    */
-    F7: 118,
-    /**
-       @property F8 {Number}
-    */
-    F8: 119,
-    /**
-       @property F9 {Number}
-    */
-    F9: 120,
-    /**
-       @property F10 {Number}
-    */
-    F10: 121,
-    /**
-       @property F11 {Number}
-    */
-    F11: 122,
-    /**
-       @property F12 {Number}
-    */
-    F12: 123,
-    /**
-       @property Space {Number}
-    */
-    Space: 32
-};
+var MouseEnum =
+{
+    "Left" : "0"
+}
 
-/**
-   A service to manage input keyboard
+var EventManager = function()
+{
+    //variables
+    var keyDown = new Array();
+    var oldKeyDown = new Array();
+    var callBack = new Array();
+    var mousePosition = Array();
 
-   @class KeyboardService
-   @static
-*/
-TW.Event.KeyboardService = function() {
-    /**
-       Array of all keyboard keys actually down.
-       @property {Array} keyDown
-     */
-    var keyDown = [];
+    var mouseDown = false;
+    var click = false;
+    var dbClick = false;
 
-    /**
-       Array of all keyboard keys down before the last update.
-       @property {Array} oldKeyDown
-     */
-    var oldKeyDown = [];
 
-    /**
-       Array of callback function
-       @property {Array} _callback
-       @private
-     */
-    var _callback = [];
+    function Initialize()
+    {
+        window.onkeydown = UpdateDown;
+        window.onkeyup = UpdateUp;
 
-    /**
-       initialize the keyboard service.  
-       Must be called before any use.
+        window.onmousedown = mouseDownFunction;
+        window.onmouseup = mouseUpFunction;
+        window.onclick = mouseClickFunction;
+        window.onmousemove = setMousePosition;
 
-       @method initialize
-    */
-    function initialize() {
-        window.onkeydown = _updateDown;
-        window.onkeyup = _updateUp;
         keyDown.length = 0;
-        _callback.length = 0;
+        callBack.length = 0;
         oldKeyDown.length = 0;
+        mousePosition.length = 0;
+
+        mouseDown = false;
+        click = false;
+    };
+
+    function setMousePosition(event)
+    {
+        mousePosition[0] = event.pageX
+        mousePosition[1] = event.pageY
+
+        if (mousePosition[0] < 0){mousePosition[0] = 0}
+        if (mousePosition[1] < 0){mousePosition[1] = 0}
     }
 
-    /**
-       Adding a callback
+    function mouseDownFunction(event)
+    {
+        mouseDown = true;
+        click = false;
+    };
 
-       @method addCallback
-       @param {Function} callback
-       @return {Number} number of registered callback
-     */
-    function addCallback(fun) {
-	_callback.push(fun);
-	return _callback.length;
+    function mouseUpFunction(event)
+    {
+        mouseDown = false;
+    };
+
+    function mouseClickFunction(event)
+    {
+        click = true;
+    };
+
+    function addCallBack(fun)
+    {
+        callBack.push(fun);
+        return callBack.length;
+    };
+
+    function deleteCallBack(funId)
+    {
+        callBack.splice(funId, 1);
     }
 
-    /**
-       Remove a callback
+    function UpdateDown(event)
+    {
+        UpdateArray();
 
-       @method deleteCallback
-       @param {Number} funId array index of the callback  
-     */
-    function deleteCallback(funId) {
-	_callback.splice(funId, 1);
-    }
-
-    /**
-       Update the state when a key is pressed
-
-       @method _updateDown
-       @param {Event.Key} event the keyboard key value
-       @private
-     */
-    function _updateDown(event) {
-	_updateArray();
-	
-	for (var it = 0; it > keyDown.length; it++) {
-	    if (keyDown[it] === event.keyCode) {
-		return;
-	    }
-	}
-	keyDown.push(event.keyCode);
-    }
-
-    /**
-       Update the state when a key is released
-
-       @method _updateUp
-       @param {Event.Key} event the keyboard key value
-       @private
-     */
-    function _updateUp(event) {
-        _updateArray();
-
-        for(var it = 0; it < keyDown.length; it++) {
-            if (keyDown[it] == event.keyCode) {
-                keyDown.splice(it, 1);
-	    }
+        for(var it = 0; it < keyDown.length; it++)
+        {
+            if (keyDown[it] == event.keyCode)
+                return;
         }
-    }
+        keyDown.push(event.keyCode);
+    };
 
-    /**
-       Check if a keyboard key is down
-       
-       @method isKeyDown
-       @param {Event.Key} keyCode the value of the keyboard key
-       @return {bool} `true` if keyCode is down;
-         otherwise `false`
-    */
-    function isKeyDown(keyCode) {
-        for(var it = 0; it < keyDown.length; it++) {
-            if (keyDown[it] == keyCode) {
+    function UpdateUp(event)
+    {
+        UpdateArray();
+
+        for(var it = 0; it < keyDown.length; it++)
+        {
+            if (keyDown[it] == event.keyCode)
+                keyDown.splice(it, 1);
+        }
+    };
+
+    function isKeyDown(keyCode)
+    {
+        for(var it = 0; it < keyDown.length; it++)
+        {
+            if (keyDown[it] == keyCode)
                 return true;
-            }
-	}
+        }
         return false;
     }
 
-    /**
-       Check if a keyboard key was down before the last update
-       
-       @method isOldKeyDown
-       @param {Event.Key} keyCode the value of the keyboard key
-       @return {bool} `true` if keyCode was down;
-         otherwise `false`
-    */
-    function isOldKeyDown(keyCode) {
-        for(var it = 0; it < oldKeyDown.length; it++) {
-            if (oldKeyDown[it] == keyCode) {
+    function isOldKeyDown(keyCode)
+    {
+        for(var it = 0; it < oldKeyDown.length; it++)
+        {
+            if (oldKeyDown[it] == keyCode)
                 return true;
-            }
-	}
+        }
         return false;
     }
 
-    /**
-       Check if a keyboard key is up
-       
-       @method isKeyUp
-       @param {Event.Key} keyCode the value of the keyboard key
-       @return {bool} `true` if keyCode is up;
-         otherwise `false`
-    */
-    function isKeyUp(keyCode) {
-	return !isKeyDown(keyCode);
+    function isKeyUp(keyCode)
+    {
+        return !isKeyDown(keyCode);
     }
 
-    /**
-       Check if a keyboard key is pressed.
-       A key is pressed if its status changes from up to down.
-       
-       @method isKeyDown
-       @param {Event.Key} keyCode the value of the keyboard key
-       @return {bool} `true` if keyCode is pressed;
-         otherwise `false`
-    */
-    function isKeyPressed(keyCode) {
-        if (this.isOldKeyDown(keyCode) && this.isKeyUp(keyCode)) {
-            for(var it = 0; it < oldKeyDown.length; it++) {
-                if (oldKeyDown[it] == keyCode) {
+    function isKeyPressed(keyCode)
+    {
+        if (this.isOldKeyDown(keyCode) && this.isKeyUp(keyCode))
+        {
+            for(var it = 0; it < oldKeyDown.length; it++)
+            {
+                if (oldKeyDown[it] == keyCode)
                     oldKeyDown.splice(it, 1);
-		}
             }
             return true;
         }
         return false;
     }
 
-    /**
-       ???
-       
-       @method update
-     */
-    function update() {
-        for(var it = 0; it < _callback.length; it++) {
-            _callback[it]();
+    function Update()
+    {
+        for(var it = 0; it < callBack.length; it++)
+        {
+           callBack[it]();
         }
-    }
-
-    /**
-       Move keyDown to oldKeyDown.
-
-       @method _updateArray
-       @private
-     */
-    function _updateArray() {
-        oldKeyDown.length = 0;
-        for (var it = 0; it < keyDown.length; it++) {
-            oldKeyDown.push(keyDown[it]);
-	}
-    }
-
-    //public service interface.
-    return {
-	keyDown: keyDown,
-	oldKeyDown: oldKeyDown,
-	initialize: initialize,
-	addCallback: addCallback,
-	deleteCallback: deleteCallback,
-	isKeyDown: isKeyDown,
-	isOldKeyDown: isOldKeyDown,
-	isKeyUp: isKeyUp,
-	isKeyPressed: isKeyPressed,
-	update: update
     };
+
+    function UpdateArray()
+    {
+        oldKeyDown.length = 0;
+        for (var it = 0; it < keyDown.length; it++)
+            oldKeyDown.push(keyDown[it]);
+    }
+
+    function isMouseButtonDown(mouseCode)
+    {
+        if (mouseCode == MouseEnum.Left)
+            return mouseDown;
+        return false;
+    };
+
+    function isClick()
+    {
+      var temp = click;
+      click = false;
+      return temp;
+    };
+
+    function getMousePosition()
+    {
+      return mousePosition;
+    };
+
+    return function()
+    {
+        this.Initialize = Initialize;
+        this.isKeyDown = isKeyDown;
+        this.isKeyUp = isKeyUp;
+        this.addCallBack = addCallBack;
+        this.deleteCallBack = deleteCallBack;
+        this.Update = Update;
+        this.isKeyPressed = isKeyPressed;
+        this.isOldKeyDown = isOldKeyDown;
+
+        this.isMouseButtonDown = isMouseButtonDown;
+        this.isClick = isClick;
+        this.getMousePosition = getMousePosition;
+
+        this.keyDown = keyDown;
+        this.oldKeyDown = oldKeyDown;
+        this.mouseDown = mouseDown;
+        this.click = click;
+    }
 }();
-
-
-/**
-   Used for compatibility
-   @module Event
-*/
-
-/**
-   @class KeyEnum
-   @deprecated replaced by `Event.Key`
-*/
-var KeyEnum = TW.Event.Key;
-
-/**
-   @class EventManager
-   @deprecated replaced by `Event.KeyboardService`
-*/
-var EventManager = function() {
-        this.Initialize = TW.Event.KeyboardService.initialize;
-        this.Update = TW.Event.KeyboardService.update;
-        this.addCallBack = TW.Event.KeyboardService.addCallback;
-        this.deleteCallBack = TW.Event.KeyboardService.deleteCallback;
-};
-
-EventManager.prototype = TW.Event.KeyboardService;
