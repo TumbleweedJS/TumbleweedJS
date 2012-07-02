@@ -130,7 +130,7 @@ var KeyID = event.keyCode;
  
 window.onload = function()
 {
-   var context = document.getElementById("myCanvas").getContext("2d");
+   var context = document.getElementById("my_canvas").getContext("2d");
    var my_window = new Window(1200, 500, context);
    view = new View(context, 0, 0, 1200, 500);
    var array_sprite = new Array();
