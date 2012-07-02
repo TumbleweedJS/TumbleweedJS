@@ -1,7 +1,33 @@
 Graphics module
 ===============
 
-TODO: explain goals module here
+    The aim of this module is to give you graphical tools to display elements on a canvas.
+The module contains the following javascript classes :
 
-Ce module est encore loin d'etre termine. Il reste de nombreux check d'erreur a faire afin d'eviter les plantage.
-Cependant, les principales classes fonctionnent si on les utilisent bien.
+ImageRect
+---------
+    This class create an object who represents an inner part of a picture or the entire part of the picture.
+It is very useful to select specific elements in a spritesheet for example.
+
+Sprite
+------
+    This class create an object from an ImageRect object who can be displayed on the canvas.
+
+View
+----
+    This class create objects who can contain Sprites. Note that you MUST add a Sprite to a View object before trying to display the Sprite object.
+
+Window
+------
+    The Window class instance handle Views, note that you must add View object to a Window object before trying to display the View object.
+The Window object has a draw function who takes one parameter, the context of te canvas, when the draw function of the class Window is fired
+all Views handled by the Window object caller are drawned, and every Sprite who are handled by the Views object are drawned.	
+
+Text2D
+------
+    This class create objects who works like Sprite's object, you must add them to a View before trying to display them.
+	
+SpriteAnime
+-----------
+    This class create objects that inherits from Sprite and describe a list of ImageRect.
+The SpriteAnime has a method update who actualize the current frame of the SpriteAnime object.
