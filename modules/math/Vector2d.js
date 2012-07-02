@@ -1,5 +1,5 @@
 /**
-*@module Vector2d
+*@module Math
 */
 
 /**
