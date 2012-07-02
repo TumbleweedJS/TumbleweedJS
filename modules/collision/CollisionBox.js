@@ -1,9 +1,16 @@
-//La classe collisionBox permet de pouvoir tester les collisions entre une box et d'autres primitives
-//Le constructeur de la classe CollisionBox prend les arguments suivants :
-//x pour la position en abscisse de la box.
-//y pour la position en ordonnee de la box.
-//w pour la largeur de la box.
-//h pour la hauteur de la box.
+/**
+ * @module Collision
+*/
+
+/**
+The CollisionBox class allow you to declare a boucing box to test collisions beetween other collisions boxes and collisions circles.
+@class CollisionBox
+@constructor
+@param {integer} x the x coordinate of the collision box
+@param {integer} y the y coordinate of the collision box
+@param {integer} w the width of the collision box
+@param {integer} h the height of the collision box
+*/
 function CollisionBox(x, y, w, h)
 {
  this.type = "CollisionBox";
@@ -17,9 +24,13 @@ function CollisionBox(x, y, w, h)
  this.debug_mode = false;
 }
 
-//Fonction permettant de pouvoir tester si un point est dans la box
-//px est l'abscisse du point
-//py est l'ordonnee du point
+/**
+The isPointInside method allow you to test if a point is inside the bouncing box.
+@method isPointInside
+@param {integer} px the x coordinate of the point
+@param {integer} py the y coordinate of the point
+@return {boolean} return true if the point is inside the box, else return false.
+*/
 CollisionBox.prototype.isPointInside = function(px, py)
 {
  if (px >= this.getX() && px <= this.getX() + this.getWidth() &&
@@ -29,10 +40,16 @@ CollisionBox.prototype.isPointInside = function(px, py)
   return false;
 }
 
-//Fonction permettant de pouvoir tester si un segment est en collision avec un cercle.
-//[ax; ay] definissent le point de depart du segment
-//[bx;by] definissent le point de fin du segment
-//circle represente le cercle avec lequel on veux tester l'intersection
+/**
+The isSegmentCollidingCircle method allow you to test if a segment is colliding a circle
+@method isSegmentCollidingCircle
+@param {integer} val_a_x the x coordinate of the first point of the segment
+@param {integer} val_a_y the y coordinate of the first point of the segment
+@param {integer} val_b_x the x coordinate of the second point of the segment
+@param {integer} val_b_y the y coordinate of the second point of the segment
+@param {CollisionCircle} circle the CollisionCircle object to test collision with the segment
+@return {boolean} return true if circle and the segment are colliding, else return false.
+*/
 CollisionBox.prototype.isSegmentCollidingCircle = function(val_a_x, val_a_y, val_b_x, val_b_y, circle)
 {
  var a_x = val_a_x;
@@ -57,13 +74,12 @@ var delta = (((2 * a_x * v_x) + (2 * a_y * v_y)) * ((2 * a_x * v_x) + (2 * a_y *
  return false;
 }
 
-//Fonction permettant de pouvoir tester les collisions de la box avec un cercle.
-//considerons l'exemple suivant
-//var cercle = new CollisionCircle(x,y,radius);
-//var box = new CollisionBox(x2, x2, width, height);
-//var result = box.isCollidingCircle(cercle);
-//Si result vaux true, alors l'objet box est en collision avec l'objet cercle.
-//Si result vaux false, alors l'objet box n'est pas en collision avec l'objet cercle.
+/**
+The isCollidingCircle method allow you to test if the current CollisionBox is colliding the CollisionCircle object.
+@method isCollidingCircle
+@param {CollisionCircle} circle the CollisionCircle object to test the collision with.
+@return {boolean} if the current CollisionBox is colliding the CollisionCircle object, then the isCollidingCircle function will return true otherwise it will return false.
+*/
 CollisionBox.prototype.isCollidingCircle = function(circle)
 {
 var radius = circle.getRadius();
@@ -101,13 +117,12 @@ if (this.isSegmentCollidingCircle(this.x + this.w, this.y, this.x + this.w, this
  return false;
 }
 
-//Fonction permettant de pouvoir tester les collisions de la box avec une autre box
-//considerons l'exemple suivant
-//var box1 = new CollisionBox(x1,y1,width1, height1);
-//var box2 = new CollisionBox(x2, x2, width2, height2);
-//var result = box1.isCollidingBox(box2);
-//Si result vaux true, alors l'objet box1 est en collision avec l'objet box2.
-//Si result vaux false, alors l'objet box1 et l'objet box2 ne sont pas en collision.
+/**
+The isCollidingBox method allow you to test if the current CollisionBox object is colliding the CollisionBox object gived in parameter.
+@method isCollidingBox
+@param {CollisionBox} box the CollisionBox object to test the collision with
+@return {boolean} return true if the box object is colliding the this object.
+*/
 CollisionBox.prototype.isCollidingBox = function(box)
 {
  var box_x = box.getX();
@@ -126,61 +141,101 @@ CollisionBox.prototype.isCollidingBox = function(box)
 return true;
 }
 
-//Fonction permettant de configurer la position horizontale de la box
+/**
+This method allow you to set the x coordinate of the CollisonBox
+@method setX
+@param {integer} val the x coordinate of the CollisionBox
+*/
 CollisionBox.prototype.setX = function(val)
 {
  this.x = val;
 }
 
-//Fonction permettant de recuperer la position horizontale de la box
+/**
+This method allow you to get the x coordinate of the CollisionBox
+@method getX
+@return {integer} return the value of the x coordinate of the CollisionBox
+*/
 CollisionBox.prototype.getX = function()
 {
  return this.x;
 }
 
-//Focntion permettant de configurer la position verticale de la box
+/**
+This method allow you to set the y coordinate of the CollisionBox
+@method setY
+@param {integer} val the y coordinate of the CollisionBox
+*/
 CollisionBox.prototype.setY = function(val)
 {
  this.y = val;
 }
 
-//Fonction permettant de recuperer la position verticale de la box
+/**
+This method allow you to get the y coordinate of the CollisonBox
+@method getY
+@return {integer} return the y coordinate of the CollisionBox
+*/
 CollisionBox.prototype.getY = function()
 {
  return this.y;
 }
 
-//Fonction permettant de configurer la largeur de la box
+/**
+The setWidth method allow you to set the width of the CollisionBox
+@method setWidth
+@param {integer} val the width of the CollisionBox
+*/
 CollisionBox.prototype.setWidth = function(val)
 {
  this.w = val;
 }
 
-//Fonction permettant de recuperer la largeur de la box
+/**
+The getWidth method allow you to get the width of the CollisionBox
+@method getWidth
+@return {integer} return the width of the CollisionBox
+*/
 CollisionBox.prototype.getWidth = function()
 {
  return this.w;
 }
 
-//fonction permettant de configurer la hauteur de la box
+/**
+The setHeight method allow you to set the height of the CollisionBox
+@method setHeight
+@param {integer} val the height parameter of the CollisionBox
+*/
 CollisionBox.prototype.setHeight = function(val)
 {
  this.h = val;
 }
 
-//Fonction permettant de recuperer la hauteur de la box
+/**
+The getHeight method allow you to get the height of the CollisionBox
+@method getHeight
+@return {integer} return the height of the CollisonBox.
+*/
 CollisionBox.prototype.getHeight = function()
 {
  return this.h;
 }
 
-//Fonction permettant de set le debug mode (afin de pouvoir dessiner le contour des box et des circles si necessaire)
+/**
+The setDebug method allow you to switch the mode of the CollisionBox beetween debug and release.
+@method setDebug
+@param {integer} true_of_false the parameter to define which type of mode choose (true means debug, false means release)
+*/
 CollisionBox.prototype.setDebug = function(true_of_false)
 {
  this.debug_mode = true_or_false;
 }
 
-//Fonction permettant de dessiner sur le context la boite de collision
+/**
+The draw method allow you to draw the CollisionBox only if `setDebug(true)` was called before.
+@method draw
+@param {graphicalContext2d} context the context 2d on which draw the CollisionBox.
+*/
 CollisionBox.prototype.draw = function(context)
 {
  if (context && this.debug_mode)

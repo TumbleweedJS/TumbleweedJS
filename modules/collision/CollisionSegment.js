@@ -1,4 +1,16 @@
-//classe permettant de pouvoir faire des intersections entre segments
+/**
+* module Collision
+*/
+
+/**
+The CollisionSegment class allow you to define a segment to test collision width other segments and collision circles.
+@class CollisionSegment
+@constructor
+@param {integer} x1 the x coordinate of the first point of the segment
+@param {integer} y1 the y coordinate of the first point of the segment
+@param {integer} x2 the x coordinate of the second point of the segment
+@param {integer} y2 the y coordinate of the second point of the segment
+*/
 function CollisionSegment(x1, y1, x2, y2)
 {
  this.px = x1;
@@ -6,24 +18,39 @@ function CollisionSegment(x1, y1, x2, y2)
  this.vector = new Vector2d(x2 - x1, y2 - y1);
 }
 
-//Permet de recuperer le vecteur du segment
+/**
+The getVector method allow you to get the Vector of the collisionSegment
+@method getVector
+@return {Vector2d} returns the vector of the CollisionSegment.
+*/
 CollisionSegment.prototype.getVector = function() {
 	return this.vector;
 }
 
-//Permet de recuperer la coordonnee x du point de depart du vecteur
+/**
+The getPx method allow you to get the x coordinate of the first point of the CollisionSegment
+@method getPx
+@return {integer} returns the x coordinate of the first point of the CollisionSegment
+*/
 CollisionSegment.prototype.getPx = function() {
 	return this.px;
 }
 
-//Permet de recuperer la coordonnee y du point de depart du vecteur
+/**
+The getPy method allow you to get the y coordinate of the first point of the CollisionSegment
+@method getPy
+@return {integer} returns the y coordinate of the first point of the CollisionSegment
+*/
 CollisionSegment.prototype.getPy = function(){
 	return this.py;
 }
 
-//Permet de tester si un segment est en collision avec un autre.
-//si this rentre en collision avec segment, alors la fonction renvoi true
-//sinon la fonction renvoi false
+/**
+The isCollidingSegment method allow you to test if the current segment is colliding another segment.
+@method isCollidingSegment
+@param {CollisionSegment} segment the CollisionSegment to test if is colliding the current collision segment object.
+@return {boolean} return true if segment is colliding the current CollisionSegment.
+*/
 CollisionSegment.prototype.isCollidingSegment = function(segment) {
  var ax = this.px;
  var ay = this.py;
@@ -45,9 +72,12 @@ CollisionSegment.prototype.isCollidingSegment = function(segment) {
   return false; 
 }
 
-//Permet de tester si un segment est en collision avec un cercle
-//si this est en collision avec cercle alors la fonction renvoi true
-//sinon la fonction renvoi false
+/**
+The isCollidingCircle method allow you to test the collision beetween the current object and the circle object
+@method isCollidingCircle
+@param {CollisionCircle} circle the CollisionCircle to test the interection with the CollisionSegment.
+@return {boolean} return true if circle is colliding the current CollisionSegment. 
+*/
 CollisionSegment.prototype.isCollidingCircle = function(circle) {
  var a_x = this.px;
  var a_y = this.py;
@@ -70,4 +100,3 @@ var delta = (((2 * a_x * v_x) + (2 * a_y * v_y)) * ((2 * a_x * v_x) + (2 * a_y *
   }
  return false;
 }
-//TODO, le reste de la classe permettant de tester des intersections entre les segments.
