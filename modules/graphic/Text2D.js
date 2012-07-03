@@ -4,7 +4,7 @@
 
 /**
 Text2D is a class that allow you to display text on the canvas context.
-For example, if yo want to create a Text2D object who display the text "Hello World" at the [50;60] position, with a size of 15 in calibri font, the you should do :
+For example, if yo want to create a Text2D object who display the text "Hello World" at the [50;60] position, with a size of 15 in calibri font, then you should do :
 new Text2D(50, 60, 'Calibri', 'Hello World');
 @class Text2D
 @constructor
