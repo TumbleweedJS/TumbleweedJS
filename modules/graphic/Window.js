@@ -26,6 +26,30 @@ function Window(width, height, context)
 }
 
 /**
+The setFullBrowserCanvas allow you to apply the same dimension of the actual browser to the canvas object in parameter
+@method setFullBrowserCanvas
+@param {Canvas} canvas the canvas to resize.
+*/
+Window.prototype.setFullBrowserCanvas = function(canvas)
+{
+ var myWidth;
+ var myHeight;
+ var oldWidth = canvas.style.width;
+ var oldHeight = canvas.style.height;
+	
+ myWidth = window.document.body.clientWidth;
+ myHeight = window.document.body.clientHeight;   
+ canvas.style.top = '0px';
+ canvas.style.left = '0px';
+ canvas.style.width = myWidth + 'px';
+ canvas.style.height = myHeight + 'px';
+ this.context = canvas.getContext('2d');
+ var scaleX = myWidth / oldWidth;
+ var scaleY = myHeight / oldHeight;
+ this.setScale(scaleX, scaleY);
+}
+
+/**
 The setScale method allow you to set the scales factor of the Window, note that you can scale each axis independently.
 @method setScale
 @param {float} x scale factor

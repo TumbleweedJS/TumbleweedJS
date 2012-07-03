@@ -225,6 +225,10 @@ window.onload = function ()
    view3 = new View(context, 0, 0, 1200, 500);
    var array_sprite = new Array();
    
+   window.onresize = function() {
+   my_window.setFullBrowserCanvas(document.getElementById("myCanvas"));
+   };
+   
    createSprites(array_sprite);
    addSpritesToView(array_sprite, view);
    addSpritesToView(array_sprite, view2);
