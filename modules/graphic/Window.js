@@ -38,7 +38,8 @@ Window.prototype.setFullBrowserCanvas = function(canvas)
  var oldHeight = canvas.style.height;
 	
  myWidth = window.document.body.clientWidth;
- myHeight = window.document.body.clientHeight;   
+ myHeight = window.document.body.clientHeight;
+ canvas.style.position = "absolute"; 
  canvas.style.top = '0px';
  canvas.style.left = '0px';
  canvas.style.width = myWidth + 'px';
