@@ -1,64 +1,89 @@
-function TWSoundChannel(src, max) {
-    this.init(src, max);
-}
+/**
+ @module Sound
+ @namespace Sound
+ */
 
-var p = TWSoundChannel.prototype = {
+var TW = TW || {};
+TW.Sound = TW.Sound || {};
 
-    sounds: null,
+TW.Sound.Channel = function() {
 
-    src:null,
-    max:0,
+    /**
+     Channel class is utility for manage multiple sound with same source.
 
-    volume:1,
+     @class Channel
+     @constructor
+     @param {String} src The source of channel separated with '|' for multi-format.
+     @param {Number} max The number of sound allocated in this channel.
+     @param {Number} id The identifier of the channel.
+     */
+    function Channel(src, max, id) {
+        this.sounds = [];
 
-    allSoundsReady:null,
+        this.volume = 1;
 
-    allSoundsReadyHandler:null,
+        this.allSoundsReady = null;
 
-    init:function (src, max) {
         this.allSoundsReadyHandler = proxy(this.handleAllSoundsReady, this);
 
         this.src = src;
-        this.max = max;
-        this.sounds = new Array();
+        this.id = id;
         this.add(max);
-    },
+    }
 
-    add:function (max) {
+    /**
+     Add max sound instance with sources in channel.
+
+     @method add
+     @param {Number} max The number of sound allocated in this channel.
+     **/
+    Channel.prototype.add = function(max) {
 
         while (this.sounds.length < max) {
-            this.sounds.push(new TWSound(this.src));
+            this.sounds.push(new TW.Sound.Sound(this.src));
         }
-    },
+    };
 
-    load:function () {
+    /**
+     Load all sound.
+
+     @method load
+     **/
+    Channel.prototype.load = function() {
 
         for (var i = 0; i < this.sounds.length; ++i) {
             var sound = this.sounds[i];
-            if (i == 0)
+            if (i === 0)
                 sound.onReady = this.allSoundsReadyHandler;
             sound.load(0, 0, 1);
         }
-    },
+    };
 
-    getPlayableSound:function () {
+    /**
+     Get a playable sound.
+
+     @method getPlayableSound
+     @return {Object} A playable sound.
+     **/
+    Channel.prototype.getPlayableSound = function() {
 
         for (var i = 0; i < this.sounds.length; ++i) {
             var sound = this.sounds[i];
-            if (sound.playState != AUDIO_PLAYED)
+            if (sound.playState != AUDIO_PLAYED) {
                 return this.sounds[i];
+            }
         }
         this.sounds[0].stop();
         return this.sounds[0];
-    },
+    };
 
-    handleAllSoundsReady:function (sound) {
+    Channel.prototype.handleAllSoundsReady = function(sound) {
         if (this.allSoundsReady != null) {
-            this.allSoundsReady();
+            this.allSoundsReady(this);
         }
-    },
+    };
 
-    tellAllSounds:function (command, value) {
+    Channel.prototype.tellAllSounds = function(command, value) {
 
         for (var i = this.sounds.length - 1; i >= 0; --i) {
             var sound = this.sounds[i];
@@ -80,25 +105,54 @@ var p = TWSoundChannel.prototype = {
                     break;
             }
         }
-    },
+    };
 
-    setMute:function (isMuted) {
-        return this.tellAllSounds("mute", isMuted);
-    },
+    /**
+     Mute or Unmute all sound in this channel.
 
-    pause:function () {
-        return this.tellAllSounds("pause", null);
-    },
+     @method setMute
+     @param {Boolean} isMuted True for mute, false for unmute.
+     **/
+    Channel.prototype.setMute = function(isMuted) {
+         this.tellAllSounds("mute", isMuted);
+    };
 
-    resume:function () {
-        return this.tellAllSounds("resume", null);
-    },
+    /**
+     Pause all sound in this channel.
 
-    stop:function () {
-        return this.tellAllSounds("stop", null);
-    },
+     @method pause
+     **/
+    Channel.prototype.pause = function() {
+         this.tellAllSounds("pause", null);
+    };
 
-    setMasterVolume:function (value) {
+    /**
+     Resume all sound in this channel.
+
+     @method resume
+     **/
+    Channel.prototype.resume = function() {
+         this.tellAllSounds("resume", null);
+    };
+
+    /**
+     Stop all sound in this channel.
+
+     @method stop
+     **/
+    Channel.prototype.stop = function() {
+         this.tellAllSounds("stop", null);
+    };
+
+    /**
+     Set a volume for all sound in this channel.
+
+     @method setMasterVolume
+     @param {Number} value The value of volume needed. min: 0.0 -> max: 1.0
+     **/
+    Channel.prototype.setMasterVolume = function(value) {
         this.tellAllSounds("setVolume", value);
-    }
-};
+    };
+
+    return Channel;
+}();

@@ -11,15 +11,18 @@
       <script src="../../modules/sound/TWSoundManager.js"></script>
       <script type="text/javascript">
 
-          var manager = TWSoundManager.init();
+          var manager =  new TW.Sound.Manager;
 
           var id1 = manager.add("assets/Game-Shot.mp3|assets/Game-Shot.ogg", 10);
           var id2 = manager.add("assets/Game-Death.mp3|assets/Game-Death.ogg", 10);
-
-          manager.loadAll();
-          manager.allInstancesReady = function() {
-
+          manager.instanceReady = function(id) {
+              console.log(id);
           }
+          manager.allInstancesReady = function() {
+              console.log("All ready");
+          }
+          manager.loadAll();
+
       </script>
   </head>
   <body>

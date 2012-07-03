@@ -1,10 +1,10 @@
-PLAY_SUCCEEDED = "playSucceeded";
-PLAY_FINISHED = "playFinished";
-PLAY_FAILED = "playFailed";
+/**
+ @module Sound
+ @namespace Sound
+ */
 
-AUDIO_READY = "canplaythrough";
-AUDIO_ENDED = "ended";
-AUDIO_PLAYED = "play";
+var TW = TW || {};
+TW.Sound = TW.Sound || {};
 
 /**
  * By default, JavaScript methods do not maintain scope, so passing a method as a callback will result in the
@@ -17,35 +17,43 @@ proxy = function (method, scope) {
     }
 };
 
-function TWSound(src) {
-    this.init(src);
-}
+TW.Sound.Sound = function() {
+    PLAY_SUCCEEDED = "playSucceeded";
+    PLAY_FINISHED = "playFinished";
+    PLAY_FAILED = "playFailed";
 
-var p = TWSound.prototype = {
-    audio: null,
-    capabilities: null,
+    AUDIO_READY = "canplaythrough";
+    AUDIO_ENDED = "ended";
+    AUDIO_PLAYED = "play";
 
-    src: null,
+    function Sound(src) {
+        this.playState = null;
 
-    playState: null,
+        this.loaded = false;
+        this.offset = 0;
+        this.volume = 1;
 
-    loaded: false,
-    offset: 0,
-    volume: 1,
+        this.remainingLoops = 0;
+        this.muted = false;
+        this.paused = false;
 
-    remainingLoops: 0,
-    muted: false,
-    paused: false,
+        this.onComplete = null;
+        this.onLoop = null;
+        this.onReady = null;
 
-    onComplete: null,
-    onLoop: null,
-    onReady: null,
+        this.audio = document.createElement("audio");
+        this.capabilities = {
+            mp3: ( this.audio.canPlayType("audio/mp3") != "no" && this.audio.canPlayType("audio/mp3") != "" ),
+            ogg: ( this.audio.canPlayType("audio/ogg") != "no" && this.audio.canPlayType("audio/ogg") != "" ),
+            wav: ( this.audio.canPlayType("audio/wav") != "no" && this.audio.canPlayType("audio/wav") != "" )
+        }
+        this.src = this.parsePath(src);
+        this.audio.src = this.src;
+        this.endedHandler = proxy(this.handleSoundComplete, this);
+        this.readyHandler = proxy(this.handleSoundReady, this);
+    }
 
-    endedHandler: null,
-    readyHandler: null,
-    stalledHandler: null,
-
-    parsePath: function(value) {
+    Sound.prototype.parsePath = function(value) {
         var sounds = value.split("|");
         var found = false;
         var c = this.capabilities;
@@ -70,22 +78,9 @@ var p = TWSound.prototype = {
             }
         }
         return null;
-    },
+    };
 
-    init:function (src) {
-        this.audio = document.createElement("audio");
-        this.capabilities = {
-            mp3: ( this.audio.canPlayType("audio/mp3") != "no" && this.audio.canPlayType("audio/mp3") != "" ),
-            ogg: ( this.audio.canPlayType("audio/ogg") != "no" && this.audio.canPlayType("audio/ogg") != "" ),
-            wav: ( this.audio.canPlayType("audio/wav") != "no" && this.audio.canPlayType("audio/wav") != "" )
-        }
-        this.src = this.parsePath(src);
-        this.audio.src = this.src;
-        this.endedHandler = proxy(this.handleSoundComplete, this);
-        this.readyHandler = proxy(this.handleSoundReady, this);
-    },
-
-    cleanUp:function () {
+    Sound.prototype.cleanUp = function() {
         this.audio.pause();
         try {
             this.audio.currentTime = 0;
@@ -94,11 +89,11 @@ var p = TWSound.prototype = {
         this.audio.removeEventListener(AUDIO_ENDED, this.endedHandler, false);
         this.audio.removeEventListener(AUDIO_READY, this.readyHandler, false);
         this.audio = null;
-    },
+    };
 
-    load:function (offset, loop, volume) {
+    Sound.prototype.load = function(offset, loop, volume) {
 
-        if (this.audio == null) {
+        if (this.audio === null) {
             this.playFailed();
             return -1;
         }
@@ -116,9 +111,9 @@ var p = TWSound.prototype = {
         } else this.handleSoundReady(null);
 
         return 1;
-    },
+    };
 
-    handleSoundReady:function (event) {
+    Sound.prototype.handleSoundReady = function(event) {
         this.playState = PLAY_SUCCEEDED;
         this.paused = false;
         this.audio.removeEventListener(AUDIO_READY, this.readyHandler, false);
@@ -128,14 +123,14 @@ var p = TWSound.prototype = {
             return;
         }
 
-        //this.audio.currentTime = this.offset;
+        this.audio.currentTime = this.offset;
 
         if (this.onReady != null) {
             this.onReady(this);
         }
-    },
+    };
 
-    handleSoundComplete:function (event) {
+    Sound.prototype.handleSoundComplete = function(event) {
         if (this.remainingLoops != 0) {
             this.remainingLoops--;
             try {
@@ -153,72 +148,74 @@ var p = TWSound.prototype = {
         if (this.onComplete != null) {
             this.onComplete(this);
         }
-    },
+    };
 
-    play:function () {
+    Sound.prototype.play = function() {
         this.audio.play();
         this.playState = AUDIO_PLAYED;
-    },
+    };
 
-    pause:function () {
+    Sound.prototype.pause = function() {
         this.paused = true;
         this.audio.pause();
-    },
+    };
 
-    resume:function () {
+    Sound.prototype.resume = function() {
         this.paused = false;
         this.audio.play();
-    },
+    };
 
-    stop:function () {
+    Sound.prototype.stop = function() {
         this.pause();
         this.playState = PLAY_FINISHED;
         try {
             this.audio.currentTime = 0;
         } catch (error) {
         }
-    },
+    };
 
 
-    setVolume:function (value) {
-        value = (value > 1.0) ? 1.0 : value;
+    Sound.prototype.setVolume = function(value) {
+        value = (value > 1.0) ? 1.0  :  value;
         value = (value < 0.0) ? 0.0 : value;
         this.volume = value;
         this.updateVolume();
-    },
+    };
 
 
-    updateVolume:function () {
+    Sound.prototype.updateVolume = function() {
         this.audio.volume = this.muted ? 0 : this.volume;
-    },
+    };
 
-    getVolume:function () {
+    Sound.prototype.getVolume = function() {
         return this.volume;
-    },
+    };
 
-    mute:function (isMuted) {
+    Sound.prototype.mute = function(isMuted) {
         this.muted = isMuted;
         this.updateVolume();
         return true;
-    },
+    };
 
-    getPosition:function () {
+    Sound.prototype.getPosition = function() {
         return this.audio.currentTime;
-    },
+    };
 
-    setPosition:function (value) {
+    Sound.prototype.setPosition = function(value) {
         try {
             this.audio.currentTime = value;
         } catch (error) {
         }
-    },
+    };
 
-    getDuration:function () {
+    Sound.prototype.getDuration = function() {
         return this.audio.duration;
-    },
+    };
 
-    playFailed:function () {
+    Sound.prototype.playFailed = function() {
         this.playState = PLAY_FAILED;
         this.cleanUp();
-    }
-};
+    };
+
+    return Sound;
+}();

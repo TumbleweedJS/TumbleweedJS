@@ -1,65 +1,115 @@
-TWSoundManager = {
-    instances : null,
+/**
+ @module Sound
+ @namespace Sound
+ */
 
-    length: 0,
-    lastId: 0,
-    ready: 0,
+var TW = TW || {};
+TW.Sound = TW.Sound || {};
 
-    allInstancesReady: null,
+TW.Sound.Manager = function() {
+    /**
+     Manager class is utility for manage all sounds.
 
-    masterVolume: 1,
+     @class Manager
+     @constructor
+     */
+    function Manager() {
+        this.instances = [];
 
-    allInstancesReadyHandler: null,
+        this.length = 0;
 
-    init: function() {
-        this.instances = new Array();
+        this.lastId = 0;
+        this.ready = 0;
+
+        this.allInstancesReady = null;
+
+        this.instanceReady = null;
+
+        this.masterVolume = 1;
+
         this.allInstancesReadyHandler = proxy(this.handleAllInstancesReady, this);
-        return this;
-    },
+    }
 
-    add: function(src, max) {
+    /**
+     Create new channel with src and max sound instance.
+
+     @method add
+     @param {String} src The source of channel separated with '|' for multiformat.
+     @param {Number} max The number of sound allocated in this channel.
+     @return {Number} The id of the channel.
+     **/
+    Manager.prototype.add = function(src, max) {
         this.lastId++;
-        this.instances[this.lastId] = new TWSoundChannel(src, max);
+        this.instances[this.lastId] = new TW.Sound.Channel(src, max, this.lastId);
         this.length++;
         return this.lastId;
-    },
+    };
 
-    remove: function(uniqueId) {
-        if (this.instances[uniqueId] == null) {
+    /**
+     Remove a channel.
+
+     @method remove
+     @param {Number} uniqueId The id of the channel need remove.
+     @return {Boolean} True if the channel has been remove or False.
+     **/
+    Manager.prototype.remove = function(uniqueId) {
+        if (this.instances[uniqueId] === null) {
             return false;
         }
         delete this.instances[uniqueId];
         this.length--;
         return true;
-    },
+    };
 
-    get: function(uniqueId) {
+    /**
+     Get a channel.
+
+     @method get
+     @param {Number} uniqueId The id of the channel need get.
+     @return {Object} The channel with uniqueId.
+     **/
+    Manager.prototype.get = function(uniqueId) {
         return this.instances[uniqueId];
-    },
+    };
 
-    getPlayableSound: function(uniqueId) {
+    /**
+     Get a playable sound.
+
+     @method getPlayableSound
+     @param {Number} uniqueId The id of the channel need get a sound.
+     @return {Object} A playable sound.
+     **/
+    Manager.prototype.getPlayableSound = function(uniqueId) {
         var sound = this.instances[uniqueId].getPlayableSound();
         return sound;
-    },
+    };
 
-    loadAll: function() {
+    /**
+     Load all sounds on all channels.
+
+     @method loadAll
+     **/
+    Manager.prototype.loadAll = function() {
         this.ready = 0;
         for ( var key in this.instances ) {
             var sounds = this.instances[key];
             sounds.allSoundsReady = this.allInstancesReadyHandler;
             sounds.load();
         }
-    },
+    };
 
-    handleAllInstancesReady: function() {
+    Manager.prototype.handleAllInstancesReady = function(channel) {
         this.ready++;
 
-        if (this.allInstancesReady != null && this.ready == this.length) {
+        if (this.instanceReady != null) {
+            this.instanceReady(channel.id);
+        }
+        if (this.allInstancesReady != null && this.ready === this.length) {
             this.allInstancesReady();
         }
-    },
+    };
 
-    tellAllInstances: function(command, value) {
+    Manager.prototype.tellAllInstances = function(command, value) {
 
         for ( var key in this.instances ) {
             var sounds = this.instances[key];
@@ -76,33 +126,66 @@ TWSoundManager = {
                     sounds.stop(); break;
             }
         }
-    },
+    };
 
-    getMasterVolume: function() { return this.masterVolume; },
+    /**
+     Get a current master volume.
 
-    setMute: function(isMuted) {
-        return this.tellAllInstances("mute", isMuted);
-    },
+     @method getMasterVolume
+     @return {Number} A current master volume.
+     **/
+    Manager.prototype.getMasterVolume = function() { return this.masterVolume; };
 
-    pause: function() {
-        return this.tellAllInstances("pause", null);
-    },
+    /**
+     Mute or Unmute all sound in every channel.
 
-    resume: function() {
-        return this.tellAllInstances("resume", null);
-    },
+     @method setMute
+     @param {Boolean} isMuted True for mute, false for unmute.
+     **/
+    Manager.prototype.setMute = function(isMuted) {
+        this.tellAllInstances("mute", isMuted);
+    };
 
-    stop: function() {
-        return this.tellAllInstances("stop", null);
-    },
+    /**
+     Pause all sound in every channel.
 
-    setMasterVolume: function(value) {
+     @method pause
+     **/
+    Manager.prototype.pause = function() {
+        this.tellAllInstances("pause", null);
+    };
+
+    /**
+     Resume all sound in every channel.
+
+     @method resume
+     **/
+    Manager.prototype.resume = function() {
+        this.tellAllInstances("resume", null);
+    };
+
+    /**
+     Stop all sound in every channel.
+
+     @method stop
+     **/
+    Manager.prototype.stop = function() {
+        this.tellAllInstances("stop", null);
+    };
+
+    /**
+     Set a volume for all sound in every channel.
+
+     @method setMasterVolume
+     @param {Number} value The value of volume needed. min: 0.0 -> max: 1.0
+     **/
+    Manager.prototype.setMasterVolume = function(value) {
         value = (value > 1.0) ? 1.0 : value;
         value = (value < 0.0) ? 0.0 : value;
 
-        console.log(value);
-
         this.masterVolume = value;
         this.tellAllInstances("setVolume", value);
-    }
-}
+    };
+
+    return Manager;
+}();
