@@ -1,8 +1,15 @@
-//La classe collisionCircle permet de pouvoir tester les collisions entre un cercle et d'autres primitives
-//Le constructeur de la classe CollisionCircle prend les arguments suivants :
-//x pour la position en abscisse du cercle.
-//y pour la position en ordonnee du cercle.
-//radius pour le rayon du cercle
+/**
+* @module Collision
+*/
+
+/**
+The CollisionCircle class allow you to create a CollisionCircle to test intersections with other collision objects like circles, segments or boxes.
+@class CollisionCircle
+@constructor
+@param {integer} x the x coordinate of the CollisionCircle
+@param {integer} y the y coordinate of the CollisionCircle
+@param {integer} radius the radius of the CollisionCircle
+*/
 function CollisionCircle(x, y, radius)
 {
  this.type = "CollisionCircle";
@@ -15,13 +22,18 @@ function CollisionCircle(x, y, radius)
  this.debug_mode = false;
 }
 
-//Fonction permettant de pouvoir tester les collisions du cercle avec un autre cercle.
-//considerons l'exemple suivant
-//var cercle = new CollisionCircle(x,y,radius);
-//var cercle2 = new CollisionCircle(x2, x2, radius2);
-//var result = cercle.isCollidingCircle(cercle2);
-//Si result vaux true, alors l'objet cercle est en collision avec l'objet cercle2.
-//Si result vaux false, alors l'objet cercle n'est pas en collision avec l'objet cercle2.
+
+/**
+The method is CollidingCircle allow you to test if two circles are Colliding. Let's see an example :
+`var cercle = new CollisionCircle(x, y, radius);
+ var cercle2 = new CollisionCircle(x2, y2, radius2);
+ var result = cercle.isCollidingCircle(cercle2);`
+ If result is true, so the cercle object is colliding the cercle2 object.
+ If result if false, so the cercle object is not colliding the cercle2 object.
+ @method isCollisingCircle
+ @param {CollisionCircle} circle the CollisionCircle to test collision with.
+ @return {boolean} return true if the two circles are colliding, otherwise return false.
+*/
 CollisionCircle.prototype.isCollidingCircle = function(circle)
 {
  var circle_x = circle.getX();
@@ -35,10 +47,15 @@ CollisionCircle.prototype.isCollidingCircle = function(circle)
   return false;
 }
 
-//Fonction permettant de pouvoir tester si un segment est en collision avec un cercle.
-//[ax; ay] definissent le point de depart du segment
-//[bx;by] definissent le point de fin du segment
-//circle represente le cercle avec lequel on veux tester l'intersection
+/**
+The isCollidingSegment method allow you to test if the CollisionCircle is Colliding a segment
+@method isCollidingSegment
+@param {integer} val_a_x the x coordinate of the first point of the segment to test intersection with.
+@param {integer} val_a_y the y coordinate of the first point of the segment to test intersection with.
+@param {integer} val_b_x the x coordinate of the second point of the segment to test intersection with.
+@param {integer} val_b_y the y coordinate of the second point of the segment to test intersection with.
+@return {boolean} returns true if the current CollisionCircle is colliding the segment. Ortherwise return false.
+*/
 CollisionCircle.prototype.isCollidingSegment = function(val_a_x, val_a_y, val_b_x, val_b_y)
 {
  var a_x = val_a_x;
@@ -65,9 +82,13 @@ var delta = (((2 * a_x * v_x) + (2 * a_y * v_y)) * ((2 * a_x * v_x) + (2 * a_y *
 }
 
 
-//Fonction permettant de tester si un point est a l'interieur du cercle
-//px est l'abscisse du point
-//py est l'ordonnee du point
+/**
+The isPointInside method allow you to test if a point is inside the current circle
+@method isPointInside
+@param {integer} px the x coordinate of the point
+@param {integer} py the y coordinate of the point
+@return {boolean} return true if the point is inside the Circle, otherwise it returns false.
+*/
 CollisionCircle.prototype.isPointInside = function(px, py)
 {
  px = px - this.getX();
@@ -78,13 +99,12 @@ CollisionCircle.prototype.isPointInside = function(px, py)
   return false;
 }
 
-//Fonction permettant de pouvoir tester les collisions du cercle avec une box
-//considerons l'exemple suivant
-//var cercle = new CollisionCircle(x, y, radius);
-//var box = new CollisionBox(x1, y2, width, height);
-//var result = cercle.isCollidingBox(box);
-//Si result vaux true, alors l'objet cercle est en collision avec l'objet box.
-//Si result vaux false, alors l'objet cercle et l'objet box ne sont pas en collision.
+/**
+The isCollidingBox method allow you to test if the current CollisionCircle is colliding the CollidingBox in parameter.
+@method isCollidingBox
+@param {CollidingBox} box the CollidingBox to test collision with.
+@return {boolean} returns true if the current CollisionCircle is colliding the box, otherwise, it returns false
+*/
 CollisionCircle.prototype.isCollidingBox = function(box)
 {
  //On check si la boite englobante du cercle rentre en collision avec this
@@ -120,69 +140,81 @@ CollisionCircle.prototype.isCollidingBox = function(box)
  return false;
 }
 
-//Fonction permettant de configurer la position horizontale du cercle
+/**
+the setX method allow you to set the x coordinate of the CollisionCircle
+@method setX
+@param {integer} val the x value to set.
+*/
 CollisionCircle.prototype.setX = function(val)
 {
  this.x = val;
 }
 
-//Fonction permettant de recuperer la position horizontale du cercle
+/**
+the getX method allow you to get the x coordinate of the CollisionCircle
+@method getX
+@return {integer} the x coordinate of the CollisionCircle
+*/
 CollisionCircle.prototype.getX = function()
 {
  return this.x;
 }
 
-//Focntion permettant de configurer la position verticale du cercle
+/**
+the setY method allow you to set the y coordinate of the CollisionCircle
+@method setY
+@param {integer} val the y coordinate of the CollisionCircle.
+*/
 CollisionCircle.prototype.setY = function(val)
 {
  this.y = val;
 }
 
-//Fonction permettant de recuperer la position verticale du cercle
+/**
+the getY method allow you to get the y coordinate of the CollisionCircle
+@method getY
+@return {integer} returns the y coordinate of the CollisionCircle
+*/
 CollisionCircle.prototype.getY = function()
 {
  return this.y;
 }
 
-//Fonction permettant de configurer la largeur du cercle
-CollisionCircle.prototype.setWidth = function(val)
-{
- this.w = val;
-}
-
-//Fonction permettant de recuperer la largeur du cercle
-CollisionCircle.prototype.getWidth = function()
-{
- return this.w;
-}
-
-//fonction permettant de configurer la hauteur du cercle
-CollisionCircle.prototype.setHeight = function(val)
-{
- this.h = val;
-}
-
-//Fonction permettant de recuperer la hauteur du cercle
-CollisionCircle.prototype.getHeight = function()
-{
- return this.h;
-}
-
-
-//Permet de recuperer le radius du cercle
+/**
+the getRadius method allow you to get the radius of the current CollisionCircle object.
+@method getRadius
+@return {integer} returns the radius of the current CollisionCircle.
+*/
 CollisionCircle.prototype.getRadius = function()
 {
  return this.radius;
 }
 
+/**
+the setRadius method allow you to set the radius of the current CollisionCircle object.
+@method setRadius
+@param {integer} rad the radius of the current CollisionCircle
+*/
+CollisionCircle.prototype.setRadius = function(rad)
+{
+ this.radius = rad;
+}
 
-//Fonction permettant de set le debug mode (afin de pouvoir dessiner le contour des cercles lorsque la collisionCircle est en mode debug)
+/**
+the setDebug method allow you to set the debug mode of the current CollisionCircle object.
+@method setDebug
+@param {boolean} true_or_false the boolean value to determine if the current CollisionCircle object must switch into debug mode (true) or release mode (false)
+*/
 CollisionCircle.prototype.setDebug = function(true_of_false)
 {
  this.debug_mode = true_or_false;
 }
 
-//Fonction permettant de dessiner sur le context le cercle de collision
+/**
+the draw method allow you to draw the circle of the current CollisionCircle on the context only if the current CollisionCircle object is in debug mode (that mean you must call `setDebug(true);` before draw something on the context).
+@method draw
+@param {grraphicalContext2d} context the context to draw on.
+*/
 CollisionCircle.prototype.draw = function(context)
 {
  if (context && this.debug_mode)
