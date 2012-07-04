@@ -3,13 +3,15 @@
  * User: Aymeric CHAUVIN
  * Date: 26/06/12
  * Time: 18:00
+ *
+ * @module Gameloop
+ * @namespace Gameloop
  */
 
 
 /**
  A class to manage the game logic and time
 
- @namespace GameLoop
  @class GameLoop
  @static
  */

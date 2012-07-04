@@ -1,4 +1,9 @@
 /**
+   @module Graphic
+   namespace Graphic
+*/
+
+/**
  This is the constructor of the SpriteAnime class. It will create all the information in way to play several
  animation
 
@@ -6,6 +11,7 @@
  @param {Object} properties is the object wich contain all the properties of the sprite sheet given
                 (see json.js to see the structure)
  @param {ImgRect} spriteSheet the image containing all the frame of the different animation
+ @constructor
 */
 
 function SpriteAnime(properties, spriteSheet){
@@ -47,7 +53,8 @@ SpriteAnime.prototype.update = function(){
         this.imgRect.width = this._current_animation.sprites[this._currentFrame].w;
         this.imgRect.height = this._current_animation.sprites[this._currentFrame].h;
 	}
-}
+};
+
 /**
  This function is used to change the current animation. It will stop the current and restart the new one that will
  become the current one.
@@ -58,7 +65,7 @@ SpriteAnime.prototype.update = function(){
 SpriteAnime.prototype.setCurrentAnimation = function(name){
 
     for (var property in this._properties) {
-        if (property.name === name){
+        if (property.name === name) {
             this._current_animation = property;
             this._startDate = 0;
             this._currentFrame = 0;
@@ -72,4 +79,4 @@ SpriteAnime.prototype.setCurrentAnimation = function(name){
         }
     }
 
-}
+};

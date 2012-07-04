@@ -13,12 +13,13 @@ TW.Math.Matrix = function() {
       for perform geometric calcul.
       The default matrix is the identity matrix.
       
-      @exemple:
+      @example
       `new Matrix(4, 4)` generate this matrix:
+
           [1 0 0 0]
-	  [0 1 0 0]
-	  [0 0 1 0]
-	  [0 0 0 1]
+          [0 1 0 0]
+          [0 0 1 0]
+          [0 0 0 1]
 
       @class Matrix
       @constructor
@@ -343,8 +344,19 @@ TW.Math.Matrix = function() {
        Display matrix content in alert box.
 
        @method dump
-     */
+       @deprecated use `window.alert(matrix);` instead
+    */
     Matrix.prototype.dump = function() {
+	window.alert(this);
+    };
+
+    /**
+       give a data representation of Matrix
+       
+       @method toString
+       @return {String} data representation of Matrix
+    */
+    Matrix.prototype.toString = function() {
 	var i = 0;
 	var j = 0;
 	var chain_to_display = "";
@@ -357,7 +369,7 @@ TW.Math.Matrix = function() {
 	    chain_to_display += "\n";
 	    i++;
 	}
-	window.alert(chain_to_display);
+	return chain_to_display;
     };
     
     return Matrix;

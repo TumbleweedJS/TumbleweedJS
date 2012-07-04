@@ -1,15 +1,16 @@
 /**
  * @module Collision
-*/
+ * @namespace Collision
+ */
 
 /**
 The CollisionBox class allow you to declare a boucing box to test collisions beetween other collisions boxes and collisions circles.
 @class CollisionBox
-@constructor
 @param {integer} x the x coordinate of the collision box
 @param {integer} y the y coordinate of the collision box
 @param {integer} w the width of the collision box
 @param {integer} h the height of the collision box
+@constructor
 */
 function CollisionBox(x, y, w, h)
 {
