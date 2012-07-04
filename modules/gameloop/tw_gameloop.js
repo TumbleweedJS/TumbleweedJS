@@ -6,76 +6,77 @@
  */
 
 
-window.onload = function ()
+/**
+ A class to manage the game logic and time
+
+ @class GameLoop
+ @static
+ */
+var GameLoop = function ()
 {
+    /**
+     The value that limits the maximum frames per second
+     @property {Integer} fps
+     */
+    var fps;
 
-    //	CLASS: GAMELOOP
-    var GameLoop = function (_fps) //usage (30)
+    /**
+     The function to update the game logic
+     @property {Function} updateFunc
+     */
+    var updateFunc;
+
+    /**
+     The function to draw the game graphics
+     @property {Function} drawFunc
+     */
+    var drawFunc;
+
+    /**
+     This method is used to initialize any game logic parameters
+
+     @method Initialize
+     @param {Function} _updateFunc The update function
+     @param {Function} _drawFunc The draw function
+     @param {Integer} _fps The maximum frames per second value
+     @return {Boolean} `true` if ok; otherwise `false`
+     @private
+     */
+    function Initialize(_updateFunc, _drawFunc, _fps)
     {
-        //variables
-        var fps = _fps;
-        var updateFunc = this.Update;
-        var drawFunc = this.Draw;
-
-        //methode d'initialisation
-        function Initialize(_updateFunc, _drawFunc)
+        if (typeof(_updateFunc) != 'undefined' && typeof(_drawFunc) != 'undefined' && typeof(_fps) != 'undefined')
         {
-            //on set les callback
-
-            if (typeof(_updateFunc) != 'undefined' && typeof(_drawFunc) != 'undefined')
-            {
-                this.updateFunc = _updateFunc;
-                this.drawFunc = _drawFunc;
-            }
+            this.updateFunc = _updateFunc;
+            this.drawFunc = _drawFunc;
+            this.fps = _fps;
         }
-
-
-        //methodes de boucle de jeu
-        function Run()
+        else
         {
-            setInterval(function()
-            {
-                this.updateFunc();
-                this.drawFunc();
-            }, 1000 / this.fps);
+            return false;
         }
-
-
-        //methode de mise a jour
-        function Update()
-        {
-
-        }
-
-
-        //methode d'affichage
-        function Draw()
-        {
-
-        }
-
-
-        return function ()
-        {
-            this.Initialize = Initialize;
-            this.Run = Run;
-        }
-
-    }();
-
-    function testUp() //fonction update callback
-    {
-
+        return true;
     }
 
-    function testDraw() //fonction draw callback
-    {
+    /**
+     This function handles the GameLoop time logic
 
+     @method Run
+     @return {Nothing}
+     @private
+     */
+    function Run()
+    {
+        setInterval(function ()
+        {
+            this.updateFunc();
+            this.drawFunc();
+        }, 1000 / this.fps);
     }
 
+    return function ()
+    {
+        this.Initialize = Initialize;
+        this.Run = Run;
+    }
 
-
-    var gl = new GameLoop(20);
-    gl.Initialize(testUp, testDraw); //passer les pointeurs sur fonctions desires
-    gl.Run();
-};
+}();
