@@ -7,11 +7,14 @@ var TW = TW || {};
 TW.Sound = TW.Sound || {};
 
 /**
- * By default, JavaScript methods do not maintain scope, so passing a method as a callback will result in the
- * method getting called in the scope of the caller. Using a proxy ensures that the method gets called in the
- * correct scope. All internal callbacks use this approach.
- */
-proxy = function (method, scope) {
+ By default, JavaScript methods do not maintain scope, so passing a method as a callback will result in the
+ method getting called in the scope of the caller. Using a proxy ensures that the method gets called in the
+ correct scope. All internal callbacks use this approach.
+
+ @property proxy
+ @type function
+ **/
+proxy = function(method, scope) {
     return function () {
         return method.apply(scope, arguments);
     }
