@@ -8,10 +8,11 @@ For example, if yo want to create a Text2D object who display the text "Hello Wo
 new Text2D(50, 60, 'Calibri', 'Hello World');
 @class Text2D
 @constructor
-@param {integer} the x parameter represent the x coordinate of the text on the canvas context
-@param {integer} the y parameter represent the y coordinate of the text on the canvas context
-@param {string} the name of the font to load, for example, if you want to use the Calibri font, then, the font parameter should be equals to 'Calibri'
-@param {string} the text to display on the canvas context.
+@param {integer} x the x parameter represent the x coordinate of the text on the canvas context
+@param {integer} y the y parameter represent the y coordinate of the text on the canvas context
+@param {integer} size the size of the text
+@param {string} fontName the name of the font to load, for example, if you want to use the Calibri font, then, the font parameter should be equals to 'Calibri'
+@param {string} text the text to display on the canvas context.
 */
 function Text2D(x, y, size, fontName, text)
 {
