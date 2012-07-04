@@ -18,16 +18,54 @@ TW.Sound.Channel = function() {
      @param {Number} id The identifier of the channel.
      */
     function Channel(src, max, id) {
+
+        /**
+         Array of Sound.
+
+         @property sounds
+         @type Object
+         @default empty
+         **/
         this.sounds = [];
 
+        /**
+         Volume of all sound in this channel.
+
+         @property volume
+         @type Number
+         @default 1
+         **/
         this.volume = 1;
 
+        /**
+         Callback function when all sound is ready to play in this channel.
+
+         @property allSoundsReady
+         @type Function
+         @default null
+         **/
         this.allSoundsReady = null;
 
         this.allSoundsReadyHandler = proxy(this.handleAllSoundsReady, this);
 
+        /**
+         Source sound for this channel.
+
+         @property src
+         @type String
+         @default src
+         **/
         this.src = src;
+
+        /**
+         Channel id.
+
+         @property id
+         @type Number
+         @default id
+         **/
         this.id = id;
+
         this.add(max);
     }
 
@@ -111,7 +149,7 @@ TW.Sound.Channel = function() {
      Mute or Unmute all sound in this channel.
 
      @method setMute
-     @param {Boolean} isMuted True for mute, false for unmute.
+     @param {Boolean} isMuted True for mute or false for unmute.
      **/
     Channel.prototype.setMute = function(isMuted) {
          this.tellAllSounds("mute", isMuted);

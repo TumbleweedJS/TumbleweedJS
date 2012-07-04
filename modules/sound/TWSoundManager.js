@@ -7,24 +7,76 @@ var TW = TW || {};
 TW.Sound = TW.Sound || {};
 
 TW.Sound.Manager = function() {
+
     /**
-     Manager class is utility for manage all sounds.
+     Manager class is utility for manage all sound in channel.
 
      @class Manager
      @constructor
      */
     function Manager() {
+
+        /**
+         Array of Channel.
+
+         @property instances
+         @type Array
+         @default empty
+         **/
         this.instances = [];
 
+        /**
+         Number of Channel.
+
+         @property length
+         @type Number
+         @default 0
+         **/
         this.length = 0;
 
+        /**
+         LastId of Channel.
+
+         @property lastId
+         @type Number
+         @default 0
+         **/
         this.lastId = 0;
+
+        /**
+         Number of Channel ready to play.
+
+         @property ready
+         @type Number
+         @default 0
+         **/
         this.ready = 0;
 
+        /**
+         Callback function when all channel is ready to play.
+
+         @property allInstancesReady
+         @type Function
+         @default null
+         **/
         this.allInstancesReady = null;
 
+        /**
+         Callback function when a channel is ready to play.
+
+         @property instanceReady
+         @type Function
+         @default null
+         **/
         this.instanceReady = null;
 
+        /**
+         Volume of all sound in all channel.
+
+         @property volume
+         @type Number
+         @default 1
+         **/
         this.masterVolume = 1;
 
         this.allInstancesReadyHandler = proxy(this.handleAllInstancesReady, this);
@@ -140,7 +192,7 @@ TW.Sound.Manager = function() {
      Mute or Unmute all sound in every channel.
 
      @method setMute
-     @param {Boolean} isMuted True for mute, false for unmute.
+     @param {Boolean} isMuted True for mute or false for unmute.
      **/
     Manager.prototype.setMute = function(isMuted) {
         this.tellAllInstances("mute", isMuted);
