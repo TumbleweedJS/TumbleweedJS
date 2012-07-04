@@ -6,11 +6,11 @@
 The class Sprite let you specify a Sprite object from x and y coordinates, the width and the height of the Sprite and the imageRect to display.
 @class Sprite
 @constructor
-@param {integer} value on the x axis
-@param {integer} value on the y axis
-@param {integer} width of the Sprite
-@param {integer} height of the Sprite
-@param {imgRect} the imgRect who specify the inner part of a picture to display
+@param {integer} x value on the x axis
+@param {integer} y value on the y axis
+@param {integer} width width of the Sprite
+@param {integer} height height of the Sprite
+@param {imgRect} imgRect imgRect who specify the inner part of a picture to display
 */
 function Sprite(x, y, width, height, imgRect)
 {
@@ -30,8 +30,8 @@ function Sprite(x, y, width, height, imgRect)
 /**
 The setCenterPoint method allow you to specify the rotation center of an object Sprite
 @method setCenterPoint
-@param {integer} set the x value of the centerPoint of the Sprite (note that this x value is on the local orthonormal system of the sprite)
-@param {integer} set the y value of the centerPoint of the Sprite (note that this y value is on the local orthonormal system of the sprite)
+@param {integer} x set the x value of the centerPoint of the Sprite (note that this x value is on the local orthonormal system of the sprite)
+@param {integer} y set the y value of the centerPoint of the Sprite (note that this y value is on the local orthonormal system of the sprite)
 */
 Sprite.prototype.setCenterPoint = function(x, y)
 {
@@ -74,7 +74,7 @@ Sprite.prototype.getAlpha = function()
 /**
 This method allow you to draw the sprite on the specified context
 @method draw
-@param {canvasContext2d} the canvas's context which will be drawn on by the draw method.
+@param {canvasContext2d} context the canvas's context which will be drawn on by the draw method.
 */
 Sprite.prototype.draw = function(context)
 {
