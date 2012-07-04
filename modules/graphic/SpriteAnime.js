@@ -1,6 +1,6 @@
 /**
    @module Graphic
-   namespace Graphic
+   @namespace Graphic
 */
 
 /**

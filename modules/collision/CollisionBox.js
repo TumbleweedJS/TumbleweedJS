@@ -3,8 +3,14 @@
  * @namespace Collision
  */
 
+var TW = TW || {};
+TW.Collision = TW.Collision || {};
+
+TW.Collision.CollisionBox = function() {
+
 /**
 The CollisionBox class allow you to declare a boucing box to test collisions beetween other collisions boxes and collisions circles.
+
 @class CollisionBox
 @param {integer} x the x coordinate of the collision box
 @param {integer} y the y coordinate of the collision box
@@ -23,7 +29,7 @@ function CollisionBox(x, y, w, h)
  this.y_centerPoint = 0;
  this.angle = 0;
  this.debug_mode = false;
-}
+};
 
 /**
 The isPointInside method allow you to test if a point is inside the bouncing box.
@@ -39,7 +45,7 @@ CollisionBox.prototype.isPointInside = function(px, py)
   return true;
  else
   return false;
-}
+};
 
 /**
 The isSegmentCollidingCircle method allow you to test if a segment is colliding a circle
@@ -73,7 +79,7 @@ var delta = (((2 * a_x * v_x) + (2 * a_y * v_y)) * ((2 * a_x * v_x) + (2 * a_y *
 	   return true;
   }
  return false;
-}
+};
 
 /**
 The isCollidingCircle method allow you to test if the current CollisionBox is colliding the CollisionCircle object.
@@ -116,7 +122,7 @@ if (this.isSegmentCollidingCircle(this.x + this.w, this.y, this.x + this.w, this
   if (Math.sqrt(((this.x - circle.getX()) * (this.x - circle.getX())) + ((this.y + this.h - circle.getY()) * (this.y + this.h - circle.getY()))) < radius)
    return true;
  return false;
-}
+};
 
 /**
 The isCollidingBox method allow you to test if the current CollisionBox object is colliding the CollisionBox object gived in parameter.
@@ -140,7 +146,7 @@ CollisionBox.prototype.isCollidingBox = function(box)
  if (this.y > box_y + box_height)
   return false;
 return true;
-}
+};
 
 /**
 This method allow you to set the x coordinate of the CollisonBox
@@ -150,7 +156,7 @@ This method allow you to set the x coordinate of the CollisonBox
 CollisionBox.prototype.setX = function(val)
 {
  this.x = val;
-}
+};
 
 /**
 This method allow you to get the x coordinate of the CollisionBox
@@ -160,7 +166,7 @@ This method allow you to get the x coordinate of the CollisionBox
 CollisionBox.prototype.getX = function()
 {
  return this.x;
-}
+};
 
 /**
 This method allow you to set the y coordinate of the CollisionBox
@@ -170,7 +176,7 @@ This method allow you to set the y coordinate of the CollisionBox
 CollisionBox.prototype.setY = function(val)
 {
  this.y = val;
-}
+};
 
 /**
 This method allow you to get the y coordinate of the CollisonBox
@@ -180,7 +186,7 @@ This method allow you to get the y coordinate of the CollisonBox
 CollisionBox.prototype.getY = function()
 {
  return this.y;
-}
+};
 
 /**
 The setWidth method allow you to set the width of the CollisionBox
@@ -190,7 +196,7 @@ The setWidth method allow you to set the width of the CollisionBox
 CollisionBox.prototype.setWidth = function(val)
 {
  this.w = val;
-}
+};
 
 /**
 The getWidth method allow you to get the width of the CollisionBox
@@ -210,7 +216,7 @@ The setHeight method allow you to set the height of the CollisionBox
 CollisionBox.prototype.setHeight = function(val)
 {
  this.h = val;
-}
+};
 
 /**
 The getHeight method allow you to get the height of the CollisionBox
@@ -220,7 +226,7 @@ The getHeight method allow you to get the height of the CollisionBox
 CollisionBox.prototype.getHeight = function()
 {
  return this.h;
-}
+};
 
 /**
 The setDebug method allow you to switch the mode of the CollisionBox beetween debug and release.
@@ -230,7 +236,7 @@ The setDebug method allow you to switch the mode of the CollisionBox beetween de
 CollisionBox.prototype.setDebug = function(true_of_false)
 {
  this.debug_mode = true_or_false;
-}
+};
 
 /**
 The draw method allow you to draw the CollisionBox only if `setDebug(true)` was called before.
@@ -250,4 +256,7 @@ CollisionBox.prototype.draw = function(context)
   //Permet de restorer le context
   context.restore();
  }
+};
+
+    return CollisionBox;
 }
