@@ -9,6 +9,7 @@
 /**
  A class to manage the game logic and time
 
+ @namespace GameLoop
  @class GameLoop
  @static
  */
