@@ -17,22 +17,21 @@ window.onload = function ()
         var context = document.getElementById("eventCanvas").getContext("2d");
 
         //Instance de l'object
-        var eventManager = new EventManager();
         var test = false;
+        var test2 = 'text';
+        var events = new TW.Event.InputShortcut();
+
+
+        var id = events.add([TW.Event.Key.T, TW.Event.Key.U],
+            function() {
+                test2 = 'connasse de callback';
+        });
 
         //methode d'initialisation
         function Initialize()
         {
-           //OBLIGATOIRE : permet de reset les variables
-           eventManager.Initialize();
-
-            //Ajout d'une fonction au vector de callback, retourne un ID a sauvegarder
-            eventManager.addCallBack(this.TestCallBack);
-        };
-
-        function TestCallBack()
-        {
-            alert("TEST CALLBACK");
+           TW.Event.KeyboardService.initialize();
+           TW.Event.MouseService.initialize();
         };
 
         //methodes de boucle de jeu
@@ -49,21 +48,21 @@ window.onload = function ()
         //methode de mise a jour
         function Update()
         {
-            //OBLIGATOIRE
-            eventManager.Update();
+            events.update();
 
-            //supprime la fonction ID du vector
-            eventManager.deleteCallBack(0);
-
-            if(eventManager.isKeyDown(KeyEnum.A))
+            if(TW.Event.KeyboardService.isKeyDown(TW.Event.Key.A))
             {
                this.test = true;
             }
             else
                 this.test = false;
 
-            if (eventManager.isKeyPressed(KeyEnum.Space))
-                alert("KEY PRESSED");
+            if (TW.Event.KeyboardService.isKeyPressed(TW.Event.Key.Space))
+            {
+               alert("KEY PRESSED");
+                events.delete(id);
+            }
+
         };
 
 
@@ -77,18 +76,20 @@ window.onload = function ()
             else
                 context.fillText("KEY UP !", 10, 10);
 
-           context.fillText("List keyDown : " + eventManager.keyDown, 10, 20);
-           context.fillText("List oldKeyDown : " + eventManager.oldKeyDown, 10, 30);
+            context.fillText("KeyDown : " + TW.Event.KeyboardService.keyDown, 10, 30);
+            context.fillText("mouseDown : " + TW.Event.MouseService.isMouseButtonDown(TW.Event.MouseKey.Left) , 10, 40);
+            context.fillText("Click : " + TW.Event.MouseService.isClick(), 10, 50);
+            context.fillText("Mouse Position : " + TW.Event.MouseService.getMousePosition()['x'] + "-" + TW.Event.MouseService.getMousePosition()['y'], 10, 60);
+            context.fillText("Callback : " + test2, 10, 70);
 
+            test2 = '';
         };
 
         return function ()
         {
             this.Initialize = Initialize;
             this.Run = Run;
-            this.TestCallBack = TestCallBack;
         }
-
     }();
 
     var gl = new GameLoop();
