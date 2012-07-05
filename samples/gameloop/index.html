@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Gameloop Test</title>
+    <style>
+      p { clear: both; }
+    </style>
+
+      <script src="Gameloop.js"></script>
+      <script type="text/javascript">
+		var gl =  new TW.Gameloop.Gameloop(2);
+		
+		
+var Fruit = function() 
+{
+    function Fruit(name) 
+    {
+        this.name = name;
+    };
+
+    Fruit.prototype.update = function() 
+    {
+        alert('I am fruit update');
+    };
+
+    Fruit.prototype.draw = function() 
+    {
+        alert('I am fruit draw');
+    };
+
+    return Fruit;
+
+}();
+
+     var apple = new Fruit('apple');
+
+
+     gl.start();
+     gl.object.push(apple);
+
+      </script>
+  </head>
+
+
+  <body>
+  
+  </body>
+</html>
