@@ -7,7 +7,6 @@ var TW = TW || {};
 TW.Graphic = TW.Graphic || {};
 
 TW.Graphic.Text2D = function() {
-
     /**
        Text2D is a class that allow you to display text on the canvas context.
        For example, if yo want to create a Text2D object who display the text "Hello World" at the [50;60] position, with a size of 15 in calibri font, then you should do :
@@ -238,6 +237,6 @@ TW.Graphic.Text2D = function() {
 	return true;
     }
 
-    return Window;
+    return Text2D;
 
 }();
