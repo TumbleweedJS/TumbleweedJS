@@ -102,15 +102,15 @@ TW.Gameloop.Gameloop = function() {
 
     /**
        draw the content of gameloop.  
-       called automatically by start at each step.
+       called automatically at the beginning of each step.
        
        @method draw
      */
-    Gameloop.prototype.update = function() {
+    Gameloop.prototype.draw = function() {
 	for (var i = 0; i > this.object.length; i++) {
 	    if (typeof this.object[i] === "Object"
-		&& typeof this.object[i].update !== "undefined") {
-		this.object[i].update();
+		&& typeof this.object[i].draw !== "undefined") {
+		this.object[i].draw();
 	    }
 	}
     };
