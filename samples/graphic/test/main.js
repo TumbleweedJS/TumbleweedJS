@@ -231,15 +231,12 @@ var map = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     view.pushSprite(array[i]);
     i++;
    }
-   text1 = new TW.Graphic.Text2D(200, 50, 15, 'Calibri', "Bonjour le monde.");
-   text2 = new TW.Graphic.Text2D(200, 200, 15, 'Calibri', "Bonjour la ville.");
+   text1 = new TW.Graphic.Text2D(200, 50, 29, 'Calibri', "Premier test d'affichage");
+   text2 = new TW.Graphic.Text2D(200, 200, 15, 'Calibri', "Second test d'affichage");
    text1.setCenterPoint(100,10);
-   text1.setAlpha(50);
+   text1.setAlpha(0.5);
    text1.setFontStyle("normal");
    text1.setFont("arial");
-   text1.setText("Wesh Wesh");
-   text1.setSize(29);
-   text1.getAlpha();
    text1.setRVBColor(255, 0, 0);
    view.pushText2D(text1);
    view.pushText2D(text2);
