@@ -58,9 +58,9 @@ TW.Gameloop.Gameloop = function() {
 				return function() {
 			    	this.update();
 		    		this.draw();
-		    	}.apply(self, ???); //nope
+		    	}.apply(self, arguments); //nope
 			}
-		}(),
+		}(self),
 		1000 / this.fps);
     };
     
