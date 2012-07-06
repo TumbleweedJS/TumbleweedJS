@@ -18,7 +18,7 @@ function SpriteAnime(properties, spriteSheet){
     this._properties = properties;
     this._current_animation = properties[0];
 
-	Sprite.call(this, this._current_animation.sprites[0].x, this._current_animation.sprites[0].y,
+	TW.Graphic.Sprite.call(this, this._current_animation.sprites[0].x, this._current_animation.sprites[0].y,
             this._current_animation.sprites[0].w, this._current_animation.sprites[0].h, spriteSheet);
 	this._startDate = 0;
 	this._currentFrame = 0;
@@ -26,8 +26,8 @@ function SpriteAnime(properties, spriteSheet){
 	this._frame = this._current_animation.sprites.length;
 }
 
-for (var element in Sprite.prototype) {
-	SpriteAnime.prototype[element] = Sprite.prototype[element];
+for (var element in TW.Graphic.Sprite.prototype) {
+	SpriteAnime.prototype[element] = TW.Graphic.Sprite.prototype[element];
 }
 
 /**
