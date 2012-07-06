@@ -11,6 +11,9 @@
 var TW = TW || {};
 TW.Gameloop = TW.Gameloop || {};
 
+// DEPRECATED
+var globalGL = null;
+
 TW.Gameloop.Gameloop = function() {
 
     /**
@@ -31,7 +34,7 @@ TW.Gameloop.Gameloop = function() {
 	this.fps = 30;
 
 	this._timer = null;
-
+	
 	/**
 	   array which contains all games elements.  
 	   You must add elements to `object` for updating 
@@ -44,12 +47,15 @@ TW.Gameloop.Gameloop = function() {
 	   @property {Array} object
 	 */
 	this.object = [];
+
+	globalGL = this; // DEPRECATED
     }
 
-    Gameloop.prototype.setIntervalGL = function(gl)
+    Gameloop.prototype._intervalCallback = function()
     {
-	gl.update();
-	gl.draw()
+	//DEPRECATED
+	globalGL.update();
+	globalGL.draw()
     }
 
     /**
@@ -59,8 +65,8 @@ TW.Gameloop.Gameloop = function() {
     */
     Gameloop.prototype.start = function() {
 	this.stop();
-	this._timer = setInterval(this.setIntervalGL(this), 1000 / this.fps);
-    };
+	this._timer = setInterval(this._intervalCallback, 1000 / this.fps);
+      };
     
     /**
        pause the gameloop
@@ -110,11 +116,13 @@ TW.Gameloop.Gameloop = function() {
        @method draw
      */
     Gameloop.prototype.draw = function() {
-	for (var i = 0; i > this.object.length; i++) {
-	    if (typeof this.object[i] === "Object"
-		&& typeof this.object[i].draw !== "undefined") {
-		this.object[i].draw();
-	    }
+	for (var i = 0; i < this.object.length; i++) {
+	    this.object[i].draw(); // NO CONTROL ! Must be called only if defined
+
+//	    if (typeof this.object[i] === "Object"
+//		&& typeof this.object[i].draw !== "undefined") {
+//		this.object[i].draw();
+//	    }
 	}
     };
 
