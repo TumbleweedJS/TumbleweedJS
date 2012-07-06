@@ -259,4 +259,4 @@ CollisionBox.prototype.draw = function(context)
 };
 
     return CollisionBox;
-}
+}();
