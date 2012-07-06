@@ -52,11 +52,16 @@ TW.Gameloop.Gameloop = function() {
        @method start
     */
     Gameloop.prototype.start = function() {
-	this.stop();
-	this._timer = setInterval(function() {
-	    this.update();
-	    this.draw();
-	}, 1000 / this.fps);
+		this.stop();
+		this._timer = setInterval(function(self) {
+			return function() {
+				return function() {
+			    	this.update();
+		    		this.draw();
+		    	}.apply(self, ???); //nope
+			}
+		}(),
+		1000 / this.fps);
     };
     
     /**
