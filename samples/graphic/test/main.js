@@ -3,7 +3,6 @@
 
 
 //Width of the map to display
-
 var width_map = 19;
 
 //Height of the map to display
