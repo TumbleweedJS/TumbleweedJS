@@ -26,21 +26,21 @@ window.onload = function() {
 //Creating ressources
 fruit_img = new Image();
 fruit_img.src = "../images/carrote.png";
-fruit_img_rect = new ImageRect(fruit_img, 0, 0, 64, 64);
+fruit_img_rect = new TW.Graphic.ImageRect(fruit_img, 0, 0, 64, 64);
 snake_head_img = new Image();
 snake_head_img.src = "../images/caisse_cassable.png";
-snake_head_img_rect = new ImageRect(snake_head_img, 0,0,64,64);
-my_win = new Window(768, 768, context);
-my_view = new View(context, 0, 0, 768, 768);
+snake_head_img_rect = new TW.Graphic.ImageRect(snake_head_img, 0,0,64,64);
+my_win = new TW.Graphic.Window(768, 768, context);
+my_view = new TW.Graphic.View(context, 0, 0, 768, 768);
 canvas = document.getElementById('my_canvas');
 context = canvas.getContext("2d");
-snake_head_sprite = new Sprite(x_snake_head * tile_width,
+snake_head_sprite = new TW.Graphic.Sprite(x_snake_head * tile_width,
 							   y_snake_head * tile_height,
 							   tile_width, tile_height,
 							   snake_head_img_rect, my_view);
 corps_snake.push(snake_head_sprite);
-fruit_sprite = new Sprite(x_fruit * tile_width, y_fruit * tile_height, tile_width, tile_height, fruit_img_rect, my_view);
-score_text = new Text2D(10, 30, 30, 'Calibiri', "Score : "+score);
+fruit_sprite = new TW.Graphic.Sprite(x_fruit * tile_width, y_fruit * tile_height, tile_width, tile_height, fruit_img_rect, my_view);
+score_text = new TW.Graphic.Text2D(10, 30, 30, 'Calibiri', "Score : "+score);
 //End of creating ressources
 
 //Linking ressources togethers
@@ -105,7 +105,7 @@ SnakeManager.prototype.update = function(){
 	  var new_y_fruit = Math.floor(Math.random() * 12) * tile_height;
 	  fruit_sprite.setX(new_x_fruit);
 	  fruit_sprite.setY(new_y_fruit);
-	  var snake_elem = new Sprite(0,0,tile_width, tile_height, snake_head_img_rect, my_view);
+	  var snake_elem = new TW.Graphic.Sprite(0,0,tile_width, tile_height, snake_head_img_rect, my_view);
 	  corps_snake.push(snake_elem);
 	  my_view.pushSprite(snake_elem);
 	 }
