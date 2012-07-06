@@ -46,22 +46,20 @@ TW.Gameloop.Gameloop = function() {
 	this.object = [];
     }
 
+    Gameloop.prototype.setIntervalGL = function(gl)
+    {
+	gl.update();
+	gl.draw()
+    }
+
     /**
        start or restart the gameloop
 
        @method start
     */
     Gameloop.prototype.start = function() {
-		this.stop();
-		this._timer = setInterval(function(self) {
-			return function() {
-				return function() {
-			    	this.update();
-		    		this.draw();
-		    	}.apply(self, arguments); //nope
-			}
-		}(self),
-		1000 / this.fps);
+	this.stop();
+	this._timer = setInterval(this.setIntervalGL(this), 1000 / this.fps);
     };
     
     /**
