@@ -101,7 +101,7 @@ TW.Gameloop.Gameloop = function() {
 	    if (typeof this.object[i] === "function") {
 		this.object[i]();
 	    }
-	    if (typeof this.object[i] === "Object") {
+	    if (typeof this.object[i] === "object") {
 		if (typeof this.object[i].update !== "undefined") {
 		    this.object[i].update();
 		}
@@ -117,12 +117,10 @@ TW.Gameloop.Gameloop = function() {
      */
     Gameloop.prototype.draw = function() {
 	for (var i = 0; i < this.object.length; i++) {
-	    this.object[i].draw(); // NO CONTROL ! Must be called only if defined
-
-//	    if (typeof this.object[i] === "Object"
-//		&& typeof this.object[i].draw !== "undefined") {
-//		this.object[i].draw();
-//	    }
+	    if (typeof this.object[i] === "object"
+		&& typeof this.object[i].draw !== "undefined") {
+		this.object[i].draw();
+	    }
 	}
     };
 
