@@ -97,7 +97,7 @@ TW.Gameloop.Gameloop = function() {
        @method update
      */
     Gameloop.prototype.update = function() {
-	for (var i = 0; i > this.object.length; i++) {
+	for (var i = 0; i < this.object.length; i++) {
 	    if (typeof this.object[i] === "function") {
 		this.object[i]();
 	    }
