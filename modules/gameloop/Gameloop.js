@@ -28,7 +28,10 @@ TW.Gameloop.Gameloop = function() {
 	   @property {Integer} fps
 	   @default 30
 	*/
-	this.fps = 30;
+	if (fps)
+	 this.fps = fps;
+	else
+	 this.fps = 30;
 
 	this._timer = null;
 	
