@@ -22,6 +22,10 @@ var score = 0;
 var nb_tiles_width = 12;
 var nb_tiles_height = 12;
 
+window.onresize = function(){
+my_win.setFullBrowserCanvas(document.getElementById("my_canvas"));
+};
+
 window.onload = function() {
 //Creating ressources
 fruit_img = new Image();
@@ -56,6 +60,8 @@ gameloop = new GameLoop();
 //Creating snakeManager
 snakemanager = new SnakeManager();
 
+my_win.setFullBrowserCanvas(document.getElementById("my_canvas"));
+
 //Setting graphical context to draw on
 gameloop.SetContext(context);
 //add the window object to the gameLoop
@@ -67,6 +73,7 @@ gameloop.Run();
 }
 
 window.addEventListener('keydown', function(event) {
+									event.preventDefault();
 									var keyCode = event.keyCode;
 											   //left arrow
 											   if (keyCode == 37)
