@@ -165,12 +165,8 @@ TW.Graphic.Text2D = function() {
     */
     Text2D.prototype.setFontStyle = function(fontStyle)
     {
-	if (fontStyle == "italic")
-	    this.fontStyle = "italic";
-	if (fontStyle == "bold")
-	    this.fontStyle = "bold";
-	if (fontStyle == "normal")
-	    this.fontStyle = "";
+	if (fontStyle == "italic" || fontStyle == "bold" || fontStyle == "normal")
+		this.fontStyle = fontStyle;
     }
 
     /**
