@@ -11,9 +11,6 @@
 var TW = TW || {};
 TW.Gameloop = TW.Gameloop || {};
 
-// DEPRECATED
-var globalGL = null;
-
 TW.Gameloop.Gameloop = function() {
 
     /**
@@ -48,15 +45,8 @@ TW.Gameloop.Gameloop = function() {
 	 */
 	this.object = [];
 
-	globalGL = this; // DEPRECATED
     }
 
-    Gameloop.prototype._intervalCallback = function()
-    {
-	//DEPRECATED
-	globalGL.update();
-	globalGL.draw()
-    }
 
     /**
        start or restart the gameloop
@@ -65,7 +55,15 @@ TW.Gameloop.Gameloop = function() {
     */
     Gameloop.prototype.start = function() {
 	this.stop();
-	this._timer = setInterval(this._intervalCallback, 1000 / this.fps);
+	this._timer = setInterval(function(self) {
+		return function() {
+			return function() {
+				this.update();
+				this.draw();
+			}.call(self);
+		};
+	}(this),
+	1000 / this.fps);
       };
     
     /**
