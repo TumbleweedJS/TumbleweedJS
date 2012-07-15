@@ -76,7 +76,7 @@ TW.Graphic.HUD = function(){
 			*/
 			this.top = null;
 			/**
-			The position mode of the HUD, this property can only take two values : "absolute" and "relative", if the property is setted with another value, then, "absolute" value will be the default value.
+			The position mode of the HUD, this property can only take three values : "absolute","relative","center" if the property is setted with another value, then, "absolute" value will be the default value.
 			
 			@property {string} position
 			*/
@@ -126,15 +126,26 @@ TW.Graphic.HUD = function(){
 							tmp_ctx.transform(1, 0, 0, 1, 0, this.height - this.hudElementList[i].bottom - this.hudElementList[i].height + this.hudElementList[i].y_centerPoint);
 							}
 					tmp_ctx.transform(Math.cos(this.hudElementList[i].rotation), -Math.sin(this.hudElementList[i].rotation), Math.sin(this.hudElementList[i].rotation), Math.cos(this.hudElementList[i].rotation), 0, 0);
-					tmp_ctx.transform(this.hudElementList[i].scale_x, 0, 0, this.hudElementList[i].scale_y, 0, 0);
+					tmp_ctx.transform(this.hudElementList[i].scaleX, 0, 0, this.hudElementList[i].scaleY, 0, 0);
 					tmp_ctx.transform(1, 0, 0, 1, -this.hudElementList[i].x_centerPoint, -this.hudElementList[i].y_centerPoint);
 					this.hudElementList[i].draw(tmp_ctx);
+					}
+					else if (this.hudElementList[i].position == "center")
+					{
+						var tmp_x = (this.width / 2) - (this.hudElementList[i].width / 2);
+						var tmp_y = (this.height / 2) - (this.hudElementList[i].height / 2);
+						
+						tmp_ctx.transform(1, 0, 0, 1, tmp_x + this.hudElementList[i].x_centerPoint, tmp_y + this.hudElementList[i].y_centerPoint);
+						tmp_ctx.transform(Math.cos(this.hudElementList[i].rotation), -Math.sin(this.hudElementList[i].rotation), Math.sin(this.hudElementList[i].rotation), Math.cos(this.hudElementList[i].rotation), 0, 0);
+						tmp_ctx.transform(this.hudElementList[i].scaleX, 0, 0, this.hudElementList[i].scaleY, 0, 0);
+						tmp_ctx.transform(1, 0, 0, 1, -this.hudElementList[i].x_centerPoint, -this.hudElementList[i].y_centerPoint);
+						this.hudElementList[i].draw(tmp_ctx);						
 					}
 					else
 					{
 						tmp_ctx.transform(1, 0, 0, 1, this.hudElementList[i].x + this.hudElementList[i].x_centerPoint, this.hudElementList[i].y + this.hudElementList[i].y_centerPoint);
 						tmp_ctx.transform(Math.cos(this.hudElementList[i].rotation), -Math.sin(this.hudElementList[i].rotation), Math.sin(this.hudElementList[i].rotation), Math.cos(this.hudElementList[i].rotation), 0, 0);
-						tmp_ctx.transform(this.hudElementList[i].scale_x, 0, 0, this.hudElementList[i].scale_y, 0, 0);
+						tmp_ctx.transform(this.hudElementList[i].scaleX, 0, 0, this.hudElementList[i].scaleY, 0, 0);
 						tmp_ctx.transform(1, 0, 0, 1, -this.hudElementList[i].x_centerPoint, -this.hudElementList[i].y_centerPoint);
 						this.hudElementList[i].draw(tmp_ctx);
 					}
@@ -170,15 +181,26 @@ TW.Graphic.HUD = function(){
 						tmp_ctx.transform(1, 0, 0, 1, 0, this.heigth - this.hudList[i].bottom - this.hudList[i].heigth + this.hudList[i].y_center);
 						}
 						tmp_ctx.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
-						tmp_ctx.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+						tmp_ctx.transform(this.hudList[i].x_scale, 0, 0, this.hudList[i].y_scale, 0, 0);
 						tmp_ctx.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
 						this.hudList[i].draw(ctx_tmp);
 					}
-				else
+					else if (this.hudList[i].position == "center")
+					{
+						var tmp_x = (this.width / 2) - (this.hudList[i].width / 2);
+						var tmp_y = (this.height / 2) - (this.hudList[i].height / 2);
+						
+						tmp_ctx.transform(1, 0, 0, 1, tmp_x + this.hudList[i].x_centerPoint, tmp_y + this.hudList[i].y_centerPoint);
+						tmp_ctx.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+						tmp_ctx.transform(this.hudList[i].scaleX, 0, 0, this.hudList[i].scaleY, 0, 0);
+						tmp_ctx.transform(1, 0, 0, 1, -this.hudList[i].x_centerPoint, -this.hudList[i].y_centerPoint);
+						this.hudList[i].draw(tmp_ctx);						
+					}
+					else
 					{
 						tmp_ctx.transform(1, 0, 0, 1, this.hudList[i].x + this.hudList[i].x_center, this.hudList[i].y + this.hudList[i].y_center);
 						tmp_ctx.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
-						tmp_ctx.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+						tmp_ctx.transform(this.hudList[i].x_scale, 0, 0, this.hudList[i].y_scale, 0, 0);
 						tmp_ctx.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
 						this.hudList[i].draw(tmp_ctx);
 					}
