@@ -20,7 +20,8 @@ TW.Graphic.Window = function() {
     {
 	this.width = width;
 	this.height = height;
-	this.viewList = new Array();
+	this.viewList = [];
+	this.hudList = [];
 	this.rotation = 0;
 	this.x_center = 0;
 	this.y_center = 0;
@@ -188,6 +189,50 @@ TW.Graphic.Window = function() {
 	    i++;
 	}
 	ctx_tmp.restore();
+	
+	var hudListLength = this.hudList.length;
+	i = 0;
+	while (i < hudListLength)
+	 {
+	  ctx_tmp.save();
+	  if (this.hudList[i].position == "relative")
+	   {
+	    if (this.hudList[i].left !== null)
+		 {
+		  //On transforme avec la marges left
+		  ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].left + this.hudList[i].x_center, 0);
+		 }
+		if (this.hudList[i].right !== null)
+		 {
+		  //On transforme avec la marges right
+		  ctx_tmp.transform(1, 0, 0, 1, this.width - this.hudList[i].right - this.hudList[i].width + this.hudList[i].x_center, 0);
+		 }
+		if (this.hudList[i].top !== null)
+		 {
+		  //On transforme avec la marges top
+		  ctx_tmp.transform(1, 0, 0, 1, 0, this.hudList[i].top + this.hudList[i].y_center);
+		 }
+		if (this.hudList[i].bottom !== null)
+		 {
+		  //On transforme avec la marges bottom
+		  ctx_tmp.transform(1, 0, 0, 1, 0, this.height - this.hudList[i].bottom - this.hudList[i].h + this.hudList[i].y_center);
+		 }
+ 		ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+		ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+		ctx_tmp.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
+		this.hudList[i].draw(ctx_tmp);
+	   }
+	  else
+	   {
+	    ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x + this.hudList[i].x_center, this.hudList[i].y + this.hudList[i].y_center);
+		ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+		ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+		ctx_tmp.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
+		this.hudList[i].draw(ctx_tmp);
+	   }
+	  ctx_tmp.restore();
+	  i++;
+	 }
     }
 
     /**
@@ -240,8 +285,41 @@ TW.Graphic.Window = function() {
 	view.setWindow(this);
 	this.viewList.push(view);
     }
+	
+	/**
+	 The pushHUD method allow you to add a HUD object to the window object.
+	 @method pushHUD
+	 @param {HUD} hudObject the hud object to add to the window object
+    */
+	Window.prototype.pushHUD = function(hudObject)
+	{
+	 this.hudList.push(hudObject);
+	}
+	
+	/**
+	The popHUD method allow you to suppress a HUD object from the window object.
+	@method popHUD
+	@param {HUD} hudObject the hud object to suppress from the window object
+	*/
+	Window.prototype.popHUD = function(hudObject)
+	{
+	var size = this.hudList.length;
+	var i = 0;
 
-    /**
+	while (i < size)
+	{
+	    if (this.hudList[i] === hudObject)
+	    {
+		this.viewList.splice(i, 1);
+	    }
+	    else
+	    {
+		i++;
+	    }
+	}
+	}
+	
+	/**
        The popView method allow you to suppress a View from the Window object.
        @method popView
        @param {View} ref the reference of the View object to suppress from the current Window object.
