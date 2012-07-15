@@ -95,13 +95,13 @@ TW.Graphic.HUDVertical = function(){
 			var total_height = 0;
 			while (i < nb_hudelements)
 			{
-				total_height += this.hudElementList[i].height;
+				total_height += this.hudElementList[i].height * this.hudElementList[i].scaleY;
 				i++;
 			}
 			i = 0;
 			while (i < nb_huds)
 			{
-				total_height += this.hudList[i].height;
+				total_height += this.hudList[i].height * this.hudElementList[i].scaleX;
 				i++;
 			}
 			var margin = (this.height - total_height) / (length_total + 1);
@@ -111,9 +111,14 @@ TW.Graphic.HUDVertical = function(){
 			 {
 			  tmp_ctx.transform(1, 0, 0, 1, 0, margin);
 			  tmp_ctx.save();
-				tmp_ctx.transform(1, 0, 0, 1, (this.width - this.hudElementList[i].width) / 2, 0);
+				tmp_ctx.transform(1, 0, 0, 1, 0, (this.width - (this.hudElementList[i].width * this.hudElementList[i].scaleX)) / 2);
+				tmp_ctx.transform(1, 0, 0, 1, this.hudElementList[i].x_centerPoint, this.hudElementList[i].y_centerPoint);
+				tmp_ctx.transform(Math.cos(this.hudElementList[i].rotation), -Math.sin(this.hudElementList[i].rotation), Math.sin(this.hudElementList[i].rotation), Math.cos(this.hudElementList[i].rotation), 0, 0);
+				tmp_ctx.transform(this.hudElementList[i].scaleX, 0, 0, this.hudElementList[i].scaleY, 0, 0);
+				tmp_ctx.transform(1, 0, 0, 1, -this.hudElementList[i].x_centerPoint, -this.hudElementList[i].y_centerPoint);
 				this.hudElementList[i].draw(tmp_ctx);
 			  tmp_ctx.restore();
+			  tmp_ctx.transform(1, 0, 0, 1, 0, this.hudElementList[i].scaleY * this.hudElementList[i].height);			  
 			  i++;
 			 }
 			i = 0;
@@ -121,9 +126,14 @@ TW.Graphic.HUDVertical = function(){
 			{
 			  tmp_ctx.transform(1, 0, 0, 1, 0, margin);
 			  tmp_ctx.save();
-				tmp_ctx.transform(1, 0, 0, 1, (this.width - this.hudList[i].width) / 2, 0);
+				tmp_ctx.transform(1, 0, 0, 1, 0, (this.width - (this.hudList[i].width * this.hudList[i].scaleX)) / 2);
+				tmp_ctx.transform(1, 0, 0, 1, this.hudList[i].x_centerPoint, this.hudList[i].y_centerPoint);
+				tmp_ctx.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+				tmp_ctx.transform(this.hudList[i].scaleX, 0, 0, this.hudList[i].scaleY, 0, 0);
+				tmp_ctx.transform(1, 0, 0, 1, -this.hudList[i].x_centerPoint, -this.hudList[i].y_centerPoint);				
 				this.hudList[i].draw(tmp_ctx);
 			  tmp_ctx.restore();
+			  tmp_ctx.transform(1, 0, 0, 1, this.hudList[i].scaleY * this.hudList[i].height, 0);
 			  i++;
 			}
 			tmp_ctx.restore();

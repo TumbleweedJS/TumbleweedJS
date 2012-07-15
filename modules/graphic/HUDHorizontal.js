@@ -5,6 +5,7 @@
 
 /**
 HUDHorizontal is a class that allow you to define a HUD object who can organize HUDElements horizontaly on it.
+Note that the HUDHorizontal object automatically organize objects with margin beetween them.
 */
 
 var TW = TW || {};
@@ -76,7 +77,7 @@ TW.Graphic.HUDHorizontal = function(){
 	}
 	
 		/**
-		This method allow you to draw the HUDVertical on a canvas' context
+		This method allow you to draw the HUDHorizontal on a canvas' context
 
 		@method draw
 		@param {graphicContext2d} context the canvas' context to draw the HUD on.
@@ -95,13 +96,13 @@ TW.Graphic.HUDHorizontal = function(){
 			var total_width = 0;
 			while (i < nb_hudelements)
 			{
-				total_height += this.hudElementList[i].width;
+				total_width += this.hudElementList[i].width * this.hudElementList[i].scaleX;
 				i++;
 			}
 			i = 0;
 			while (i < nb_huds)
 			{
-				total_width += this.hudList[i].width;
+				total_width += this.hudList[i].width * this.hudElementList[i].x_scale;
 				i++;
 			}
 			var margin = (this.width - total_width) / (length_total + 1);
@@ -111,9 +112,14 @@ TW.Graphic.HUDHorizontal = function(){
 			 {
 			  tmp_ctx.transform(1, 0, 0, 1, margin, 0);
 			  tmp_ctx.save();
-				tmp_ctx.transform(1, 0, 0, 1, 0, (this.height - this.hudElementList[i].height) / 2);
+				tmp_ctx.transform(1, 0, 0, 1, 0, (this.height - (this.hudElementList[i].height * this.hudElementList[i].scaleY)) / 2);
+				tmp_ctx.transform(1, 0, 0, 1, this.hudElementList[i].x_centerPoint, this.hudElementList[i].y_centerPoint);
+				tmp_ctx.transform(Math.cos(this.hudElementList[i].rotation), -Math.sin(this.hudElementList[i].rotation), Math.sin(this.hudElementList[i].rotation), Math.cos(this.hudElementList[i].rotation), 0, 0);
+				tmp_ctx.transform(this.hudElementList[i].scaleX, 0, 0, this.hudElementList[i].scaleY, 0, 0);
+				tmp_ctx.transform(1, 0, 0, 1, -this.hudElementList[i].x_centerPoint, -this.hudElementList[i].y_centerPoint);
 				this.hudElementList[i].draw(tmp_ctx);
 			  tmp_ctx.restore();
+			  tmp_ctx.transform(1, 0, 0, 1, this.hudElementList[i].scaleX * this.hudElementList[i].width, 0);			  
 			  i++;
 			 }
 			i = 0;
@@ -121,9 +127,14 @@ TW.Graphic.HUDHorizontal = function(){
 			{
 			  tmp_ctx.transform(1, 0, 0, 1, margin, 0);
 			  tmp_ctx.save();
-				tmp_ctx.transform(1, 0, 0, 1, (this.height - this.hudList[i].height) / 2, 0);
+				tmp_ctx.transform(1, 0, 0, 1, 0, (this.height - (this.hudList[i].height * this.hudList[i].scaleY)) / 2);
+				tmp_ctx.transform(1, 0, 0, 1, this.hudList[i].x_centerPoint, this.hudList[i].y_centerPoint);
+				tmp_ctx.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+				tmp_ctx.transform(this.hudList[i].scaleX, 0, 0, this.hudList[i].scaleY, 0, 0);
+				tmp_ctx.transform(1, 0, 0, 1, -this.hudList[i].x_centerPoint, -this.hudList[i].y_centerPoint);				
 				this.hudList[i].draw(tmp_ctx);
 			  tmp_ctx.restore();
+			  tmp_ctx.transform(1, 0, 0, 1, this.hudList[i].scaleX * this.hudList[i].width, 0);
 			  i++;
 			}
 			tmp_ctx.restore();
