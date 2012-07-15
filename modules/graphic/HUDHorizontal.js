@@ -113,9 +113,9 @@ TW.Graphic.HUDHorizontal = function(){
 			  tmp_ctx.transform(1, 0, 0, 1, margin, 0);
 			  tmp_ctx.save();
 				tmp_ctx.transform(1, 0, 0, 1, 0, (this.height - (this.hudElementList[i].height * this.hudElementList[i].scaleY)) / 2);
+				tmp_ctx.transform(this.hudElementList[i].scaleX, 0, 0, this.hudElementList[i].scaleY, 0, 0);
 				tmp_ctx.transform(1, 0, 0, 1, this.hudElementList[i].x_centerPoint, this.hudElementList[i].y_centerPoint);
 				tmp_ctx.transform(Math.cos(this.hudElementList[i].rotation), -Math.sin(this.hudElementList[i].rotation), Math.sin(this.hudElementList[i].rotation), Math.cos(this.hudElementList[i].rotation), 0, 0);
-				tmp_ctx.transform(this.hudElementList[i].scaleX, 0, 0, this.hudElementList[i].scaleY, 0, 0);
 				tmp_ctx.transform(1, 0, 0, 1, -this.hudElementList[i].x_centerPoint, -this.hudElementList[i].y_centerPoint);
 				this.hudElementList[i].draw(tmp_ctx);
 			  tmp_ctx.restore();
@@ -128,9 +128,9 @@ TW.Graphic.HUDHorizontal = function(){
 			  tmp_ctx.transform(1, 0, 0, 1, margin, 0);
 			  tmp_ctx.save();
 				tmp_ctx.transform(1, 0, 0, 1, 0, (this.height - (this.hudList[i].height * this.hudList[i].scaleY)) / 2);
+				tmp_ctx.transform(this.hudList[i].scaleX, 0, 0, this.hudList[i].scaleY, 0, 0);
 				tmp_ctx.transform(1, 0, 0, 1, this.hudList[i].x_centerPoint, this.hudList[i].y_centerPoint);
 				tmp_ctx.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
-				tmp_ctx.transform(this.hudList[i].scaleX, 0, 0, this.hudList[i].scaleY, 0, 0);
 				tmp_ctx.transform(1, 0, 0, 1, -this.hudList[i].x_centerPoint, -this.hudList[i].y_centerPoint);				
 				this.hudList[i].draw(tmp_ctx);
 			  tmp_ctx.restore();
@@ -214,6 +214,6 @@ TW.Graphic.HUDHorizontal = function(){
 		    }
 		 return false;			
 		};
-HUDHorizontal.prototype.constructor = HUDVertical;
+HUDHorizontal.prototype.constructor = HUDHorizontal;
 return HUDHorizontal;
 }();

@@ -306,6 +306,10 @@ window.onload = function ()
    view3.setScale(0.5, 0.5);
    //Set the center point of the view3 object
    view3.setCenterPoint(600, 250);
+   //Set the position of the view2
+   view2.move(300, 180);
+   //Set the position of the view3
+   view3.move(300, 180);
    
    
    //Setting the callback function

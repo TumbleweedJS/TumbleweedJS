@@ -304,9 +304,10 @@ TW.Graphic.View = function() {
 	    tmp_ctx = this.context;
 	
 	tmp_ctx.save();
-	tmp_ctx.transform(1, 0, 0, 1, this.x + this.x_center, this.y + this.y_center);
-	tmp_ctx.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
+	tmp_ctx.transform(1, 0, 0, 1, this.x, this.y);
 	tmp_ctx.transform(this.x_scale, 0, 0, this.y_scale, 0, 0);
+	tmp_ctx.transform(1, 0, 0, 1, this.x_center, this.y_center);
+	tmp_ctx.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
 	tmp_ctx.transform(1, 0, 0, 1, -this.x_center, -this.y_center);
 	while (i < length)
 	{

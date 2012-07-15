@@ -89,9 +89,10 @@ TW.Graphic.Sprite = function() {
 	context.save();
 	var saveAlpha = context.globalAlpha;
 	context.globalAlpha = this.alpha;
-	context.transform(1, 0, 0, 1, this.x + this.x_centerPoint, this.y + this.y_centerPoint);
-	context.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
+	context.transform(1, 0, 0, 1, this.x, this.y);
 	context.transform(this.scaleX, 0, 0, this.scaleY, 0, 0);
+	context.transform(1, 0, 0, 1, this.x_centerPoint, this.y_centerPoint);
+	context.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
 	context.transform(1, 0, 0, 1, -this.x_centerPoint, -this.y_centerPoint);
 	context.drawImage(this.imgRect.getImage(),this.imgRect.getX(), this.imgRect.getY(), this.imgRect.getWidth(), this.imgRect.getHeight(),0, 0, this.width, this.height);
 	context.restore();

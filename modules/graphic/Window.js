@@ -177,9 +177,10 @@ TW.Graphic.Window = function() {
 	
 	ctx_tmp.save();
 	ctx_tmp.clearRect(0,0,this.width, this.height);
-	ctx_tmp.transform(1, 0, 0, 1, this.x + this.x_center, this.y + this.y_center);
-	ctx_tmp.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
+	ctx_tmp.transform(1, 0, 0, 1, this.x, this.y);
 	ctx_tmp.transform(this.scale_x, 0, 0, this.scale_y, 0, 0);
+	ctx_tmp.transform(1, 0, 0, 1, this.x_center, this.y_center);
+	ctx_tmp.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
 	ctx_tmp.transform(1, 0, 0, 1, -this.x_center, -this.y_center);
 	while (i < viewListLength)
 	{
@@ -200,33 +201,36 @@ TW.Graphic.Window = function() {
 	    if (this.hudList[i].left !== null)
 		 {
 		  //On transforme avec la marges left
-		  ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].left + this.hudList[i].x_center, 0);
+		  ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].left, 0);
 		 }
 		if (this.hudList[i].right !== null)
 		 {
 		  //On transforme avec la marges right
-		  ctx_tmp.transform(1, 0, 0, 1, this.width - this.hudList[i].right - this.hudList[i].width + this.hudList[i].x_center, 0);
+		  ctx_tmp.transform(1, 0, 0, 1, this.width - this.hudList[i].right - this.hudList[i].width, 0);
 		 }
 		if (this.hudList[i].top !== null)
 		 {
 		  //On transforme avec la marges top
-		  ctx_tmp.transform(1, 0, 0, 1, 0, this.hudList[i].top + this.hudList[i].y_center);
+		  ctx_tmp.transform(1, 0, 0, 1, 0, this.hudList[i].top);
 		 }
 		if (this.hudList[i].bottom !== null)
 		 {
 		  //On transforme avec la marges bottom
 		  ctx_tmp.transform(1, 0, 0, 1, 0, this.height - this.hudList[i].bottom - this.hudList[i].h + this.hudList[i].y_center);
 		 }
- 		ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
 		ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+		ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x_center, this.hudList[i].y_center);
+ 		ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+		//ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
 		ctx_tmp.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
 		this.hudList[i].draw(ctx_tmp);
 	   }
 	  else
 	   {
-	    ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x + this.hudList[i].x_center, this.hudList[i].y + this.hudList[i].y_center);
-		ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+	    ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x, this.hudList[i].y);
 		ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+		ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x_center, this.hudList[i].y_center);
+		ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
 		ctx_tmp.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
 		this.hudList[i].draw(ctx_tmp);
 	   }
