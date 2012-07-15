@@ -154,7 +154,7 @@ TW.Graphic.HUD = function(){
 				}
 			
 			i= 0;
-			length = this.hudList;
+			length = this.hudList.length;
 			while (i < length)
 			{
 				tmp_ctx.save();

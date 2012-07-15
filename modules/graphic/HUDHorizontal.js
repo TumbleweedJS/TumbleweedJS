@@ -1,0 +1,208 @@
+/**
+* @module Graphic
+* @namespace HUDHorizontal
+*/
+
+/**
+HUDHorizontal is a class that allow you to define a HUD object who can organize HUDElements horizontaly on it.
+*/
+
+var TW = TW || {};
+TW.HUDHorizontal = TW.HUD || {};
+
+TW.Graphic.HUDHorizontal = function(){
+
+	HUDHorizontal.prototype = new TW.Graphic.View("undefined", 0, 0, 0, 0);
+
+	function HUDHorizontal(context, x, y, width, height)
+	{
+		this.context = context;
+		/**
+		The x coordinate of the HUD
+		
+		@property {integer} x
+		*/
+		this.x = x;
+		/**
+		The y coordinate of the HUD
+		
+		@property {integer} y
+		*/
+		this.y = y;
+		/**
+		The width of the HUD
+		
+		@property {integer} width
+		*/
+		this.width = width;
+		/**
+		The height of the HUD
+		
+		@property {integer} height
+		*/
+		this.height = height;
+		/**
+		The left margin of the HUD
+		
+		@property {integer} left
+		*/
+		this.left = null;
+		/**
+		The right margin of the HUD
+		
+		@property {integer} right
+		*/
+		this.right = null;
+		/**
+		The bottom margin of the HUD
+		
+		@property {integer} bottom
+		*/
+		this.bottom = null;
+		/**
+		The top margin of the HUD
+		
+		@property {integer} top
+		*/
+		this.top = null;
+		/**
+		The position mode of the HUD, this property can only take three values : "absolute","relative","center" if the property is setted with another value, then, "absolute" value will be the default value.
+		
+		@property {string} position
+		*/
+		this.position = "absolute";
+		this.hudList = [];
+		this.hudElementList = [];
+	}
+	
+		/**
+		This method allow you to draw the HUDVertical on a canvas' context
+
+		@method draw
+		@param {graphicContext2d} context the canvas' context to draw the HUD on.
+		*/
+		HUDHorizontal.prototype.draw = function(context) {
+			var i;
+			var tmp_ctx = context || 1;
+
+			if (tmp_ctx == 1)
+			tmp_ctx = this.context;
+			
+			i = 0;
+ 			var length_total = this.hudElementList.length + this.hudList.length;
+			var nb_hudelements = this.hudElementList.length;
+			var nb_huds = this.hudList.length;
+			var total_width = 0;
+			while (i < nb_hudelements)
+			{
+				total_height += this.hudElementList[i].width;
+				i++;
+			}
+			i = 0;
+			while (i < nb_huds)
+			{
+				total_width += this.hudList[i].width;
+				i++;
+			}
+			var margin = (this.width - total_width) / (length_total + 1);
+			i = 0;
+			tmp_ctx.save();
+			while (i < this.hudElementList.length)
+			 {
+			  tmp_ctx.transform(1, 0, 0, 1, margin, 0);
+			  tmp_ctx.save();
+				tmp_ctx.transform(1, 0, 0, 1, 0, (this.height - this.hudElementList[i].height) / 2);
+				this.hudElementList[i].draw(tmp_ctx);
+			  tmp_ctx.restore();
+			  i++;
+			 }
+			i = 0;
+			while (i < this.hudList.length)
+			{
+			  tmp_ctx.transform(1, 0, 0, 1, margin, 0);
+			  tmp_ctx.save();
+				tmp_ctx.transform(1, 0, 0, 1, (this.height - this.hudList[i].height) / 2, 0);
+				this.hudList[i].draw(tmp_ctx);
+			  tmp_ctx.restore();
+			  i++;
+			}
+			tmp_ctx.restore();
+		};
+	
+		/**
+		This method allow you to push an HUD object into the current HUD object
+		
+		@method pushHUD
+		@param {HUD} HUDObject The HUD object to push in the current HUD object
+		@return {Boolean} return true if the pushHUD method has success, otherwise it returns false
+		*/
+		HUDHorizontal.prototype.pushHUD = function(HUDObject)
+		{
+		 if (!HUDObject)
+		  return false;
+		   this.hudList.push(HUDObject);
+		   return true;
+		};
+		
+		
+		/**
+		This method allow you to pop a HUD object from the current object
+		
+		@method popHUD
+		@param {HUD} HUDObject The HUD object to pop from the current HUD object.
+		@return {Boolean} return true if the popHUD method has success, otherwise it returns false
+		*/
+		HUDHorizontal.prototype.popHUD = function(HUDObject)
+		{
+		 if (!HUDObject)
+		  return false;
+		 for (var i = 0; i < this.hudList.length; i++)
+		 {
+		  if (this.hudList[i] === HUDObject)
+		  {
+			this.hudList.split(i, 1);
+			return true;
+		  }
+		 }
+		 return false;
+		};
+		
+		/**
+		This method allow you to push a HUD element on the current object
+		
+		@method pushHUDElement
+		@param {HUDElement} HUDElementObject The HUDElement to pop from the current HUD element.
+		@return {Boolean} return true if the pushHUDElement has success, otherwise it returns false
+		*/
+		HUDHorizontal.prototype.pushHUDElement = function(HUDElementObject)
+		{
+			if (!HUDElementObject)
+			 return false;
+			 this.hudElementList.push(HUDElementObject);
+			return true;
+		};
+		
+		/**
+		This method allow you to pop a HUDElement from the current object
+		
+		@method popHUDElement
+		@param {HUDElement} HUDElementObject The HUDElementObject to pop from the current HUD object.
+		@return {Boolean} return true if the popHUDElement has success, otherwise it returns false
+		*/
+		HUDHorizontal.prototype.popHUDElement = function(HUDElementObject)
+		{
+			if (!HUDElementObject)
+			 return false;
+		    for (var i = 0; i < this.hudList.length; i++)
+		    {
+		     if (this.hudElementList[i] === HUDElementObject)
+		     {
+			   this.hudElementList.split(i, 1);
+			   return true;
+		     }
+		    }
+		 return false;			
+		};
+HUDHorizontal.prototype.constructor = HUDVertical;
+return HUDHorizontal;
+}();
