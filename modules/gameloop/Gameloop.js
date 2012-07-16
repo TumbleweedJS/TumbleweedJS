@@ -17,13 +17,13 @@ TW.Gameloop.Gameloop = function() {
        A class to manage the game logic and time
 
        @class Gameloop
-       @param {Integer} [fps] value that limits the maximum frames per second
+       @param {Integer} [fps] value that limits the maximum number of frame per second
        @constructor
     */
     function Gameloop(fps)
     {
 	/**
-	   The value that limits the maximum frames per second
+	   The value that limits the maximum number of frames per second
 
 	   @property {Integer} fps
 	   @default 30
