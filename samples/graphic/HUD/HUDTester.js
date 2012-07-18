@@ -34,6 +34,10 @@ var HUDTester = function() {
   {
    this.subElementFromHUDVertical();
   }
+  if (event.keyCode == 80)
+  {
+   this.subElementFromHUD();
+  }
   this.draw(this.context);
  };
  
@@ -254,7 +258,7 @@ y_center = this.getYCenter();
 
  HUDTester.prototype.subElementFromHUD = function() {
  //fonction pour enlever un element du hud
- var tmp = this.hudVertical.hudElementList.length - 1;
+ var tmp = this.hud.hudElementList.length - 1;
  if (tmp < 0)
   tmp = 0;
  this.hud.popHUDElement(this.hud.hudElementList[tmp]);

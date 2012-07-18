@@ -279,11 +279,11 @@ TW.Graphic.HUD = function(){
 		{
 			if (!HUDElementObject)
 			 return false;
-		    for (var i = 0; i < this.hudList.length; i++)
+		    for (var i = 0; i < this.hudElementList.length; i++)
 		    {
 		     if (this.hudElementList[i] === HUDElementObject)
 		     {
-			   this.hudElementList.split(i, 1);
+			   this.hudElementList.splice(i, 1);
 			   return true;
 		     }
 		    }
