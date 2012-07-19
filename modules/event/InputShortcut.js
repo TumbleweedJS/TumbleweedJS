@@ -24,8 +24,8 @@ TW.Event.InputShortcut = function()
 
     /**
      * Add a function into the callback collection
-     * @param arrayKey
-     * @param fun
+     * @param {TW.Event} arrayKey
+     * @param {Function} fun
      * @return {Number}
      */
     InputShortcut.prototype.add  = function(arrayKey, fun)
@@ -34,8 +34,9 @@ TW.Event.InputShortcut = function()
         callBackStruct['fct'] = fun;
         callBackStruct['args'] = new Array();
 
-        for (var i = 0; i < arrayKey.length; i++)
+        for (var i = 0; i < arrayKey.length; i++) {
             callBackStruct['args'].push(arrayKey[i]);
+	}
 
         this._callBack.push(callBackStruct);
 
@@ -44,7 +45,7 @@ TW.Event.InputShortcut = function()
 
     /**
      * Delete the function from the callback collection
-     * @param funId
+     * @param {Number} funId
      */
     InputShortcut.prototype.delete = function(funId)
     {
