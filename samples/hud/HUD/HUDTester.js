@@ -10,7 +10,7 @@ var HUDTester = function() {
 	this.window.pushHUD(this.hud);
 	//this.window.pushView(this.view);
 	this.img = new Image();
-	this.img.src = "../images/caisse_cassable.png";
+	this.img.src = "../../graphic/images/caisse_cassable.png";
 	this.img_rect = new TW.Graphic.ImageRect(this.img, 0, 0, 64, 64);
 	this.context = context;
  }
