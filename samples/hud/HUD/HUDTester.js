@@ -4,7 +4,7 @@ var HUDTester = function() {
 	this.hudVertical = new TW.HUD.HUDVertical(context, 0, 0, 140, 700);
 	this.hud = new TW.HUD.HUD(context, 150, 110, 650, 590);
 	//this.view = new TW.Graphic.View(context, 0, 0, 800, 700);
-	this.window = new TW.Graphic.Window(800, 700, context);
+	this.window = new TW.Graphic.View(800, 700, context);
 	this.window.pushHUD(this.hudHorizontal);
 	this.window.pushHUD(this.hudVertical);
 	this.window.pushHUD(this.hud);
