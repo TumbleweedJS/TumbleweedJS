@@ -1,18 +1,19 @@
 /**
-* @module Graphic
+* @module HUD
 * @namespace HUD
 */
 
 /**
-HUD is a class that allow you to define a HUD object who can organize HUDElements on it and then add it to a Window object by the pushHUD method and then draw it by calling the method draw of the Window object.
+HUD is a class that allow you to define a HUD object who can organize HUDElements on it and then add it to a View object by the pushHUD method and then draw it by calling the method draw of the View object.
+HUD inherits from Layer class.
 */
 
 var TW = TW || {};
 TW.HUD = TW.HUD || {};
 
-TW.Graphic.HUD = function(){
+TW.HUD.HUD = function(){
 
-	HUD.prototype = new TW.Graphic.View("undefined", 0, 0, 0, 0);
+	HUD.prototype = new TW.Graphic.Layer("undefined", 0, 0, 0, 0);
 
 	/**
 	HUD constructor

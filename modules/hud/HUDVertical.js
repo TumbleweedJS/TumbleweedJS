@@ -1,18 +1,19 @@
 /**
-* @module Graphic
+* @module HUD
 * @namespace HUDVertical
 */
 
 /**
 HUDVertical is a class that allow you to define a HUD object who can organize verticaly HUDElements on it.
+Note that HUDVertical inherits from Layer class.
 */
 
 var TW = TW || {};
-TW.HUDVertical = TW.HUD || {};
+TW.HUD = TW.HUD || {};
 
-TW.Graphic.HUDVertical = function(){
+TW.HUD.HUDVertical = function(){
 
-	HUDVertical.prototype = new TW.Graphic.View("undefined", 0, 0, 0, 0);
+	HUDVertical.prototype = new TW.Graphic.Layer("undefined", 0, 0, 0, 0);
 
 	function HUDVertical(context, x, y, width, height)
 	{

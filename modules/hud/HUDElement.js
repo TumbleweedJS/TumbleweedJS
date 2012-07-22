@@ -4,7 +4,7 @@
 */
 
 /**
-HUDElement is a class that allow you to define a HUD object who can organize HUDElements on it and then add it to a Window object by the pushHUD method and then draw it by calling the method draw of the Window object.
+HUDElement is a class that allow you to define a HUD object who can organize HUDElements on it and then add it to a View object by the pushHUD method and then draw it by calling the method draw of the View object.
 */
 
 var TW = TW || {};

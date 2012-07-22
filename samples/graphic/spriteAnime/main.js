@@ -1,5 +1,5 @@
-//The main view who contains the animated sprite
-var view;
+//The main layer who contains the animated sprite
+var layer;
 //a boolean to store the left key state
 var left_pressed = false;
 //a boolean to store the right key state
@@ -93,15 +93,15 @@ var KeyID = event.keyCode;
   running_sprite_animated.setCenterPoint(running_sprite_animated.getWidth() / 2, running_sprite_animated.getHeight() / 2);
  
  
- //transfert the sprites contained into the array object to the View object
- function addSpritesToView(array, view)
+ //transfert the sprites contained into the array object to the Layer object
+ function addSpritesToLayer(array, layer)
  {
   var i = 0;
   var length = array.length;
   
   while (i < length)
    {
-    view.pushSprite(array[i]);
+    layer.pushSprite(array[i]);
     i++;
    }
  }
@@ -135,18 +135,18 @@ window.onload = function()
    //get the canvas' context
    var context = document.getElementById("my_canvas").getContext("2d");
    //instanciate a window object
-   var my_window = new TW.Graphic.Window(1200, 500, context);
-   //instanciate a view object
-   view = new TW.Graphic.View(context, 0, 0, 1200, 500);
+   var my_view = new TW.Graphic.View(1200, 500, context);
+   //instanciate a layer object
+   layer = new TW.Graphic.Layer(context, 0, 0, 1200, 500);
    //create an array sprite to hold animated sprites
    var array_sprite = new Array();
    
    //push the running_sprite_animated to the array_sprite object.
    array_sprite.push(running_sprite_animated);
-   //transfert the sprites contained by the array_sprite object to the view object.
-   addSpritesToView(array_sprite, view);
-   //add the view to the Window object.
-   my_window.pushView(view);
+   //transfert the sprites contained by the array_sprite object to the Layer object.
+   addSpritesToLayer(array_sprite, layer);
+   //add the layer to the Window object.
+   my_view.pushLayer(layer);
    
    //declare the callback function
    function callback()
@@ -182,7 +182,7 @@ window.onload = function()
 	//update the running_sprite_animated object.
 	running_sprite_animated.update();
 	//draw the scene
-    my_window.draw();
+    my_view.draw();
    }
    //setup the callback.
    window.setInterval(callback, 1000 / 60);

@@ -2,8 +2,8 @@ var fruit_img;
 var fruit_img_rect;
 var snake_head_img;
 var snake_head_img_rect;
-var my_win;
 var my_view;
+var my_layer;
 var canvas;
 var context;
 var snake_head_sprite;
@@ -23,7 +23,7 @@ var nb_tiles_width = 12;
 var nb_tiles_height = 12;
 
 window.onresize = function(){
-my_win.setFullBrowserCanvas(document.getElementById("my_canvas"));
+my_view.setFullBrowserCanvas(document.getElementById("my_canvas"));
 };
 
 window.onload = function() {
@@ -34,24 +34,24 @@ fruit_img_rect = new TW.Graphic.ImageRect(fruit_img, 0, 0, 64, 64);
 snake_head_img = new Image();
 snake_head_img.src = "../images/caisse_cassable.png";
 snake_head_img_rect = new TW.Graphic.ImageRect(snake_head_img, 0,0,64,64);
-my_win = new TW.Graphic.Window(768, 768, context);
-my_view = new TW.Graphic.View(context, 0, 0, 768, 768);
+my_view = new TW.Graphic.View(768, 768, context);
+my_layer = new TW.Graphic.Layer(context, 0, 0, 768, 768);
 canvas = document.getElementById('my_canvas');
 context = canvas.getContext("2d");
 snake_head_sprite = new TW.Graphic.Sprite(x_snake_head * tile_width,
 							   y_snake_head * tile_height,
 							   tile_width, tile_height,
-							   snake_head_img_rect, my_view);
+							   snake_head_img_rect, my_layer);
 corps_snake.push(snake_head_sprite);
-fruit_sprite = new TW.Graphic.Sprite(x_fruit * tile_width, y_fruit * tile_height, tile_width, tile_height, fruit_img_rect, my_view);
+fruit_sprite = new TW.Graphic.Sprite(x_fruit * tile_width, y_fruit * tile_height, tile_width, tile_height, fruit_img_rect, my_layer);
 score_text = new TW.Graphic.Text2D(10, 30, 30, 'Calibiri', "Score : "+score);
 //End of creating ressources
 
 //Linking ressources togethers
-my_view.pushSprite(snake_head_sprite);
-my_view.pushSprite(fruit_sprite);
-my_view.pushSprite(score_text);
-my_win.pushView(my_view);
+my_layer.pushSprite(snake_head_sprite);
+my_layer.pushSprite(fruit_sprite);
+my_layer.pushSprite(score_text);
+my_view.pushLayer(my_layer);
 //End of linking
 
 //Creating gameloop
@@ -60,12 +60,12 @@ gameloop = new GameLoop();
 //Creating snakeManager
 snakemanager = new SnakeManager();
 
-my_win.setFullBrowserCanvas(document.getElementById("my_canvas"));
+my_view.setFullBrowserCanvas(document.getElementById("my_canvas"));
 
 //Setting graphical context to draw on
 gameloop.SetContext(context);
 //add the window object to the gameLoop
-gameloop.AddObject(my_win);
+gameloop.AddObject(my_view);
 //add the snakeManager object to the gameLoop
 gameloop.AddObject(snakemanager);
 //Start running the GameLoop
@@ -112,9 +112,9 @@ SnakeManager.prototype.update = function(){
 	  var new_y_fruit = Math.floor(Math.random() * 12) * tile_height;
 	  fruit_sprite.setX(new_x_fruit);
 	  fruit_sprite.setY(new_y_fruit);
-	  var snake_elem = new TW.Graphic.Sprite(0,0,tile_width, tile_height, snake_head_img_rect, my_view);
+	  var snake_elem = new TW.Graphic.Sprite(0,0,tile_width, tile_height, snake_head_img_rect, my_layer);
 	  corps_snake.push(snake_elem);
-	  my_view.pushSprite(snake_elem);
+	  my_layer.pushSprite(snake_elem);
 	 }
  if (this.alive)
  {

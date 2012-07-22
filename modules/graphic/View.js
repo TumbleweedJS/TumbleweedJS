@@ -1,6 +1,6 @@
 /**
    @module Graphic
-   @namespace Graphic
+   @namespace View
 */
 
 var TW = TW || {};
@@ -9,102 +9,131 @@ TW.Graphic = TW.Graphic || {};
 TW.Graphic.View = function() {
 
     /**
-       The View container is like a layer where you pin other Views and some Sprites.
-       You can set the position, scale and rotation of the View, pinned elements are transformed by the position scale and rotation of the View.
-       The constructor View takes the following parameters : context, x, y, width, height.
-
+       The View class allow you to define an object who can hold Layers. You can rotate, scale, and set the position of the View.
        @class View
        @constructor
-       @param {graphicalContext2d} context the graphical context used by the View to draw on.
-       @param {integer} x the x coordinate of the View
-       @param {integer} y the y coordinate of the View
-       @param {integer} width the width of the View
-       @param {integer} height the height of the View 
+       @param {integer} width the width of the View, if a Layer is out of bounds of the View's width object then it will not be drawn
+       @param {integer} height the height of the View, if a Layer is out of bounds of the View's height object then it will not be drawn
+       @param {graphicalContext2d} context the canvas' context on which Layers will be drawn
     */
-    function View(context, x, y, width, height)
+    function View(width, height, context)
     {
-	/**
-	   the x coordinate of the View
-	   @property {integer} x
-	*/
-	this.x = x;
-	/**
-	   the y coordinate of the View
-	   @property {integer} y
-	*/
-	this.y = y;
-	/**
-	   the width of the View
-	   @property {integer} width
-	*/
 	this.width = width;
-	/**
-	   The height of the View
-	   @property {integer} height
-	*/
 	this.height = height;
-	this.listSprite = new Array();
-	this.listView = new Array();
-	this.context = context;
-	this.parentWindow = 0;
-	this.parentView = 0;
+	this.layerList = [];
+	this.hudList = [];
 	this.rotation = 0;
 	this.x_center = 0;
 	this.y_center = 0;
-	this.x_scale = 1.0;
-	this.y_scale = 1.0;
+	this.x = 0;
+	this.y = 0;
+	this.scale_x = 1.0;
+	this.scale_y = 1.0;
+	this.context = context;
     }
 
     /**
-       This method allow the user to get the width of the View
-
-       @method getWidth
-       @return {integer} width the width of the View
+       The setFullBrowserCanvas allow you to apply the same dimension of the actual browser to the canvas object in parameter
+       @method setFullBrowserCanvas
+       @param {Canvas} canvas the canvas to resize.
     */
-    View.prototype.getWidth = function()
+    View.prototype.setFullBrowserCanvas = function(canvas)
     {
-	return this.width;
+	var myWidth;
+	var myHeight;
+	var oldWidth = canvas.style.width;
+	var oldHeight = canvas.style.height;
+	
+	myWidth = window.document.body.clientWidth;
+	myHeight = window.document.body.clientHeight;
+	canvas.style.position = "absolute"; 
+	canvas.style.top = '0px';
+	canvas.style.left = '0px';
+	canvas.style.width = myWidth + 'px';
+	canvas.style.height = myHeight + 'px';
+	this.context = canvas.getContext('2d');
+	var scaleX = myWidth / oldWidth;
+	var scaleY = myHeight / oldHeight;
+	this.setScale(scaleX, scaleY);
     }
 
     /**
-       The method allow the user to get the height of the View
-
-       @method getHeight
-       @return {integer} height the height of the View
+       The setScale method allow you to set the scales factor of the View, note that you can scale each axis independently.
+       @method setScale
+       @param {float} x scale factor
+       @param {float} y scale factor
     */
-    View.prototype.getHeight = function()
+    View.prototype.setScale = function(x, y)
     {
-	return this.height;
+	this.scale_x = x;
+	this.scale_y = y;
     }
 
     /**
-       This method allow you to set the rotation angle of the View
-
-       @method setRotation
-       @param {float} rot the angle of rotation in degree
+       The getScale method allow you to get the scales factors of the View object.
+       @method getScale
+       @return {Object} returns an Object containing the x scale factor and the y scale factor like this one {x: scale_x, y: scale_y}.
     */
-    View.prototype.setRotation = function(rot)
+    View.prototype.getScale = function()
     {
-	this.rotation = rot / 180.0 * Math.PI;
+	return {x: this.scale_x, y: this.scale_y};
     }
 
     /**
-       This method allow you to get the rotation angle of the View
-
-       @method getRotation
-       @return {float} angle return the angle of rotation of the View
-    */
-    View.prototype.getRotation = function()
-    {
-	return this.rotation * 180.0 / Math.PI;
-    }
-
-    /**
-       This method allow you to set the center point of the View, Note that the center point is the center of rotation and the center of scale.
-
-       @method setCenterPoint
+       The setX method allow you to set the x coordinate of the View object.
+       @method setX
        @param {integer} x the x coordinate of the View
+    */
+    View.prototype.setX = function(x)
+    {
+	this.x = x;
+    }
+
+    /**
+       The getX method allow you to get the x coordinate of the View object.
+       @method getX
+       @return {integer} returns the  x coordinate of the View object
+    */
+    View.prototype.getX = function()
+    {
+	return this.x;
+    }
+
+    /**
+       The getY method allow you to get the y coordinate of the View object.
+       @method getY
+       @return {integer} returns the y coordinate of the View object
+    */
+    View.prototype.getY = function()
+    {
+	return this.y;
+    }
+
+    /**
+       The setY method allow you to set the y coordinate of the View object
+       @method setY
        @param {integer} y the y coordinate of the View
+    */
+    View.prototype.setY = function(y)
+    {
+	this.y = y;
+    }
+
+    /**
+       The setRotation method allow you to set the angle of rotation of the View object
+       @method setRotation
+       @param {integer} angle the angle expressed in degree of the View object
+    */
+    View.prototype.setRotation = function(angle)
+    {
+	this.rotation = angle / 180.0 * Math.PI;
+    }
+
+    /**
+       The setCenterPoint method allow you to set the center point (the center of rotation, scale, and translation) of the View object
+       @method setCenterPoint
+       @param {integer} x the x coordinate of the center point of the View object.
+       @param {integer} y the y coordinate of the center point of the View object.
     */
     View.prototype.setCenterPoint = function(x, y)
     {
@@ -113,10 +142,9 @@ TW.Graphic.View = function() {
     }
 
     /**
-       This method allow you to get the center point of the View
-
+       The getCenterPoint method allow you to get the center point of the View object
        @method getCenterPoint
-       @return {Object} the return value of the getCenterPoint who's structured like this {x: x_center, y: y_center}.
+       @return {Object} returns an object that contains the [x; y] coordinate of the center point of the View object.
     */
     View.prototype.getCenterPoint = function()
     {
@@ -124,294 +152,198 @@ TW.Graphic.View = function() {
     }
 
     /**
-       This method allow you to set the scale of the View, note that all View's child are transformed by the scale value
-
-       @method setScale
-       @param {float} x x scale factor of the View
-       @param {float} y y scale factor of the View
+       The getRotation method allow you to get the rotation angle of the View object
+       @method getRotation
+       @return {integer} returns the rotation angle of the View object expressed in degree.
     */
-    View.prototype.setScale = function(x, y)
+    View.prototype.getRotation = function()
     {
-	this.x_scale = x;
-	this.y_scale = y;
+	return this.rotation * 180.0 / Math.PI;
     }
 
     /**
-       This method allow you to get the scale of the View.
-
-       @method getScale
-       @return {Object} obj the return object contains the x and the y factor {x: x_scale, y: y_scale}.
-    */
-    View.prototype.getScale = function()
-    {
-	return {x: this.x_scale, y: this.y_scale};
-    }
-
-    /**
-       This method allow you to set the parent window of the View.
-
-       @method setWindow
-       @param {Window} window_object the parent window of the View.
-    */
-    View.prototype.setWindow = function(window_object)
-    {
-	this.parentWindow = window_object;
-    }
-
-    /**
-       This method allow you to set the parent view of the current view object.
-
-       @method setParentView
-       @param {View} view the parent view of the current view.
-    */
-    View.prototype.setParentView = function(view)
-    {
-	this.parentView = view;
-    }
-
-    /**
-       This method allow you to get the parent view of the current view
-
-       @method getParentView
-       @return {View} view the parent view of the current view object.
-    */
-    View.prototype.getParentView = function()
-    {
-	return this.parentView;
-    }
-
-    /**
-       This method allow you to set the parent Window of the View
-
-       @method setParentWindow
-       @param {Window} window the parent window of the View
-    */
-    View.prototype.setParentWindow = function(window)
-    {
-	this.parentWindow = window;
-    }
-
-    /**
-       This method allow you to get the parent window of the View
-
-       @method getWindow
-       @return {Window} window the parent window of the View
-    */
-    View.prototype.getWindow = function()
-    {
-	return this.parentWindow;
-    }
-
-    /**
-       This method allow you to resize the View
-
-       @method resize
-       @param {integer} the width of the View
-       @param {integer} the height of the View
-    */
-    View.prototype.resize = function(w, h)
-    {
-	this.width = w;
-	this.height = h;
-    }
-
-    /**
-       This method allow you to specify the new position of the View
-
-       @method move
-       @param {integer} the new x coordinate of the View
-       @param {integer} the new y coordinate of the View
-    */
-    View.prototype.move = function(x, y)
-    {
-	this.x = x;
-	this.y = y;
-    }
-
-    /**
-       This method allow you to get the position of the View
-
-       @method getPos
-       @return {Object} position an object who specify the coordinates of the View like this {x : x_pos, y : y_pos}
-    */
-    View.prototype.getPos = function()
-    {
-	return {x: this.x, y: this.y};
-    }
-
-    /**
-       This method allow you to get the dimensions (width and height) of the View
-
-       @method getDim
-       @return {Object} dimension an object who specify the width and the height of the View like this {w: width, h: height}
-    */
-    View.prototype.getDim = function()
-    {
-	return {w: this.width, h: this.height};
-    }
-
-    /**
-       This method allow you to push a view into the view, note that a view can hold other view, that make a kind of tree.
-
-       @method pushView
-       @param {View} view the View object to add to the current View
-    */
-    View.prototype.pushView = function(view)
-    {
-	this.listView.push(view);
-    }
-
-    /**
-       This method allow you supress an internal view from the current view.
-
-       @method popView
-       @param {View} ref the reference to the view to erase from the current view.
-       @return {boolean} bool return true if the ref was succesfully removed from the current View, otherwise it returns false.
-    */
-    View.prototype.popView = function (ref)
-    {
-	var length = this.listView.length;
-	var i = 0;
-
-	while (i < length)
-	{
-	    if (this.listView[i] === id)
-	    {
-		this.listView.split(i, 1);
-		return true;
-	    }
-	    else
-	    {
-		i++;
-	    }
-	}
-	return false;
-    }
-
-    /**
-       This method allow you to draw a View on a specified context, Note that when you add a view to a window object and then call the draw method of the window object, then the draw method of the window's views methods are called.
-
+       The draw method allow you to draw all the Layers contained into the View object, note that draw function will draw recursively all the Layers and apply every transformations recursively too.
        @method draw
-       @param {graphicalContext2d} ctx the canvas' context to draw on.
+       @param {graphicalContext2d} context the canvas's context on which draw method will draw. 
     */
-    View.prototype.draw = function(ctx)
+    View.prototype.draw = function (context)
     {
-	var length = this.listView.length;
+	var layerListLength = this.layerList.length;
 	var i = 0;
-	var tmp_ctx = ctx || 1;
-
-	if (tmp_ctx == 1)
-	    tmp_ctx = this.context;
+	var ctx_tmp = context || 1;
 	
-	tmp_ctx.save();
-	tmp_ctx.transform(1, 0, 0, 1, this.x, this.y);
-	tmp_ctx.transform(this.x_scale, 0, 0, this.y_scale, 0, 0);
-	tmp_ctx.transform(1, 0, 0, 1, this.x_center, this.y_center);
-	tmp_ctx.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
-	tmp_ctx.transform(1, 0, 0, 1, -this.x_center, -this.y_center);
-	while (i < length)
+	if (ctx_tmp == 1)
+	    ctx_tmp = this.context;
+	
+	ctx_tmp.save();
+	ctx_tmp.clearRect(0,0,this.width, this.height);
+	ctx_tmp.transform(1, 0, 0, 1, this.x, this.y);
+	ctx_tmp.transform(this.scale_x, 0, 0, this.scale_y, 0, 0);
+	ctx_tmp.transform(1, 0, 0, 1, this.x_center, this.y_center);
+	ctx_tmp.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
+	ctx_tmp.transform(1, 0, 0, 1, -this.x_center, -this.y_center);
+	while (i < layerListLength)
 	{
-	    if (this.listView[i].getX() < this.width && this.listView[i].getX() + this.listView[i].getWidth() >= 0 &&
-		this.listView[i].getY() < this.height && this.listView[i].getY() + this.listView[i].getHeight() >= 0)
-		this.listView[i].draw();
+	    if (this.layerList[i].getX() < this.width && this.layerList[i].getX() + this.layerList[i].getWidth() >= 0 &&
+		this.layerList[i].getY() < this.height && this.layerList[i].getY() + this.layerList[i].getHeight() >= 0)
+		this.layerList[i].draw(ctx_tmp);
 	    i++;
 	}
-	length = this.listSprite.length;
+	ctx_tmp.restore();
+	
+	var hudListLength = this.hudList.length;
 	i = 0;
-	while (i < length)
-	{
-	    if (this.listSprite[i].getX() < this.width && this.listSprite[i].getX() + this.listSprite[i].getWidth() >= 0 &&
-		this.listSprite[i].getY() < this.height && this.listSprite[i].getY() + this.listSprite[i].getHeight() >= 0)
-		this.listSprite[i].draw(tmp_ctx);
-	    i++;
-	}
-	tmp_ctx.restore();
+	while (i < hudListLength)
+	 {
+	  ctx_tmp.save();
+	  if (this.hudList[i].position == "relative")
+	   {
+	    if (this.hudList[i].left !== null)
+		 {
+		  //On transforme avec la marges left
+		  ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].left, 0);
+		 }
+		if (this.hudList[i].right !== null)
+		 {
+		  //On transforme avec la marges right
+		  ctx_tmp.transform(1, 0, 0, 1, this.width - this.hudList[i].right - this.hudList[i].width, 0);
+		 }
+		if (this.hudList[i].top !== null)
+		 {
+		  //On transforme avec la marges top
+		  ctx_tmp.transform(1, 0, 0, 1, 0, this.hudList[i].top);
+		 }
+		if (this.hudList[i].bottom !== null)
+		 {
+		  //On transforme avec la marges bottom
+		  ctx_tmp.transform(1, 0, 0, 1, 0, this.height - this.hudList[i].bottom - this.hudList[i].h + this.hudList[i].y_center);
+		 }
+		ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+		ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x_center, this.hudList[i].y_center);
+ 		ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+		//ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+		ctx_tmp.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
+		this.hudList[i].draw(ctx_tmp);
+	   }
+	  else
+	   {
+	    ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x, this.hudList[i].y);
+		ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+		ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x_center, this.hudList[i].y_center);
+		ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+		ctx_tmp.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
+		this.hudList[i].draw(ctx_tmp);
+	   }
+	  ctx_tmp.restore();
+	  i++;
+	 }
     }
 
     /**
-       This method allow you to set a new graphical context to draw on
-
-       @method setContext
-       @param {graphicalContext2d} context the canvas' context to draw on.
+       The getWidth method allow you to get the width of the View.
+       @method getWidth
+       @return {integer} returns the width of the View
     */
-    View.prototype.setContext = function(context)
+    View.prototype.getWidth = function ()
+    {
+	return this.width;
+    }
+
+    /**
+       The getHeight method allow you to get the height of the View
+       @method getHeight
+       @return {integer} returns the height of the View
+    */
+    View.prototype.getHeight = function ()
+    {
+	return this.height;
+    }
+
+    /**
+       The getContext method allow you to get the context of the View
+       @method getContext
+       @return {graphicalContext2d} canvas' context of the View.
+    */
+    View.prototype.getContext = function ()
+    {
+	return this.context;
+    }
+
+    /**
+       The setContext method allow you to set the context of the View
+       @method setContext
+       @param {graphicalContext2d} context the canvas' context to set on the View object.
+    */
+    View.prototype.setContext = function (context)
     {
 	this.context = context;
     }
 
     /**
-       This method allows you to get the context of the View
-
-       @method getContext
-       @return {graphicalContext2d} context the canvas' context.
+       The pushLayer method allow you to add a Layer to the View object.
+       @method pushLayer
+       @param {Layer} layer the Layer object to add to the View object
     */
-    View.prototype.getContext = function()
+    View.prototype.pushLayer = function(layer)
     {
-	return this.context;
+	layer.setView(this);
+	this.layerList.push(layer);
     }
-
-
-    /**
-       This method allow you to push a sprite on the View, when a sprite is pushed on a View, it is automatically drawned by the draw method of the parent View. the pushed Sprite is transformed by the scale, position and rotation of his View owner.
-
-       @method pushSprite
-       @param {Sprite} sprite the sprite to push on the View
+	
+	/**
+	 The pushHUD method allow you to add a HUD object to the View object.
+	 @method pushHUD
+	 @param {HUD} hudObject the hud object to add to the View object
     */
-    View.prototype.pushSprite = function(sprite)
-    {
-	this.listSprite.push(sprite);
-    }
-
-    /**
-       This method allow you to push a Text2D object on a View object.
-
-       @method pushText2D
-       @param {Text2D} textObject the text object to add to the View
-    */
-    View.prototype.pushText2D = function(textObject)
-    {
-	this.listSprite.push(textObject);
-    }
-
-    /**
-       This method allow you to erase a sprite from the current View
-
-       @method popSprite
-       @param {Sprite} ref the sprite to erase from the View
-    */
-    View.prototype.popSprite = function(ref)
-    {
-	var spriteListLength = this.spriteList.length;
+	View.prototype.pushHUD = function(hudObject)
+	{
+	 this.hudList.push(hudObject);
+	}
+	
+	/**
+	The popHUD method allow you to suppress a HUD object from the View object.
+	@method popHUD
+	@param {HUD} hudObject the hud object to suppress from the View object
+	*/
+	View.prototype.popHUD = function(hudObject)
+	{
+	var size = this.hudList.length;
 	var i = 0;
 
-	while (i < spriteListLength)
+	while (i < size)
 	{
-	    if (spriteList[i] === ref)
-		this.spriteList.splice(i,1);
+	    if (this.hudList[i] === hudObject)
+	    {
+		this.hudList.splice(i, 1);
+	    }
 	    else
+	    {
 		i++;
+	    }
 	}
-    }
-
-    /**
-       This method allow you to get the x coordinate of the View
-
-       @method getX
-       @return {integer} x the x coordinate of the View
+	}
+	
+	/**
+       The popLayer method allow you to suppress a Layer from the View object.
+       @method popLayer
+       @param {Layer} ref the reference of the Layer object to suppress from the current View object.
     */
-    View.prototype.getX = function()
+    View.prototype.popLayer = function(ref)
     {
-	return this.x;
-    }
+	var size = this.layerList.length;
+	var i = 0;
 
-    /**
-       This method allow you to get the y coordinate of the View
-
-       @method getY
-       @return {integer} y the y coordinate of the View*/
-    View.prototype.getY = function()
-    {
-	return this.y;
+	while (i < size)
+	{
+	    if (this.layerList[i] === ref)
+	    {
+		this.layerList.splice(i, 1);
+	    }
+	    else
+	    {
+		i++;
+	    }
+	}
     }
 
     return View;

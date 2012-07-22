@@ -11,12 +11,12 @@ var height_map = 6;
 
 //Reference of the rabbit sprite
 var sprite_rabbit;
-//Reference of the first View
-var view;
-//Reference of the second View
-var view2;
-//Reference of the third View
-var view3;
+//Reference of the first layer
+var layer;
+//Reference of the second layer
+var layer2;
+//Reference of the third layer
+var layer3;
 
 //Reference of the first text to display
 var text1;
@@ -217,8 +217,8 @@ var map = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
  }
  
 
- //Function who adds the contents of a Sprite's array to a View
- function addSpritesToView(array, view)
+ //Function who adds the contents of a Sprite's array to a layer
+ function addSpritesToLayer(array, layer)
  {
   var i = 0;
   var length = array.length;
@@ -227,7 +227,7 @@ var map = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
    {
     array[i].getAlpha();
 	array[i].setAlpha(0.5);
-    view.pushSprite(array[i]);
+    layer.pushSprite(array[i]);
     i++;
    }
    text1 = new TW.Graphic.Text2D(200, 50, 29, 'Calibri', "Premier test d'affichage");
@@ -237,8 +237,8 @@ var map = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
    text1.setFontStyle("normal");
    text1.setFont("arial");
    text1.setRVBColor(255, 0, 0);
-   view.pushText2D(text1);
-   view.pushText2D(text2);
+   layer.pushText2D(text1);
+   layer.pushText2D(text2);
  }
  
  //Function who rotate all the sprites contained in array_sprite by an angle
@@ -271,45 +271,45 @@ window.onload = function ()
 	//get the canvas context
    var context = document.getElementById("myCanvas").getContext("2d");
    //Create a Window object
-   var my_window = new TW.Graphic.Window(1200, 500, context);
-   //Create three View objects
-   view = new TW.Graphic.View(context, 0, 0, 1200, 500);
-   view2 = new TW.Graphic.View(context, 0, 0, 1200, 500);
-   view3 = new TW.Graphic.View(context, 0, 0, 1200, 500);
+   var my_view = new TW.Graphic.View(1200, 500, context);
+   //Create three layer objects
+   layer = new TW.Graphic.Layer(context, 0, 0, 1200, 500);
+   layer2 = new TW.Graphic.Layer(context, 0, 0, 1200, 500);
+   layer3 = new TW.Graphic.Layer(context, 0, 0, 1200, 500);
    //Create an array to fill it with some sprites
    var array_sprite = new Array();
    //Setting the onresize event to makes the canvas follow the browser's window dimension
    window.onresize = function() {
-   my_window.setFullBrowserCanvas(document.getElementById("myCanvas"));
+   my_view.setFullBrowserCanvas(document.getElementById("myCanvas"));
    };
    //create the sprites and push them to the array_sprite array
    createSprites(array_sprite);
-   //Adding sprites contained into the array_sprite array to the view object.
-   addSpritesToView(array_sprite, view);
-   //Adding sprites contained into the array_sprite array to the the view2 object.
-   addSpritesToView(array_sprite, view2);
-   //Adding sprites contained into the array_sprite array to the view3 object.
-   addSpritesToView(array_sprite, view3);
-   //Adding view to the window object
-   my_window.pushView(view);
-   //Setting the center of view object
-   view.setCenterPoint(600, 250);
-   //Adding view2 to view object.
-   view.pushView(view2);
-   //Setting the center point of the view2 object
-   view2.setCenterPoint(600, 250);
-   //Adding view3 to the view2 object
-   view2.pushView(view3);
-   //Scale the view2 object
-   view2.setScale(0.5, 0.5);
-   //Scale the view3 object
-   view3.setScale(0.5, 0.5);
-   //Set the center point of the view3 object
-   view3.setCenterPoint(600, 250);
-   //Set the position of the view2
-   view2.move(300, 180);
-   //Set the position of the view3
-   view3.move(300, 180);
+   //Adding sprites contained into the array_sprite array to the layer object.
+   addSpritesToLayer(array_sprite, layer);
+   //Adding sprites contained into the array_sprite array to the the layer2 object.
+   addSpritesToLayer(array_sprite, layer2);
+   //Adding sprites contained into the array_sprite array to the layer3 object.
+   addSpritesToLayer(array_sprite, layer3);
+   //Adding layer to the window object
+   my_view.pushLayer(layer);
+   //Setting the center of layer object
+   layer.setCenterPoint(600, 250);
+   //Adding layer2 to layer object.
+   layer.pushLayer(layer2);
+   //Setting the center point of the layer2 object
+   layer2.setCenterPoint(600, 250);
+   //Adding layer3 to the layer2 object
+   layer2.pushLayer(layer3);
+   //Scale the layer2 object
+   layer2.setScale(0.5, 0.5);
+   //Scale the layer3 object
+   layer3.setScale(0.5, 0.5);
+   //Set the center point of the layer3 object
+   layer3.setCenterPoint(600, 250);
+   //Set the position of the layer2
+   layer2.move(300, 180);
+   //Set the position of the layer3
+   layer3.move(300, 180);
    
    
    //Setting the callback function
@@ -343,14 +343,14 @@ window.onload = function ()
 	{
 	 sprite_rabbit.setX(sprite_rabbit.getX() + 5);
 	}
-	//We set the rotation angle of the Views object view, view2, view3 to angle degree
-	view.setRotation(angle);
-	view2.setRotation(angle);
-	view3.setRotation(angle);
-	//We set the scale of the view object to scale factor.
-	view.setScale(scale, scale);
+	//We set the rotation angle of the Layers object layer, layer2, layer3 to angle degree
+	layer.setRotation(angle);
+	layer2.setRotation(angle);
+	layer3.setRotation(angle);
+	//We set the scale of the layer object.
+	layer.setScale(scale, scale);
 	//We call the window's draw function to refresh the screen.
-    my_window.draw();
+    my_view.draw();
    }
    //configure the callback to 60 calls per seconds
    window.setInterval(callback, 1000 / 60);

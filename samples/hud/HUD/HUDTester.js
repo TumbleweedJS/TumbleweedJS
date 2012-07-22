@@ -1,8 +1,8 @@
 var HUDTester = function() {
  function HUDTester(context) {
-	this.hudHorizontal = new TW.Graphic.HUDHorizontal(context, 150, 0, 650, 100);
-	this.hudVertical = new TW.Graphic.HUDVertical(context, 0, 0, 140, 700);
-	this.hud = new TW.Graphic.HUD(context, 150, 110, 650, 590);
+	this.hudHorizontal = new TW.HUD.HUDHorizontal(context, 150, 0, 650, 100);
+	this.hudVertical = new TW.HUD.HUDVertical(context, 0, 0, 140, 700);
+	this.hud = new TW.HUD.HUD(context, 150, 110, 650, 590);
 	//this.view = new TW.Graphic.View(context, 0, 0, 800, 700);
 	this.window = new TW.Graphic.Window(800, 700, context);
 	this.window.pushHUD(this.hudHorizontal);

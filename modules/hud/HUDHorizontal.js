@@ -1,19 +1,20 @@
 /**
-* @module Graphic
+* @module HUD
 * @namespace HUDHorizontal
 */
 
 /**
 HUDHorizontal is a class that allow you to define a HUD object who can organize HUDElements horizontaly on it.
 Note that the HUDHorizontal object automatically organize objects with margin beetween them.
+HUDHorizontal inherits from Layer class.
 */
 
 var TW = TW || {};
-TW.HUDHorizontal = TW.HUD || {};
+TW.HUD = TW.HUD || {};
 
-TW.Graphic.HUDHorizontal = function(){
+TW.HUD.HUDHorizontal = function(){
 
-	HUDHorizontal.prototype = new TW.Graphic.View("undefined", 0, 0, 0, 0);
+	HUDHorizontal.prototype = new TW.Graphic.Layer("undefined", 0, 0, 0, 0);
 
 	function HUDHorizontal(context, x, y, width, height)
 	{
