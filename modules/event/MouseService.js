@@ -75,7 +75,7 @@ TW.Event.MouseService = function()
      */
     function setMousePosition(event)
     {
-        mousePosition['x'] = event.layerX
+        mousePosition['x'] = event.layerX;
         mousePosition['y'] = event.layerY;
 
         if (mousePosition['x'] < 0){mousePosition['x'] = 0}
@@ -90,7 +90,7 @@ TW.Event.MouseService = function()
     {
         mouseDown = true;
         click = false;
-    };
+    }
 
     /**
      * Update the state when the button is up
@@ -99,7 +99,7 @@ TW.Event.MouseService = function()
     function mouseUpFunction(event)
     {
         mouseDown = false;
-    };
+    }
 
     /**
      * Update the state when the action is a simple click
@@ -108,7 +108,7 @@ TW.Event.MouseService = function()
     function mouseClickFunction(event)
     {
         click = true;
-    };
+    }
 
     /**
      * Check if the button is down
@@ -120,7 +120,7 @@ TW.Event.MouseService = function()
         if (mouseCode == MouseEnum.Left)
             return mouseDown;
         return false;
-    };
+    }
 
     /**
      * Check if the action is a simple click
@@ -131,7 +131,7 @@ TW.Event.MouseService = function()
         var temp = click;
         click = false;
         return temp;
-    };
+    }
 
     /**
      * Get the mouse position
@@ -140,7 +140,7 @@ TW.Event.MouseService = function()
     function getMousePosition()
     {
         return mousePosition;
-    };
+    }
 
     //public service interface.
     return {

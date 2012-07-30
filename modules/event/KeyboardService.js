@@ -451,7 +451,6 @@ TW.Event.KeyboardService = function() {
         isOldKeyDown: isOldKeyDown,
         isKeyUp: isKeyUp,
         isKeyPressed: isKeyPressed,
-        keyDown : keyDown
     };
 }();
 

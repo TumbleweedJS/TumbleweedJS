@@ -30,9 +30,9 @@ TW.Event.InputShortcut = function()
      */
     InputShortcut.prototype.add  = function(arrayKey, fun)
     {
-        var callBackStruct = new Array();
+        var callBackStruct = [];
         callBackStruct['fct'] = fun;
-        callBackStruct['args'] = new Array();
+        callBackStruct['args'] = [];
 
         for (var i = 0; i < arrayKey.length; i++) {
             callBackStruct['args'].push(arrayKey[i]);
@@ -68,8 +68,6 @@ TW.Event.InputShortcut = function()
                     tBool = false;
                     break;
                 }
-                else
-                    tBool = true;
             }
             if (tBool && this._callBack[it]['args'].length > 0)
             {
