@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 		//expr: true,	//???
 		//laxbreak:true,//TODO: instructions multi-lignes ?
 		multistr:true,
-		//smarttabs:true,//Mixed Tabs and Spaces ?
+		smarttabs:true,	//Mixed Tabs and Spaces ?
 
 		/*	plus strict:	*/
 		//immed: false	//Allow to not add parenthesis around anonymous func.
