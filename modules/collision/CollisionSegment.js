@@ -72,10 +72,7 @@ TW.Collision.CollisionSegment = function() {
  	    return false;
 	m = -((-vector_i.getX() * ay) + (vector_i.getX() * cy) + (vector_i.getY() * ax) - (vector_i.getY() * cx)) / denominateur;
 	k = -((ax * vector_j.getY()) - (cx * vector_j.getY()) - (vector_j.getX() * ay) + (vector_j.getX() * cy)) / denominateur
-	if (0 <= m && m <= 1 && 0 <= k && k <= 1)
-	    return true;
-	else
-	    return false; 
+	return (0 <= m && m <= 1 && 0 <= k && k <= 1);
     }
 
     /**
