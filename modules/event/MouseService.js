@@ -135,7 +135,12 @@ TW.Event.MouseService = function()
 
     /**
      * Get the mouse position
-     * @return {Array}
+     *
+     * @method getMousePosition
+     * @return {Object} {
+     * x: the x position,
+     * y: the y position
+     * }
      */
     function getMousePosition()
     {
