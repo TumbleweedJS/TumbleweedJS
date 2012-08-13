@@ -17,18 +17,18 @@ TW.Graphic.View = function() {
        @param {graphicalContext2d} context the canvas' context on which Layers will be drawn
     */
     function View(width, height, context) {
-		this.width = width;
-		this.height = height;
-		this.layerList = [];
-		this.hudList = [];
-		this.rotation = 0;
-		this.x_center = 0;
-		this.y_center = 0;
-		this.x = 0;
-		this.y = 0;
-		this.scale_x = 1.0;
-		this.scale_y = 1.0;
-		this.context = context;
+		  this.width = width;
+		  this.height = height;
+		  this.layerList = [];
+		  this.hudList = [];
+		  this.rotation = 0;
+		  this.x_center = 0;
+		  this.y_center = 0;
+		  this.x = 0;
+		  this.y = 0;
+		  this.scale_x = 1.0;
+		  this.scale_y = 1.0;
+		  this.context = context;
     }
 
     /**
@@ -37,22 +37,22 @@ TW.Graphic.View = function() {
        @param {Canvas} canvas the canvas to resize.
     */
     View.prototype.setFullBrowserCanvas = function(canvas) {
-	var myWidth;
-	var myHeight;
-	var oldWidth = canvas.style.width;
-	var oldHeight = canvas.style.height;
+	   var myWidth;
+	   var myHeight;
+	   var oldWidth = canvas.style.width;
+	   var oldHeight = canvas.style.height;
 	
-	myWidth = window.document.body.clientWidth;
-	myHeight = window.document.body.clientHeight;
-	canvas.style.position = "absolute"; 
-	canvas.style.top = '0px';
-	canvas.style.left = '0px';
-	canvas.style.width = myWidth + 'px';
-	canvas.style.height = myHeight + 'px';
-	this.context = canvas.getContext('2d');
-	var scaleX = myWidth / oldWidth;
-	var scaleY = myHeight / oldHeight;
-	this.setScale(scaleX, scaleY);
+	   myWidth = window.document.body.clientWidth;
+	   myHeight = window.document.body.clientHeight;
+	   canvas.style.position = "absolute"; 
+	   canvas.style.top = '0px';
+	   canvas.style.left = '0px';
+	   canvas.style.width = myWidth + 'px';
+	   canvas.style.height = myHeight + 'px';
+	   this.context = canvas.getContext('2d');
+	   var scaleX = myWidth / oldWidth;
+	   var scaleY = myHeight / oldHeight;
+	   this.setScale(scaleX, scaleY);
     };
 
     /**
@@ -62,8 +62,8 @@ TW.Graphic.View = function() {
        @param {float} y scale factor
     */
     View.prototype.setScale = function(x, y) {
-	this.scale_x = x;
-	this.scale_y = y;
+	   this.scale_x = x;
+	   this.scale_y = y;
     };
 
     /**
@@ -72,7 +72,7 @@ TW.Graphic.View = function() {
        @return {Object} returns an Object containing the x scale factor and the y scale factor like this one {x: scale_x, y: scale_y}.
     */
     View.prototype.getScale = function() {
-	return {x: this.scale_x, y: this.scale_y};
+	   return {x: this.scale_x, y: this.scale_y};
     };
 
     /**
@@ -81,7 +81,7 @@ TW.Graphic.View = function() {
        @param {integer} x the x coordinate of the View
     */
     View.prototype.setX = function(x) {
-	this.x = x;
+	   this.x = x;
     };
 
     /**
@@ -90,7 +90,7 @@ TW.Graphic.View = function() {
        @return {integer} returns the  x coordinate of the View object
     */
     View.prototype.getX = function() {
-	return this.x;
+	   return this.x;
     };
 
     /**
@@ -99,7 +99,7 @@ TW.Graphic.View = function() {
        @return {integer} returns the y coordinate of the View object
     */
     View.prototype.getY = function() {
-	return this.y;
+	   return this.y;
     };
 
     /**
@@ -108,7 +108,7 @@ TW.Graphic.View = function() {
        @param {integer} y the y coordinate of the View
     */
     View.prototype.setY = function(y) {
-	this.y = y;
+	   this.y = y;
     };
 
     /**
@@ -117,7 +117,7 @@ TW.Graphic.View = function() {
        @param {integer} angle the angle expressed in degree of the View object
     */
     View.prototype.setRotation = function(angle) {
-	this.rotation = angle / 180.0 * Math.PI;
+	     this.rotation = angle / 180.0 * Math.PI;
     };
 
     /**
@@ -127,8 +127,8 @@ TW.Graphic.View = function() {
        @param {integer} y the y coordinate of the center point of the View object.
     */
     View.prototype.setCenterPoint = function(x, y) {
-	this.x_center = x;
-	this.y_center = y;
+	   this.x_center = x;
+	   this.y_center = y;
     };
 
     /**
@@ -137,7 +137,7 @@ TW.Graphic.View = function() {
        @return {Object} returns an object that contains the [x; y] coordinate of the center point of the View object.
     */
     View.prototype.getCenterPoint = function() {
-	return {x: this.x_center, y: this.y_center};
+	     return {x: this.x_center, y: this.y_center};
     };
 
     /**
@@ -146,7 +146,7 @@ TW.Graphic.View = function() {
        @return {integer} returns the rotation angle of the View object expressed in degree.
     */
     View.prototype.getRotation = function() {
-	return this.rotation * 180.0 / Math.PI;
+	   return this.rotation * 180.0 / Math.PI;
     };
 
     /**
@@ -155,67 +155,66 @@ TW.Graphic.View = function() {
        @param {graphicalContext2d} context the canvas's context on which draw method will draw. 
     */
     View.prototype.draw = function (context) {
-		var layerListLength = this.layerList.length;
-		var i = 0;
-		var ctx_tmp = context || 1;
+		    var layerListLength = this.layerList.length;
+		    var i = 0;
+		    var ctx_tmp = context || 1;
 	
-		if (ctx_tmp == 1)
-	    	ctx_tmp = this.context;
+		    if (ctx_tmp == 1) {
+	    	  ctx_tmp = this.context;
+        }
+		    ctx_tmp.save();
+		    ctx_tmp.clearRect(0,0,this.width, this.height);
+		    ctx_tmp.transform(1, 0, 0, 1, this.x, this.y);
+		    ctx_tmp.transform(this.scale_x, 0, 0, this.scale_y, 0, 0);
+		    ctx_tmp.transform(1, 0, 0, 1, this.x_center, this.y_center);
+		    ctx_tmp.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
+		    ctx_tmp.transform(1, 0, 0, 1, -this.x_center, -this.y_center);
+		    while (i < layerListLength) {
+	    	  if (this.layerList[i].getX() < this.width && this.layerList[i].getX() + this.layerList[i].getWidth() >= 0 &&
+				      this.layerList[i].getY() < this.height && this.layerList[i].getY() + this.layerList[i].getHeight() >= 0) {
+				      this.layerList[i].draw(ctx_tmp);
+				    }
+	       i++;
+		    }
+		    ctx_tmp.restore();
 	
-		ctx_tmp.save();
-		ctx_tmp.clearRect(0,0,this.width, this.height);
-		ctx_tmp.transform(1, 0, 0, 1, this.x, this.y);
-		ctx_tmp.transform(this.scale_x, 0, 0, this.scale_y, 0, 0);
-		ctx_tmp.transform(1, 0, 0, 1, this.x_center, this.y_center);
-		ctx_tmp.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
-		ctx_tmp.transform(1, 0, 0, 1, -this.x_center, -this.y_center);
-		while (i < layerListLength) {
-	    	if (this.layerList[i].getX() < this.width && this.layerList[i].getX() + this.layerList[i].getWidth() >= 0 &&
-				this.layerList[i].getY() < this.height && this.layerList[i].getY() + this.layerList[i].getHeight() >= 0) {
-				this.layerList[i].draw(ctx_tmp);
-				}
-	    i++;
-		}
-		ctx_tmp.restore();
-	
-		var hudListLength = this.hudList.length;
-		i = 0;
-		while (i < hudListLength) {
-	  		ctx_tmp.save();
-	  		if (this.hudList[i].position == "relative") {
-	    		if (this.hudList[i].left !== null) {
-		  			//On transforme avec la marges left
-		  			ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].left, 0);
-		 		}
-				if (this.hudList[i].right !== null) {
-		  			//On transforme avec la marges right
-		  			ctx_tmp.transform(1, 0, 0, 1, this.width - this.hudList[i].right - this.hudList[i].width, 0);
-		 		}
-				if (this.hudList[i].top !== null) {
-		  			//On transforme avec la marges top
-		  			ctx_tmp.transform(1, 0, 0, 1, 0, this.hudList[i].top);
-		 		}
-				if (this.hudList[i].bottom !== null) {
-		  			//On transforme avec la marges bottom
-		  			ctx_tmp.transform(1, 0, 0, 1, 0, this.height - this.hudList[i].bottom - this.hudList[i].h + this.hudList[i].y_center);
-		 		}
-			ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
-			ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x_center, this.hudList[i].y_center);
- 			ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
-			ctx_tmp.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
-			this.hudList[i].draw(ctx_tmp);
-	  		}
-	  	else {
-	    	ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x, this.hudList[i].y);
-			ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
-			ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x_center, this.hudList[i].y_center);
-			ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
-			ctx_tmp.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
-			this.hudList[i].draw(ctx_tmp);
-	   		}
-	  	ctx_tmp.restore();
-	  i++;
-	 }
+		    var hudListLength = this.hudList.length;
+		    i = 0;
+		    while (i < hudListLength) {
+	  		   ctx_tmp.save();
+	  		     if (this.hudList[i].position == "relative") {
+	    		       if (this.hudList[i].left !== null) {
+		  			       //On transforme avec la marges left
+		  			       ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].left, 0);
+		 		         }
+				        if (this.hudList[i].right !== null) {
+		  			       //On transforme avec la marges right
+		  			       ctx_tmp.transform(1, 0, 0, 1, this.width - this.hudList[i].right - this.hudList[i].width, 0);
+		 		         }
+				        if (this.hudList[i].top !== null) {
+		  			       //On transforme avec la marges top
+		  			       ctx_tmp.transform(1, 0, 0, 1, 0, this.hudList[i].top);
+		 		         }
+				        if (this.hudList[i].bottom !== null) {
+		  			       //On transforme avec la marges bottom
+		  			       ctx_tmp.transform(1, 0, 0, 1, 0, this.height - this.hudList[i].bottom - this.hudList[i].h + this.hudList[i].y_center);
+		 		         }
+			         ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+			         ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x_center, this.hudList[i].y_center);
+ 			         ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+			         ctx_tmp.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
+			         this.hudList[i].draw(ctx_tmp);
+	  		     } else {
+	    	    ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x, this.hudList[i].y);
+			      ctx_tmp.transform(this.hudList[i].scale_x, 0, 0, this.hudList[i].scale_y, 0, 0);
+			      ctx_tmp.transform(1, 0, 0, 1, this.hudList[i].x_center, this.hudList[i].y_center);
+			      ctx_tmp.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
+			      ctx_tmp.transform(1, 0, 0, 1, -this.hudList[i].x_center, -this.hudList[i].y_center);
+			      this.hudList[i].draw(ctx_tmp);
+	   		    }
+	  	  ctx_tmp.restore();
+	      i++;
+	     }
     };
 
     /**
@@ -223,9 +222,8 @@ TW.Graphic.View = function() {
        @method getWidth
        @return {integer} returns the width of the View
     */
-    View.prototype.getWidth = function ()
-    {
-	return this.width;
+    View.prototype.getWidth = function () {
+	     return this.width;
     };
 
     /**
@@ -233,9 +231,8 @@ TW.Graphic.View = function() {
        @method getHeight
        @return {integer} returns the height of the View
     */
-    View.prototype.getHeight = function ()
-    {
-	return this.height;
+    View.prototype.getHeight = function () {
+	     return this.height;
     };
 
     /**
@@ -243,9 +240,8 @@ TW.Graphic.View = function() {
        @method getContext
        @return {graphicalContext2d} canvas' context of the View.
     */
-    View.prototype.getContext = function ()
-    {
-		return this.context;
+    View.prototype.getContext = function () {
+		  return this.context;
     };
 
     /**
@@ -253,9 +249,8 @@ TW.Graphic.View = function() {
        @method setContext
        @param {graphicalContext2d} context the canvas' context to set on the View object.
     */
-    View.prototype.setContext = function (context)
-    {
-		this.context = context;
+    View.prototype.setContext = function (context) {
+		  this.context = context;
     };
 
     /**
@@ -264,9 +259,9 @@ TW.Graphic.View = function() {
        @param {Layer} layer the Layer object to add to the View object
     */
     View.prototype.pushLayer = function(layer) {
-		layer.setView(this);
-		this.layerList.push(layer);
-		this.layerList.sort(this._sortLayersByDepth);
+		    layer.setView(this);
+		    this.layerList.push(layer);
+		    this.layerList.sort(this._sortLayersByDepth);
     };
 
     /**
@@ -298,10 +293,10 @@ TW.Graphic.View = function() {
 
 		while (i < size) {
 	    	if (this.hudList[i] === hudObject) {
-				this.hudList.splice(i, 1);
+				  this.hudList.splice(i, 1);
 	    	}
 	    	else {
-				i++;
+				  i++;
 	    	}
 		}
 	};
@@ -311,21 +306,18 @@ TW.Graphic.View = function() {
        @method popLayer
        @param {Layer} ref the reference of the Layer object to suppress from the current View object.
     */
-    View.prototype.popLayer = function(ref)
-    {
-	var size = this.layerList.length;
-	var i = 0;
+    View.prototype.popLayer = function(ref) {
+	     var size = this.layerList.length;
+	     var i = 0;
 
-		while (i < size) {
-	    	if (this.layerList[i] === ref) {
-				this.layerList.splice(i, 1);
-	    	}
-	    	else {
-			i++;
-	    	}
-		}
+		    while (i < size) {
+	    	  if (this.layerList[i] === ref) {
+				    this.layerList.splice(i, 1);
+	    	  } else {
+			      i++;
+	    	  }
+		    }
     };
 
     return View;
-
 }();

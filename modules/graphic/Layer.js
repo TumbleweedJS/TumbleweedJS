@@ -282,9 +282,9 @@ TW.Graphic.Layer = function() {
 	   var i = 0;
 	   var tmp_ctx = ctx || 1;
 
-	   if (tmp_ctx == 1)
+	   if (tmp_ctx == 1) {
 	     tmp_ctx = this.context;
-	
+     }
 	   tmp_ctx.save();
 	   tmp_ctx.transform(1, 0, 0, 1, this.x, this.y);
 	   tmp_ctx.transform(this.x_scale, 0, 0, this.y_scale, 0, 0);
@@ -293,16 +293,18 @@ TW.Graphic.Layer = function() {
 	   tmp_ctx.transform(1, 0, 0, 1, -this.x_center, -this.y_center);
 	   while (i < length) {
 	     if (this.listLayer[i].getX() < this.width && this.listLayer[i].getX() + this.listLayer[i].getWidth() >= 0 &&
-		      this.listLayer[i].getY() < this.height && this.listLayer[i].getY() + this.listLayer[i].getHeight() >= 0)
+		      this.listLayer[i].getY() < this.height && this.listLayer[i].getY() + this.listLayer[i].getHeight() >= 0) {
 		        this.listLayer[i].draw();
+        }
 	    i++;
 	   }
 	   length = this.listSprite.length;
 	   i = 0;
 	   while (i < length) {
 	    if (this.listSprite[i].getX() < this.width && this.listSprite[i].getX() + this.listSprite[i].getWidth() >= 0 &&
-		      this.listSprite[i].getY() < this.height && this.listSprite[i].getY() + this.listSprite[i].getHeight() >= 0)
+		      this.listSprite[i].getY() < this.height && this.listSprite[i].getY() + this.listSprite[i].getHeight() >= 0) {
 		        this.listSprite[i].draw(tmp_ctx);
+        }
 	    i++;
 	   }
 	   tmp_ctx.restore();
@@ -372,9 +374,8 @@ TW.Graphic.Layer = function() {
 	   while (i < spriteListLength) {
 	     if (spriteList[i] === ref) {
 		    this.spriteList.splice(i,1);
-      }
-	     else {
-		  i++;
+      } else {
+		    i++;
       }
 	   }
     };
@@ -396,7 +397,7 @@ TW.Graphic.Layer = function() {
        @return {integer} y the y coordinate of the Layer*/
     Layer.prototype.getY = function() {
 	   return this.y;
-    }
+    };
 
     return Layer;
 

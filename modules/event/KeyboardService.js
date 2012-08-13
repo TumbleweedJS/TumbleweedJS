@@ -335,8 +335,7 @@ TW.Event.KeyboardService = function() {
     function _updateDown(event) {
         _updateArray();
 
-        for (var it = 0; it < keyDown.length; it++)
-        {
+        for (var it = 0; it < keyDown.length; it++) {
             if (keyDown[it] == event.keyCode) {
                 return;
             }

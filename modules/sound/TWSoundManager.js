@@ -186,7 +186,9 @@ TW.Sound.Manager = function() {
      @method getMasterVolume
      @return {Number} A current master volume.
      **/
-    Manager.prototype.getMasterVolume = function() { return this.masterVolume; };
+    Manager.prototype.getMasterVolume = function() {
+        return this.masterVolume;
+    };
 
     /**
      Mute or Unmute all sound in every channel.

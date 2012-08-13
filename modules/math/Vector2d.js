@@ -15,8 +15,7 @@ TW.Math.Vector2d = function() {
        @param {float} y the y coordinate of the Vector2d
        @constructor
     */
-    function Vector2d(x, y)
-    {
+    function Vector2d(x, y) {
 	/**
 	   x coordinate
 	   @property {Number} x
@@ -37,8 +36,7 @@ TW.Math.Vector2d = function() {
        @return {Vector2d} return the sum of the two Vector2d
     */
     Vector2d.prototype.add = function(vector) {
-	return new Vector2d(this.x + vector.getX(),
-			    this.y + vector.getY());
+	   return new Vector2d(this.x + vector.getX(), this.y + vector.getY());
     };
 
     /**
@@ -49,7 +47,7 @@ TW.Math.Vector2d = function() {
        @return {Vector2d} returns the substraction of this and vector object.
     */
     Vector2d.prototype.sub = function(vector) {
-	return new Vector2d(this.x - vector.getX(), this.y - vector.getY());
+	   return new Vector2d(this.x - vector.getX(), this.y - vector.getY());
     };
 
     /**
@@ -60,7 +58,7 @@ TW.Math.Vector2d = function() {
        @return {Vector2d} returns the current Vector2d multiplied by scalar.
     */
     Vector2d.prototype.mult = function(scalar) {
-	return new Vector2d(this.x * scalar, this.y * scalar);
+	   return new Vector2d(this.x * scalar, this.y * scalar);
     };
 
     /**
@@ -71,7 +69,7 @@ TW.Math.Vector2d = function() {
        @return {Vector2d} returns the current Vector2d divided by scalar
     */
     Vector2d.prototype.div = function(scalar) {
-	return new Vector2d(this.x / scalar, this.y / scalar);
+	   return new Vector2d(this.x / scalar, this.y / scalar);
     };
 
     /**
@@ -82,7 +80,7 @@ TW.Math.Vector2d = function() {
        @deprecated use directly Vector2d.x
     */
     Vector2d.prototype.getX = function() {
-	return this.x;
+	   return this.x;
     };
 
     /**
@@ -93,7 +91,7 @@ TW.Math.Vector2d = function() {
        @deprecated use directly Vector2d.y
     */
     Vector2d.prototype.getY = function() {
-	return this.y;
+	   return this.y;
     };
 
     /**
@@ -104,7 +102,7 @@ TW.Math.Vector2d = function() {
        @deprecated use directly Vector2d.x
     */
     Vector2d.prototype.setX = function(x) {
-	this.x = x;
+	   this.x = x;
     };
 
     /**
@@ -114,7 +112,7 @@ TW.Math.Vector2d = function() {
        @deprecated use directly Vector2d.y
     */
     Vector2d.prototype.setY = function(y) {
-	this.y = y;
+      this.y = y;
     };
 
     /**
@@ -123,9 +121,9 @@ TW.Math.Vector2d = function() {
        @method normalize
     */
     Vector2d.prototype.normalize = function() {
-	var length = Math.sqrt((this.x * this.x) + (this.y * this.y));
-	this.x = this.x / length;
-	this.y = this.y / length;
+	   var length = Math.sqrt((this.x * this.x) + (this.y * this.y));
+	   this.x = this.x / length;
+	   this.y = this.y / length;
     };
 
     /**
@@ -135,7 +133,7 @@ TW.Math.Vector2d = function() {
        @return {float} returns the length of the Vector2d.
     */
     Vector2d.prototype.getLength = function() {
-	return Math.sqrt((this.x * this.x) + (this.y * this.y));
+	   return Math.sqrt((this.x * this.x) + (this.y * this.y));
     };
 
     /**
@@ -145,9 +143,9 @@ TW.Math.Vector2d = function() {
        @param {float} length the length to apply to the current Vector2d
     */
     Vector2d.prototype.setLength = function(length) {
-	this.normalize();
-	this.x = this.x * length;
-	this.y = this.y * length;
+	   this.normalize();
+	   this.x = this.x * length;
+	   this.y = this.y * length;
     };
 
     /**
@@ -157,16 +155,18 @@ TW.Math.Vector2d = function() {
        @return {float} returns the angle of the current Vector2d (expressed in degree).
     */
     Vector2d.prototype.getAngle = function() {
-	if (this.x == 0)
-	{
-	    if (this.y > 0)
-		return 90;
-	    if (this.y < 0)
-		return -90;
-	    if (this.y == 0)
-		return 0;
-	}
-	return Math.atan(this.y / this.x) * 180.0 / Math.PI;
+	   if (this.x == 0) {
+	     if (this.y > 0) {
+		    return 90;
+        }
+	     if (this.y < 0) {
+		    return -90;
+        }
+	     if (this.y == 0) {
+		    return 0;
+        }
+	   }
+	   return Math.atan(this.y / this.x) * 180.0 / Math.PI;
     };
 
 
@@ -177,9 +177,9 @@ TW.Math.Vector2d = function() {
        @param {float} angle the angle to apply to the current Vector2d (angle is expressed in degree)
     */
     Vector2d.prototype.setAngle = function(angle) {
-	var length = this.getLength();
-	this.x = Math.cos(angle / 180.0 * Math.PI) * length;
-	this.y = Math.sin(angle / 180.0 * Math.PI) * length;
+	   var length = this.getLength();
+	   this.x = Math.cos(angle / 180.0 * Math.PI) * length;
+	   this.y = Math.sin(angle / 180.0 * Math.PI) * length;
     };
 
     /**
@@ -190,7 +190,7 @@ TW.Math.Vector2d = function() {
        @return {float} returns the dot product beetween the current Vector2d and vector2.
     */
     Vector2d.prototype.dotProduct = function(vector2) {
-	return ((this.x * vector2.getX()) + (this.y * vector2.getY()));
+	   return ((this.x * vector2.getX()) + (this.y * vector2.getY()));
     };
 
     /**
@@ -201,11 +201,11 @@ TW.Math.Vector2d = function() {
        @return {float} returns the angle beetween the current Vector2d and vector2 (expressed in degree).
     */
     Vector2d.prototype.getAngleBeetween = function(vector2) {
-	var dot_prod = this.dotProduct(vector2);
-	var length_v1 = this.getLength();
-	var length_v2 = vector2.getLength();
-	var cos = dot_prod / (length_v1 * length_v2);
-	return Math.acos(cos) * 180.0 / Math.PI;
+	     var dot_prod = this.dotProduct(vector2);
+	     var length_v1 = this.getLength();
+	     var length_v2 = vector2.getLength();
+	     var cos = dot_prod / (length_v1 * length_v2);
+	     return Math.acos(cos) * 180.0 / Math.PI;
     };
 
     /**
@@ -216,7 +216,7 @@ TW.Math.Vector2d = function() {
        @return {float} returns the cross product beetween the current Vector2d and vector2
     */
     Vector2d.prototype.crossProduct = function(vector2) {
-	return ((this.x * vector2.getY())-(this.y * vector2.getX()));
+	   return ((this.x * vector2.getY())-(this.y * vector2.getX()));
     };
 
     /**
@@ -227,7 +227,7 @@ TW.Math.Vector2d = function() {
        @return {float} returns the det of the current Vector2d and vector, if the return value > 0 then vector is at left of this, if the return value is < 0 then vector is at right of this, if the return value is equal to 0 then vector is on this.
     */
     Vector2d.prototype.getDet = function(vector) {
-	return this.crossProduct(vector);
+	   return this.crossProduct(vector);
     };
 
     /**
@@ -237,7 +237,7 @@ TW.Math.Vector2d = function() {
        @deprecated use `window.alert(vector);` instead
     */
     Vector2d.prototype.dump = function() {
-	window.alert(this);
+	     window.alert(this);
     };
 
     /**
@@ -247,7 +247,7 @@ TW.Math.Vector2d = function() {
        @return {String} data representation of Vector2d
     */
     Vector2d.prototype.toString = function() {
-	return "[x=" + this.x + "; y=" + this.y + "]";
+	     return "[x=" + this.x + "; y=" + this.y + "]";
     };
     
     return Vector2d;

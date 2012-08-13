@@ -99,7 +99,6 @@ TW.Gameloop.Gameloop = function() {
 	   @property {Array} object
 	 */
 	this.object = [];
-;
     }
 
     /**
@@ -136,7 +135,7 @@ TW.Gameloop.Gameloop = function() {
 	if (this._update_handler !== null) {
 	    clearInterval(this._update_handler);
 	    this._update_handler = null;
-	}
+		}
     };
     
     /**
@@ -186,17 +185,16 @@ TW.Gameloop.Gameloop = function() {
        @method draw
      */
     Gameloop.prototype.draw = function() {
-	for (var i = 0; i < this.object.length; i++) {
-	    if (typeof this.object[i] === "object"
-		&& typeof this.object[i].draw !== "undefined") {
-		this.object[i].draw();
-	    }
-	}
-	if (anim_frame !== null) {
-	    this._draw_handler = anim_frame(this.draw.bind(this));
-	}
+		for (var i = 0; i < this.object.length; i++) {
+	    	if (typeof this.object[i] === "object"
+				&& typeof this.object[i].draw !== "undefined") {
+					this.object[i].draw();
+	    	}
+		}
+		if (anim_frame !== null) {
+	    	this._draw_handler = anim_frame(this.draw.bind(this));
+		}
     };
     
     return Gameloop;
-    
 }();
