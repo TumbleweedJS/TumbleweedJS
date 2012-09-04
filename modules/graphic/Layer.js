@@ -21,38 +21,42 @@ TW.Graphic.Layer = function() {
        @param {integer} width the width of the Layer
        @param {integer} height the height of the Layer 
     */
-    function Layer(context, x, y, width, height)
-    {
-	/**
-	   the x coordinate of the Layer
-	   @property {integer} x
-	*/
-	this.x = x;
-	/**
-	   the y coordinate of the Layer
-	   @property {integer} y
-	*/
-	this.y = y;
-	/**
-	   the width of the Layer
-	   @property {integer} width
-	*/
-	this.width = width;
-	/**
-	   The height of the Layer
-	   @property {integer} height
-	*/
-	this.height = height;
-	this.listSprite = new Array();
-	this.listLayer = new Array();
-	this.context = context;
-	this.parentView = 0;
-	this.parentLayer = 0;
-	this.rotation = 0;
-	this.x_center = 0;
-	this.y_center = 0;
-	this.x_scale = 1.0;
-	this.y_scale = 1.0;
+    function Layer(context, x, y, width, height) {
+	   /**
+	     the x coordinate of the Layer
+	     @property {integer} x
+	   */
+	   this.x = x;
+      /**
+        the display depth of the Layer
+        @property {integer} zDepth
+      */
+      this.zDepth = 0;
+	   /**
+	       the y coordinate of the Layer
+	       @property {integer} y
+	   */
+	   this.y = y;
+	   /**
+	     the width of the Layer
+	     @property {integer} width
+	   */
+	   this.width = width;
+	   /**
+	     The height of the Layer
+	     @property {integer} height
+	   */
+	   this.height = height;
+	   this.listSprite = new Array();
+	   this.listLayer = new Array();
+	   this.context = context;
+	   this.parentView = 0;
+	   this.parentLayer = 0;
+	   this.rotation = 0;
+	   this.x_center = 0;
+	   this.y_center = 0;
+	   this.x_scale = 1.0;
+	   this.y_scale = 1.0;
     }
 
     /**
@@ -61,10 +65,9 @@ TW.Graphic.Layer = function() {
        @method getWidth
        @return {integer} width the width of the Layer
     */
-    Layer.prototype.getWidth = function()
-    {
-	return this.width;
-    }
+    Layer.prototype.getWidth = function() {
+	   return this.width;
+    };
 
     /**
        The method allow the user to get the height of the Layer
@@ -72,10 +75,9 @@ TW.Graphic.Layer = function() {
        @method getHeight
        @return {integer} height the height of the Layer
     */
-    Layer.prototype.getHeight = function()
-    {
-	return this.height;
-    }
+    Layer.prototype.getHeight = function() {
+	   return this.height;
+    };
 
     /**
        This method allow you to set the rotation angle of the Layer
@@ -83,10 +85,9 @@ TW.Graphic.Layer = function() {
        @method setRotation
        @param {float} rot the angle of rotation in degree
     */
-    Layer.prototype.setRotation = function(rot)
-    {
-	this.rotation = rot / 180.0 * Math.PI;
-    }
+    Layer.prototype.setRotation = function(rot) {
+	   this.rotation = rot / 180.0 * Math.PI;
+    };
 
     /**
        This method allow you to get the rotation angle of the Layer
@@ -94,10 +95,9 @@ TW.Graphic.Layer = function() {
        @method getRotation
        @return {float} angle return the angle of rotation of the Layer
     */
-    Layer.prototype.getRotation = function()
-    {
-	return this.rotation * 180.0 / Math.PI;
-    }
+    Layer.prototype.getRotation = function() {
+	   return this.rotation * 180.0 / Math.PI;
+    };
 
     /**
        This method allow you to set the center point of the Layer, Note that the center point is the center of rotation and the center of scale.
@@ -106,11 +106,10 @@ TW.Graphic.Layer = function() {
        @param {integer} x the x coordinate of the Layer
        @param {integer} y the y coordinate of the Layer
     */
-    Layer.prototype.setCenterPoint = function(x, y)
-    {
-	this.x_center = x;
-	this.y_center = y;
-    }
+    Layer.prototype.setCenterPoint = function(x, y) {
+	   this.x_center = x;
+	   this.y_center = y;
+    };
 
     /**
        This method allow you to get the center point of the Layer
@@ -118,10 +117,9 @@ TW.Graphic.Layer = function() {
        @method getCenterPoint
        @return {Object} the return value of the getCenterPoint who's structured like this {x: x_center, y: y_center}.
     */
-    Layer.prototype.getCenterPoint = function()
-    {
-	return {x: this.x_center, y: this.y_center};
-    }
+    Layer.prototype.getCenterPoint = function() {
+	   return {x: this.x_center, y: this.y_center};
+    };
 
     /**
        This method allow you to set the scale of the Layer, note that all Layer's child are transformed by the scale value
@@ -130,11 +128,10 @@ TW.Graphic.Layer = function() {
        @param {float} x x scale factor of the Layer
        @param {float} y y scale factor of the Layer
     */
-    Layer.prototype.setScale = function(x, y)
-    {
-	this.x_scale = x;
-	this.y_scale = y;
-    }
+    Layer.prototype.setScale = function(x, y) {
+	   this.x_scale = x;
+	   this.y_scale = y;
+    };
 
     /**
        This method allow you to get the scale of the Layer.
@@ -142,10 +139,9 @@ TW.Graphic.Layer = function() {
        @method getScale
        @return {Object} obj the return object contains the x and the y factor {x: x_scale, y: y_scale}.
     */
-    Layer.prototype.getScale = function()
-    {
-	return {x: this.x_scale, y: this.y_scale};
-    }
+    Layer.prototype.getScale = function() {
+	   return {x: this.x_scale, y: this.y_scale};
+    };
 
     /**
        This method allow you to set the parent View of the Layer.
@@ -153,10 +149,9 @@ TW.Graphic.Layer = function() {
        @method setView
        @param {View} view_object the parent view of the Layer.
     */
-    Layer.prototype.setView = function(view_object)
-    {
-	this.parentView = view_object;
-    }
+    Layer.prototype.setView = function(view_object) {
+	   this.parentView = view_object;
+    };
 
     /**
        This method allow you to set the parent Layer of the current Layer object.
@@ -164,10 +159,9 @@ TW.Graphic.Layer = function() {
        @method setParentLayer
        @param {Layer} layer the parent Layer of the current Layer.
     */
-    Layer.prototype.setParentLayer = function(layer)
-    {
-	this.parentLayer = layer;
-    }
+    Layer.prototype.setParentLayer = function(layer) {
+	   this.parentLayer = layer;
+    };
 
     /**
        This method allow you to get the parent Layer of the current Layer
@@ -175,10 +169,9 @@ TW.Graphic.Layer = function() {
        @method getParentLayer
        @return {Layer} Layer the parent Layer of the current Layer object.
     */
-    Layer.prototype.getParentLayer = function()
-    {
-	return this.parentLayer;
-    }
+    Layer.prototype.getParentLayer = function() {
+	   return this.parentLayer;
+    };
 
     /**
        This method allow you to set the parent View of the Layer
@@ -186,10 +179,9 @@ TW.Graphic.Layer = function() {
        @method setParentView
        @param {View} view the parent View of the Layer
     */
-    Layer.prototype.setParentView = function(view)
-    {
-	this.parentView = view;
-    }
+    Layer.prototype.setParentView = function(view) {
+	   this.parentView = view;
+    };
 
     /**
        This method allow you to get the parent view of the Layer
@@ -197,10 +189,9 @@ TW.Graphic.Layer = function() {
        @method getView
        @return {View} view the parent View of the Layer
     */
-    Layer.prototype.getView = function()
-    {
-	return this.parentView;
-    }
+    Layer.prototype.getView = function() {
+	   return this.parentView;
+    };
 
     /**
        This method allow you to resize the Layer
@@ -209,11 +200,10 @@ TW.Graphic.Layer = function() {
        @param {integer} the width of the Layer
        @param {integer} the height of the Layer
     */
-    Layer.prototype.resize = function(w, h)
-    {
-	this.width = w;
-	this.height = h;
-    }
+    Layer.prototype.resize = function(w, h) {
+	   this.width = w;
+	   this.height = h;
+    };
 
     /**
        This method allow you to specify the new position of the Layer
@@ -222,11 +212,10 @@ TW.Graphic.Layer = function() {
        @param {integer} the new x coordinate of the Layer
        @param {integer} the new y coordinate of the Layer
     */
-    Layer.prototype.move = function(x, y)
-    {
-	this.x = x;
-	this.y = y;
-    }
+    Layer.prototype.move = function(x, y) {
+	   this.x = x;
+	   this.y = y;
+    };
 
     /**
        This method allow you to get the position of the Layer
@@ -234,10 +223,9 @@ TW.Graphic.Layer = function() {
        @method getPos
        @return {Object} position an object who specify the coordinates of the Layer like this {x : x_pos, y : y_pos}
     */
-    Layer.prototype.getPos = function()
-    {
-	return {x: this.x, y: this.y};
-    }
+    Layer.prototype.getPos = function() {
+	   return {x: this.x, y: this.y};
+    };
 
     /**
        This method allow you to get the dimensions (width and height) of the Layer
@@ -245,10 +233,9 @@ TW.Graphic.Layer = function() {
        @method getDim
        @return {Object} dimension an object who specify the width and the height of the Layer like this {w: width, h: height}
     */
-    Layer.prototype.getDim = function()
-    {
-	return {w: this.width, h: this.height};
-    }
+    Layer.prototype.getDim = function() {
+	   return {w: this.width, h: this.height};
+    };
 
     /**
        This method allow you to push a Layer into the Layer, note that a Layer can hold other Layer, that make a kind of tree.
@@ -256,10 +243,10 @@ TW.Graphic.Layer = function() {
        @method pushLayer
        @param {Layer} Layer the Layer object to add to the current Layer
     */
-    Layer.prototype.pushLayer = function(layer)
-    {
-	this.listLayer.push(layer);
-    }
+    Layer.prototype.pushLayer = function(layer) {
+	   this.listLayer.push(layer);
+     this.listLayer.sort(this._sortSpritesByDepth);
+    };
 
     /**
        This method allow you supress an internal Layer from the current Layer.
@@ -268,25 +255,21 @@ TW.Graphic.Layer = function() {
        @param {Layer} ref the reference to the Layer to erase from the current Layer.
        @return {boolean} bool return true if the ref was succesfully removed from the current Layer, otherwise it returns false.
     */
-    Layer.prototype.popLayer = function (ref)
-    {
-	var length = this.listLayer.length;
-	var i = 0;
+    Layer.prototype.popLayer = function (ref) {
+	   var length = this.listLayer.length;
+	   var i = 0;
 
-	while (i < length)
-	{
-	    if (this.listLayer[i] === id)
-	    {
-		this.listLayer.split(i, 1);
-		return true;
-	    }
-	    else
-	    {
-		i++;
-	    }
-	}
-	return false;
-    }
+	   while (i < length) {
+	     if (this.listLayer[i] === id) {
+		    this.listLayer.split(i, 1);
+		    return true;
+	     }
+	     else {
+		    i++;
+	     }
+	   }
+	   return false;
+    };
 
     /**
        This method allow you to draw a Layer on a specified context, Note that when you add a Layer to a view object and then call the draw method of the view object, then the draw method of the Layers are called recursively.
@@ -294,39 +277,38 @@ TW.Graphic.Layer = function() {
        @method draw
        @param {graphicalContext2d} ctx the canvas' context to draw on.
     */
-    Layer.prototype.draw = function(ctx)
-    {
-	var length = this.listLayer.length;
-	var i = 0;
-	var tmp_ctx = ctx || 1;
+    Layer.prototype.draw = function(ctx) {
+	   var length = this.listLayer.length;
+	   var i = 0;
+	   var tmp_ctx = ctx || 1;
 
-	if (tmp_ctx == 1)
-	    tmp_ctx = this.context;
-	
-	tmp_ctx.save();
-	tmp_ctx.transform(1, 0, 0, 1, this.x, this.y);
-	tmp_ctx.transform(this.x_scale, 0, 0, this.y_scale, 0, 0);
-	tmp_ctx.transform(1, 0, 0, 1, this.x_center, this.y_center);
-	tmp_ctx.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
-	tmp_ctx.transform(1, 0, 0, 1, -this.x_center, -this.y_center);
-	while (i < length)
-	{
-	    if (this.listLayer[i].getX() < this.width && this.listLayer[i].getX() + this.listLayer[i].getWidth() >= 0 &&
-		this.listLayer[i].getY() < this.height && this.listLayer[i].getY() + this.listLayer[i].getHeight() >= 0)
-		this.listLayer[i].draw();
+	   if (tmp_ctx == 1) {
+	     tmp_ctx = this.context;
+     }
+	   tmp_ctx.save();
+	   tmp_ctx.transform(1, 0, 0, 1, this.x, this.y);
+	   tmp_ctx.transform(this.x_scale, 0, 0, this.y_scale, 0, 0);
+	   tmp_ctx.transform(1, 0, 0, 1, this.x_center, this.y_center);
+	   tmp_ctx.transform(Math.cos(this.rotation), -Math.sin(this.rotation), Math.sin(this.rotation), Math.cos(this.rotation), 0, 0);
+	   tmp_ctx.transform(1, 0, 0, 1, -this.x_center, -this.y_center);
+	   while (i < length) {
+	     if (this.listLayer[i].getX() < this.width && this.listLayer[i].getX() + this.listLayer[i].getWidth() >= 0 &&
+		      this.listLayer[i].getY() < this.height && this.listLayer[i].getY() + this.listLayer[i].getHeight() >= 0) {
+		        this.listLayer[i].draw();
+        }
 	    i++;
-	}
-	length = this.listSprite.length;
-	i = 0;
-	while (i < length)
-	{
+	   }
+	   length = this.listSprite.length;
+	   i = 0;
+	   while (i < length) {
 	    if (this.listSprite[i].getX() < this.width && this.listSprite[i].getX() + this.listSprite[i].getWidth() >= 0 &&
-		this.listSprite[i].getY() < this.height && this.listSprite[i].getY() + this.listSprite[i].getHeight() >= 0)
-		this.listSprite[i].draw(tmp_ctx);
+		      this.listSprite[i].getY() < this.height && this.listSprite[i].getY() + this.listSprite[i].getHeight() >= 0) {
+		        this.listSprite[i].draw(tmp_ctx);
+        }
 	    i++;
-	}
-	tmp_ctx.restore();
-    }
+	   }
+	   tmp_ctx.restore();
+    };
 
     /**
        This method allow you to set a new graphical context to draw on
@@ -334,10 +316,9 @@ TW.Graphic.Layer = function() {
        @method setContext
        @param {graphicalContext2d} context the canvas' context to draw on.
     */
-    Layer.prototype.setContext = function(context)
-    {
-	this.context = context;
-    }
+    Layer.prototype.setContext = function(context) {
+	   this.context = context;
+    };
 
     /**
        This method allows you to get the context of the Layer
@@ -345,10 +326,9 @@ TW.Graphic.Layer = function() {
        @method getContext
        @return {graphicalContext2d} context the canvas' context.
     */
-    Layer.prototype.getContext = function()
-    {
-	return this.context;
-    }
+    Layer.prototype.getContext = function() {
+	   return this.context;
+    };
 
 
     /**
@@ -357,10 +337,10 @@ TW.Graphic.Layer = function() {
        @method pushSprite
        @param {Sprite} sprite the sprite to push on the Layer
     */
-    Layer.prototype.pushSprite = function(sprite)
-    {
-	this.listSprite.push(sprite);
-    }
+    Layer.prototype.pushSprite = function(sprite) {
+	   this.listSprite.push(sprite);
+     this.listSprite.sort(this._sortSpritesByDepth);
+    };
 
     /**
        This method allow you to push a Text2D object on a Layer object.
@@ -368,10 +348,18 @@ TW.Graphic.Layer = function() {
        @method pushText2D
        @param {Text2D} textObject the text object to add to the Layer
     */
-    Layer.prototype.pushText2D = function(textObject)
-    {
-	this.listSprite.push(textObject);
-    }
+    Layer.prototype.pushText2D = function(textObject) {
+	   this.pushSprite(textObject);
+    };
+
+    /**
+    The _sortSpritesByDepth method is private and sort the Sprites of the Layer by depth in ascending order.
+    @method _sortSpritesByDepth
+    @private
+    */
+    Layer.prototype._sortSpritesByDepth = function(a, b) {
+      return (a.zDepth - b.zDepth);
+    };
 
     /**
        This method allow you to erase a sprite from the current Layer
@@ -379,19 +367,18 @@ TW.Graphic.Layer = function() {
        @method popSprite
        @param {Sprite} ref the sprite to erase from the Layer
     */
-    Layer.prototype.popSprite = function(ref)
-    {
-	var spriteListLength = this.spriteList.length;
-	var i = 0;
+    Layer.prototype.popSprite = function(ref) {
+	   var spriteListLength = this.spriteList.length;
+	   var i = 0;
 
-	while (i < spriteListLength)
-	{
-	    if (spriteList[i] === ref)
-		this.spriteList.splice(i,1);
-	    else
-		i++;
-	}
-    }
+	   while (i < spriteListLength) {
+	     if (spriteList[i] === ref) {
+		    this.spriteList.splice(i,1);
+      } else {
+		    i++;
+      }
+	   }
+    };
 
     /**
        This method allow you to get the x coordinate of the Layer
@@ -399,20 +386,18 @@ TW.Graphic.Layer = function() {
        @method getX
        @return {integer} x the x coordinate of the Layer
     */
-    Layer.prototype.getX = function()
-    {
-	return this.x;
-    }
+    Layer.prototype.getX = function() {
+	   return this.x;
+    };
 
     /**
        This method allow you to get the y coordinate of the Layer
 
        @method getY
        @return {integer} y the y coordinate of the Layer*/
-    Layer.prototype.getY = function()
-    {
-	return this.y;
-    }
+    Layer.prototype.getY = function() {
+	   return this.y;
+    };
 
     return Layer;
 

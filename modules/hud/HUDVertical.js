@@ -11,12 +11,11 @@ Note that HUDVertical inherits from Layer class.
 var TW = TW || {};
 TW.HUD = TW.HUD || {};
 
-TW.HUD.HUDVertical = function(){
+TW.HUD.HUDVertical = function() {
 
 	HUDVertical.prototype = new TW.Graphic.Layer("undefined", 0, 0, 0, 0);
 
-	function HUDVertical(context, x, y, width, height)
-	{
+	function HUDVertical(context, x, y, width, height) {
 		this.context = context;
 		/**
 		The x coordinate of the HUD
@@ -86,56 +85,53 @@ TW.HUD.HUDVertical = function(){
 			var i;
 			var tmp_ctx = context || 1;
 
-			if (tmp_ctx == 1)
+			if (tmp_ctx == 1) {
 			tmp_ctx = this.context;
+			}
 			
 			i = 0;
  			var length_total = this.hudElementList.length + this.hudList.length;
 			var nb_hudelements = this.hudElementList.length;
 			var nb_huds = this.hudList.length;
 			var total_height = 0;
-			while (i < nb_hudelements)
-			{
+			while (i < nb_hudelements) {
 				total_height += this.hudElementList[i].height * this.hudElementList[i].scaleY;
 				i++;
 			}
 			i = 0;
-			while (i < nb_huds)
-			{
+			while (i < nb_huds) {
 				total_height += this.hudList[i].height * this.hudElementList[i].scaleX;
 				i++;
 			}
 			var margin = (this.height - total_height) / (length_total + 1);
 			i = 0;
 			tmp_ctx.save();
-			while (i < this.hudElementList.length)
-			 {
-			  tmp_ctx.transform(1, 0, 0, 1, 0, margin);
-			  tmp_ctx.save();
+			while (i < this.hudElementList.length) {
+			  	tmp_ctx.transform(1, 0, 0, 1, 0, margin);
+			  	tmp_ctx.save();
 				tmp_ctx.transform(1, 0, 0, 1, (this.width - (this.hudElementList[i].width * this.hudElementList[i].scaleX)) / 2, 0);
 				tmp_ctx.transform(this.hudElementList[i].scaleX, 0, 0, this.hudElementList[i].scaleY, 0, 0);
 				tmp_ctx.transform(1, 0, 0, 1, this.hudElementList[i].x_centerPoint, this.hudElementList[i].y_centerPoint);
 				tmp_ctx.transform(Math.cos(this.hudElementList[i].rotation), -Math.sin(this.hudElementList[i].rotation), Math.sin(this.hudElementList[i].rotation), Math.cos(this.hudElementList[i].rotation), 0, 0);
 				tmp_ctx.transform(1, 0, 0, 1, -this.hudElementList[i].x_centerPoint, -this.hudElementList[i].y_centerPoint);
 				this.hudElementList[i].draw(tmp_ctx);
-			  tmp_ctx.restore();
-			  tmp_ctx.transform(1, 0, 0, 1, 0, this.hudElementList[i].scaleY * this.hudElementList[i].height);			  
-			  i++;
+			  	tmp_ctx.restore();
+			  	tmp_ctx.transform(1, 0, 0, 1, 0, this.hudElementList[i].scaleY * this.hudElementList[i].height);			  
+			  	i++;
 			 }
 			i = 0;
-			while (i < this.hudList.length)
-			{
-			  tmp_ctx.transform(1, 0, 0, 1, 0, margin);
-			  tmp_ctx.save();
+			while (i < this.hudList.length) {
+			  	tmp_ctx.transform(1, 0, 0, 1, 0, margin);
+			  	tmp_ctx.save();
 				tmp_ctx.transform(1, 0, 0, 1, (this.width - (this.hudList[i].width * this.hudList[i].scaleX)) / 2, 0);
 				tmp_ctx.transform(this.hudList[i].scaleX, 0, 0, this.hudList[i].scaleY, 0, 0);
 				tmp_ctx.transform(1, 0, 0, 1, this.hudList[i].x_centerPoint, this.hudList[i].y_centerPoint);
 				tmp_ctx.transform(Math.cos(this.hudList[i].rotation), -Math.sin(this.hudList[i].rotation), Math.sin(this.hudList[i].rotation), Math.cos(this.hudList[i].rotation), 0, 0);
 				tmp_ctx.transform(1, 0, 0, 1, -this.hudList[i].x_centerPoint, -this.hudList[i].y_centerPoint);				
 				this.hudList[i].draw(tmp_ctx);
-			  tmp_ctx.restore();
-			  tmp_ctx.transform(1, 0, 0, 1, this.hudList[i].scaleY * this.hudList[i].height, 0);
-			  i++;
+			  	tmp_ctx.restore();
+			  	tmp_ctx.transform(1, 0, 0, 1, this.hudList[i].scaleY * this.hudList[i].height, 0);
+			  	i++;
 			}
 			tmp_ctx.restore();
 		};
@@ -147,10 +143,10 @@ TW.HUD.HUDVertical = function(){
 		@param {HUD} HUDObject The HUD object to push in the current HUD object
 		@return {Boolean} return true if the pushHUD method has success, otherwise it returns false
 		*/
-		HUDVertical.prototype.pushHUD = function(HUDObject)
-		{
-		 if (!HUDObject)
-		  return false;
+		HUDVertical.prototype.pushHUD = function(HUDObject) {
+		 	if (!HUDObject) {
+		  		return false;
+			}
 		   this.hudList.push(HUDObject);
 		   return true;
 		};
@@ -165,16 +161,15 @@ TW.HUD.HUDVertical = function(){
 		*/
 		HUDVertical.prototype.popHUD = function(HUDObject)
 		{
-		 if (!HUDObject)
-		  return false;
-		 for (var i = 0; i < this.hudList.length; i++)
-		 {
-		  if (this.hudList[i] === HUDObject)
-		  {
-			this.hudList.split(i, 1);
-			return true;
-		  }
-		 }
+		 	if (!HUDObject) {
+		  		return false;
+			}
+		 	for (var i = 0; i < this.hudList.length; i++) {
+		  		if (this.hudList[i] === HUDObject) {
+					this.hudList.split(i, 1);
+					return true;
+		  		}
+		 	}
 		 return false;
 		};
 		
@@ -187,8 +182,9 @@ TW.HUD.HUDVertical = function(){
 		*/
 		HUDVertical.prototype.pushHUDElement = function(HUDElementObject)
 		{
-			if (!HUDElementObject)
+			if (!HUDElementObject) {
 			 return false;
+			}
 			 this.hudElementList.push(HUDElementObject);
 			return true;
 		};
@@ -202,18 +198,18 @@ TW.HUD.HUDVertical = function(){
 		*/
 		HUDVertical.prototype.popHUDElement = function(HUDElementObject)
 		{
-			if (!HUDElementObject)
+			if (!HUDElementObject) {
 			 return false;
-		    for (var i = 0; i < this.hudElementList.length; i++)
-		    {
-		     if (this.hudElementList[i] === HUDElementObject)
-		     {
+			}
+		    for (var i = 0; i < this.hudElementList.length; i++) {
+		     if (this.hudElementList[i] === HUDElementObject) {
 			   this.hudElementList.splice(i, 1);
 			   return true;
 		     }
 		    }
 		 return false;			
 		};
-HUDVertical.prototype.constructor = HUDVertical;
-return HUDVertical;
+		
+	HUDVertical.prototype.constructor = HUDVertical;
+	return HUDVertical;
 }();

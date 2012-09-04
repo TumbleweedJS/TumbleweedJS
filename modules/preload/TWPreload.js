@@ -276,7 +276,7 @@ TW.Preload.Preload = function() {
         if (loadNow !== false) {
             this.setPaused(false);
         }
-    }
+    };
 
     /**
      * Load a manifest. This is a shortcut method to load a group of files. To load a single file, use the loadFile method.
@@ -550,7 +550,7 @@ TW.Preload.Preload = function() {
         }
 
         return resultData;
-    }
+    };
 
     // This is item progress!
     Preload.prototype._handleProgress = function(event) {
@@ -572,7 +572,7 @@ TW.Preload.Preload = function() {
             loaded += (chunk / remaining) * (remaining/this._numItems);
         }
         this._sendProgress({loaded:loaded, total:1});
-    }
+    };
 
     Preload.prototype._createLoadItem = function(loadItem) {
         var item = {};

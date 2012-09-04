@@ -11,30 +11,82 @@
 var TW = TW || {};
 TW.Gameloop = TW.Gameloop || {};
 
+
+/*
+  MDN implementation of Function.bind.
+*/
+if (!Function.prototype.bind) {
+    Function.prototype.bind = function (oThis) {
+	if (typeof this !== "function") {
+	    throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+	}
+ 
+	var aArgs = Array.prototype.slice.call(arguments, 1),
+        fToBind = this, 
+        fNOP = function () {},
+        fBound = function () {
+            return fToBind.apply(this instanceof fNOP && oThis ? this : oThis,
+				 aArgs.concat(Array.prototype.slice.call(arguments)));
+        };
+ 
+	fNOP.prototype = this.prototype;
+	fBound.prototype = new fNOP();
+ 
+	return fBound;
+    };
+}
+
+
+
+
+
 TW.Gameloop.Gameloop = function() {
 
+    var anim_frame = window.requestAnimationFrame
+	|| window.webkitRequestAnimationFrame
+        || window.mozRequestAnimationFrame
+        || window.oRequestAnimationFrame
+        || window.msRequestAnimationFrame
+        || null;
+    var cancel_anim_frame = window.cancelAnimationFrame
+	|| window.webkitCancelAnimationFrame
+    	|| window.mozCancelAnimationFrame
+    	|| window.oCancelAnimationFrame
+    	|| window.msCancelAnimationFrame
+	|| null;
+    
     /**
-       A class to manage the game logic and time
+       A class to manage the game logic and time.
 
        @class Gameloop
-       @param {Integer} [fps] value that limits the maximum number of frame per second
+       @param {Object} [params] ...
        @constructor
     */
-    function Gameloop(fps)
-    {
+    function Gameloop(params) {
+	this._last_id = 0;
+	this._update_handler = null;
+	this._draw_handler = null;
+
 	/**
-	   The value that limits the maximum number of frames per second
+	   The value that limits the maximum number of frames per second.
+	   Used only if requestAnimationFrame is not found
+.	   Note: changes are effective only when gameloop is restarted.
 
 	   @property {Integer} fps
 	   @default 30
 	*/
-	if (fps)
-	 this.fps = fps;
-	else
-	 this.fps = 30;
+	this.fps = 30;
 
-	this._timer = null;
-	
+	/**
+	   The frequency of function calls update
+	   Note: changes are effective only when gameloop is restarted.
+
+	   @propety {Integer} tick_per_second
+	   @default 60
+	 */
+	this.tick_per_second = 60;
+
+
 	/**
 	   array which contains all games elements.  
 	   You must add elements to `object` for updating 
@@ -47,49 +99,65 @@ TW.Gameloop.Gameloop = function() {
 	   @property {Array} object
 	 */
 	this.object = [];
-
     }
 
-
     /**
-       start or restart the gameloop
+       start or unpause the gameloop.
+       If gameloop is already stated, do nothing.
 
        @method start
     */
     Gameloop.prototype.start = function() {
-	this.stop();
-	this._timer = setInterval(function(self) {
-		return function() {
-			return function() {
-				this.update();
-				this.draw();
-			}.call(self);
-		};
-	}(this),
-	1000 / this.fps);
-      };
-    
+	if (this._update_handler === null) {
+	    this._update_handler = setInterval(this.update.bind(this),
+					       1000 / this.tick_per_second);
+	}
+	if (this._draw_handler === null) {
+	    if (anim_frame !== null) {
+		this._draw_handler = anim_frame(this.draw.bind(this));
+	    } else {
+		//Compatibility mode
+		this._draw_handler = setInterval(this.draw.bind(this), 1000 / this.fps);
+	    }
+	} else {
+	    //Console.log("Gameloop already started");
+	}
+    };
+
     /**
-       pause the gameloop
+       stop the update Gameloop
+       Elements are still drawn, but not updated.
+       You can resume the game with start
 
        @method pause
     */
     Gameloop.prototype.pause = function() {
-	if (this._timer !== null) {
-	    clearInterval(this._timer);
-	}
+	if (this._update_handler !== null) {
+	    clearInterval(this._update_handler);
+	    this._update_handler = null;
+		}
     };
-
+    
     /**
        stop the gameloop
+       Both update and draw are stopped.
+       The elements are not removed, so you can use start to resume play.
+       If you need to keep the screen displayed, you should instead use pause.
 
        @method stop
-     */
+    */
     Gameloop.prototype.stop = function() {
-	if (this._timer !== null) {
-	    clearInterval(this._timer);
+	this.pause();
+	if (this._draw_handler !== null) {
+	    if (anim_frame !== null && cancel_anim_frame !== null) {
+		cancel_anim_frame(this._draw_handler);
+	    } else {
+		clearInterval(this._draw_handler);
+	    }
+	    this._draw_handler = null;
 	}
     };
+
 
     /**
        update the logic one step.  
@@ -117,14 +185,16 @@ TW.Gameloop.Gameloop = function() {
        @method draw
      */
     Gameloop.prototype.draw = function() {
-	for (var i = 0; i < this.object.length; i++) {
-	    if (typeof this.object[i] === "object"
-		&& typeof this.object[i].draw !== "undefined") {
-		this.object[i].draw();
-	    }
-	}
+		for (var i = 0; i < this.object.length; i++) {
+	    	if (typeof this.object[i] === "object"
+				&& typeof this.object[i].draw !== "undefined") {
+					this.object[i].draw();
+	    	}
+		}
+		if (anim_frame !== null) {
+	    	this._draw_handler = anim_frame(this.draw.bind(this));
+		}
     };
-
-    return Gameloop;
     
+    return Gameloop;
 }();

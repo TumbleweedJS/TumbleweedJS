@@ -58,8 +58,7 @@ TW.Event.MouseService = function()
 
      @method initialize
      */
-    function initialize()
-    {
+    function initialize() {
         window.onmousedown = mouseDownFunction;
         window.onmouseup = mouseUpFunction;
         window.onclick = mouseClickFunction;
@@ -73,9 +72,8 @@ TW.Event.MouseService = function()
      * Set the mouse position
      * @param event
      */
-    function setMousePosition(event)
-    {
-        mousePosition['x'] = event.layerX
+    function setMousePosition(event) {
+        mousePosition['x'] = event.layerX;
         mousePosition['y'] = event.layerY;
 
         if (mousePosition['x'] < 0){mousePosition['x'] = 0}
@@ -86,61 +84,61 @@ TW.Event.MouseService = function()
      * Update the state when the button is down
      * @param event
      */
-    function mouseDownFunction(event)
-    {
+    function mouseDownFunction(event) {
         mouseDown = true;
         click = false;
-    };
+    }
 
     /**
      * Update the state when the button is up
      * @param event
      */
-    function mouseUpFunction(event)
-    {
+    function mouseUpFunction(event) {
         mouseDown = false;
-    };
+    }
 
     /**
      * Update the state when the action is a simple click
      * @param event
      */
-    function mouseClickFunction(event)
-    {
+    function mouseClickFunction(event) {
         click = true;
-    };
+    }
 
     /**
      * Check if the button is down
      * @param mouseCode
      * @return {Boolean}
      */
-    function isMouseButtonDown(mouseCode)
-    {
-        if (mouseCode == MouseEnum.Left)
+    function isMouseButtonDown(mouseCode) {
+        if (mouseCode == MouseEnum.Left) {
             return mouseDown;
+        }
         return false;
-    };
+    }
 
     /**
      * Check if the action is a simple click
      * @return {Boolean}
      */
-    function isClick()
-    {
+    function isClick() {
         var temp = click;
         click = false;
         return temp;
-    };
+    }
 
     /**
      * Get the mouse position
-     * @return {Array}
+     *
+     * @method getMousePosition
+     * @return {Object} {
+     * x: the x position,
+     * y: the y position
+     * }
      */
-    function getMousePosition()
-    {
+    function getMousePosition() {
         return mousePosition;
-    };
+    }
 
     //public service interface.
     return {

@@ -114,7 +114,7 @@ TW.Preload.XMLHttpRequestLoader = function() {
             return this._request.responseText;
         } catch (error) {}
         return this._request.response;
-    }
+    };
 
     /**
      * Determine if a specific type should be loaded as a binary file

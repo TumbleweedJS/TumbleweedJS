@@ -9,10 +9,8 @@ TW.Parallax.Direction = {
 };
 
 
-TW.Parallax.Parallax = function()
-{
-    function Parallax(context)
-    {
+TW.Parallax.Parallax = function() {
+    function Parallax(context) {
         this.view = new TW.Graphic.View(context, 0, 0, 1200, 500);
         this.speed = 15;
         this.direction = TW.Parallax.Direction.RIGHT;
@@ -21,57 +19,48 @@ TW.Parallax.Parallax = function()
         this.positionY = 0;
     }
 
-    Parallax.prototype.getView = function()
-    {
+    Parallax.prototype.getView = function() {
         return this.view;
     };
 
-    Parallax.prototype.setView = function(view)
-    {
+    Parallax.prototype.setView = function(view) {
         this.view = view;
     };
 
-    Parallax.prototype.getSpeed = function()
-    {
+    Parallax.prototype.getSpeed = function() {
         return this.speed;
     };
 
-    Parallax.prototype.setSpeed = function(speed)
-    {
+    Parallax.prototype.setSpeed = function(speed) {
         this.speed = speed;
-        if (this.speed < 0)
+        if (this.speed < 0) {
             this.speed = 0;
+        }
     };
 
-    Parallax.prototype.getDirection = function()
-    {
+    Parallax.prototype.getDirection = function() {
         return this.direction;
     };
 
-    Parallax.prototype.setDirection = function(direction)
-    {
+    Parallax.prototype.setDirection = function(direction) {
         this.direction = direction;
         this.initializeSprite();
     };
 
-    Parallax.prototype.getIsScrolling = function()
-    {
+    Parallax.prototype.getIsScrolling = function() {
        return this.is_scrolling;
     };
 
-    Parallax.prototype.setIsScrolling = function(status)
-    {
+    Parallax.prototype.setIsScrolling = function(status) {
         this.is_scrolling = status;
     };
 
-    Parallax.prototype.setPosition  = function(posX, posY)
-    {
+    Parallax.prototype.setPosition  = function(posX, posY) {
         this.positionX = posX;
         this.positionY = posY;
     };
 
-    Parallax.prototype.getPosition  = function()
-    {
+    Parallax.prototype.getPosition  = function() {
         var temp = [];
         temp['x'] = this.positionX;
         temp['y'] = this.positionY;
@@ -79,154 +68,111 @@ TW.Parallax.Parallax = function()
     };
 
 
-    Parallax.prototype.initializeSprite = function()
-    {
-        if (this.view.listSprite.length == 1)
-        {
+    Parallax.prototype.initializeSprite = function() {
+        if (this.view.listSprite.length == 1) {
             this.view.listSprite[0].setY(this.positionY);
             this.view.listSprite[0].setX(this.positionX);
             return;
         }
-
-        for (var it = 0; it < this.view.listSprite.length; it++)
-        {
+        for (var it = 0; it < this.view.listSprite.length; it++) {
             var sprite = this.view.listSprite[it];
 
-            if (this.direction == TW.Parallax.Direction.RIGHT || this.direction == TW.Parallax.Direction.LEFT)
+            if (this.direction == TW.Parallax.Direction.RIGHT || this.direction == TW.Parallax.Direction.LEFT) {
                 sprite.setY(this.positionY);
-            if (this.direction == TW.Parallax.Direction.UP || this.direction == TW.Parallax.Direction.DOWN)
+            }
+            if (this.direction == TW.Parallax.Direction.UP || this.direction == TW.Parallax.Direction.DOWN) {
                 sprite.setX(this.positionX);
-
-            if (it > 0)
-            {
-                if (this.direction == TW.Parallax.Direction.RIGHT)
-                {
+            }
+            if (it > 0) {
+                if (this.direction == TW.Parallax.Direction.RIGHT) {
                     sprite.setX(this.view.listSprite[it - 1].getX() + this.view.listSprite[it - 1].getWidth());
                 }
-
-                if (this.direction == TW.Parallax.Direction.LEFT)
-                {
+                if (this.direction == TW.Parallax.Direction.LEFT) {
                     sprite.setX(this.view.listSprite[it - 1].getX() - this.view.listSprite[it - 1].getWidth());
                 }
-
-                if (this.direction == TW.Parallax.Direction.UP)
-                {
+                if (this.direction == TW.Parallax.Direction.UP) {
                     sprite.setY(this.view.listSprite[it - 1].getY() + this.view.listSprite[it - 1].getHeight());
                 }
-
-                if (this.direction == TW.Parallax.Direction.DOWN)
-                {
+                if (this.direction == TW.Parallax.Direction.DOWN) {
                     sprite.setY(this.view.listSprite[it - 1].getY() - this.view.listSprite[it - 1].getHeight());
                 }
             }
         }
     };
 
-    Parallax.prototype.add  = function(sprite)
-    {
+    Parallax.prototype.add  = function(sprite) {
         sprite.setX(this.positionX);
         sprite.setY(this.positionY);
 
-        if (this.view.listSprite.length > 0 && this.direction == TW.Parallax.Direction.RIGHT)
-        {
+        if (this.view.listSprite.length > 0 && this.direction == TW.Parallax.Direction.RIGHT) {
             sprite.setX(this.view.listSprite[this.view.listSprite.length - 1].getX() + this.view.listSprite[this.view.listSprite.length - 1].getWidth());
         }
-
-        if (this.view.listSprite.length > 0 && this.direction == TW.Parallax.Direction.LEFT)
-        {
+        if (this.view.listSprite.length > 0 && this.direction == TW.Parallax.Direction.LEFT) {
             sprite.setX(this.view.listSprite[this.view.listSprite.length - 1].getX() - this.view.listSprite[this.view.listSprite.length - 1].getWidth());
         }
-
-        if (this.view.listSprite.length > 0 && this.direction == TW.Parallax.Direction.UP)
-        {
+        if (this.view.listSprite.length > 0 && this.direction == TW.Parallax.Direction.UP) {
             sprite.setY(this.view.listSprite[this.view.listSprite.length - 1].getY() + this.view.listSprite[this.view.listSprite.length - 1].getHeight());
         }
-
-        if (this.view.listSprite.length > 0 && this.direction == TW.Parallax.Direction.DOWN)
-        {
+        if (this.view.listSprite.length > 0 && this.direction == TW.Parallax.Direction.DOWN) {
             sprite.setY(this.view.listSprite[this.view.listSprite.length - 1].getY() - this.view.listSprite[this.view.listSprite.length - 1].getHeight());
         }
-
         this.view.pushSprite(sprite);
     };
 
-    Parallax.prototype.update = function()
-    {
-        if (this.view.listSprite.length == 0)
+    Parallax.prototype.update = function() {
+        if (this.view.listSprite.length == 0) {
             return;
-        if (this.is_scrolling == false)
+        }
+        if (this.is_scrolling == false) {
             return;
-
+        }
         //Move the first
-        if (this.direction == TW.Parallax.Direction.LEFT)
-        {
+        if (this.direction == TW.Parallax.Direction.LEFT) {
             this.view.listSprite[0].setX(this.view.listSprite[0].getX() - this.speed);
             this.view.listSprite[0].setY(this.positionY);
-        }
-        else if (this.direction == TW.Parallax.Direction.RIGHT)
-        {
+        } else if (this.direction == TW.Parallax.Direction.RIGHT) {
             this.view.listSprite[0].setX(this.view.listSprite[0].getX() + this.speed);
             this.view.listSprite[0].setY(this.positionY);
-        }
-        else if (this.direction == TW.Parallax.Direction.DOWN)
-        {
+        } else if (this.direction == TW.Parallax.Direction.DOWN) {
             this.view.listSprite[0].setY(this.view.listSprite[0].getY() + this.speed);
             this.view.listSprite[0].setX(this.positionX);
-        }
-        else if (this.direction == TW.Parallax.Direction.UP)
-        {
+        } else if (this.direction == TW.Parallax.Direction.UP) {
             this.view.listSprite[0].setY(this.view.listSprite[0].getY() - this.speed);
             this.view.listSprite[0].setX(this.positionX);
         }
-
         //Move others sprites
-        if (this.view.listSprite.length > 1)
-        {
-            for (var it = 1; it < this.view.listSprite.length; it++)
-            {
-                if (this.direction == TW.Parallax.Direction.LEFT)
-                {
+        if (this.view.listSprite.length > 1) {
+            for (var it = 1; it < this.view.listSprite.length; it++) {
+                if (this.direction == TW.Parallax.Direction.LEFT) {
                     this.view.listSprite[it].setX(this.view.listSprite[it-1].getWidth() + this.view.listSprite[it-1].getX());
                     this.view.listSprite[it].setY(this.positionY);
-                }
-                else if (this.direction == TW.Parallax.Direction.RIGHT)
-                {
+                } else if (this.direction == TW.Parallax.Direction.RIGHT) {
                     this.view.listSprite[it].setX(this.view.listSprite[it-1].getX() - this.view.listSprite[it-1].getWidth());
                     this.view.listSprite[it].setY(this.positionY);
-                }
-                else if (this.direction == TW.Parallax.Direction.DOWN)
-                {
+                } else if (this.direction == TW.Parallax.Direction.DOWN) {
                     this.view.listSprite[it].setY(this.view.listSprite[it-1].getY() - this.view.listSprite[it-1].getHeight());
                     this.view.listSprite[it].setX(this.positionX);
-                }
-                else if (this.direction == TW.Parallax.Direction.UP)
-                {
+                } else if (this.direction == TW.Parallax.Direction.UP) {
                     this.view.listSprite[it].setY(this.view.listSprite[it-1].getY() + this.view.listSprite[it-1].getHeight());
                     this.view.listSprite[it].setX(this.positionX);
                 }
             }
         }
-
         if ((this.direction == TW.Parallax.Direction.LEFT && -(this.view.listSprite[0].getX()) >= this.view.width) ||
             (this.direction == TW.Parallax.Direction.RIGHT && this.view.listSprite[0].getX() >= this.view.width) ||
             (this.direction == TW.Parallax.Direction.DOWN && this.view.listSprite[0].getY() >= this.view.height) ||
-            (this.direction == TW.Parallax.Direction.UP && -this.view.listSprite[0].getY() >= this.view.height))
-        {
-            if (this.view.listSprite.length > 1)
-            {
+            (this.direction == TW.Parallax.Direction.UP && -this.view.listSprite[0].getY() >= this.view.height)) {
+            if (this.view.listSprite.length > 1) {
                 var temp = this.view.listSprite[0];
                 this.view.listSprite.splice(0, 1);
                 this.view.pushSprite(temp);
-            }
-            else
-            {
+            } else {
                 this.initializeSprite();
             }
         }
     };
 
-    Parallax.prototype.draw = function(context)
-    {
+    Parallax.prototype.draw = function(context) {
         this.view.draw(context);
     };
     return Parallax;

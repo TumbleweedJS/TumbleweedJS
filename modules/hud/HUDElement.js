@@ -110,5 +110,5 @@ TW.Graphic.HUDElement = function() {
 	};
 	
 	HUDElement.prototype.constructor = HUDElement;
-return HUDElement;
+	return HUDElement;
 }();

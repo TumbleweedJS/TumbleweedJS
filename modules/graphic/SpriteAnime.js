@@ -31,7 +31,7 @@ for (var element in TW.Graphic.Sprite.prototype) {
 }
 
 /**
- Change all the property in way to show the good frame a the good time.
+ Change all the property in way to show the good frame at the good time.
  This function is called in the gameLoop.
 
  @method update
@@ -78,5 +78,4 @@ SpriteAnime.prototype.setCurrentAnimation = function(name){
             break;
         }
     }
-
 };
