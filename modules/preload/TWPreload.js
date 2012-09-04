@@ -115,9 +115,6 @@ TW.Preload.Preload = function() {
 
         this._maxConnections = 1;
 
-        // Browser Capabilities
-        this.TAG_LOAD_OGGS = true;
-
         this._numItems = 0;
         this._numItemsLoaded = 0;
         this._targetProgress = 0;
