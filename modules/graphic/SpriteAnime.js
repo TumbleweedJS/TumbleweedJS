@@ -1,25 +1,25 @@
 /**
-   @module Graphic
-   @namespace Graphic
-*/
-
+ @module Graphic
+ @namespace Graphic
+ */
+/*jshint smarttabs: true */
 /**
  This is the constructor of the SpriteAnime class. It will create all the information in way to play several
  animation
 
  @method SpriteAnime
  @param {Object} properties is the object wich contain all the properties of the sprite sheet given
-                (see json.js to see the structure)
- @param {ImgRect} spriteSheet the image containing all the frame of the different animation
+ (see json.js to see the structure)
+ @param {ImageRect} spriteSheet the image containing all the frame of the different animation
  @constructor
-*/
+ */
 
-function SpriteAnime(properties, spriteSheet){
-    this._properties = properties;
-    this._current_animation = properties[0];
+function SpriteAnime(properties, spriteSheet) {
+	this._properties = properties;
+	this._current_animation = properties[0];
 
 	TW.Graphic.Sprite.call(this, this._current_animation.sprites[0].x, this._current_animation.sprites[0].y,
-            this._current_animation.sprites[0].w, this._current_animation.sprites[0].h, spriteSheet);
+	                       this._current_animation.sprites[0].w, this._current_animation.sprites[0].h, spriteSheet);
 	this._startDate = 0;
 	this._currentFrame = 0;
 	this._speed = 1000 / this._current_animation.frame_rate;
@@ -36,22 +36,22 @@ for (var element in TW.Graphic.Sprite.prototype) {
 
  @method update
  */
-SpriteAnime.prototype.update = function(){
+SpriteAnime.prototype.update = function() {
 	var currentDate = new Date();
 	var count = currentDate.valueOf() - this._startDate.valueOf();
 	count /= this._speed;
-		
-	if (this._startDate == 0){
+
+	if (this._startDate == 0) {
 		this._startDate = currentDate;
-    }
-	else if (count > 1){
+	}
+	else if (count > 1) {
 		this._startDate = currentDate;
 		this._currentFrame += Math.floor(count);
 		this._currentFrame %= this._frame;
-        this.imgRect.x = this._current_animation.sprites[this._currentFrame].x;
-        this.imgRect.y = this._current_animation.sprites[this._currentFrame].y;
-        this.imgRect.width = this._current_animation.sprites[this._currentFrame].w;
-        this.imgRect.height = this._current_animation.sprites[this._currentFrame].h;
+		this.imgRect.x = this._current_animation.sprites[this._currentFrame].x;
+		this.imgRect.y = this._current_animation.sprites[this._currentFrame].y;
+		this.imgRect.width = this._current_animation.sprites[this._currentFrame].w;
+		this.imgRect.height = this._current_animation.sprites[this._currentFrame].h;
 	}
 };
 
@@ -62,20 +62,20 @@ SpriteAnime.prototype.update = function(){
  @method _myMethod
  @param {String} name the name of the animation to select to play
  */
-SpriteAnime.prototype.setCurrentAnimation = function(name){
+SpriteAnime.prototype.setCurrentAnimation = function(name) {
 
-    for (var property in this._properties) {
-        if (property.name === name) {
-            this._current_animation = property;
-            this._startDate = 0;
-            this._currentFrame = 0;
-            this._speed =  1000 / this._current_animation.frame_rate;
-            this._frame =this._current_animation.sprites.length;
-            this.imgRect.x = this._current_animation.sprites[this._currentFrame].x;
-            this.imgRect.y = this._current_animation.sprites[this._currentFrame].y;
-            this.imgRect.width = this._current_animation.sprites[this._currentFrame].w;
-            this.imgRect.height = this._current_animation.sprites[this._currentFrame].h;
-            break;
-        }
-    }
+	for (var property in this._properties) {
+		if (property.name === name) {
+			this._current_animation = property;
+			this._startDate = 0;
+			this._currentFrame = 0;
+			this._speed = 1000 / this._current_animation.frame_rate;
+			this._frame = this._current_animation.sprites.length;
+			this.imgRect.x = this._current_animation.sprites[this._currentFrame].x;
+			this.imgRect.y = this._current_animation.sprites[this._currentFrame].y;
+			this.imgRect.width = this._current_animation.sprites[this._currentFrame].w;
+			this.imgRect.height = this._current_animation.sprites[this._currentFrame].h;
+			break;
+		}
+	}
 };
