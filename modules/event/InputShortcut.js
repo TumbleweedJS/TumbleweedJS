@@ -8,12 +8,13 @@ TW.Event = TW.Event || {};
 TW.Event.InputShortcut = function() {
 	/**
 	 *  A class for manage callback with input event
-	 * @InputShortcut
+	 * @class InputShortcut
 	 * @constructor
 	 */
 	function InputShortcut() {
 		/**
 		 * Collection of function pointer
+		 * @property _callback
 		 * @type {Array}
 		 * @private
 		 */
@@ -22,6 +23,7 @@ TW.Event.InputShortcut = function() {
 
 	/**
 	 * Add a function into the callback collection
+	 * @method add
 	 * @param {TW.Event} arrayKey
 	 * @param {Function} fun
 	 * @return {Number}
@@ -42,6 +44,7 @@ TW.Event.InputShortcut = function() {
 
 	/**
 	 * Delete the function from the callback collection
+	 * @method delete
 	 * @param {Number} funId
 	 */
 	InputShortcut.prototype.delete = function(funId) {
@@ -50,6 +53,7 @@ TW.Event.InputShortcut = function() {
 
 	/**
 	 * Call the pointer function when all the key combinaiton match
+	 * @method update
 	 */
 	InputShortcut.prototype.update = function() {
 		for (var it = 0; it < this._callBack.length; it++) {

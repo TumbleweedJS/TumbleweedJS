@@ -95,7 +95,7 @@ TW.Preload.Preload = function() {
 	/**
 	 Preload class is object utility for preload different file format.
 
-	 @class Sound
+	 @class Preload
 	 @constructor
 	 @param {String} src The source of channel separated with '|' for multi-format.
 	 */

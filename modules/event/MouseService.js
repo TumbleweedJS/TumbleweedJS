@@ -35,18 +35,21 @@ TW.Event.MouseService = function() {
 
 	/**
 	 * Status for know if the button is down
+	 * @property mouseDown
 	 * @type {Boolean}
 	 */
 	var mouseDown = false;
 
 	/**
 	 * Status for know if the action is a click
+	 * @property click
 	 * @type {Boolean}
 	 */
 	var click = false;
 
 	/**
 	 * Array for the mouse position
+	 * @property mousePosition
 	 * @type {Array}
 	 */
 	var mousePosition = [];
@@ -69,6 +72,7 @@ TW.Event.MouseService = function() {
 
 	/**
 	 * Set the mouse position
+	 * @method setMousePosition
 	 * @param event
 	 */
 	function setMousePosition(event) {
@@ -85,6 +89,7 @@ TW.Event.MouseService = function() {
 
 	/**
 	 * Update the state when the button is down
+	 * @method mouseDownFunction
 	 * @param event
 	 */
 	function mouseDownFunction(event) {
@@ -94,6 +99,7 @@ TW.Event.MouseService = function() {
 
 	/**
 	 * Update the state when the button is up
+	 * @method mouseUpFunction
 	 * @param event
 	 */
 	function mouseUpFunction(event) {
@@ -102,6 +108,7 @@ TW.Event.MouseService = function() {
 
 	/**
 	 * Update the state when the action is a simple click
+	 * @method mouseClickFunction
 	 * @param event
 	 */
 	function mouseClickFunction(event) {
@@ -110,6 +117,7 @@ TW.Event.MouseService = function() {
 
 	/**
 	 * Check if the button is down
+	 * @method isMouseButtonDown
 	 * @param mouseCode
 	 * @return {Boolean}
 	 */
@@ -122,6 +130,7 @@ TW.Event.MouseService = function() {
 
 	/**
 	 * Check if the action is a simple click
+	 * @method isClick
 	 * @return {Boolean}
 	 */
 	function isClick() {

@@ -3,10 +3,6 @@
  * @namespace HUDVertical
  */
 
-/**
- HUDVertical is a class that allow you to define a HUD object who can organize verticaly HUDElements on it.
- Note that HUDVertical inherits from Layer class.
- */
 
 var TW = TW || {};
 TW.HUD = TW.HUD || {};
@@ -15,6 +11,18 @@ TW.HUD.HUDVertical = function() {
 
 	HUDVertical.prototype = new TW.Graphic.Layer("undefined", 0, 0, 0, 0);
 
+	/**
+	 * HUDVertical is a class that allow you to define a HUD object who can organize verticaly HUDElements on it.
+	 * Note that HUDVertical inherits from Layer class
+	 *
+	 * @class HUDVertical
+	 * @param context
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @constructor
+	 */
 	function HUDVertical(context, x, y, width, height) {
 		this.context = context;
 		/**

@@ -79,7 +79,7 @@ TW.Gameloop.Gameloop = function() {
 		 The frequency of function calls update
 		 Note: changes are effective only when gameloop is restarted.
 
-		 @propety {Integer} tick_per_second
+		 @property {Integer} tick_per_second
 		 @default 60
 		 */
 		this.tick_per_second = 60;

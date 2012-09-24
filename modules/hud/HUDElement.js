@@ -3,10 +3,6 @@
  * @namespace HUDElement
  */
 
-/**
- HUDElement is a class that allow you to define a HUD object who can organize HUDElements on it and then add it to a View object by the pushHUD method and then draw it by calling the method draw of the View object.
- */
-
 var TW = TW || {};
 TW.HUDElement = TW.HUDElement || {};
 
@@ -14,7 +10,8 @@ TW.Graphic.HUDElement = function() {
 	HUDElement.prototype = new TW.Graphic.Sprite(0, 0, 0, 0, "undefined");
 
 	/**
-	 HUDElement constructor
+	 HUDElement is a class that allow you to define a HUD object who can organize HUDElements on it and then add it to a View object by the pushHUD method and then draw it by calling the method draw of the View object.
+
 
 	 @class HUDElement
 	 @constructor

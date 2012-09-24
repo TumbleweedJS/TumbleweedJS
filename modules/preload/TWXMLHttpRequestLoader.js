@@ -8,6 +8,11 @@ TW.Preload = TW.Preload || {};
 
 TW.Preload.XMLHttpRequestLoader = function() {
 
+	/**
+	 * @class XMLHttpRequestLoader
+	 * @param file
+	 * @constructor
+	 */
 	function XMLHttpRequestLoader(file) {
 		/**
 		 * Determine if this loader has completed already.
@@ -71,6 +76,7 @@ TW.Preload.XMLHttpRequestLoader = function() {
 
 	/**
 	 * Begin the load.
+	 * @method load
 	 */
 	XMLHttpRequestLoader.prototype.load = function() {
 		if (this._request == null) {
@@ -102,6 +108,7 @@ TW.Preload.XMLHttpRequestLoader = function() {
 	};
 	/**
 	 * Get a reference to the manifest item that is loaded by this loader.
+	 * @method getItem
 	 * @return {Object} The manifest item
 	 */
 	XMLHttpRequestLoader.prototype.getItem = function() {
