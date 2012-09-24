@@ -36,7 +36,7 @@ TW.Math.Vector2d = function() {
 	 @return {Vector2d} return the sum of the two Vector2d
 	 */
 	Vector2d.prototype.add = function(vector) {
-		return new Vector2d(this.x + vector.getX(), this.y + vector.getY());
+		return new Vector2d(this.x + vector.x, this.y + vector.y);
 	};
 
 	/**
@@ -47,7 +47,7 @@ TW.Math.Vector2d = function() {
 	 @return {Vector2d} returns the substraction of this and vector object.
 	 */
 	Vector2d.prototype.sub = function(vector) {
-		return new Vector2d(this.x - vector.getX(), this.y - vector.getY());
+		return new Vector2d(this.x - vector.x, this.y - vector.y);
 	};
 
 	/**
@@ -122,8 +122,8 @@ TW.Math.Vector2d = function() {
 	 */
 	Vector2d.prototype.normalize = function() {
 		var length = Math.sqrt((this.x * this.x) + (this.y * this.y));
-		this.x = this.x / length;
-		this.y = this.y / length;
+		this.x /= length;
+		this.y /= length;
 	};
 
 	/**
@@ -144,8 +144,8 @@ TW.Math.Vector2d = function() {
 	 */
 	Vector2d.prototype.setLength = function(length) {
 		this.normalize();
-		this.x = this.x * length;
-		this.y = this.y * length;
+		this.x *= length;
+		this.y *= length;
 	};
 
 	/**

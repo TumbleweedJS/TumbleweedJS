@@ -10,16 +10,16 @@
  @method SpriteAnime
  @param {Object} properties is the object wich contain all the properties of the sprite sheet given
  (see json.js to see the structure)
- @param {ImageRect} spriteSheet the image containing all the frame of the different animation
+ @param {ImageRect} spritesheet the image containing all the frame of the different animation
  @constructor
  */
 
-function SpriteAnime(properties, spriteSheet) {
+function SpriteAnime(properties, spritesheet) {
 	this._properties = properties;
 	this._current_animation = properties[0];
 
 	TW.Graphic.Sprite.call(this, this._current_animation.sprites[0].x, this._current_animation.sprites[0].y,
-	                       this._current_animation.sprites[0].w, this._current_animation.sprites[0].h, spriteSheet);
+	                       this._current_animation.sprites[0].w, this._current_animation.sprites[0].h, spritesheet);
 	this._startDate = 0;
 	this._currentFrame = 0;
 	this._speed = 1000 / this._current_animation.frame_rate;
@@ -63,8 +63,9 @@ SpriteAnime.prototype.update = function() {
  @param {String} name the name of the animation to select to play
  */
 SpriteAnime.prototype.setCurrentAnimation = function(name) {
+	var property;
 
-	for (var property in this._properties) {
+	for (property in this._properties) {
 		if (property.name === name) {
 			this._current_animation = property;
 			this._startDate = 0;

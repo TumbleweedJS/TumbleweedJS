@@ -30,7 +30,6 @@ TW.Collision.CollisionBox = function() {
 		this.debug_mode = false;
 	}
 
-	;
 
 	/**
 	 The isPointInside method allow you to test if a point is inside the bouncing box.
@@ -47,23 +46,19 @@ TW.Collision.CollisionBox = function() {
 	/**
 	 The isSegmentCollidingCircle method allow you to test if a segment is colliding a circle
 	 @method isSegmentCollidingCircle
-	 @param {Integer} val_a_x the x coordinate of the first point of the segment
-	 @param {Integer} val_a_y the y coordinate of the first point of the segment
-	 @param {Integer} val_b_x the x coordinate of the second point of the segment
-	 @param {Integer} val_b_y the y coordinate of the second point of the segment
+	 @param {Integer} a_x the x coordinate of the first point of the segment
+	 @param {Integer} a_y the y coordinate of the first point of the segment
+	 @param {Integer} b_x the x coordinate of the second point of the segment
+	 @param {Integer} b_y the y coordinate of the second point of the segment
 	 @param {CollisionCircle} circle the CollisionCircle object to test collision with the segment
 	 @return {boolean} return true if circle and the segment are colliding, else return false.
 	 */
-	CollisionBox.prototype.isSegmentCollidingCircle = function(val_a_x, val_a_y, val_b_x, val_b_y, circle) {
-		var a_x = val_a_x;
-		var a_y = val_a_y;
-		var b_x = val_b_x;
-		var b_y = val_b_y;
+	CollisionBox.prototype.isSegmentCollidingCircle = function(a_x, a_y, b_x, b_y, circle) {
 		var v_x = b_x - a_x;
 		var v_y = b_y - a_y;
 		var radius = circle.getRadius();
-		a_x = a_x - circle.getX();
-		a_y = a_y - circle.getY();
+		a_x -= circle.getX();
+		a_y -= circle.getY();
 		var delta = (((2 * a_x * v_x) + (2 * a_y * v_y)) * ((2 * a_x * v_x) + (2 * a_y * v_y))) -
 		            (4 * ((v_x * v_x) + (v_y * v_y)) * ((a_x * a_x) + (a_y * a_y) - (radius * radius)));
 		if (delta >= 0) {

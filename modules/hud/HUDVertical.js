@@ -90,18 +90,14 @@ TW.HUD.HUDVertical = function() {
 	 @param {CanvasRenderingContext2D} context the canvas' context to draw the HUD on.
 	 */
 	HUDVertical.prototype.draw = function(context) {
-		var i;
-		var tmp_ctx = context || 1;
+		var i = 0;
+		var tmp_ctx = context || this.context;
 
-		if (tmp_ctx == 1) {
-			tmp_ctx = this.context;
-		}
-
-		i = 0;
 		var length_total = this.hudElementList.length + this.hudList.length;
 		var nb_hudelements = this.hudElementList.length;
 		var nb_huds = this.hudList.length;
 		var total_height = 0;
+
 		while (i < nb_hudelements) {
 			total_height += this.hudElementList[i].height * this.hudElementList[i].scaleY;
 			i++;

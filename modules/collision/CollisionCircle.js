@@ -53,23 +53,19 @@ TW.Collision.CollisionCircle = function() {
 	/**
 	 The isCollidingSegment method allow you to test if the CollisionCircle is Colliding a segment
 	 @method isCollidingSegment
-	 @param {Integer} val_a_x the x coordinate of the first point of the segment to test intersection with.
-	 @param {Integer} val_a_y the y coordinate of the first point of the segment to test intersection with.
-	 @param {Integer} val_b_x the x coordinate of the second point of the segment to test intersection with.
-	 @param {Integer} val_b_y the y coordinate of the second point of the segment to test intersection with.
+	 @param {Integer} a_x the x coordinate of the first point of the segment to test intersection with.
+	 @param {Integer} a_y the y coordinate of the first point of the segment to test intersection with.
+	 @param {Integer} b_x the x coordinate of the second point of the segment to test intersection with.
+	 @param {Integer} b_y the y coordinate of the second point of the segment to test intersection with.
 	 @return {boolean} returns true if the current CollisionCircle is colliding the segment. Ortherwise return false.
 	 */
-	CollisionCircle.prototype.isCollidingSegment = function(val_a_x, val_a_y, val_b_x, val_b_y) {
-		var a_x = val_a_x;
-		var a_y = val_a_y;
-		var b_x = val_b_x;
-		var b_y = val_b_y;
+	CollisionCircle.prototype.isCollidingSegment = function(a_x, a_y, b_x, b_y) {
 		var v_x = b_x - a_x;
 		var v_y = b_y - a_y;
 		var circle = this;
 		var radius = circle.getRadius();
-		a_x = a_x - circle.getX();
-		a_y = a_y - circle.getY();
+		a_x -= circle.getX();
+		a_y -= circle.getY();
 		var delta = (((2 * a_x * v_x) + (2 * a_y * v_y)) * ((2 * a_x * v_x) + (2 * a_y * v_y))) -
 		            (4 * ((v_x * v_x) + (v_y * v_y)) * ((a_x * a_x) + (a_y * a_y) - (radius * radius)));
 		if (delta >= 0) {
@@ -98,8 +94,8 @@ TW.Collision.CollisionCircle = function() {
 	 @return {boolean} return true if the point is inside the Circle, otherwise it returns false.
 	 */
 	CollisionCircle.prototype.isPointInside = function(px, py) {
-		px = px - this.getX();
-		py = py - this.getY();
+		px -= this.getX();
+		py -= this.getY();
 		return Math.sqrt((px * px) + (py * py)) <= this.getRadius();
 	};
 

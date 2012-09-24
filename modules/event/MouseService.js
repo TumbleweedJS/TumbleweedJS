@@ -118,11 +118,11 @@ TW.Event.MouseService = function() {
 	/**
 	 * Check if the button is down
 	 * @method isMouseButtonDown
-	 * @param mouseCode
+	 * @param {TW.Event.MouseKey} mouse_code
 	 * @return {Boolean}
 	 */
-	function isMouseButtonDown(mouseCode) {
-		if (mouseCode == MouseEnum.Left) {
+	function isMouseButtonDown(mouse_code) {
+		if (mouse_code === TW.Event.MouseKey.Left) {
 			return mouseDown;
 		}
 		return false;

@@ -161,9 +161,11 @@ TW.Sound.Manager = function() {
 	};
 
 	Manager.prototype.tellAllInstances = function(command, value) {
+		var key;
+		var sound;
 
-		for (var key in this.instances) {
-			var sounds = this.instances[key];
+		for (key in this.instances) {
+			sounds = this.instances[key];
 			switch (command) {
 				case "pause":
 					sounds.pause();

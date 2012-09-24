@@ -523,8 +523,7 @@ TW.Preload.Preload = function() {
 				break;
 			case TW.Preload.SVG:
 				tag = this._createSVG();
-				var svg = this._createXML(data, "image/svg+xml");
-				tag.appendChild(svg);
+				tag.appendChild(this._createXML(data, "image/svg+xml"));
 				break;
 			case TW.Preload.XML:
 				resultData = this._createXML(data, "text/xml");
@@ -549,11 +548,13 @@ TW.Preload.Preload = function() {
 
 	Preload.prototype._createXML = function(data, type) {
 		var resultData;
+		var parser;
+
 		if (window.DOMParser) {
-			var parser = new DOMParser();
+			parser = new DOMParser();
 			resultData = parser.parseFromString(data, type);
 		} else { // Internet Explorer
-			var parser = new ActiveXObject("Microsoft.XMLDOM");
+			parser = new ActiveXObject("Microsoft.XMLDOM");
 			parser.async = false;
 			parser.loadXML(data);
 			resultData = parser;

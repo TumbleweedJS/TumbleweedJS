@@ -166,7 +166,9 @@ TW.Sound.Sound = function() {
 		var sounds = value.split("|");
 		var found = false;
 		var c = this.capabilities;
-		for (var i = 0, l = sounds.length; i < l; i++) {
+		var i;
+
+		for (i = 0, l = sounds.length; i < l; i++) {
 			var sound = sounds[i];
 			var point = sound.lastIndexOf(".");
 			var ext = sound.substr(point + 1).toLowerCase();
@@ -186,6 +188,8 @@ TW.Sound.Sound = function() {
 						found = true;
 					}
 					break;
+				default:
+					found = false;
 			}
 
 			if (found) {

@@ -105,9 +105,11 @@ TW.Sound.Channel = function() {
 	 @return {Object} A playable sound.
 	 **/
 	Channel.prototype.getPlayableSound = function() {
+		var i = 0;
+		var sound;
 
-		for (var i = 0; i < this.sounds.length; ++i) {
-			var sound = this.sounds[i];
+		for (i = 0; i < this.sounds.length; ++i) {
+			sound = this.sounds[i];
 			if (sound.playState != AUDIO_PLAYED) {
 				return this.sounds[i];
 			}
@@ -142,6 +144,7 @@ TW.Sound.Channel = function() {
 				case "stop":
 					sound.stop();
 					break;
+				default:
 			}
 		}
 	};

@@ -12,8 +12,10 @@ TW.Parallax.ParallaxManager = function() {
 	}
 
 	ParallaxManager.prototype.setSpeed = function(speed) {
+		var it;
+
 		this.speed = speed;
-		for (var it = 0; it < this.collection.length; it++) {
+		for (it = 0; it < this.collection.length; it++) {
 			this.collection[it].setSpeed(this.speed);
 		}
 	};
@@ -23,8 +25,10 @@ TW.Parallax.ParallaxManager = function() {
 	};
 
 	ParallaxManager.prototype.setDirection = function(direction) {
+		var it;
+
 		this.direction = direction;
-		for (var it = 0; it < this.collection.length; it++) {
+		for (it = 0; it < this.collection.length; it++) {
 			this.collection[it].setDirection(this.direction);
 		}
 	};
@@ -34,8 +38,10 @@ TW.Parallax.ParallaxManager = function() {
 	};
 
 	ParallaxManager.prototype.setIsScrolling = function(status) {
+		var it;
+
 		this.is_scrolling = status;
-		for (var it = 0; it < this.collection.length; it++) {
+		for (it = 0; it < this.collection.length; it++) {
 			this.collection[it].setIsScrolling(this.is_scrolling);
 		}
 	};
@@ -45,10 +51,12 @@ TW.Parallax.ParallaxManager = function() {
 	};
 
 	ParallaxManager.prototype.setPosition = function(posX, posY) {
+		var it;
+
 		this.positionX = posX;
 		this.positionY = posY;
 
-		for (var it = 0; it < this.collection.length; it++) {
+		for (it = 0; it < this.collection.length; it++) {
 			this.collection[it].setPosition(this.positionX, this.positionY);
 		}
 	};

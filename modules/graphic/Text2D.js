@@ -16,15 +16,15 @@ TW.Graphic.Text2D = function() {
 	 @param {Integer} x the x parameter represent the x coordinate of the text on the canvas context
 	 @param {Integer} y the y parameter represent the y coordinate of the text on the canvas context
 	 @param {Integer} size the size of the text
-	 @param {string} fontName the name of the font to load, for example, if you want to use the Calibri font, then, the font parameter should be equals to 'Calibri'
-	 @param {string} text the text to display on the canvas context.
+	 @param {String} font_name the name of the font to load, for example, if you want to use the Calibri font, then, the font parameter should be equals to 'Calibri'
+	 @param {String} text the text to display on the canvas context.
 	 */
-	function Text2D(x, y, size, fontName, text) {
+	function Text2D(x, y, size, font_name, text) {
 		this.x = x;
 		this.y = y;
 		this.text = text;
 		this.size = size + 'pt';
-		this.fontName = fontName;
+		this.fontName = font_name;
 		this.redColor = 0;
 		this.greenColor = 0;
 		this.blueColor = 0;

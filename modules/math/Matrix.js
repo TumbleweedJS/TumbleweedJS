@@ -47,8 +47,9 @@ TW.Math.Matrix = function() {
 		this.height = height;
 
 		var i = 0;
+		var j = 0;
 		while (i < height) {
-			var j = 0;
+			j = 0;
 			this.data.push([]);
 			while (j < width) {
 				this.data[i].push(i === j ? 1 : 0);
@@ -95,6 +96,8 @@ TW.Math.Matrix = function() {
 	 @chainable
 	 */
 	Matrix.prototype.rotate = function(angle) {
+		var i = 0, j = 0;
+
 		var tmp_matrix = new Matrix(3, 3);
 		var rad_angle = angle / 180 * Math.PI;
 		tmp_matrix.setData(3, 3, [
@@ -103,8 +106,6 @@ TW.Math.Matrix = function() {
 			0, 0, 1
 		]);
 		var result = this.multByMatrix(tmp_matrix);
-		var i = 0;
-		var j = 0;
 		while (i < this.height) {
 			j = 0;
 			while (j < this.width) {
@@ -274,7 +275,7 @@ TW.Math.Matrix = function() {
 		var step = 0;
 		var sum = 0;
 		while (step < this.width) {
-			sum = sum + (this.getScalar(i, step) * matrix.getScalar(step, j));
+			sum += (this.getScalar(i, step) * matrix.getScalar(step, j));
 			step++;
 		}
 		return sum;
@@ -288,13 +289,14 @@ TW.Math.Matrix = function() {
 	 @return the result if it's ok, false if an error ocurred
 	 */
 	Matrix.prototype.multByMatrix = function(matrix) {
+		var ret_matrix;
+		var i = 0, j = 0;
+
 		if (this.height != matrix.width
 			|| this.width != matrix.height) {
 			return false;
 		}
-		var ret_matrix = new Matrix(this.width, this.height);
-		var i = 0;
-		var j = 0;
+		ret_matrix = new Matrix(this.width, this.height);
 		while (i < this.height) {
 			j = 0;
 			while (j < this.width) {

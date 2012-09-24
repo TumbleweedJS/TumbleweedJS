@@ -23,8 +23,6 @@ TW.Collision.CollisionSegment = function() {
 		this.vector = new Vector2d(x2 - x1, y2 - y1);
 	}
 
-	;
-
 	/**
 	 The getVector method allow you to get the Vector of the collisionSegment
 	 @method getVector
@@ -94,8 +92,8 @@ TW.Collision.CollisionSegment = function() {
 		var v_y = b_y - a_y;
 		var radius = circle.getRadius();
 
-		a_x = a_x - circle.getX();
-		a_y = a_y - circle.getY();
+		a_x -= circle.getX();
+		a_y -= circle.getY();
 		var delta = (((2 * a_x * v_x) + (2 * a_y * v_y)) * ((2 * a_x * v_x) + (2 * a_y * v_y))) -
 		            (4 * ((v_x * v_x) + (v_y * v_y)) * ((a_x * a_x) + (a_y * a_y) - (radius * radius)));
 		if (delta >= 0) {

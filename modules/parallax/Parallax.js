@@ -128,38 +128,50 @@ TW.Parallax.Parallax = function() {
 			return;
 		}
 		//Move the first
-		if (this.direction == TW.Parallax.Direction.LEFT) {
-			this.view.listSprite[0].setX(this.view.listSprite[0].getX() - this.speed);
-			this.view.listSprite[0].setY(this.positionY);
-		} else if (this.direction == TW.Parallax.Direction.RIGHT) {
-			this.view.listSprite[0].setX(this.view.listSprite[0].getX() + this.speed);
-			this.view.listSprite[0].setY(this.positionY);
-		} else if (this.direction == TW.Parallax.Direction.DOWN) {
-			this.view.listSprite[0].setY(this.view.listSprite[0].getY() + this.speed);
-			this.view.listSprite[0].setX(this.positionX);
-		} else if (this.direction == TW.Parallax.Direction.UP) {
-			this.view.listSprite[0].setY(this.view.listSprite[0].getY() - this.speed);
-			this.view.listSprite[0].setX(this.positionX);
+		switch (this.direction) {
+			case TW.Parallax.Direction.LEFT:
+				this.view.listSprite[0].setX(this.view.listSprite[0].getX() - this.speed);
+				this.view.listSprite[0].setY(this.positionY);
+				break;
+			case TW.Parallax.Direction.RIGHT:
+				this.view.listSprite[0].setX(this.view.listSprite[0].getX() + this.speed);
+				this.view.listSprite[0].setY(this.positionY);
+				break;
+			case TW.Parallax.Direction.DOWN:
+				this.view.listSprite[0].setY(this.view.listSprite[0].getY() + this.speed);
+				this.view.listSprite[0].setX(this.positionX);
+				break;
+			case W.Parallax.Direction.UP:
+				this.view.listSprite[0].setY(this.view.listSprite[0].getY() - this.speed);
+				this.view.listSprite[0].setX(this.positionX);
+				break;
+			default:
 		}
 		//Move others sprites
 		if (this.view.listSprite.length > 1) {
 			for (var it = 1; it < this.view.listSprite.length; it++) {
-				if (this.direction == TW.Parallax.Direction.LEFT) {
-					this.view.listSprite[it].setX(this.view.listSprite[it - 1].getWidth() +
-					                              this.view.listSprite[it - 1].getX());
-					this.view.listSprite[it].setY(this.positionY);
-				} else if (this.direction == TW.Parallax.Direction.RIGHT) {
-					this.view.listSprite[it].setX(this.view.listSprite[it - 1].getX() -
-					                              this.view.listSprite[it - 1].getWidth());
-					this.view.listSprite[it].setY(this.positionY);
-				} else if (this.direction == TW.Parallax.Direction.DOWN) {
-					this.view.listSprite[it].setY(this.view.listSprite[it - 1].getY() -
-					                              this.view.listSprite[it - 1].getHeight());
-					this.view.listSprite[it].setX(this.positionX);
-				} else if (this.direction == TW.Parallax.Direction.UP) {
-					this.view.listSprite[it].setY(this.view.listSprite[it - 1].getY() +
-					                              this.view.listSprite[it - 1].getHeight());
-					this.view.listSprite[it].setX(this.positionX);
+				switch (this.direction) {
+					case TW.Parallax.Direction.LEFT:
+						this.view.listSprite[it].setX(this.view.listSprite[it - 1].getWidth() +
+						                              this.view.listSprite[it - 1].getX());
+						this.view.listSprite[it].setY(this.positionY);
+						break;
+					case TW.Parallax.Direction.RIGHT:
+						this.view.listSprite[it].setX(this.view.listSprite[it - 1].getX() -
+						                              this.view.listSprite[it - 1].getWidth());
+						this.view.listSprite[it].setY(this.positionY);
+						break;
+					case TW.Parallax.Direction.DOWN:
+						this.view.listSprite[it].setY(this.view.listSprite[it - 1].getY() -
+						                              this.view.listSprite[it - 1].getHeight());
+						this.view.listSprite[it].setX(this.positionX);
+						break;
+					case TW.Parallax.Direction.UP:
+						this.view.listSprite[it].setY(this.view.listSprite[it - 1].getY() +
+						                              this.view.listSprite[it - 1].getHeight());
+						this.view.listSprite[it].setX(this.positionX);
+						break;
+					default:
 				}
 			}
 		}

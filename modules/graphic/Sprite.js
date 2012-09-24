@@ -18,9 +18,9 @@ TW.Graphic.Sprite = function() {
 	 @param {Integer} y value on the y axis
 	 @param {Integer} width width of the Sprite
 	 @param {Integer} height height of the Sprite
-	 @param {ImageRect} imgRect imgRect who specify the inner part of a picture to display
+	 @param {ImageRect} img_rect imgRect who specify the inner part of a picture to display
 	 */
-	function Sprite(x, y, width, height, imgRect) {
+	function Sprite(x, y, width, height, img_rect) {
 		this.x = x;
 		this.y = y;
 		this.alpha = 1.0;
@@ -31,7 +31,7 @@ TW.Graphic.Sprite = function() {
 		this.scaleX = 1.0;
 		this.scaleY = 1.0;
 		this.rotation = 0.0;
-		this.imgRect = imgRect;
+		this.imgRect = img_rect;
 		/**
 		 the zDepth coordinate of the Sprite
 		 @property {Integer} zDepth

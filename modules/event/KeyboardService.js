@@ -364,13 +364,13 @@ TW.Event.KeyboardService = function() {
 	 Check if a keyboard key is down
 
 	 @method isKeyDown
-	 @param {Event.Key} keyCode the value of the keyboard key
+	 @param {Event.Key} key_code the value of the keyboard key
 	 @return {Boolean} `true` if keyCode is down;
 	 otherwise `false`
 	 */
-	function isKeyDown(keyCode) {
+	function isKeyDown(key_code) {
 		for (var it = 0; it < keyDown.length; it++) {
-			if (keyDown[it] == keyCode) {
+			if (keyDown[it] == key_code) {
 				return true;
 			}
 		}
@@ -381,13 +381,13 @@ TW.Event.KeyboardService = function() {
 	 Check if a keyboard key was down before the last update
 
 	 @method isOldKeyDown
-	 @param {Event.Key} keyCode the value of the keyboard key
+	 @param {Event.Key} key_code the value of the keyboard key
 	 @return {Boolean} `true` if keyCode was down;
 	 otherwise `false`
 	 */
-	function isOldKeyDown(keyCode) {
+	function isOldKeyDown(key_code) {
 		for (var it = 0; it < oldKeyDown.length; it++) {
-			if (oldKeyDown[it] == keyCode) {
+			if (oldKeyDown[it] == key_code) {
 				return true;
 			}
 		}
@@ -398,12 +398,12 @@ TW.Event.KeyboardService = function() {
 	 Check if a keyboard key is up
 
 	 @method isKeyUp
-	 @param {Event.Key} keyCode the value of the keyboard key
+	 @param {Event.Key} key_code the value of the keyboard key
 	 @return {Boolean} `true` if keyCode is up;
 	 otherwise `false`
 	 */
-	function isKeyUp(keyCode) {
-		return !isKeyDown(keyCode);
+	function isKeyUp(key_code) {
+		return !isKeyDown(key_code);
 	}
 
 	/**
@@ -411,14 +411,14 @@ TW.Event.KeyboardService = function() {
 	 A key is pressed if its status changes from up to down.
 
 	 @method isKeyDown
-	 @param {Event.Key} keyCode the value of the keyboard key
+	 @param {Event.Key} key_code the value of the keyboard key
 	 @return {Boolean} `true` if keyCode is pressed;
 	 otherwise `false`
 	 */
-	function isKeyPressed(keyCode) {
-		if (this.isOldKeyDown(keyCode) && this.isKeyUp(keyCode)) {
+	function isKeyPressed(key_code) {
+		if (this.isOldKeyDown(key_code) && this.isKeyUp(key_code)) {
 			for (var it = 0; it < oldKeyDown.length; it++) {
-				if (oldKeyDown[it] == keyCode) {
+				if (oldKeyDown[it] == key_code) {
 					oldKeyDown.splice(it, 1);
 				}
 			}

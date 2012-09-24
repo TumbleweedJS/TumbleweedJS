@@ -56,16 +56,19 @@ TW.Event.InputShortcut = function() {
 	 * @method update
 	 */
 	InputShortcut.prototype.update = function() {
-		for (var it = 0; it < this._callBack.length; it++) {
-			var tBool = true;
+		var it, it2;
+		var t_bool = true;
 
-			for (var it2 = 0; it2 < this._callBack[it].args.length; it2++) {
+		for (it = 0; it < this._callBack.length; it++) {
+			t_bool = true;
+
+			for (it2 = 0; it2 < this._callBack[it].args.length; it2++) {
 				if (TW.Event.KeyboardService.isKeyUp(this._callBack[it].args[it2])) {
-					tBool = false;
+					t_bool = false;
 					break;
 				}
 			}
-			if (tBool && this._callBack[it].args.length > 0) {
+			if (t_bool && this._callBack[it].args.length > 0) {
 				this._callBack[it].fct();
 			}
 		}

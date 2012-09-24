@@ -19,9 +19,9 @@ TW.Graphic.HUDElement = function() {
 	 @param {Integer} y the y coordinate of the HUDElement
 	 @param {Integer} w the width of the HUDElement
 	 @param {Integer} h the height of the HUDElement
-	 @param {ImageRect} imgRect the image rect of the picture to use
+	 @param {ImageRect} img_rect the image rect of the picture to use
 	 */
-	function HUDElement(x, y, w, h, imgRect) {
+	function HUDElement(x, y, w, h, img_rect) {
 		/**
 		 The x coordinate of the HUD
 
@@ -76,7 +76,7 @@ TW.Graphic.HUDElement = function() {
 		 @property {string} position
 		 */
 		this.position = "absolute";
-		this.imgRect = imgRect;
+		this.imgRect = img_rect;
 	}
 
 	/**
