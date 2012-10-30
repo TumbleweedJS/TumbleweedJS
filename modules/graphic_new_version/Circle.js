@@ -29,6 +29,7 @@ TW.Graphic.Circle = function() {
  */
 	Circle.prototype.draw = function(context) {
 		if (context) {
+			//TODO apply the matrix transformations on the context before drawing the circle
 			context.save();
 			context.beginPath();
 			context.strokeStyle = this.strokeColor;
