@@ -15,37 +15,36 @@ module.exports = function(grunt) {
             files: ['grunt.js', 'modules/**/*.js', 'test/**/*.js']
         },
         jshint: {
-            globals: {
-                browser:true,
-                devel: true	//TODO
-            },
             options: {
                 /* variables */
                 quotmark: "double",
                 indent: 2,
                 maxlen: 120,
 
-                /*	moins strict:	*/
-                //debug: true,	//instruction `debugger`
-                eqnull: true,	//Warning about `==` and `===` for null only.
-                es5: true,	//Allow you to use EcmaScript 5 features TODO
-                //expr: true,	//???
-                //laxbreak:true,//TODO: instructions multi-lignes ?
-                multistr:true,
-                smarttabs:true,	//Mixed Tabs and Spaces ?
+                browser:true,       //allow to use the window object
 
-                /*	plus strict:	*/
-                //immed: false	//Allow to not add parenthesis around anonymous func.
-                noarg: true,	//Forbidden use to argument.caller and argument.callee
+                /*	less strict:	*/
+                //debug: true,      //instruction `debugger`
+                eqnull: true,       //Warning about `==` and `===` for null only.
+                es5: true,          //Allow you to use EcmaScript 5 features
+                //expr: true,       //???
+                //laxbreak:true,    //TODO: instructions multi-lines ?
+                multistr:true,
+                smarttabs:true,     //Mixed Tabs and Spaces ?
+
+                /*	more strict:	*/
+
+                //immed: false,     //Allow to not add parenthesis around anonymous func.
+                noarg: true,        //Forbidden use to argument.caller and argument.callee
                 bitwise:true,
-                curly:true,	//Add warning for if whitout accolade
+                curly:true,         //Add warning for using if without accolade
                 eqeqeq:true,
                 latedef:true,
                 newcap:true,
                 nonew:true,
                 undef:true,
-                //strict:true,	//Force the strict mode in each functions
-                trailing:true	//Spaces in end of lines
+                //strict:true,      //Force the strict mode in each functions
+                trailing:true       //Spaces in end of lines
             }
         },
         qunit: {
