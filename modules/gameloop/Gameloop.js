@@ -1,40 +1,7 @@
 /**
- * Created with JetBrains WebStorm.
- * User: Aymeric CHAUVIN
- * Date: 26/06/12
- * Time: 18:00
- *
  * @module Gameloop
  * @namespace Gameloop
  */
-
-/*
- MDN implementation of Function.bind.
- TODO: déplacer dans Utils!
- */
-if (!Function.prototype.bind) {
-    Function.prototype.bind = function(oThis) {
-        var args;
-
-        if (typeof this !== "function") {
-            throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-        }
-
-        args = Array.prototype.slice.call(arguments, 1);
-        var fToBind = this,
-            fNOP = function() {
-            },
-            fBound = function() {
-                return fToBind.apply(this instanceof fNOP && oThis ? this : oThis,
-                    args.concat(Array.prototype.slice.call(arguments)));
-            };
-
-        fNOP.prototype = this.prototype;
-        fBound.prototype = new fNOP();
-
-        return fBound;
-    };
-}
 
 
 var TW = TW || {};
@@ -42,7 +9,7 @@ var TW = TW || {};
 (function(TW) {
 
     if (typeof window.define === "function" && window.define.amd) {
-        define([], initWrap(init));
+        define(['../utils/Polyfills'], initWrap(init));
     } else {
         initWrap(init);
     }

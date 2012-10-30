@@ -13,6 +13,7 @@ if (typeof window.define === "function" && window.define.amd) {
 
     define([
         './utils/Inheritance',
+        './utils/Polyfills'
     ], function() {
         return TW.Utils;
     });

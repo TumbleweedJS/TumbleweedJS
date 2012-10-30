@@ -4,9 +4,23 @@
  */
 
 var TW = TW || {};
-TW.Sound = TW.Sound || {};
 
-TW.Sound.Channel = function() {
+(function(TW) {
+
+    if (typeof window.define === "function" && window.define.amd) {
+        define(['../utils/Polyfills'], initWrap(init));
+    } else {
+        initWrap(init);
+    }
+
+    function initWrap(f) {
+        TW.Sound = TW.Sound ||  {};
+        TW.Sound.Channel = f();
+        return TW.Sound.Channel;
+    }
+
+
+    function init() {
 
 	/**
 	 Channel class is utility for manage multiple sound with same source.
@@ -46,7 +60,7 @@ TW.Sound.Channel = function() {
 		 **/
 		this.allSoundsReady = null;
 
-		this.allSoundsReadyHandler = proxy(this.handleAllSoundsReady, this);
+		this.allSoundsReadyHandler = this.handleAllSoundsReady.bind(this);
 
 		/**
 		 Source sound for this channel.
@@ -197,4 +211,6 @@ TW.Sound.Channel = function() {
 	};
 
 	return Channel;
-}();
+    }
+
+}(TW));

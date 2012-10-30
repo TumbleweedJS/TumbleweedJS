@@ -4,9 +4,23 @@
  */
 
 var TW = TW || {};
-TW.Sound = TW.Sound || {};
 
-TW.Sound.Manager = function() {
+(function(TW) {
+
+    if (typeof window.define === "function" && window.define.amd) {
+        define(['../utils/Polyfills'], initWrap(init));
+    } else {
+        initWrap(init);
+    }
+
+    function initWrap(f) {
+        TW.Sound = TW.Sound ||  {};
+        TW.Sound.Manager = f();
+        return TW.Sound.Manager;
+    }
+
+
+    function init() {
 
 	/**
 	 Manager class is utility for manage all sound in channel.
@@ -79,7 +93,7 @@ TW.Sound.Manager = function() {
 		 **/
 		this.masterVolume = 1;
 
-		this.allInstancesReadyHandler = proxy(this.handleAllInstancesReady, this);
+		this.allInstancesReadyHandler = this.handleAllInstancesReady.bind(this);
 	}
 
 	/**
@@ -248,4 +262,6 @@ TW.Sound.Manager = function() {
 	};
 
 	return Manager;
-}();
+    }
+
+}(TW));

@@ -4,23 +4,25 @@
  */
 
 var TW = TW || {};
-TW.Sound = TW.Sound || {};
 
-/**
- By default, JavaScript methods do not maintain scope, so passing a method as a callback will result in the
- method getting called in the scope of the caller. Using a proxy ensures that the method gets called in the
- correct scope. All internal callbacks use this approach.
+(function(TW) {
 
- @property proxy
- @type function
- **/
-proxy = function(method, scope) {
-	return function() {
-		return method.apply(scope, arguments);
-	};
-};
+    if (typeof window.define === "function" && window.define.amd) {
+        define(['../utils/Polyfills'], initWrap(init));
+    } else {
+        initWrap(init);
+    }
 
-TW.Sound.Sound = function() {
+    function initWrap(f) {
+        TW.Sound = TW.Sound ||  {};
+        TW.Sound.Sound = f();
+        return TW.Sound.Sound;
+    }
+
+
+    function init() {
+
+
 	PLAY_SUCCEEDED = "playSucceeded";
 	PLAY_FINISHED = "playFinished";
 	PLAY_FAILED = "playFailed";
@@ -158,8 +160,8 @@ TW.Sound.Sound = function() {
 		this.src = this._parsePath(src);
 
 		this.audio.src = this.src;
-		this.endedHandler = proxy(this.handleSoundComplete, this);
-		this.readyHandler = proxy(this.handleSoundReady, this);
+		this.endedHandler = this.handleSoundComplete.bind(this);
+		this.readyHandler = this.handleSoundReady.bind(this);
 	}
 
 	Sound.prototype._parsePath = function(value) {
@@ -402,4 +404,7 @@ TW.Sound.Sound = function() {
 	};
 
 	return Sound;
-}();
+
+    }
+
+}(TW));

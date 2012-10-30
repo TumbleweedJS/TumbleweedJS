@@ -82,13 +82,17 @@ module.exports = function(grunt) {
                     include: [
                         'TW/event',
                         'TW/utils',
+                        'TW/sound',
+                        'TW/collision',
                         'TW/gameloop'
                     ],
                     create: true
                 },
                 { name: 'event' },
                 { name: 'utils' },
-                { name: 'gameloop' }
+                { name: 'gameloop' },
+                { name: 'sound' },
+                { name: 'collision' }
             ]
         }
     });
