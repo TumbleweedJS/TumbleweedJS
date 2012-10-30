@@ -34,7 +34,7 @@ TW.Graphic.GraphicObject = function() {
 	 * @method draw
 	 * @param context represent the context of the canvas to draw on.
 	 */
-	GraphicObject.prototype.draw = function() {
+	GraphicObject.prototype.draw = function(context) {
 
 	};
 
