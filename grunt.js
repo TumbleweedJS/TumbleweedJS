@@ -12,7 +12,7 @@ module.exports = function(grunt) {
                 'YOUR_NAME; Licensed MIT */'
         },
         lint: {
-            files: ['grunt.js', 'modules/**/*.js', 'test/**/*.js'],
+            files: ['grunt.js', 'modules/**/*.js', 'test/**/*.js']
         },
         jshint: {
             globals: {
