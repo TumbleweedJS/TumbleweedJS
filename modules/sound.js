@@ -15,7 +15,7 @@ if (typeof window.define === "function" && window.define.amd) {
         './sound/Manager',
         './sound/Channel'
     ], function() {
-        return TW.Event;
+        return TW.Sound;
     });
 
 }
