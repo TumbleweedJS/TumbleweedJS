@@ -28,7 +28,7 @@ var TW = TW || {};
          *
          * @param child
          * @param parent
-         * @method inherit
+         * @class inherit
          */
         TW.Utils.inherit  = function(child, parent) {
             var F = function() {};

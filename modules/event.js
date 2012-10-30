@@ -1,8 +1,7 @@
 /**
+ * TODO: describe module here.
  * @module Event
  * @main
- *
- * TODO: describe module here.
  */
 
 

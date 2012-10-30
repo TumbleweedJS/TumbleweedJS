@@ -1,8 +1,8 @@
 /**
+ * TODO: describe module here.
+ *
  * @module Sound
  * @main
- *
- * TODO: describe module here.
  */
 
 

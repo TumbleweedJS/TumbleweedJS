@@ -1,8 +1,8 @@
 /**
+ * TODO: describe module here.
+ *
  * @module Gameloop
  * @main
- *
- * TODO: describe module here.
  */
 
 
