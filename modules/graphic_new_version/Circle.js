@@ -14,8 +14,11 @@ TW.Graphic = TW.Graphic || {};
  */
 TW.Graphic.Circle = function() {
 	function Circle() {
+		TW.Graphic.Shape.call(this);
 		this.radius = 50;
 	}
+
+	TW.Utils.inherit(Circle, TW.Graphic.Shape);
 
 /**
  * This overidded draw method allow the Circle class to draw a circle on the context gived in parameter.
