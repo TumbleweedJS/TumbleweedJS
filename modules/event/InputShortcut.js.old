@@ -52,7 +52,7 @@ TW.Event.InputShortcut = function() {
 	};
 
 	/**
-	 * Call the pointer function when all the key combinaiton match
+	 * Call the pointer function when all the key combination match
 	 * @method update
 	 */
 	InputShortcut.prototype.update = function() {

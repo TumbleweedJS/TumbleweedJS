@@ -121,10 +121,10 @@ var TW = TW || {};
          *
          *      var keyboard = new KeyboardInput();
          *      keyboard.addListener("KEY_SPACE", KeyboardInput.KEY_PRESSED, function(event, value, provider) {
-     *          if (provider.getState("KEY_CTRL") === KeyboardInput.KEY_PRESSED) {
-     *              //CTRL+space is pressed !
-     *          }
-     *      });
+         *          if (provider.getState("KEY_CTRL") === KeyboardInput.KEY_PRESSED) {
+         *              //CTRL+space is pressed !
+         *          }
+         *      });
          *
          * @class KeyboardInput
          * @extends Event.EventProvider

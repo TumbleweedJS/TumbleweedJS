@@ -17,6 +17,7 @@ var TW = TW || {};
 
     function initWrap(f) {
         TW.Utils = TW.Utils ||  {};
+        f();
     }
 
 
@@ -27,23 +28,23 @@ var TW = TW || {};
             Function.prototype.bind = function(this_context) {
                 var args;
                 var func = function() {};
-                var fToBind, fBound;
+                var f2bind, f_bound;
 
                 if (typeof this !== "function") {
                     throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
                 }
 
                 args = Array.prototype.slice.call(arguments, 1);
-                fToBind = this;
-                fBound = function() {
-                    return fToBind.apply(this instanceof func && this_context ? this : this_context,
+                f2bind = this;
+                f_bound = function() {
+                    return f2bind.apply(this instanceof func && this_context ? this : this_context,
                         args.concat(Array.prototype.slice.call(arguments)));
                 };
 
                 func.prototype = this.prototype;
-                fBound.prototype = new func();
+                f_bound.prototype = new func();
 
-                return fBound;
+                return f_bound;
             };
         }
 

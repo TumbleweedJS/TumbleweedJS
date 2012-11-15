@@ -31,7 +31,9 @@ var TW = TW || {};
          * @class inherit
          */
         TW.Utils.inherit  = function(child, parent) {
-            var F = function() {};
+
+            function F() {}
+
             F.prototype = parent.prototype;
             child.prototype = new F();
         };
