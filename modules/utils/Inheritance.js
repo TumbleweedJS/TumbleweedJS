@@ -16,7 +16,7 @@ var TW = TW || {};
     function initWrap(f) {
         TW.Utils = TW.Utils ||  {};
         TW.Utils.inherit = f();
-        return TW.Event.inherit;
+        return TW.Utils.inherit;
     }
 
 
