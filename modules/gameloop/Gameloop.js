@@ -101,9 +101,9 @@ var TW = TW || {};
                 //Compatibility mode
                 this._draw_handler = setInterval(this.draw.bind(this), 1000 / this.fps);
             }
-        } else {
-            //Console.log("Gameloop already started");
-        }
+        } /* else {
+            Console.log("Gameloop already started");
+        } */
     };
 
     /**
@@ -170,8 +170,8 @@ var TW = TW || {};
     Gameloop.prototype.draw = function() {
         var i;
         for (i = 0; i < this.object.length; i++) {
-            if (typeof this.object[i] === "object"
-                && typeof this.object[i].draw !== "undefined") {
+            if (typeof this.object[i] === "object" &&
+                typeof this.object[i].draw !== "undefined") {
                 this.object[i].draw();
             }
         }

@@ -171,10 +171,8 @@ var TW = TW || {};
 			var i, len;
 			if (this.enable) {
 				for (i = 0, len = this._binds.length; i < len; ++i) {
-					if (this._binds[i] === undefined) {
-						continue;
-					}
-					if (this._binds[i].event === event && this._binds[i].input === object) {
+					if (this._binds[i] !== undefined && this._binds[i].event === event &&
+                    this._binds[i].input === object) {
 						this.modifyState(this.states[i], new_value);
 					}
 				}
@@ -182,18 +180,16 @@ var TW = TW || {};
 		};
 
 		InputMapper.prototype._bindListenEvent = function(event, new_value, object) {
-			var i, len;
-			for (i = 0, len = this._binds.length; i < len; ++i) {
-				if (this._binds[i] === undefined) {
-					continue;
-				}
-				if (this._binds[i].event === undefined && this._binds[i].input === object) {
-					this._binds[i].input.rmListener(this._binds[i].id);
+            var i, len;
+            for (i = 0, len = this._binds.length; i < len; ++i) {
+                if (this._binds[i] !== undefined && this._binds[i].event === undefined &&
+                    this._binds[i].input === object) {
 
-					this.bind(this.states[i], event, object);
-				}
-			}
-		};
+                    this._binds[i].input.rmListener(this._binds[i].id);
+                    this.bind(this.states[i], event, object);
+                }
+            }
+        };
 
 		return InputMapper;
 	}

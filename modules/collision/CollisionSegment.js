@@ -81,7 +81,7 @@ var TW = TW || {};
             var m;
             var denominateur = (vector_i.getX() * vector_j.getY()) - (vector_i.getY() * vector_j.getX());
 
-            if (denominateur == 0) {
+            if (denominateur === 0) {
                 return false;
             }
             m = -((-vector_i.getX() * ay) + (vector_i.getX() * cy) + (vector_i.getY() * ax) - (vector_i.getY() * cx)) /
@@ -100,15 +100,16 @@ var TW = TW || {};
         CollisionSegment.prototype.isCollidingCircle = function(circle) {
             var a_x = this.px;
             var a_y = this.py;
-            var b_x = ax + this.vector.getX();
-            var b_y = ay + this.vector.getY();
+            var b_x = a_x + this.vector.getX();
+            var b_y = a_y + this.vector.getY();
             var v_x = b_x - a_x;
             var v_y = b_y - a_y;
             var radius = circle.getRadius();
+            var delta;
 
             a_x -= circle.getX();
             a_y -= circle.getY();
-            var delta = (((2 * a_x * v_x) + (2 * a_y * v_y)) * ((2 * a_x * v_x) + (2 * a_y * v_y))) -
+            delta = (((2 * a_x * v_x) + (2 * a_y * v_y)) * ((2 * a_x * v_x) + (2 * a_y * v_y))) -
                 (4 * ((v_x * v_x) + (v_y * v_y)) * ((a_x * a_x) + (a_y * a_y) - (radius * radius)));
             if (delta >= 0) {
                 if ((((2 * a_x * v_x + 2 * a_y * v_y) * -1) + (Math.sqrt(delta))) / (2 * ((v_x * v_x) + (v_y * v_y))) <

@@ -255,10 +255,10 @@ var TW = TW || {};
         /**
          The setDebug method allow you to switch the mode of the CollisionBox beetween debug and release.
          @method setDebug
-         @param {Integer} true_of_false the parameter to define which type of mode choose (true means debug, false means release)
+         @param {Integer} debug the parameter to define which type of mode choose (true means debug mode, false means release)
          */
-        CollisionBox.prototype.setDebug = function(true_of_false) {
-            this.debug_mode = true_or_false;
+        CollisionBox.prototype.setDebug = function(debug) {
+            this.debug_mode = debug;
         };
 
         /**

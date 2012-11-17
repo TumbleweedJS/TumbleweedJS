@@ -163,20 +163,20 @@ var TW = TW || {};
 	};
 
 	/**
-	 get the angle of the current Vector2D
-
-	 @method getAngle
-	 @return {float} returns the angle of the current Vector2D (expressed in degree).
+	 * get the angle of the current Vector2D
+     *
+     * @method getAngle
+     * @return {float} returns the angle of the current Vector2D (expressed in degree).
 	 */
 	Vector2D.prototype.getAngle = function() {
-		if (this.x == 0) {
+		if (this.x === 0) {
 			if (this.y > 0) {
 				return 90;
 			}
 			if (this.y < 0) {
 				return -90;
 			}
-			if (this.y == 0) {
+			if (this.y === 0) {
 				return 0;
 			}
 		}
