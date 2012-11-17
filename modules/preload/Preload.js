@@ -1,5 +1,5 @@
 /**
- @module Proload
+ @module Preload
  @namespace Preload
  */
 
