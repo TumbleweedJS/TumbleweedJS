@@ -1,16 +1,26 @@
 /**
- @module SpatialContainer
+ @module Graphic
  @namespace Graphic
  */
 
 var TW = TW || {};
-TW.Graphic = TW.Graphic || {};
 
-/**
- * @type {SpatialContainer}
- */
+(function(TW) {
 
-TW.Graphic.SpatialContainer = function() {
+    if (typeof window.define === "function" && window.define.amd) {
+        window.define([], initWrap(init));
+    } else {
+        initWrap(init);
+    }
+
+    function initWrap(f) {
+        TW.Graphic = TW.Graphic ||  {};
+        TW.Graphic.SpatialContainer = f();
+        return TW.Graphic.SpatialContainer;
+    }
+
+
+    function init() {
 
 	/**
 	 * This class allow you to build a SpatialContainer who can holds some GraphicalObjects and provide methods
@@ -129,4 +139,6 @@ TW.Graphic.SpatialContainer = function() {
 	};
 
 	return SpatialContainer;
-}();
+}
+
+}(TW));

@@ -15,7 +15,7 @@ var TW = TW || {};
     function initWrap(f) {
         TW.Graphic = TW.Graphic ||  {};
         TW.Graphic.Camera = f();
-        return TW.Sound.Camera;
+        return TW.Graphic.Camera;
     }
 
 
