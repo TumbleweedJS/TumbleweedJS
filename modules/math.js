@@ -13,7 +13,8 @@ if (typeof window.define === "function" && window.define.amd) {
 
     define([
         './math/Matrix',
-        './math/Vector2d'
+        './math/Matrix2D',
+        './math/Vector2D'
     ], function() {
         return TW.Math;
     });

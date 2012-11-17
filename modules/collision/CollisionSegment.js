@@ -8,7 +8,7 @@ var TW = TW || {};
 (function(TW) {
 
     if (typeof window.define === "function" && window.define.amd) {
-        define(['../Math/Vector2D'], initWrap(init));
+        define(['../math/Vector2D'], initWrap(init));
     } else {
         initWrap(init);
     }
