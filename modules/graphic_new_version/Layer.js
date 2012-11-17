@@ -34,7 +34,7 @@ var TW = TW || {};
         function Layer(param) {
             TW.Graphic.GraphicObject.call(this, param);
 
-            (param.camera ? this._camera = param.camera : this._camera = null);
+            (param.camera ? this._camera = param.camera : this._camera = new TW.Graphic.Camera());
             (param.spatialContainer ? this._spatialContainer = param.spatialContainer : this._spatialContainer = new TW.Graphic.SpatialContainer());
             (param.localCanvas ? this._localCanvas = param.localCanvas : this._localCanvas = document.createElement('canvas').getContext("2d"));
             this._localCanvas.canvas.width = param.width;
@@ -65,17 +65,17 @@ var TW = TW || {};
          */
         Layer.prototype.draw = function(context) {
             if (this._needToRedraw === true) {
-                this.localCanvas.save();
-                this._camera.prepare(this.localCanvas);
-                this.spatialContainer.applyAll(function(child) {
-                    child.draw(this.localCanvas);
+                this._localCanvas.save();
+                this._camera.prepare(this._localCanvas);
+                this._spatialContainer.applyAll(function(child) {
+                    child.draw(this._localCanvas);
                 }.bind(this));
-                this.localCanvas.restore();
+                this._localCanvas.restore();
                 this._needToRedraw = false;
             }
             context.save();
             this._matrix.transformContext(context);
-            context.drawImage(this.localCanvas, 0, 0, this.localCanvas.width, this.localCanvas.height);
+            context.drawImage(this._localCanvas.canvas, 0, 0, this.width, this.height);
             context.restore();
         };
 
@@ -152,7 +152,7 @@ var TW = TW || {};
         Layer.prototype.addChild = function(graphicObject) {
             if (graphicObject) {
                 this._callParentOnChange();
-                this.spatialContainer.addElement(graphicObject);
+                this._spatialContainer.addElement(graphicObject);
                 graphicObject.setParent(this);
                 return true;
             } else {

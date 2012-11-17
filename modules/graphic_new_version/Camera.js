@@ -61,7 +61,7 @@ var TW = TW || {};
          * @constructor
          */
         function Camera() {
-            this._matrix = new TW.Graphic.Matrix2D();
+            this._matrix = new TW.Math.Matrix2D();
             this._translation = {x: 0, y: 0 };
             this._rotation = 0;
             this._scale = {x: 0 ,y: 0 };

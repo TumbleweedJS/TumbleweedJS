@@ -67,12 +67,12 @@ var TW = TW || {};
          */
         Window.prototype.draw = function() {
             if (this._needToRedraw === true) {
-                this.localCanvas.save();
-                this._camera.prepare(this.localCanvas);
-                this.spatialContainer.applyAll(function(child) {
-                    child.draw(this.localCanvas);
+                this._localCanvas.save();
+                this._camera.prepare(this._localCanvas);
+                this._spatialContainer.applyAll(function(child) {
+                    child.draw(this._localCanvas);
                 }.bind(this));
-                this.localCanvas.restore();
+                this._localCanvas.restore();
                 this._needToRedraw = false;
             }
         };
