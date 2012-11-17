@@ -124,7 +124,7 @@ var TW = TW || {};
 
 		for (i = 0; i < this.sounds.length; ++i) {
 			sound = this.sounds[i];
-			if (sound.playState != AUDIO_PLAYED) {
+			if (sound.playState !== /* AUDIO_PLAYED*/ "play") { //TODO: make AUDIO_PLAYED public ?
 				return this.sounds[i];
 			}
 		}
@@ -133,7 +133,7 @@ var TW = TW || {};
 	};
 
 	Channel.prototype.handleAllSoundsReady = function(sound) {
-		if (this.allSoundsReady != null) {
+		if (this.allSoundsReady !== null) {
 			this.allSoundsReady(this);
 		}
 	};

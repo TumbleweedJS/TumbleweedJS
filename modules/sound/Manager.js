@@ -166,10 +166,10 @@ var TW = TW || {};
 	Manager.prototype.handleAllInstancesReady = function(channel) {
 		this.ready++;
 
-		if (this.instanceReady != null) {
+		if (this.instanceReady !== null) {
 			this.instanceReady(channel.id);
 		}
-		if (this.allInstancesReady != null && this.ready === this.length) {
+		if (this.allInstancesReady !== null && this.ready === this.length) {
 			this.allInstancesReady();
 		}
 	};
