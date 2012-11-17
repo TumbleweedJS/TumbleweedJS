@@ -83,11 +83,12 @@ var TW = TW || {};
          * List all variables accessible by this provider
          * Each variable can accept listeners.
          *
+         * **Note:** return value is a reference. you should make a copy if you need to modify it.
          * @method getStateList
          * @return {String[]}   [] list of name variables.
          */
         EventProvider.prototype.getStateList = function() {
-            return this.states;    //TODO: make a copy ? read-only ?
+            return this.states;
         };
 
         /**

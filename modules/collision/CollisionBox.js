@@ -24,7 +24,7 @@ var TW = TW || {};
 
 
         /**
-         The CollisionBox class allow you to declare a boucing box to test collisions beetween other collisions boxes and collisions circles.
+         The CollisionBox class allow you to declare a bounding box to test collisions between other collisions boxes and collisions circles.
 
          @class CollisionBox
          @param {Integer} x the x coordinate of the collision box
