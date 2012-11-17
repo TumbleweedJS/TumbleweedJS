@@ -44,11 +44,11 @@ TW.Graphic.Layer = function() {
 	 * returns true.
 	 */
 	Layer.prototype.setDimensions = function(obj) {
-		if (obj && obj.width && obj.height && obj.width > 0 && obj.height > 0) {
-	        this.width = obj.width;
-	        this.height = obj.height;
-			this._localCanvas.width = obj.width;
-			this._localCanvas.height = obj.height;
+        if (obj && obj.width && obj.height && obj.width > 0 && obj.height > 0) {
+            this.width = obj.width;
+            this.height = obj.height;
+            this._localCanvas.width = obj.width;
+            this._localCanvas.height = obj.height;
 			return true;
 		} else {
 			return false;
