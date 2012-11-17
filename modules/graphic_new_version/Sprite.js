@@ -12,10 +12,10 @@ TW.Graphic = TW.Graphic || {};
  * @type {Sprite}
  */
 TW.Graphic.Sprite = function() {
-	function Sprite() {
-		this.image = null;
-		this.imageRect = null;
-		TW.Graphic.GraphicObject.call(this);
+	function Sprite(param) {
+		(param.image ? this.image = param.image : this.image = null);
+		(param.imageRect ? this.imageRect = param.imageRect : this.imageRect = null);
+		TW.Graphic.GraphicObject.call(this, param);
 	}
 
 	TW.Utils.inherit(Sprite, TW.Graphic.GraphicObject);
@@ -56,9 +56,10 @@ TW.Graphic.Sprite = function() {
 	Sprite.prototype.draw = function(context) {
 		if (context && this.image) {
 		context.save();
+		this._matrix.transformContext(context);
 		//TODO do transformation from the GraphicObject matrix.
 		if (this.imageRect === null) {
-			context.drawImage(this.image, 0, 0, this.width, this.height);
+			context.drawImage(this.image, this.x, this.y, this.width, this.height);
 		} else {
 			context.drawImage(this.image, this.imageRect.x, this.imageRect.y, this.imageRect.w, this.imageRect.h, 0, 0,
 			                  this.width, this.height);
@@ -69,4 +70,5 @@ TW.Graphic.Sprite = function() {
 			return false;
 		}
 	};
+	return Sprite;
 }();

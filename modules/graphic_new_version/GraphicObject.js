@@ -11,21 +11,20 @@ TW.Graphic = TW.Graphic || {};
  */
 
 TW.Graphic.GraphicObject = function() {
-
 	/**
 	 *GraphicObject represent an object that has a relationship with graphical context. It is the root class of every graphical component of the framework.
-	 *
+	 * @param param it is an object that represent the parameters of the graphicalObject to set.
 	 * @constructor
 	 */
-	function GraphicObject(x, y, width, height) {
-		this._zIndex = 0;
-		this._matrix = new TW.Math.Matrix2D();
-		this._alpha = 1.0;
-		this.width = width;
-		this.height = height;
-		this.x = x;
-		this.y = y;
-		this.parent = null;
+	function GraphicObject(param) {
+		(param.zIndex ? this._zIndex = param.zIndex : this._zIndex = 0);
+		(param.matrix ? this._matrix = param.matrix : this._matrix = TW.Math.Matrix2D.identity());
+		(param.alpha ? this._alpha = param.alpha : this._alpha = 1.0);
+		(param.width ? this.width = param.width : this.width = 0);
+		(param.height ? this.height = param.height : this.height = 0);
+		(param.x ? this.x = param.x : this.x = 0);
+		(param.y ? this.y = param.y : this.y = 0);
+		(param.parent ? this.parent = param.parent : this.parent = 0);
 	}
 
 	/**
@@ -174,10 +173,10 @@ TW.Graphic.GraphicObject = function() {
 	 * @param {Number} y this is the scalar of the y axis.
 	 */
 	GraphicObject.prototype.setPosition = function(x, y) {
-		this._matrix = this._matrix.identity();
+		//this._matrix = this._matrix.identity();
 		this.x = x;
 		this.y = y;
-		this._matrix.translate(x, y);
+		//this._matrix.translate(x, y);
 	};
 
 	/**

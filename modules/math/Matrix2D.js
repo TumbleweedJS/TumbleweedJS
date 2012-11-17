@@ -167,7 +167,7 @@ var TW = TW || {};
             tmp_matrix.setTransform(Math.cos(rad_angle), Math.sin(rad_angle),
                 -Math.sin(rad_angle), Math.cos(rad_angle),
                 0, 0);
-            var result = this.multByMatrix(tmp_matrix);
+            var result = this.multiplyMatrix(tmp_matrix);
             this.copyMatrix(tmp_matrix);
             return this;
         };
@@ -270,6 +270,19 @@ var TW = TW || {};
                 return null;
             }
         };
+		
+		/**
+		* This method transform the context gived in parameter by the current matrix.
+		
+		* @param context it is the context to transform by the current matrix.
+		* @return {Boolean} return true if the method succeed. Otherwise it will returns false.
+		*/
+		Matrix2D.prototype.transformContext = function(context) {
+			if (context === null)
+				return false;
+			context.transform(this.data[0][0], this.data[0][1], this.data[1][0], this.data[1][1], this.data[0][2], this.data[1][2]);
+			return true;
+		};
 
         /**
          give a data representation of Matrix
@@ -321,7 +334,7 @@ var TW = TW || {};
             tmp.setTransform(Math.cos(angle_rad), Math.sin(angle_rad), -Math.sin(angle_rad), Math.cos(angle_rad), 0, 0);
             return tmp;
         };
-
+		
         /**
          * This method return a translation matrix
          *
