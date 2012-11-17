@@ -100,7 +100,7 @@ var TW = TW || {};
         EventProvider.prototype.getState = function(name) {
             var i, len;
 
-            for (i = 0, len = this.states.length; i < len; i++) {
+            for (i = 0, len = this.states.length; i < len; ++i) {
                 if (this.states[i] === name) {
                     return this.values[i];
                 }
@@ -120,7 +120,7 @@ var TW = TW || {};
         EventProvider.prototype.getOldState = function(name) {
             var i, len;
 
-            for (i = 0, len = this.states.length; i < len; i++) {
+            for (i = 0, len = this.states.length; i < len; ++i) {
                 if (this.states[i] === name) {
                     return this.oldValues[i];
                 }
@@ -175,7 +175,7 @@ var TW = TW || {};
                 });
                 return id;
             } else {
-                for (i = 0, len = this.states.length; i < len; i++) {
+                for (i = 0, len = this.states.length; i < len; ++i) {
                     if (this.states[i] === event) {
                         if (this._stateCallbacks[i] === undefined) {
                             this._stateCallbacks[i] = [];
@@ -201,18 +201,18 @@ var TW = TW || {};
         EventProvider.prototype.rmListener = function(id) {
             var i, j, len, len2;
 
-            for (i = 0, len = this._globalCallbacks.length; i < len; i++) {
+            for (i = 0, len = this._globalCallbacks.length; i < len; ++i) {
                 if (this._globalCallbacks[i].id === id) {
                     this._globalCallbacks.splice(i, 1);
                     return;
                 }
             }
 
-            for (i = 0, len = this._stateCallbacks.length; i < len; i++) {
+            for (i = 0, len = this._stateCallbacks.length; i < len; ++i) {
                 if (this._stateCallbacks[i] !== undefined) {
-                    for (j = 0, len2 = this._stateCallbacks[i].length; j < len2; j++) {
+                    for (j = 0, len2 = this._stateCallbacks[i].length; j < len2; ++j) {
                         if (this._stateCallbacks[i][j].id === id) {
-                            this._stateCallbacks[i][j].splice(i, 1);
+                            this._stateCallbacks[i].splice(j, 1);
                             return;
                         }
                     }
@@ -232,17 +232,18 @@ var TW = TW || {};
         EventProvider.prototype.modifyState = function(event, new_value) {
             var i, j, len, len2;
 
-            for (i = 0, len = this.states.length; i < len; i++) {
+            for (i = 0, len = this.states.length; i < len; ++i) {
                 if (this.states[i] === event) {
                     this.oldValues[i] = this.values[i];
                     this.values[i] = new_value;
 
-                    for (j = 0, len2 = this._globalCallbacks.length; j < len2; j++) {
+                    for (j = 0, len2 = this._globalCallbacks.length; j < len2; ++j) {
                         this._globalCallbacks[j].callback(event, new_value, this);
                     }
                     if (this._stateCallbacks[i] !== undefined) {
-                        for (j = 0, len2 = this._stateCallbacks[i].length; j < len2; j++) {
-                            if (new_value === this._stateCallbacks[i][j].filter) {
+                        for (j = 0, len2 = this._stateCallbacks[i].length; j < len2; ++j) {
+                            if (this._stateCallbacks[i][j].filter === undefined ||
+                                new_value === this._stateCallbacks[i][j].filter) {
                                 this._stateCallbacks[i][j].callback(event, new_value, this);
                             }
                         }

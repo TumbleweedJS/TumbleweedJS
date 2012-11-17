@@ -11,8 +11,10 @@ if (typeof window.define === "function" && window.define.amd) {
 
     define([
         './event/EventProvider',
-        './event/KeyboardInput'
-    ], function() {
+        './event/KeyboardInput',
+        './event/MouseInput',
+        './event/InputMapper'
+           ], function() {
         return TW.Event;
     });
 
