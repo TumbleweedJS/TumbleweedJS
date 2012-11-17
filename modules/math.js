@@ -12,7 +12,6 @@ var TW = TW || {};
 if (typeof window.define === "function" && window.define.amd) {
 
     define([
-        './math/Matrix',
         './math/Matrix2D',
         './math/Vector2D'
     ], function() {
