@@ -15,11 +15,11 @@ GraphicalObjects
  */
 
 TW.Graphic.Layer = function() {
-	function Layer(params) {
-		TW.Graphic.GraphicObject.call(this, params);
+	function Layer(param) {
+		TW.Graphic.GraphicObject.call(this, param);
 
-		(param.camera ? this._camera = param.camera : this._camera = null);
-		(param.spatialContainer ? this._spatialContainer = param.spatialContainer : this._spatialContainer = new TW.Graphic.SpatialContainer());
+		this._camera = (param.camera ? param.camera : null);
+		this._spatialContainer = (param.spatialContainer ? param.spatialContainer : this._spatialContainer = new TW.Graphic.SpatialContainer());
 		(param.localCanvas ? this._localCanvas = param.localCanvas : this._localCanvas = document.createElement('canvas').getContext("2d"));
 		this._localCanvas.canvas.width = param.width;
 		this._localCanvas.canvas.height = param.height;
@@ -136,7 +136,7 @@ this._callParentOnChange();
 	Layer.prototype.addChild = function(graphicObject) {
 		if (graphicObject) {
 			this._callParentOnChange();
-			this.spatialContainer.addElement(graphicObject);
+			this._spatialContainer.addElement(graphicObject);
 			graphicObject.setParent(this);
 			return true;
 		} else {
