@@ -8,7 +8,7 @@ var TW = TW || {};
 (function(TW) {
 
     if (typeof window.define === "function" && window.define.amd) {
-        define([], initWrap(init));
+        define(['../Math/Vector2D'], initWrap(init));
     } else {
         initWrap(init);
     }
@@ -34,13 +34,13 @@ var TW = TW || {};
         function CollisionSegment(x1, y1, x2, y2) {
             this.px = x1;
             this.py = y1;
-            this.vector = new Vector2d(x2 - x1, y2 - y1);
+            this.vector = new TW.Math.Vector2D(x2 - x1, y2 - y1);
         }
 
         /**
          The getVector method allow you to get the Vector of the collisionSegment
          @method getVector
-         @return {Vector2d} returns the vector of the CollisionSegment.
+         @return {Vector2D} returns the vector of the CollisionSegment.
          */
         CollisionSegment.prototype.getVector = function() {
             return this.vector;

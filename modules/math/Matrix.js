@@ -309,16 +309,16 @@ TW.Math.Matrix = function() {
 	};
 
 	/**
-	 Multiplie a Vector2d by this matrix
-	 @method multByVector2d
-	 @param {Vector2d} vector
-	 @return {Vector2d} the result
+	 Multiplie a Vector2D by this matrix
+	 @method multByVector2D
+	 @param {Vector2D} vector
+	 @return {Vector2D} the result
 	 */
-	Matrix.prototype.multByVector2d = function(vector) {
+	Matrix.prototype.multByVector2D = function(vector) {
 		if (this.height > 3) {
 			return false;
 		}
-		var vector2d = [
+		var vector2D = [
 			vector.getX(),
 			vector.getY(),
 			1
@@ -333,13 +333,13 @@ TW.Math.Matrix = function() {
 			step = 0;
 			val_tmp = 0;
 			while (step < this.width) {
-				val_tmp += this.getScalar(height, step) * vector2d[step];
+				val_tmp += this.getScalar(height, step) * vector2D[step];
 				step++;
 			}
 			ret_vector_2d[height] = val_tmp;
 			height++;
 		}
-		return new Vector2d(ret_vector_2d[0], ret_vector_2d[1]);
+		return new Vector2D(ret_vector_2d[0], ret_vector_2d[1]);
 	};
 
 	/**
