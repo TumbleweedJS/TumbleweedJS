@@ -150,7 +150,7 @@ var TW = TW || {};
             var tmp_matrix = new TW.Math.Matrix2D();
             tmp_matrix.setTransform(x, 0, 0, y, 0, 0);
             var result = this.multiplyMatrix(tmp_matrix);
-            this.copyMatrix(tmp_matrix);
+            this.copyMatrix(result);
             return this;
         };
 
@@ -168,7 +168,7 @@ var TW = TW || {};
                 -Math.sin(rad_angle), Math.cos(rad_angle),
                 0, 0);
             var result = this.multiplyMatrix(tmp_matrix);
-            this.copyMatrix(tmp_matrix);
+            this.copyMatrix(result);
             return this;
         };
 
@@ -184,7 +184,7 @@ var TW = TW || {};
             var tmp_matrix = new TW.Math.Matrix2D();
             tmp_matrix.setTransform(1, 0, 0, 1, x, y);
             var result = this.multiplyMatrix(tmp_matrix);
-            this.copyMatrix(tmp_matrix);
+            this.copyMatrix(result);
             return this;
         };
 
@@ -280,7 +280,7 @@ var TW = TW || {};
 		Matrix2D.prototype.transformContext = function(context) {
 			if (context === null)
 				return false;
-			context.transform(this.data[0][0], this.data[0][1], this.data[1][0], this.data[1][1], this.data[0][2], this.data[1][2]);
+			context.transform(this.data[0][0], this.data[0][1], this.data[1][0], this.data[1][1], this.data[2][0], this.data[2][1]);
 			return true;
 		};
 

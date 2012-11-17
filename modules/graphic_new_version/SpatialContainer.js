@@ -29,6 +29,9 @@ TW.Graphic.SpatialContainer = function() {
 	 */
 	SpatialContainer.prototype.addElement = function(graphicObject) {
 		this.containerList.push(graphicObject);
+		this.containerList.sort(function(a, b) {
+			return (a._zIndex - b._zIndex);
+		});
 		return true;
 	};
 
