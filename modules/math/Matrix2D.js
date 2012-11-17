@@ -297,10 +297,11 @@ var TW = TW || {};
          * This method returns an identity matrix.
          *
          * @method identity
+         * @static
          * @return {Matrix2D} return an identity matrix object
          */
-        Matrix2D.prototype.identity = function() {
-            var tmp = new TW.Math.Matrix2D();
+        Matrix2D.identity = function() {
+            var tmp = new Matrix2D();
             tmp.setTransform(1, 0, 0, 1, 0, 0);
             return tmp;
         };
@@ -310,11 +311,12 @@ var TW = TW || {};
          * **Note that the angle is expressed in degree**
          *
          * @method rotation
+         * @static
          * @param angle this parameter is a scalar expressed in degree who represent the angle of rotation of the matrix to generate.
          * @return {Matrix2D} return a rotation matrix object
          */
-        Matrix2D.prototype.rotation = function(angle) {
-            var tmp = new TW.Math.Matrix2D();
+        Matrix2D.rotation = function(angle) {
+            var tmp = new Matrix2D();
             var angle_rad = angle / Math.PI * 180.0;
             tmp.setTransform(Math.cos(angle_rad), Math.sin(angle_rad), -Math.sin(angle_rad), Math.cos(angle_rad), 0, 0);
             return tmp;
@@ -324,12 +326,13 @@ var TW = TW || {};
          * This method return a translation matrix
          *
          * @method translation
+         * @static
          * @param x the x translation to integrate in the matrix
          * @param y the y translation to integrate in the matrix
          * @return {Matrix2D}
          */
-        Matrix2D.prototype.translation = function(x, y) {
-            var tmp = new TW.Math.Matrix2D();
+        Matrix2D.translation = function(x, y) {
+            var tmp = new Matrix2D();
             tmp.setTransform(1,0, 0, 1, x, y);
             return tmp;
         };
@@ -338,12 +341,13 @@ var TW = TW || {};
          * This method return a scale matrix
          *
          * @method scale
+         * @static
          * @param x the abscissa scale factor to integrate in the matrix
          * @param y the ordinate scale factor to integrate in the matrix
          * @return {Matrix2D}
          */
-        Matrix2D.prototype.scale = function(x, y) {
-            var tmp = new TW.Math.Matrix2D();
+        Matrix2D.scale = function(x, y) {
+            var tmp = new Matrix2D();
             tmp.setTransform(x,0, 0, y, 0, 0);
             return tmp;
         };
@@ -352,12 +356,13 @@ var TW = TW || {};
          * This method return a skew matrix
          *
          * @method skew
+         * @static
          * @param a the factor of skew on the y axis
          * @param b the factor of skew on the x axis
          * @return {Matrix2D}
          */
-        Matrix2D.prototype.skew = function(a, b) {
-            var tmp = new TW.Math.Matrix2D();
+        Matrix2D.skew = function(a, b) {
+            var tmp = new Matrix2D();
             tmp.setTransform(1,a, b, 1, 0, 0);
             return tmp;
         };
