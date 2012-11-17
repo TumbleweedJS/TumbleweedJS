@@ -83,6 +83,7 @@ module.exports = function(grunt) {
                         'TW/event',
                         'TW/gameloop',
                         'TW/math',
+                        'TW/preload',
                         'TW/sound',
                         'TW/utils'
                     ],
@@ -92,6 +93,7 @@ module.exports = function(grunt) {
                 { name: 'event' },
                 { name: 'gameloop' },
                 { name: 'math' },
+                { name: 'preload' },
                 { name: 'sound' },
                 { name: 'utils' }
             ]

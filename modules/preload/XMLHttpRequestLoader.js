@@ -1,12 +1,27 @@
 /**
- @module Preload
+ @module Proload
  @namespace Preload
  */
 
 var TW = TW || {};
-TW.Preload = TW.Preload || {};
 
-TW.Preload.XMLHttpRequestLoader = function() {
+(function(TW) {
+
+    if (typeof window.define === "function" && window.define.amd) {
+        define(['../utils/Polyfills'], initWrap(init));
+    } else {
+        initWrap(init);
+    }
+
+    function initWrap(f) {
+        TW.Preload = TW.Preload ||  {};
+        TW.Preload.XMLHttpRequestLoader = f();
+        return TW.Preload.XMLHttpRequestLoader;
+    }
+
+
+    function init() {
+
 
 	/**
 	 * @class XMLHttpRequestLoader
@@ -86,19 +101,19 @@ TW.Preload.XMLHttpRequestLoader = function() {
 
 		//Setup timeout if we're not using XHR2
 		if (this._xhrLevel == 1) {
-			this._loadTimeOutTimeout = setTimeout(proxy(this.handleTimeout, this), TW.Preload.TIMEOUT_TIME);
+			this._loadTimeOutTimeout = setTimeout(this.handleTimeout.bind(this), TW.Preload.TIMEOUT_TIME);
 		}
 
 		//Events
-		this._request.onloadstart = proxy(this.handleLoadStart, this);
-		this._request.onprogress = proxy(this.handleProgress, this);
-		this._request.onabort = proxy(this.handleAbort, this);
-		this._request.onerror = proxy(this.handleError, this);
-		this._request.ontimeout = proxy(this.handleTimeout, this);
+		this._request.onloadstart = this.handleLoadStart.bind(this);
+		this._request.onprogress = this.handleProgress.bind(this);
+		this._request.onabort = this.handleAbort.bind(this);
+		this._request.onerror = this.handleError.bind(this);
+		this._request.ontimeout = this.handleTimeout.bind(this);
 
 		//LM: Firefox does not get onload. Chrome gets both. Might need onload for other things.
-		this._request.onload = proxy(this.handleLoad, this);
-		this._request.onreadystatechange = proxy(this.handleReadyStateChange, this);
+		this._request.onload = this.handleLoad.bind(this);
+		this._request.onreadystatechange = this.handleReadyStateChange.bind(this);
 
 		try { // Sometimes we get back 404s immediately, particularly when there is a cross origin request.
 			this._request.send();
@@ -328,4 +343,6 @@ TW.Preload.XMLHttpRequestLoader = function() {
 	};
 
 	return XMLHttpRequestLoader;
-}();
+
+}
+}(TW));
