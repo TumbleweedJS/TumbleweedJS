@@ -15,7 +15,7 @@ function main()
 	myWindow.addChild(myLayer);
 	
 	mySprite.scale(5,5);
-	//mySprite.translate(200, 100);
+    mySprite.translate(200, 100);
 	mySprite.rotate(45);
 	mySprite.translate(200, 100);
 		
@@ -25,5 +25,5 @@ function main()
 }
 
 window.onload = function() {
-main();
+    main();
 };
