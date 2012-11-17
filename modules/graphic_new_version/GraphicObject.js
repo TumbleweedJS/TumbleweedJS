@@ -24,7 +24,7 @@ TW.Graphic.GraphicObject = function() {
 		(param.height ? this.height = param.height : this.height = 0);
 		(param.x ? this.x = param.x : this.x = 0);
 		(param.y ? this.y = param.y : this.y = 0);
-		(param.parent ? this.parent = param.parent : this.parent = 0);
+		(param.parent ? this.parent = param.parent : this.parent = null);
 	}
 
 	/**
