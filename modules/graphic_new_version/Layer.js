@@ -195,6 +195,7 @@ var TW = TW || {};
         /**
          * This method will allow you to update the layer and all the childs within the layer.
          *
+         * @method update
          * @return {Boolean} if every childs of the layer have been updated with success then the method will returns true.
          * Otherwise the method will returns false.
          */
@@ -209,6 +210,7 @@ var TW = TW || {};
         /**
          * This method will be called when a child is changed. By using this method it will notice the current Layer to redraw the local canvas.
          *
+         * @method onChange
          * @param {GraphicObject} child this object represent the child who has been changed.
          * @return {Boolean} This function will return true if the onChange function otherwise it will return false.
          */

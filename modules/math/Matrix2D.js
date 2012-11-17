@@ -272,11 +272,12 @@ var TW = TW || {};
         };
 		
 		/**
-		* This method transform the context gived in parameter by the current matrix.
-		
-		* @param context it is the context to transform by the current matrix.
-		* @return {Boolean} return true if the method succeed. Otherwise it will returns false.
-		*/
+		 * This method transform the context gived in parameter by the current matrix.
+		 *
+         * @method transformContext
+		 * @param context it is the context to transform by the current matrix.
+		 * @return {Boolean} return true if the method succeed. Otherwise it will returns false.
+		 */
 		Matrix2D.prototype.transformContext = function(context) {
 			if (context === null)
 				return false;

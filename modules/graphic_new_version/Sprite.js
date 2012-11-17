@@ -25,7 +25,8 @@ var TW = TW || {};
         /**
          * The Sprite class provide methods to draw sprites on a context. the aim of the sprites object is to be added to a
          * Layer or to be use directly with a graphical context by invoking the draw method of the Sprite. like `var mySprite = new TW.Graphic.Sprite(); mySprite.draw(canvasContext);`
-         * @type {Sprite}
+         * @class {Sprite}
+         * @constructor
          */
         function Sprite(param) {
             (param.image ? this.image = param.image : this.image = null);
