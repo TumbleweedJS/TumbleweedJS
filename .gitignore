@@ -16,3 +16,4 @@ build/
 
 #IDE files (Webstorm ?)
 .idea/
+\#.gitignore\#
