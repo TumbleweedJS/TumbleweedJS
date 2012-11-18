@@ -8,6 +8,8 @@ function main()
 	var myLayer1 = new TW.Graphic.Layer({width:800, height:800});
 	var myLayer2 = new TW.Graphic.Layer({width:800, height:800});
 	var myLayer3 = new TW.Graphic.Layer({width:800, height:800});
+	var circle = new TW.Graphic.Circle({radius : 100, x : 200, y : 200});
+	var rect = new TW.Graphic.Rect({x:120, y:50, width:100, height:50});
 	
 	var mySprite = new TW.Graphic.Sprite({x : 0, y : 0, width : 50, height : 50});
 
@@ -15,10 +17,17 @@ function main()
 	image.src = "test.jpg";
 	mySprite.setImage(image);
 
+	circle.setFillColor("blue");
+	circle.setMode("FILLED");
+	
+	rect.setStrokeColor("red");
+	rect.setMode("WIRED");
+	
 	myWindow.addChild(myLayer1);
 	myLayer1.addChild(myLayer2);
 	myLayer2.addChild(myLayer3);
-	
+	myLayer2.addChild(circle);
+	myLayer2.addChild(rect);
 	
 	myLayer1.addChild(mySprite);
 	myLayer2.addChild(mySprite);
@@ -31,7 +40,7 @@ function main()
 	myLayer2.rotate(45);
 	myLayer3.translate(50, 50);
 	myLayer3.rotate(45);
-	
+
 	var i = 0;
 	myLayer3.update = myLayer2.update = myLayer1.update  = function() {
 		TW.Graphic.Layer.prototype.update.call(this);
