@@ -201,7 +201,7 @@ var TW = TW || {};
          * Otherwise the method will returns false.
          */
         Layer.prototype.update = function() {
-            this.spatialContainer.applyAll(function(child) {
+            this._spatialContainer.applyAll(function(child) {
                 if (child.update) {
                     child.update();
                 }
