@@ -263,24 +263,21 @@ var TW = TW || {};
         };
 
         /**
-         Multiplies the current matrix by a vector 2d.
-         @method multiplyVector
-         @param {Vector2D} vector
-         @return {Vector2D} if vector is a valid TW.Math.Vector2D instance, it will return vector transformed by the current matrix. Otherwise it will return null.
+         * Multiplies the current matrix by a vector 2d.
+         * @method multiplyVector
+         * @param {Vector2D} vector
+         * @return {Vector2D} a new vector transformed by the current matrix
          */
         Matrix2D.prototype.multiplyVector = function(vector) {
-            if (vector instanceof TW.Math.Vector2D) {
-                var vector_result = new TW.Math.Vector2D(0, 0);
-                vector_result.x = this.data[0][0] * vector.x + this.data[1][0] * vector.y + this.data[2][0] * vector.w;
-                vector_result.y = this.data[0][1] * vector.x + this.data[1][1] * vector.y + this.data[2][1] * vector.w;
-                vector_result.w = this.data[0][2] * vector.x + this.data[1][2] * vector.y + this.data[2][2] * vector.w;
-                vector_result.x /= vector_result.w;
-                vector_result.y /= vector_result.w;
-                vector_result.w /= vector_result.w;
-                return vector_result;
-            } else {
-                return null;
-            }
+            var vector_result = new TW.Math.Vector2D(0, 0);
+            var vector_w;
+
+            vector_result.x = this.data[0][0] * vector.x + this.data[1][0] * vector.y + this.data[2][0];
+            vector_result.y = this.data[0][1] * vector.x + this.data[1][1] * vector.y + this.data[2][1];
+            vector_w = this.data[0][2] * vector.x + this.data[1][2] * vector.y + this.data[2][2];
+            vector_result.x /= vector_w;
+            vector_result.y /= vector_w;
+            return vector_result;
         };
 		
 		/**
