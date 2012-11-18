@@ -199,6 +199,7 @@ var TW = TW || {};
          * @param {GraphicObject} child this object represent the child who has been changed.
          */
         Layer.prototype.onChange = function(child) {
+			this._needToRedraw = true;
                return this.notifyParentChange();
         };
 
