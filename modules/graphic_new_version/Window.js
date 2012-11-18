@@ -27,6 +27,7 @@ var TW = TW || {};
          * It's the first class used in Graphic module, wrapping all graphic objects.
          *
          * @class Window
+         * @extends Layer
          * @constructor
          * @param {HTMLCanvasElement} [canvas] main canvas for the window\
          */
@@ -58,7 +59,7 @@ var TW = TW || {};
             this.width = canvas.width;
             this.height = canvas.height;
             this._callParentOnChange();
-        }
+        };
 
         /**
          * Draw all graphic elements on the associated canvas.

@@ -36,7 +36,7 @@ var TW = TW || {};
         TW.Utils.inherit(Circle, TW.Graphic.Shape);
 
         /**
-         * This overidded draw method allow the Circle class to draw a circle on the context gived in parameter.
+         * This overridden draw method allow the Circle class to draw a circle on the context given in parameter.
          *
          * @method draw
          * @param context if the context object is not a valid object the method will returns false, otherwise it

@@ -25,12 +25,12 @@ var TW = TW || {};
         /**
          * The Sprite class provide methods to draw sprites on a context. the aim of the sprites object is to be added to a
          * Layer or to be use directly with a graphical context by invoking the draw method of the Sprite. like `var mySprite = new TW.Graphic.Sprite(); mySprite.draw(canvasContext);`
-         * @class {Sprite}
+         * @class Sprite
          * @constructor
          */
         function Sprite(param) {
-            (param.image ? this.image = param.image : this.image = null);
-            (param.imageRect ? this.imageRect = param.imageRect : this.imageRect = null);
+            this.image = param.image ? param.image : null;
+            this.imageRect = param.imageRect ? param.imageRect : null;
             TW.Graphic.GraphicObject.call(this, param);
         }
 
@@ -42,7 +42,7 @@ var TW = TW || {};
          *
          * @method setImage
          * @param image this object must be a valid image object
-         * @param obj this parameter is optionnal. If you specify it you can used just a subImage of the current image to
+         * @param obj this parameter is optional. If you specify it you can used just a subImage of the current image to
          * use. It is useful for the spritesheets for example where you only want to draw a specific area of the image.
          * @return {Boolean} this method returns true if the image parameter is a valid object, otherwise it will
          * returns false.
@@ -65,7 +65,7 @@ var TW = TW || {};
          * This method allow you to draw the sprite on a context.
          *
          * @method draw
-         * @param context this parameter must be a valid canvas context, ortherwise the behavior of the draw method is unspecified.
+         * @param context this parameter must be a valid canvas context, otherwise the behavior of the draw method is unspecified.
          * @return {Boolean} this methods return true if the context parameter is a valid object and if the sprite's
          * image is also a valid object.
          */

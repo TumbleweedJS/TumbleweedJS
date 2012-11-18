@@ -26,25 +26,33 @@ var TW = TW || {};
          * GraphicObject represent an object that has a relationship with graphical context. It is the root class of every graphical component of the framework.
          *
          * @class GraphicObject
-         * @param param it is an object that represent the parameters of the graphicalObject to set.
+         * @param {Object} param it is an object that represent the parameters of the graphicalObject to set.
+         *  @param {Number} param.zIndex define display order with other graphic elements. default to 0.
+         *  @param {Matrix2D} param.matrix matrix to set to the object. default to identity matrix.
+         *  @param {Number} param.alpha set the transparency, between 0 and 1. default to 1 (completely opaque).
+         *  @param {Number} param.width width of the element.
+         *  @param {Number} param.height height of the element.
+         *  @param {Number} param.x position on X axis.
+         *  @param {Number} param.y position on Y axis.
+         *  @param {Number} param.parent parent of the element.
          * @constructor
          */
         function GraphicObject(param) {
-            (param.zIndex ? this._zIndex = param.zIndex : this._zIndex = 0);
-            (param.matrix ? this._matrix = param.matrix : this._matrix = TW.Math.Matrix2D.identity());
-            (param.alpha ? this._alpha = param.alpha : this._alpha = 1.0);
-            (param.width ? this.width = param.width : this.width = 0);
-            (param.height ? this.height = param.height : this.height = 0);
-            (param.x ? this.x = param.x : this.x = 0);
-            (param.y ? this.y = param.y : this.y = 0);
-            (param.parent ? this.parent = param.parent : this.parent = null);
+            this._zIndex =  param.zIndex ? param.zIndex : 0;
+            this._matrix = param.matrix ? param.matrix : TW.Math.Matrix2D.identity();
+            this._alpha =  param.alpha ? param.alpha : 1.0;
+            this.width =  param.width ? param.width : 0;
+            this.height =  param.height ? param.height : 0;
+            this.x =  param.x ? param.x : 0;
+            this.y = param.y ? param.y : 0;
+            this.parent = param.parent ? param.parent : null;
         }
 
         /**
          * This method is aimed to be overrides by the classes who extends GraphicObject class.
          *
          * @method draw
-         * @param context represent the context of the canvas to draw on.
+         * @param {CanvasRenderingContext2D} context represent the context of the canvas to draw on.
          */
         GraphicObject.prototype.draw = function(context) {
 
@@ -54,7 +62,7 @@ var TW = TW || {};
          * This method allows the user to get the parent of the current GraphicalObject.
          *
          * @method getParent
-         * @return {TW.Graphic.GraphicalObject} return the parent of the current GraphicalObject.
+         * @return {GraphicObject} return the parent of the current GraphicalObject.
          */
         GraphicObject.prototype.getParent = function () {
             return this.parent;
@@ -64,7 +72,7 @@ var TW = TW || {};
          * This method allows the user to set the parent of the current GraphicObject.
          *
          * @method setParent
-         * @param {TW.Graphic.GraphicObject} parent the parent GraphicalObject.
+         * @param {GraphicObject} parent the parent GraphicalObject.
          * @return {Boolean} return false if the setParent method fails otherwise it returns true.
          */
         GraphicObject.prototype.setParent = function(parent) {
@@ -101,6 +109,8 @@ var TW = TW || {};
          *
          * @method setDimensions
          * @param {Object} obj contains the width and the height to apply to the current GraphicObject.
+         *  @param {Number} obj.width
+         *  @param {Number} obj.height
          * @return {Boolean} return false if the obj does not contains width and height or if their values are not positives numbers.
          */
         GraphicObject.prototype.setDimensions = function(obj) {
@@ -118,6 +128,8 @@ var TW = TW || {};
          *
          * @method setLocalPosition
          * @param {Object} obj contains the x and the y position to apply to the current GraphicObject.
+         *  @param {Number} obj.x position on X axis
+         *  @param {Number} obj.y position on Y axis
          * @return {Boolean} return false if the obj does not contains x and y components or if their values are not defined.
          */
         GraphicObject.prototype.setLocalPosition = function(obj) {
@@ -164,7 +176,7 @@ var TW = TW || {};
          * This method allow you to set the alpha value of the GraphicObject. *Note: alpha must be a number factor between 0.0 and 1.0*.
          *
          * @method setAlpha
-         * @param alpha
+         * @param {Number} alpha
          */
         GraphicObject.prototype.setAlpha = function(alpha) {
             this._alpha = alpha;

@@ -19,19 +19,25 @@ var TW = TW || {};
     }
 
     function init() {
-        /* The Layer class can hold several GraphicObjects and it provides some transformations methods to move or scale all the
-         GraphicalObjects that it contains. This is helpful when you want for example apply the same plane transformation to some
-         GraphicalObjects
-
-         @type {Layer}
-         @constructor
+        /**
+         * The Layer class can hold several GraphicObjects and it provides some transformations methods to move or scale all the
+         * GraphicalObjects that it contains. This is helpful when you want for example apply the same plane transformation to some
+         * GraphicalObjects
+         *
+         * @class Layer
+         * @extends GraphicObject
+         * @constructor
+         * @param {Object} param All properties given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} are available.
+         *   @param {Camera} [param.camera] camera used be the layer. if not set, a new Camera is created.
+         *   @param {SpatialContainer} [param.spatialContainer]
+         *   @param {CanvasRenderingContext2D} [param.localCanvas] you can set directly the canvas used by the layer.
          */
         function Layer(param) {
             TW.Graphic.GraphicObject.call(this, param);
 
-            (param.camera ? this._camera = param.camera : this._camera = new TW.Graphic.Camera());
-            (param.spatialContainer ? this._spatialContainer = param.spatialContainer : this._spatialContainer = new TW.Graphic.SpatialContainer());
-            (param.localCanvas ? this._localCanvas = param.localCanvas : this._localCanvas = document.createElement('canvas').getContext("2d"));
+            this._camera =  param.camera ? param.camera : new TW.Graphic.Camera();
+            this._spatialContainer = param.spatialContainer ? param.spatialContainer : new TW.Graphic.SpatialContainer();
+            this._localCanvas = param.localCanvas ? param.localCanvas : document.createElement('canvas').getContext("2d");
             this._localCanvas.canvas.width = param.width;
             this._localCanvas.canvas.height = param.height;
             this._needToRedraw = true;
@@ -57,6 +63,7 @@ var TW = TW || {};
          * all the canvas is redraw.
          *
          * @method draw
+         * @param {CanvasRenderingContext2D} context
          */
         Layer.prototype.draw = function(context) {
             if (this._needToRedraw === true) {
@@ -78,7 +85,7 @@ var TW = TW || {};
          * This method allow you to set the dimensions of the layer.
          *
          * @method setDimensions
-         * @param obj this object must contains the width and the height of the object like this : `{obj.width, obj.height}`
+         * @param {Object} obj this object must contains the width and the height of the object like this : `{obj.width, obj.height}`
          * @return {Boolean} this method returns false if the obj parameter isn't a valid object, otherwise this method
          * returns true.
          */
@@ -99,7 +106,7 @@ var TW = TW || {};
          * This method allow you to set the camera object of the layer.
          *
          * @method setCamera
-         * @param camera this object is the camera object to affect to the Layer.
+         * @param {Camera} camera this object is the camera object to affect to the Layer.
          */
         Layer.prototype.setCamera = function(camera) {
             this._callParentOnChange();
@@ -139,7 +146,7 @@ var TW = TW || {};
          * This method will allow you to add a child to the current Layer.
          *
          * @method addChild
-         * @param graphicObject this parameter must be a valid GraphicObject, otherwise the method will have an undefined
+         * @param {GraphicObject} graphicObject this parameter must be a valid GraphicObject, otherwise the method will have an undefined
          * behavior.
          * @return {Boolean} this method will return false if the graphicObject parameter is a valid object. Otherwise it
          * will returns true.
@@ -161,19 +168,18 @@ var TW = TW || {};
          * @method rmChild
          * @param {GraphicObject} graphicObject this parameter is the GraphicObject that the method will try to find inside the child of
          * the current layer.
-         * @return {Boolean} if the graphicObject was finded in the childs of the current layer then the method
+         * @return {Boolean} if the graphicObject was found in the childs of the current layer then the method
          * will returns true, otherwise the method will returns true.
          */
         Layer.prototype.rmChild = function(graphicObject) {
             this._callParentOnChange();
-            return this.spatialContainer.rmElement(graphicObject);
+            return this._spatialContainer.removeElement(graphicObject);
         };
 
 
         /**
          * This method is called when something is changed into the layer or into the layer's childs.
          *
-         * @private
          * @method _callParentOnChange
          * @return {Boolean} if the method succeed then it returns true otherwise it returns false.
          * @protected
@@ -196,8 +202,8 @@ var TW = TW || {};
          */
         Layer.prototype.update = function() {
             this.spatialContainer.applyAll(function(child) {
-                if (this._childs.update) {
-                    this._childs.update();
+                if (child.update) {
+                    child.update();
                 }
             });
         };
@@ -211,7 +217,7 @@ var TW = TW || {};
          */
         Layer.prototype.onChange = function(child) {
             if (child && this.parent && this.parent.onChange) {
-                this._callParentOnChange();
+                return this._callParentOnChange();
             }
             else {
                 return false;
