@@ -24,12 +24,18 @@ var TW = TW || {};
     function init() {
 
 
-        /* The Layer class can hold several GraphicObjects and it provides some transformations methods to move or scale all the
-         GraphicalObjects that it contains. This is helpful when you want for example apply the same plane transformation to some
-         GraphicalObjects
-
-         @type {Layer}
-         @constructor
+        /**
+         * The Layer class can hold several GraphicObjects and it provides some transformations methods to move or scale all the
+         * GraphicalObjects that it contains. This is helpful when you want for example apply the same plane transformation to some
+         * GraphicalObjects
+         *
+         * @class Layer
+         * @extends GraphicObject
+         * @constructor
+         * @param {Object} param All properties given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} are available.
+         *   @param {Camera} [param.camera] camera used be the layer. if not set, a new Camera is created.
+         *   @param {SpatialContainer} [param.spatialContainer]
+         *   @param {CanvasRenderingContext2D} [param.localCanvas] you can set directly the canvas used by the layer.
          */
         function Layer(param) {
             TW.Graphic.GraphicObject.call(this, param);
@@ -62,6 +68,7 @@ var TW = TW || {};
          * all the canvas is redraw.
          *
          * @method draw
+         * @param {CanvasRenderingContext2D} context
          */
         Layer.prototype.draw = function(context) {
             if (this._needToRedraw === true) {
@@ -83,7 +90,7 @@ var TW = TW || {};
          * This method allow you to set the dimensions of the layer.
          *
          * @method setDimensions
-         * @param obj this object must contains the width and the height of the object like this : `{obj.width, obj.height}`
+         * @param {Object} obj this object must contains the width and the height of the object like this : `{obj.width, obj.height}`
          * @return {Boolean} this method returns false if the obj parameter isn't a valid object, otherwise this method
          * returns true.
          */
@@ -104,7 +111,7 @@ var TW = TW || {};
          * This method allow you to set the camera object of the layer.
          *
          * @method setCamera
-         * @param camera this object is the camera object to affect to the Layer.
+         * @param {Camera} camera this object is the camera object to affect to the Layer.
          */
         Layer.prototype.setCamera = function(camera) {
             this._callParentOnChange();
@@ -144,7 +151,7 @@ var TW = TW || {};
          * This method will allow you to add a child to the current Layer.
          *
          * @method addChild
-         * @param graphicObject this parameter must be a valid GraphicObject, otherwise the method will have an undefined
+         * @param {GraphicObject} graphicObject this parameter must be a valid GraphicObject, otherwise the method will have an undefined
          * behavior.
          * @return {Boolean} this method will return false if the graphicObject parameter is a valid object. Otherwise it
          * will returns true.
