@@ -64,7 +64,7 @@ var TW = TW || {};
             this._matrix = new TW.Math.Matrix2D();
             this._translation = {x: 0, y: 0 };
             this._rotation = 0;
-            this._scale = {x: 0 ,y: 0 };
+            this._scale = {x: 1 ,y: 1 };
             this._skew = {a: 0, b: 0 };
         }
 
