@@ -35,6 +35,8 @@ var TW = TW || {};
          *  @param {Number} param.x position on X axis.
          *  @param {Number} param.y position on Y axis.
          *  @param {Number} param.parent parent of the element.
+		 *  @param {Number} param.xCenter x position of the center in the current object
+		 *  @param {Number} param.yCenter y position of the center in the current object
          * @constructor
          */
         function GraphicObject(param) {
@@ -45,6 +47,8 @@ var TW = TW || {};
             this.height =  param.height ? param.height : 0;
             this.x =  param.x ? param.x : 0;
             this.y = param.y ? param.y : 0;
+			this.xCenterPoint = param.xCenterPoint ? param.xCenterPoint : 0;
+			this.yCenterPoint = param.yCenterPoint ? param.yCenterPoint : 0;
             this.parent = param.parent ? param.parent : null;
         }
 

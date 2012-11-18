@@ -19,7 +19,6 @@ var TW = TW || {};
         return TW.Graphic.Circle;
     }
 
-
     function init() {
 
         /**
@@ -30,9 +29,9 @@ var TW = TW || {};
          * @extends Shape
          * @constructor
          */
-        function Circle() {
-            TW.Graphic.Shape.call(this);
-            this.radius = 50;
+        function Circle(params) {
+            TW.Graphic.Shape.call(this, params);
+			this.radius = params.radius ? params.radius : 50;
         }
 
         TW.Utils.inherit(Circle, TW.Graphic.Shape);
@@ -48,12 +47,16 @@ var TW = TW || {};
             if (context) {
                 //TODO apply the matrix transformations on the context before drawing the circle
                 context.save();
+				context.translate(this.x, this.y);
+                this._matrix.transformContext(context);
+				context.translate(-this.xCenterPoint, -this.yCenterPoint);
                 context.beginPath();
-                context.strokeStyle = this.strokeColor;
-                context.arc(this.x, this.y, this.radius, 0, Math.PI * 2.0, true);
+                context.arc(0, 0, this.radius, Math.PI * 2, 0, true);
                 if (this.mode === "WIRED") {
+					context.strokeStyle = this.strokeColor;
                     context.stroke();
                 } else {
+					context.fillStyle = this.color;
                     context.fill();
                 }
                 context.closePath();
