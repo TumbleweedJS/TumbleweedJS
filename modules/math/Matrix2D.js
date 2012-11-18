@@ -137,6 +137,18 @@ var TW = TW || {};
                 [this.data[1][0], this.data[1][1]],
                 [this.data[2][0], this.data[2][1]]];
         };
+		
+		/**
+		* Set the current matrix to identity.
+		*
+		* @method identity
+		* @chainable
+		*/
+		Matrix2D.prototype.identity = function() {
+			var tmp_matrix = TW.Math.Matrix2D.identity();
+			this.copyMatrix(tmp_matrix);
+			return this;
+		};
 
         /**
          multiplies the current matrix by scale matrix
@@ -201,7 +213,7 @@ var TW = TW || {};
             var tmp_matrix = new TW.Math.Matrix2D();
             tmp_matrix.setTransform(1, a, b, 1, 0, 0);
             var result = tmp_matrix.multiplyMatrix(this);
-            this.copyMatrix(tmp_matrix);
+            this.copyMatrix(result);
             return this;
         };
 
