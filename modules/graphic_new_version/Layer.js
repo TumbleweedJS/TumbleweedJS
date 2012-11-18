@@ -90,12 +90,12 @@ var TW = TW || {};
          * returns true.
          */
         Layer.prototype.setDimensions = function(obj) {
-            this._callParentOnChange();
             if (obj && obj.width && obj.height && obj.width > 0 && obj.height > 0) {
                 this.width = obj.width;
                 this.height = obj.height;
                 this._localCanvas.width = obj.width;
                 this._localCanvas.height = obj.height;
+                this.notifyParentChange();
                 return true;
             } else {
                 return false;
@@ -109,7 +109,7 @@ var TW = TW || {};
          * @param {Camera} camera this object is the camera object to affect to the Layer.
          */
         Layer.prototype.setCamera = function(camera) {
-            this._callParentOnChange();
+            this.notifyParentChange();
             this._camera = camera;
         };
 
@@ -134,7 +134,7 @@ var TW = TW || {};
          */
         Layer.prototype.setSpatialContainer = function(spatialContainer) {
             if (spatialContainer) {
-                this._callParentOnChange();
+                this.notifyParentChange();
                 this._spatialContainer = spatialContainer;
                 return true;
             } else {
@@ -153,7 +153,7 @@ var TW = TW || {};
          */
         Layer.prototype.addChild = function(graphicObject) {
             if (graphicObject) {
-                this._callParentOnChange();
+                this.notifyParentChange();
                 this._spatialContainer.addElement(graphicObject);
                 graphicObject.setParent(this);
                 return true;
@@ -172,26 +172,10 @@ var TW = TW || {};
          * will returns true, otherwise the method will returns true.
          */
         Layer.prototype.rmChild = function(graphicObject) {
-            this._callParentOnChange();
+            this.notifyParentChange();
             return this._spatialContainer.removeElement(graphicObject);
         };
 
-
-        /**
-         * This method is called when something is changed into the layer or into the layer's childs.
-         *
-         * @method _callParentOnChange
-         * @return {Boolean} if the method succeed then it returns true otherwise it returns false.
-         * @protected
-         */
-        Layer.prototype._callParentOnChange = function() {
-            this._needToRedraw = true;
-            if (this.parent) {
-                this.parent.onChange(this);
-                return true;
-            }
-            return false;
-        };
 
         /**
          * This method will allow you to update the layer and all the childs within the layer.
@@ -206,22 +190,6 @@ var TW = TW || {};
                     child.update();
                 }
             });
-        };
-
-        /**
-         * This method will be called when a child is changed. By using this method it will notice the current Layer to redraw the local canvas.
-         *
-         * @method onChange
-         * @param {GraphicObject} child this object represent the child who has been changed.
-         * @return {Boolean} This function will return true if the onChange function otherwise it will return false.
-         */
-        Layer.prototype.onChange = function(child) {
-            if (child && this.parent && this.parent.onChange) {
-                return this._callParentOnChange();
-            }
-            else {
-                return false;
-            }
         };
 
         return Layer;
