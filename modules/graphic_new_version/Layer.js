@@ -166,12 +166,12 @@ var TW = TW || {};
          * @method rmChild
          * @param {GraphicObject} graphicObject this parameter is the GraphicObject that the method will try to find inside the child of
          * the current layer.
-         * @return {Boolean} if the graphicObject was finded in the childs of the current layer then the method
+         * @return {Boolean} if the graphicObject was found in the childs of the current layer then the method
          * will returns true, otherwise the method will returns true.
          */
         Layer.prototype.rmChild = function(graphicObject) {
             this._callParentOnChange();
-            return this.spatialContainer.rmElement(graphicObject);
+            return this._spatialContainer.rmElement(graphicObject);
         };
 
 
@@ -201,8 +201,8 @@ var TW = TW || {};
          */
         Layer.prototype.update = function() {
             this.spatialContainer.applyAll(function(child) {
-                if (this._childs.update) {
-                    this._childs.update();
+                if (child.update) {
+                    child.update();
                 }
             });
         };

@@ -26,7 +26,7 @@ var TW = TW || {};
          * GraphicObject represent an object that has a relationship with graphical context. It is the root class of every graphical component of the framework.
          *
          * @class GraphicObject
-         * @param param it is an object that represent the parameters of the graphicalObject to set.
+         * @param {Object} param it is an object that represent the parameters of the graphicalObject to set.
          * @constructor
          */
         function GraphicObject(param) {

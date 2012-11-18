@@ -27,7 +27,7 @@ var TW = TW || {};
          * cause it is an abstract class who have the purpose to be extended to implements basic shape drawing.
          * Note that the Shape class extends the GraphicObject class.
          *
-         * @class {Shape}
+         * @class Shape
          * @extends {GraphicObject}
          * @constructor
          */
