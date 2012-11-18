@@ -97,7 +97,7 @@ var TW = TW || {};
 
         /**
          * prepare is called before each draw on the canvas.
-         * The canvas 2D context is already reset and existing value should not be overwritten but modified.<br />
+         * The canvas 2D context must be completely reset.<br />
          * By default, context matrix are multiplied by internal matrix.
          * save and restore operations are done by the caller.
          *

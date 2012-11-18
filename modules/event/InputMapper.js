@@ -135,6 +135,7 @@ var TW = TW || {};
 
 			id = input.addListener(remoteEvent, this._bindEvent.bind(this));
 			this._binds[i] = {event: remoteEvent, input: input, id: id};
+            return true;
 		};
 
 		InputMapper.prototype.bindListen = function(localEvent, input) {
@@ -153,6 +154,7 @@ var TW = TW || {};
 
 			id = input.addListener(this._bindListenEvent.bind(this));
 			this._binds[i] = {event: undefined, input: input, id: id};
+            return true;
 		};
 
 		InputMapper.prototype.stopBindListen = function() {

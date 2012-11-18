@@ -198,7 +198,7 @@ var TW = TW || {};
 	};
 
 	/*
-	 Validate the response (we need to try/catch some of these, nicer to break them into functions.
+	 * Validate the response (we need to try/catch some of these, nicer to break them into functions.
 	 */
 	XMLHttpRequestLoader.prototype._hasResponse = function() {
 		return this._request.response !== null;

@@ -28,7 +28,7 @@ var TW = TW || {};
          * Note that the Shape class extends the GraphicObject class.
          *
          * @class Shape
-         * @extends {GraphicObject}
+         * @extends GraphicObject
          * @constructor
          */
         function Shape() {

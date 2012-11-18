@@ -95,10 +95,10 @@ var TW = TW || {};
 
 
         /**
-         Preload class is object utility for preload different file format.
-
-         @class Preload
-         @constructor
+         * Preload class is object utility for preload different file format.
+         *
+         * @class Preload
+         * @constructor
          */
         function Preload() {
 
@@ -538,9 +538,9 @@ var TW = TW || {};
 
             //LM: Might not need to do this with Audio.
             if (tag) {
-                if (item.type == this.CSS) {
+                if (item.type === this.CSS) {
                     tag.href = item.src;
-                } else if (item.type != this.SVG) {
+                } else if (item.type !== this.SVG) {
                     tag.src = item.src;
                 }
                 return tag;

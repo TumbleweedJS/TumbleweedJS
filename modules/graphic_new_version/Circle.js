@@ -22,11 +22,13 @@ var TW = TW || {};
 
     function init() {
 
-        /*
+        /**
          * This class extends the Shape class. when you create a Circle object like `var myCircle = new TW.Graphic.Circle();`
          *  the default radius of the object is 50pixels.
          *
-         * @type {Circle}
+         * @class Circle
+         * @extends Shape
+         * @constructor
          */
         function Circle() {
             TW.Graphic.Shape.call(this);

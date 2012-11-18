@@ -181,8 +181,6 @@ var TW = TW || {};
          * This method will allow you to update the layer and all the childs within the layer.
          *
          * @method update
-         * @return {Boolean} if every childs of the layer have been updated with success then the method will returns true.
-         * Otherwise the method will returns false.
          */
         Layer.prototype.update = function() {
             this._spatialContainer.applyAll(function(child) {

@@ -25,6 +25,7 @@ var TW = TW || {};
         /**
          * This class allow you to build a SpatialContainer who can holds some GraphicalObjects and provide methods
          * to draw them faster.
+         *
          * @class SpatialContainer
          * @constructor
          */
