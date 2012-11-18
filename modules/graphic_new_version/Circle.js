@@ -47,9 +47,11 @@ var TW = TW || {};
             if (context) {
                 //TODO apply the matrix transformations on the context before drawing the circle
                 context.save();
-				this._matrix.transformContext(context);
+				context.translate(this.x, this.y);
+                this._matrix.transformContext(context);
+				context.translate(-this.xCenterPoint, -this.yCenterPoint);
                 context.beginPath();
-                context.arc(this.x, this.y, this.radius, Math.PI * 2, 0, true);
+                context.arc(0, 0, this.radius, Math.PI * 2, 0, true);
                 if (this.mode === "WIRED") {
 					context.strokeStyle = this.strokeColor;
                     context.stroke();

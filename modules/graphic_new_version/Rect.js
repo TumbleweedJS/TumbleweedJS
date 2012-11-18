@@ -32,13 +32,15 @@ var TW = TW || {};
             if (context) {
                 //TODO apply the matrix transformations on the context before drawing the circle
                 context.save();
-				this._matrix.transformContext(context);
+				context.translate(this.x, this.y);
+                this._matrix.transformContext(context);
+				context.translate(-this.xCenterPoint, -this.yCenterPoint);
                 if (this.mode === "WIRED") {
 					context.strokeStyle = this.strokeColor;
-                    context.strokeRect(this.x, this.y, this.width, this.height);
+                    context.strokeRect(0, 0, this.width, this.height);
                 } else {
 					context.fillStyle = this.color;
-                    context.fillRect(this.x, this.y, this.width, this.height);
+                    context.fillRect(0, 0, this.width, this.height);
                 }
                 context.restore();
                 return true;

@@ -68,7 +68,9 @@ var TW = TW || {};
         Layer.prototype.draw = function(context) {
             if (this._needToRedraw === true) {
                 this._localCanvas.save();
+				this._localCanvas.translate(this.x, this.y);
                 this._camera.prepare(this._localCanvas);
+				this._localCanvas.translate(-this.xCenterPoint, -this.yCenterPoint);
                 this._spatialContainer.applyAll(function(child) {
                     child.draw(this._localCanvas);
                 }.bind(this));
