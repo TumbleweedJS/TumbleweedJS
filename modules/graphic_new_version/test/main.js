@@ -16,13 +16,13 @@ function main()
 
 	var camera = myWindow.getCamera();
 	camera.translate(100, 100);
-	camera.rotate(45);
-	//myLayer.rotate(20);
+	//camera.rotate(45);
+    mySprite.scale(5,5);
+    myLayer.rotate(20);
 	//myLayer.translate(100,100);
-	//mySprite.scale(5,5);
     //mySprite.translate(200, 100);
 	//mySprite.scale(5,5);
-	//mySprite.rotate(45);
+	mySprite.rotate(45);
 	//mySprite.translate(200, 100);
 
 	myWindow.draw();

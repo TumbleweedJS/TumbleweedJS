@@ -117,6 +117,7 @@ var TW = TW || {};
             if (obj && obj.width && obj.height && obj.width > 0 && obj.height > 0) {
                 this.width = obj.width;
                 this.height = obj.height;
+                this.notifyParentChange();
                 return true;
             } else {
                 return false;
@@ -136,6 +137,7 @@ var TW = TW || {};
             if (obj && obj.x && obj.y) {
                 this.x = obj.x;
                 this.y = obj.y;
+                this.notifyParentChange();
                 return true;
             } else {
                 return false;
@@ -160,6 +162,7 @@ var TW = TW || {};
          */
         GraphicObject.prototype.setZIndex = function(value) {
             this._zIndex = value;
+            this.notifyParentChange();
         };
 
         /**
@@ -180,6 +183,7 @@ var TW = TW || {};
          */
         GraphicObject.prototype.setAlpha = function(alpha) {
             this._alpha = alpha;
+            this.notifyParentChange();
         };
 
         /**
@@ -192,6 +196,7 @@ var TW = TW || {};
          */
         GraphicObject.prototype.translate = function(x, y) {
             this._matrix.translate(x, y);
+            this.notifyParentChange();
             return this;
         };
 
@@ -206,6 +211,7 @@ var TW = TW || {};
             //this._matrix = this._matrix.identity();
             this.x = x;
             this.y = y;
+            this.notifyParentChange();
             //this._matrix.translate(x, y);
         };
 
@@ -219,6 +225,7 @@ var TW = TW || {};
          */
         GraphicObject.prototype.rotate = function(angle) {
             this._matrix.rotate(angle);
+            this.notifyParentChange();
             return this;
         };
 
@@ -233,6 +240,7 @@ var TW = TW || {};
          */
         GraphicObject.prototype.scale = function(x, y) {
             this._matrix.scale(x, y);
+            this.notifyParentChange();
             return this;
         };
 
@@ -247,6 +255,7 @@ var TW = TW || {};
          */
         GraphicObject.prototype.skew = function(a, b) {
             this._matrix.skew(a, b);
+            this.notifyParentChange();
             return this;
         };
 
@@ -266,6 +275,7 @@ var TW = TW || {};
             if (x && x >= 0 && x <= this.width && y && y >= 0 && y <= this.height) {
                 this.x_center = x;
                 this.y_center = y;
+                this.notifyParentChange();
                 return true;
             } else {
                 return false;
@@ -281,6 +291,20 @@ var TW = TW || {};
         GraphicObject.prototype.getCenterPoint = function() {
             return {x:this.x_center, y:this.y_center};
         };
+
+
+        /**
+         * This method notify the parent that a change has been done, and that it should clear his cache.
+         *
+         * @method notifyParentChange
+         * @protected
+         */
+        GraphicObject.prototype.notifyParentChange = function() {
+            if (this.parent) {
+                this.parent.onChange(this);
+            }
+        };
+
 
         return GraphicObject;
     }

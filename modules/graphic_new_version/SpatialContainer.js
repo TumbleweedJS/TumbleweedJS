@@ -103,8 +103,8 @@ var TW = TW || {};
          * This method is private. It returns the det of two vectors, it is used internally by the applyToZone method.
          *
          * @method computeDet
-         * @param {Vector2D} d represent a vector
-         * @param {Vector2D} t represent a vector
+         * @param {Object} d represent a vector
+         * @param {Object} t represent a vector
          * @return {Number} return the det of the vectors d and t.
          * @private
          */
