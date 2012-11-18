@@ -29,8 +29,8 @@ var TW = TW || {};
          * @constructor
          */
         function Sprite(param) {
-            (param.image ? this.image = param.image : this.image = null);
-            (param.imageRect ? this.imageRect = param.imageRect : this.imageRect = null);
+            this.image = param.image ? param.image : null;
+            this.imageRect = param.imageRect ? param.imageRect : null;
             TW.Graphic.GraphicObject.call(this, param);
         }
 

@@ -38,14 +38,14 @@ var TW = TW || {};
          * @constructor
          */
         function GraphicObject(param) {
-            (param.zIndex ? this._zIndex = param.zIndex : this._zIndex = 0);
-            (param.matrix ? this._matrix = param.matrix : this._matrix = TW.Math.Matrix2D.identity());
-            (param.alpha ? this._alpha = param.alpha : this._alpha = 1.0);
-            (param.width ? this.width = param.width : this.width = 0);
-            (param.height ? this.height = param.height : this.height = 0);
-            (param.x ? this.x = param.x : this.x = 0);
-            (param.y ? this.y = param.y : this.y = 0);
-            (param.parent ? this.parent = param.parent : this.parent = null);
+            this._zIndex =  param.zIndex ? param.zIndex : 0;
+            this._matrix = param.matrix ? param.matrix : TW.Math.Matrix2D.identity();
+            this._alpha =  param.alpha ? param.alpha : 1.0;
+            this.width =  param.width ? param.width : 0;
+            this.height =  param.height ? param.height : 0;
+            this.x =  param.x ? param.x : 0;
+            this.y = param.y ? param.y : 0;
+            this.parent = param.parent ? param.parent : null;
         }
 
         /**
@@ -62,7 +62,7 @@ var TW = TW || {};
          * This method allows the user to get the parent of the current GraphicalObject.
          *
          * @method getParent
-         * @return {GraphicalObject} return the parent of the current GraphicalObject.
+         * @return {GraphicObject} return the parent of the current GraphicalObject.
          */
         GraphicObject.prototype.getParent = function () {
             return this.parent;

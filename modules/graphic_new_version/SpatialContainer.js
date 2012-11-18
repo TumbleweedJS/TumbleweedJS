@@ -72,7 +72,7 @@ var TW = TW || {};
          * @return {Boolean} return true if callback is a function object and callback has been applied to every GraphicObject, otherwise it returns true.
          */
         SpatialContainer.prototype.applyAll = function(callback) {
-            if (typeof(callback) == "function") {
+            if (typeof(callback) === "function") {
                 for (var i = 0; i < this.containerList.length; i++) {
                     callback(this.containerList[i]);
                 }
@@ -103,8 +103,8 @@ var TW = TW || {};
          * This method is private. It returns the det of two vectors, it is used internally by the applyToZone method.
          *
          * @method computeDet
-         * @param {Vector} d represent a vector
-         * @param {Vector} t represent a vector
+         * @param {Vector2D} d represent a vector
+         * @param {Vector2D} t represent a vector
          * @return {Number} return the det of the vectors d and t.
          * @private
          */

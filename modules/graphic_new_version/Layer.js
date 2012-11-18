@@ -40,9 +40,9 @@ var TW = TW || {};
         function Layer(param) {
             TW.Graphic.GraphicObject.call(this, param);
 
-            (param.camera ? this._camera = param.camera : this._camera = new TW.Graphic.Camera());
-            (param.spatialContainer ? this._spatialContainer = param.spatialContainer : this._spatialContainer = new TW.Graphic.SpatialContainer());
-            (param.localCanvas ? this._localCanvas = param.localCanvas : this._localCanvas = document.createElement('canvas').getContext("2d"));
+            this._camera =  param.camera ? param.camera : new TW.Graphic.Camera();
+            this._spatialContainer = param.spatialContainer ? param.spatialContainer : new TW.Graphic.SpatialContainer();
+            this._localCanvas = param.localCanvas ? param.localCanvas : document.createElement('canvas').getContext("2d");
             this._localCanvas.canvas.width = param.width;
             this._localCanvas.canvas.height = param.height;
             this._needToRedraw = true;
@@ -178,14 +178,13 @@ var TW = TW || {};
          */
         Layer.prototype.rmChild = function(graphicObject) {
             this._callParentOnChange();
-            return this._spatialContainer.rmElement(graphicObject);
+            return this._spatialContainer.removeElement(graphicObject);
         };
 
 
         /**
          * This method is called when something is changed into the layer or into the layer's childs.
          *
-         * @private
          * @method _callParentOnChange
          * @return {Boolean} if the method succeed then it returns true otherwise it returns false.
          * @protected
@@ -223,7 +222,7 @@ var TW = TW || {};
          */
         Layer.prototype.onChange = function(child) {
             if (child && this.parent && this.parent.onChange) {
-                this._callParentOnChange();
+                return this._callParentOnChange();
             }
             else {
                 return false;

@@ -59,7 +59,7 @@ var TW = TW || {};
             this.width = canvas.width;
             this.height = canvas.height;
             this._callParentOnChange();
-        }
+        };
 
         /**
          * Draw all graphic elements on the associated canvas.
