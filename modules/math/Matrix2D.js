@@ -39,8 +39,8 @@ var TW = TW || {};
         function Matrix2D() {
 
             /**
-             Internal data that represent matrix.
-             @property {Array} data
+             * Internal data that represent matrix.
+             * @property {Array} data
              */
             this.data = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
 
@@ -51,8 +51,8 @@ var TW = TW || {};
             this.width = 3;
 
             /**
-             Heigh size of matrix
-             @property {Number} heigh
+             Height size of matrix
+             @property {Number} height
              */
             this.height = 3;
         }
@@ -120,7 +120,7 @@ var TW = TW || {};
         Matrix2D.prototype.transform = function(a, b, c, d, e, f) {
             var matrix = new TW.Math.Matrix2D();
             matrix.setTransform(a, b, c, d, e, f);
-            var result = this.multByMatrix(matrix);
+            var result = this.multiplyMatrix(matrix);
             this.copyMatrix(result);
             return this;
         };
@@ -206,7 +206,7 @@ var TW = TW || {};
          * @method skew
          * @param a the x skew factor
          * @param b the y skew factor
-         * @return {Matrix} return the current matrix that have been transformed by the skew.
+         * @return {Matrix2D} return the current matrix that have been transformed by the skew.
          * @chainable
          */
         Matrix2D.prototype.skew = function(a, b) {
@@ -219,7 +219,7 @@ var TW = TW || {};
 
 
         /**
-         * Set the current matrix data to the matrix gived in parameter.
+         * Set the current matrix data to the matrix given in parameter.
          *
          * @method copyMatrix
          * @param matrix
@@ -244,8 +244,8 @@ var TW = TW || {};
          Compute the product of two matrix
 
          @method multiply
-         @param {Matrix} matrix the matrix to multiplies
-         @return the result if it's ok, null if an error occurred
+         @param {Matrix2D} matrix the matrix to multiplies
+         @return {Matrix2D} the result if it's ok, null if an error occurred
          */
         Matrix2D.prototype.multiplyMatrix = function(matrix) {
             if (matrix instanceof TW.Math.Matrix2D) {
@@ -265,8 +265,8 @@ var TW = TW || {};
         /**
          Multiplies the current matrix by a vector 2d.
          @method multiplyVector
-         @param {TW.Math.Vector2D} vector
-         @return {TW.Math.Vector2D} if vector is a valid TW.Math.Vector2D instance, it will return vector transformed by the current matrix. Otherwise it will return null.
+         @param {Vector2D} vector
+         @return {Vector2D} if vector is a valid TW.Math.Vector2D instance, it will return vector transformed by the current matrix. Otherwise it will return null.
          */
         Matrix2D.prototype.multiplyVector = function(vector) {
             if (vector instanceof TW.Math.Vector2D) {
@@ -284,15 +284,16 @@ var TW = TW || {};
         };
 		
 		/**
-		 * This method transform the context gived in parameter by the current matrix.
+		 * This method transform the context given in parameter by the current matrix.
 		 *
          * @method transformContext
 		 * @param context it is the context to transform by the current matrix.
 		 * @return {Boolean} return true if the method succeed. Otherwise it will returns false.
 		 */
 		Matrix2D.prototype.transformContext = function(context) {
-			if (context === null)
+			if (context === null) {
 				return false;
+            }
 			context.transform(this.data[0][0], this.data[0][1], this.data[1][0], this.data[1][1], this.data[2][0], this.data[2][1]);
 			return true;
 		};
