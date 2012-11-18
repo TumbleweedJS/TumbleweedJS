@@ -105,6 +105,7 @@ var TW = TW || {};
          * @param {CanvasRenderingContext2D} context The canvas context which will be used to draw.
          */
         Camera.prototype.prepare = function(context) {
+			context.clearRect(0, 0, context.canvas.width, context.canvas.height);
             this._matrix.transformContext(context);
         };
 

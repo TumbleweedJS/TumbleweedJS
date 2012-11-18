@@ -33,10 +33,11 @@ function main()
 	myLayer3.rotate(45);
 	
 	var i = 0;
-	myLayer3.update  = function() {
-		i = i+1;
+	myLayer3.update = myLayer2.update = myLayer1.update  = function() {
+		TW.Graphic.Layer.prototype.update.call(this);
+		//i = i+1;
 		//console.log(i);
-		this.rotate(i);
+		this.rotate(1);
 	};
 
 	//var camera = myWindow.getCamera();
@@ -46,14 +47,14 @@ function main()
 	//myLayer.translate(100,100);
     //mySprite.translate(200, 100);
 	//mySprite.scale(5,5);
-	mySprite.rotate(45);
+	//mySprite.rotate(45);
 	//mySprite.translate(200, 100);
 
 	//myWindow.draw();
 
 	var gl = new TW.Gameloop.Gameloop();
 	gl.object.push(myWindow);
-	//gl.start();
+	gl.start();
 	//mySprite.draw(myCanvasContext);
 }
 
