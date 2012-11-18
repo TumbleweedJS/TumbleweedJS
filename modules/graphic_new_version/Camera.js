@@ -179,6 +179,5 @@ var TW = TW || {};
         };
 
         return Camera;
-
     }
 }(TW));
