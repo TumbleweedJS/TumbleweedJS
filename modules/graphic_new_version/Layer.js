@@ -5,9 +5,7 @@
 
 var TW = TW || {};
 
-
 (function(TW) {
-
     if (typeof window.define === "function" && window.define.amd) {
         window.define([], initWrap(init));
     } else {
@@ -20,10 +18,7 @@ var TW = TW || {};
         return TW.Graphic.Layer;
     }
 
-
     function init() {
-
-
         /**
          * The Layer class can hold several GraphicObjects and it provides some transformations methods to move or scale all the
          * GraphicalObjects that it contains. This is helpful when you want for example apply the same plane transformation to some
@@ -206,7 +201,7 @@ var TW = TW || {};
          * Otherwise the method will returns false.
          */
         Layer.prototype.update = function() {
-            this.spatialContainer.applyAll(function(child) {
+            this._spatialContainer.applyAll(function(child) {
                 if (child.update) {
                     child.update();
                 }
