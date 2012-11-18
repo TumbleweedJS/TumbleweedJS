@@ -262,27 +262,27 @@ var TW = TW || {};
 
 		this.audio.currentTime = this.offset;
 
-		if (this.onReady != null) {
+		if (this.onReady !== null) {
 			this.onReady(this);
 		}
 	};
 
 	Sound.prototype.handleSoundComplete = function() {
-		if (this.remainingLoops != 0) {
+		if (this.remainingLoops !== 0) {
 			this.remainingLoops--;
 			try {
 				this.audio.currentTime = 0;
 			} catch (error) {
 			}
 			this.audio.play();
-			if (this.onLoop != null) {
+			if (this.onLoop !== null) {
 				this.onLoop(this);
 			}
 			return;
 		}
 		this.playState = PLAY_FINISHED;
 
-		if (this.onComplete != null) {
+		if (this.onComplete !== null) {
 			this.onComplete(this);
 		}
 	};

@@ -23,64 +23,58 @@ var TW = TW || {};
     function init() {
 
 	/**
-	 Manager class is utility for manage all sound in channel.
-
-	 @class Manager
-	 @constructor
+	 * Manager class is utility for manage all sound in channel.
+     *
+	 * @class Manager
+	 * @constructor
 	 */
 	function Manager() {
 
 		/**
-		 Array of Channel.
-
-		 @property instances
-		 @type Array
-		 @default empty
+		 * Array of Channel.
+         *
+		 * @property {Array} instances
+		 * @default empty
 		 **/
 		this.instances = [];
 
 		/**
-		 Number of Channel.
-
-		 @property length
-		 @type Number
-		 @default 0
+		 * Number of Channel.
+         *
+		 * @property {Number} length
+		 * @default 0
 		 **/
 		this.length = 0;
 
 		/**
-		 LastId of Channel.
-
-		 @property lastId
-		 @type Number
-		 @default 0
+		 * LastId of Channel.
+         *
+		 * @property {Number} lastId
+		 * @default 0
 		 **/
 		this.lastId = 0;
 
 		/**
-		 Number of Channel ready to play.
-
-		 @property ready
-		 @type Number
-		 @default 0
+		 * Number of Channel ready to play.
+         *
+		 * @property {Number} ready
+		 * @default 0
 		 **/
 		this.ready = 0;
 
 		/**
-		 Callback function when all channel is ready to play.
-
-		 @property allInstancesReady
-		 @type Function
-		 @default null
+		 * Callback function when all channel is ready to play.
+         *
+		 * @property {Function} allInstancesReady
+		 * @default null
 		 **/
 		this.allInstancesReady = null;
 
 		/**
-		 Callback function when a channel is ready to play.
-
-		 @property instanceReady
-		 @type Function
-		 @default null
+		 * Callback function when a channel is ready to play.
+         *
+		 * @property {Function} instanceReady
+		 * @default null
 		 **/
 		this.instanceReady = null;
 
@@ -166,10 +160,10 @@ var TW = TW || {};
 	Manager.prototype.handleAllInstancesReady = function(channel) {
 		this.ready++;
 
-		if (this.instanceReady != null) {
+		if (this.instanceReady !== null) {
 			this.instanceReady(channel.id);
 		}
-		if (this.allInstancesReady != null && this.ready === this.length) {
+		if (this.allInstancesReady !== null && this.ready === this.length) {
 			this.allInstancesReady();
 		}
 	};

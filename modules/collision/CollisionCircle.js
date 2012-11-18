@@ -58,10 +58,7 @@ var TW = TW || {};
             var circle_y = circle.getY();
             var dist = Math.sqrt(((circle_x - this.x) * (circle_x - this.x)) + ((circle_y - this.y) * (circle_y - this.y)));
 
-            if (dist < this.radius + circle.getRadius()) {
-                return true;
-            }
-            return false;
+            return dist < (this.radius + circle.getRadius());
         };
 
         /**

@@ -1,5 +1,5 @@
 /**
- @module Proload
+ @module Preload
  @namespace Preload
  */
 
@@ -94,13 +94,13 @@ var TW = TW || {};
 	 * @method load
 	 */
 	XMLHttpRequestLoader.prototype.load = function() {
-		if (this._request == null) {
+		if (this._request === null) {
 			this.handleError();
 			return;
 		}
 
 		//Setup timeout if we're not using XHR2
-		if (this._xhrLevel == 1) {
+		if (this._xhrLevel === 1) {
 			this._loadTimeOutTimeout = setTimeout(this.handleTimeout.bind(this), TW.Preload.TIMEOUT_TIME);
 		}
 
@@ -156,7 +156,7 @@ var TW = TW || {};
 	};
 
 	XMLHttpRequestLoader.prototype.handleProgress = function(event) {
-		if (event.loaded > 0 && event.total == 0) {
+		if (event.loaded > 0 && event.total === 0) {
 			return; // Sometimes we get no "total", so just ignore the progress event.
 		}
 		this._sendProgress({loaded: event.loaded, total: event.total});
@@ -178,7 +178,7 @@ var TW = TW || {};
 	};
 
 	XMLHttpRequestLoader.prototype.handleReadyStateChange = function() {
-		if (this._request.readyState == 4) {
+		if (this._request.readyState === 4) {
 			this.handleLoad();
 		}
 	};
@@ -198,15 +198,15 @@ var TW = TW || {};
 	};
 
 	/*
-	 Validate the response (we need to try/catch some of these, nicer to break them into functions.
+	 * Validate the response (we need to try/catch some of these, nicer to break them into functions.
 	 */
 	XMLHttpRequestLoader.prototype._hasResponse = function() {
-		return this._request.response != null;
+		return this._request.response !== null;
 	};
 
 	XMLHttpRequestLoader.prototype._hasTextResponse = function() {
 		try {
-			return this._request.responseText != null;
+			return this._request.responseText !== null;
 		} catch (e) {
 			return false;
 		}
@@ -214,7 +214,7 @@ var TW = TW || {};
 
 	XMLHttpRequestLoader.prototype._hasXMLResponse = function() {
 		try {
-			return this._request.responseXML != null;
+			return this._request.responseXML !== null;
 		} catch (e) {
 			return false;
 		}
@@ -259,7 +259,7 @@ var TW = TW || {};
 		}
 
 		//IE9 doesn't support .overrideMimeType(), so we need to check for it.
-		if (item.type == TW.Preload.TEXT && this._request.overrideMimeType) {
+		if (item.type === TW.Preload.TEXT && this._request.overrideMimeType) {
 			this._request.overrideMimeType('text/plain; charset=x-user-defined');
 		}
 
@@ -302,7 +302,7 @@ var TW = TW || {};
 		} else {
 			event = value;
 			this.progress = value.loaded / value.total;
-			if (isNaN(this.progress) || this.progress == Infinity) {
+			if (isNaN(this.progress) || this.progress === Infinity) {
 				this.progress = 0;
 			}
 		}
@@ -334,7 +334,7 @@ var TW = TW || {};
 
 	XMLHttpRequestLoader.prototype._sendError = function(event) {
 		if (this.onError) {
-			if (event == null) {
+			if (event === null) {
 				event = {};
 			}
 			event.target = this;

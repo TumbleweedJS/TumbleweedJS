@@ -1,5 +1,5 @@
 /**
- @module Proload
+ @module Preload
  @namespace Preload
  */
 
@@ -95,11 +95,10 @@ var TW = TW || {};
 
 
         /**
-         Preload class is object utility for preload different file format.
-
-         @class Preload
-         @constructor
-         @param {String} src The source of channel separated with '|' for multi-format.
+         * Preload class is object utility for preload different file format.
+         *
+         * @class Preload
+         * @constructor
          */
         function Preload() {
 
@@ -199,7 +198,7 @@ var TW = TW || {};
             } else {
                 event = value;
                 this.progress = value.loaded / value.total;
-                if (isNaN(this.progress) || this.progress == Infinity) {
+                if (isNaN(this.progress) || this.progress === Infinity) {
                     this.progress = 0;
                 }
             }
@@ -231,7 +230,7 @@ var TW = TW || {};
 
         Preload.prototype._sendError = function(event) {
             if (this.onError) {
-                if (event == null) {
+                if (event === null) {
                     event = {};
                 }
                 event.target = this;
@@ -273,7 +272,7 @@ var TW = TW || {};
          * is true, the queue will resume.
          */
         Preload.prototype.loadFile = function(file, loadNow) {
-            if (file == null) {
+            if (file === null) {
                 this._sendError({text: "File is null."});
                 return;
             }
@@ -310,13 +309,13 @@ var TW = TW || {};
             var data;
 
             if (manifest instanceof Array) {
-                if (manifest.length == 0) {
+                if (manifest.length === 0) {
                     this._sendError({text: "Manifest is empty."});
                     return;
                 }
                 data = manifest;
             } else {
-                if (manifest == null) {
+                if (manifest === null) {
                     this._sendError({text: "Manifest is null."});
                     return;
                 }
@@ -395,9 +394,9 @@ var TW = TW || {};
 
         //Protected Methods
         Preload.prototype._addItem = function(item) {
-            var loadItem = this._createLoadItem(item);
-            if (loadItem != null) {
-                this._loadQueue.push(loadItem);
+            var load_item = this._createLoadItem(item);
+            if (load_item !== null) {
+                this._loadQueue.push(load_item);
 
                 this._numItems++;
                 this._updateProgress();
@@ -405,6 +404,8 @@ var TW = TW || {};
         };
 
         Preload.prototype._loadNext = function() {
+            var load_item;
+
             if (this._paused) {
                 return;
             }
@@ -414,7 +415,7 @@ var TW = TW || {};
                 this._loadStartWasDispatched = true;
             }
 
-            if (this._numItems == this._numItemsLoaded) {
+            if (this._numItems === this._numItemsLoaded) {
                 this.loaded = true;
                 this._sendComplete();
                 if (this.next && this.next.load) {
@@ -424,8 +425,8 @@ var TW = TW || {};
             }
 
             while (this._loadQueue.length && this._currentLoads.length < this._maxConnections) {
-                var loadItem = this._loadQueue.shift();
-                this._loadItem(loadItem);
+                load_item = this._loadQueue.shift();
+                this._loadItem(load_item);
             }
         };
 
@@ -503,9 +504,9 @@ var TW = TW || {};
         Preload.prototype._removeLoadItem = function(loader) {
             var l = this._currentLoads.length;
             for (var i = 0; i < l; i++) {
-                if (this._currentLoads[i] == loader) {
+                if (this._currentLoads[i] === loader) {
                     this._currentLoads.splice(i, 1);
-                    break;
+                    return;
                 }
             }
         };
@@ -537,9 +538,9 @@ var TW = TW || {};
 
             //LM: Might not need to do this with Audio.
             if (tag) {
-                if (item.type == this.CSS) {
+                if (item.type === this.CSS) {
                     tag.href = item.src;
-                } else if (item.type != this.SVG) {
+                } else if (item.type !== this.SVG) {
                     tag.src = item.src;
                 }
                 return tag;
@@ -611,10 +612,10 @@ var TW = TW || {};
             // Get source extension
             item.ext = this._getNameAfter(item.src, ".");
             if (!item.type) {
-                item.type = this.getType(item.ext)
+                item.type = this.getType(item.ext);
             }
             //If there's no id, set one now.
-            if (item.id == null || item.id == "") {
+            if (item.id === null || item.id === "") {
                 //item.id = this._getNameAfter(item.src, "/");
                 item.id = item.src; //[SB] Using the full src is more robust, and more useful from a user perspective.
             }
@@ -628,17 +629,17 @@ var TW = TW || {};
                     return null;
 
                     // Load as normal
-                } else if (result === true) {
+                } /* else if (result === true) {
                     // Do Nothing
                     // Result is a loader class
-                } else {
-                    if (result.src != null) {
+                } */ else {
+                    if (result.src !== null) {
                         item.src = result.src;
                     }
-                    if (result.id != null) {
+                    if (result.id !== null) {
                         item.id = result.id;
                     }
-                    if (result.tag != null && result.tag.load instanceof Function) { //Item has what we need load
+                    if (result.tag !== null && result.tag.load instanceof Function) { //Item has what we need load
                         item.tag = result.tag;
                     }
                 }
@@ -678,7 +679,7 @@ var TW = TW || {};
             var dot_index = path.lastIndexOf(token);
             var last_piece = path.substr(dot_index + 1);
             var end_index = last_piece.lastIndexOf(/[\b|\?|\#|\s]/);
-            return (end_index == -1) ? last_piece : last_piece.substr(0, end_index);
+            return (end_index === -1) ? last_piece : last_piece.substr(0, end_index);
         };
 
         Preload.prototype._createImage = function() {

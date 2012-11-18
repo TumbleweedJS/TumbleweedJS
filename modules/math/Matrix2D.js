@@ -39,8 +39,8 @@ var TW = TW || {};
         function Matrix2D() {
 
             /**
-             Internal data that represent matrix.
-             @property {Array} data
+             * Internal data that represent matrix.
+             * @property {Array} data
              */
             this.data = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
 
@@ -51,8 +51,8 @@ var TW = TW || {};
             this.width = 3;
 
             /**
-             Heigh size of matrix
-             @property {Number} heigh
+             Height size of matrix
+             @property {Number} height
              */
             this.height = 3;
         }
@@ -120,7 +120,7 @@ var TW = TW || {};
         Matrix2D.prototype.transform = function(a, b, c, d, e, f) {
             var matrix = new TW.Math.Matrix2D();
             matrix.setTransform(a, b, c, d, e, f);
-            var result = this.multByMatrix(matrix);
+            var result = this.multiplyMatrix(matrix);
             this.copyMatrix(result);
             return this;
         };
@@ -137,6 +137,18 @@ var TW = TW || {};
                 [this.data[1][0], this.data[1][1]],
                 [this.data[2][0], this.data[2][1]]];
         };
+		
+		/**
+		* Set the current matrix to identity.
+		*
+		* @method identity
+		* @chainable
+		*/
+		Matrix2D.prototype.identity = function() {
+			var tmp_matrix = TW.Math.Matrix2D.identity();
+			this.copyMatrix(tmp_matrix);
+			return this;
+		};
 
         /**
          multiplies the current matrix by scale matrix
@@ -149,8 +161,8 @@ var TW = TW || {};
         Matrix2D.prototype.scale = function(x, y) {
             var tmp_matrix = new TW.Math.Matrix2D();
             tmp_matrix.setTransform(x, 0, 0, y, 0, 0);
-            var result = this.multiplyMatrix(tmp_matrix);
-            this.copyMatrix(tmp_matrix);
+            var result = tmp_matrix.multiplyMatrix(this);
+            this.copyMatrix(result);
             return this;
         };
 
@@ -167,8 +179,8 @@ var TW = TW || {};
             tmp_matrix.setTransform(Math.cos(rad_angle), Math.sin(rad_angle),
                 -Math.sin(rad_angle), Math.cos(rad_angle),
                 0, 0);
-            var result = this.multByMatrix(tmp_matrix);
-            this.copyMatrix(tmp_matrix);
+            var result = tmp_matrix.multiplyMatrix(this);
+            this.copyMatrix(result);
             return this;
         };
 
@@ -183,8 +195,8 @@ var TW = TW || {};
         Matrix2D.prototype.translate = function(x, y) {
             var tmp_matrix = new TW.Math.Matrix2D();
             tmp_matrix.setTransform(1, 0, 0, 1, x, y);
-            var result = this.multiplyMatrix(tmp_matrix);
-            this.copyMatrix(tmp_matrix);
+            var result = tmp_matrix.multiplyMatrix(this);
+            this.copyMatrix(result);
             return this;
         };
 
@@ -194,20 +206,20 @@ var TW = TW || {};
          * @method skew
          * @param a the x skew factor
          * @param b the y skew factor
-         * @return {Matrix} return the current matrix that have been transformed by the skew.
+         * @return {Matrix2D} return the current matrix that have been transformed by the skew.
          * @chainable
          */
         Matrix2D.prototype.skew = function(a, b) {
             var tmp_matrix = new TW.Math.Matrix2D();
             tmp_matrix.setTransform(1, a, b, 1, 0, 0);
-            var result = this.multiplyMatrix(tmp_matrix);
-            this.copyMatrix(tmp_matrix);
+            var result = tmp_matrix.multiplyMatrix(this);
+            this.copyMatrix(result);
             return this;
         };
 
 
         /**
-         * Set the current matrix data to the matrix gived in parameter.
+         * Set the current matrix data to the matrix given in parameter.
          *
          * @method copyMatrix
          * @param matrix
@@ -232,8 +244,8 @@ var TW = TW || {};
          Compute the product of two matrix
 
          @method multiply
-         @param {Matrix} matrix the matrix to multiplies
-         @return the result if it's ok, null if an error occurred
+         @param {Matrix2D} matrix the matrix to multiplies
+         @return {Matrix2D} the result if it's ok, null if an error occurred
          */
         Matrix2D.prototype.multiplyMatrix = function(matrix) {
             if (matrix instanceof TW.Math.Matrix2D) {
@@ -251,25 +263,37 @@ var TW = TW || {};
         };
 
         /**
-         Multiplies the current matrix by a vector 2d.
-         @method multiplyVector
-         @param {TW.Math.Vector2D} vector
-         @return {TW.Math.Vector2D} if vector is a valid TW.Math.Vector2D instance, it will return vector transformed by the current matrix. Otherwise it will return null.
+         * Multiplies the current matrix by a vector 2d.
+         * @method multiplyVector
+         * @param {Vector2D} vector
+         * @return {Vector2D} a new vector transformed by the current matrix
          */
         Matrix2D.prototype.multiplyVector = function(vector) {
-            if (vector instanceof TW.Math.Vector2D) {
-                var vector_result = new TW.Math.Vector2D(0, 0);
-                vector_result.x = this.data[0][0] * vector.x + this.data[1][0] * vector.y + this.data[2][0] * vector.w;
-                vector_result.y = this.data[0][1] * vector.x + this.data[1][1] * vector.y + this.data[2][1] * vector.w;
-                vector_result.w = this.data[0][2] * vector.x + this.data[1][2] * vector.y + this.data[2][2] * vector.w;
-                vector_result.x /= vector_result.w;
-                vector_result.y /= vector_result.w;
-                vector_result.w /= vector_result.w;
-                return vector_result;
-            } else {
-                return null;
-            }
+            var vector_result = new TW.Math.Vector2D(0, 0);
+            var vector_w;
+
+            vector_result.x = this.data[0][0] * vector.x + this.data[1][0] * vector.y + this.data[2][0];
+            vector_result.y = this.data[0][1] * vector.x + this.data[1][1] * vector.y + this.data[2][1];
+            vector_w = this.data[0][2] * vector.x + this.data[1][2] * vector.y + this.data[2][2];
+            vector_result.x /= vector_w;
+            vector_result.y /= vector_w;
+            return vector_result;
         };
+		
+		/**
+		 * This method transform the context given in parameter by the current matrix.
+		 *
+         * @method transformContext
+		 * @param context it is the context to transform by the current matrix.
+		 * @return {Boolean} return true if the method succeed. Otherwise it will returns false.
+		 */
+		Matrix2D.prototype.transformContext = function(context) {
+			if (context === null) {
+				return false;
+            }
+			context.transform(this.data[0][0], this.data[0][1], this.data[1][0], this.data[1][1], this.data[2][0], this.data[2][1]);
+			return true;
+		};
 
         /**
          give a data representation of Matrix
@@ -321,7 +345,7 @@ var TW = TW || {};
             tmp.setTransform(Math.cos(angle_rad), Math.sin(angle_rad), -Math.sin(angle_rad), Math.cos(angle_rad), 0, 0);
             return tmp;
         };
-
+		
         /**
          * This method return a translation matrix
          *
