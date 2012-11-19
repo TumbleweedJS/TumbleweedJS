@@ -241,7 +241,8 @@ var TW = TW || {};
         /**
          * Set the maximum number of concurrent connections.
          * @method setMaxConnections
-         * @param {Number} value The number of concurrent loads to allow. By default, only a single connection is open at any time.
+         * @param {Number} value The number of concurrent loads to allow.
+         *  By default, only a single connection is open at any time.
          * Note that browsers and servers may have a built-in maximum number of open connections
          */
         Preload.prototype.setMaxConnections = function(value) {
@@ -252,24 +253,29 @@ var TW = TW || {};
         };
 
         /**
-         * Load a single file. Note that calling loadFile appends to the current queue, so it can be used multiple times to
-         * add files. Use <b>loadManifest()</b> to add multiple files at onces. To clear the queue first use the <b>close()</b> method.
+         * Load a single file. Note that calling loadFile appends to the current queue, so it can be used multiple times
+         * to add files. Use <b>loadManifest()</b> to add multiple files at onces.
+         * To clear the queue first use the <b>close()</b> method.
+         *
          * @method loadFile
          * @param {Object | String} file The file object or path to load. A file can be either
          * <ol>
          *     <li>a path to a resource (string). Note that this kind of load item will be
          *     converted to an object (next item) in the background.</li>
          *     <li>OR an object that contains:<ul>
-         *         <li>src: The source of the file that is being loaded. This property is <b>required</b>. The source can either be a string (recommended), or an HTML tag.</li>
+         *         <li>src: The source of the file that is being loaded. This property is <b>required</b>.
+         *         The source can either be a string (recommended), or an HTML tag.</li>
          *         <li>type: The type of file that will be loaded (image, sound, json, etc).
-         *         Preload does auto-detection of types using the extension. Supported types are defined on Preload, such as Preload.IMAGE.
-         *         It is recommended that a type is specified when a non-standard file URI (such as a php script) us used.</li>
-         *         <li>id: A string indentifier which can be used to reference the loaded object.</li>
+         *         Preload does auto-detection of types using the extension. Supported types are defined on Preload,
+         *         such as Preload.IMAGE. It is recommended that a type is specified when
+         *         a non-standard file URI (such as a php script) us used.</li>
+         *         <li>id: A string identifier which can be used to reference the loaded object.</li>
          *         <li>data: An arbitrary data object, which is included with the loaded object</li>
          *     </ul>
          * </ol>
-         * @param {Boolean} loadNow Kick off an immediate load (true) or wait for a load call (false). The default value is true. If the queue is paused, and this value
-         * is true, the queue will resume.
+         * @param {Boolean} loadNow Kick off an immediate load (true) or wait for a load call (false).
+         *  The default value is true. If the queue is paused, and this value
+         *  is true, the queue will resume.
          */
         Preload.prototype.loadFile = function(file, loadNow) {
             if (file === null) {
@@ -284,26 +290,29 @@ var TW = TW || {};
         };
 
         /**
-         * Load a manifest. This is a shortcut method to load a group of files. To load a single file, use the loadFile method.
-         * Note that calling loadManifest appends to the current queue, so it can be used multiple times to add files. To clear
-         * the queue first, use the <b>close()</b> method.
+         * Load a manifest. This is a shortcut method to load a group of files.
+         * To load a single file, use the loadFile method.
+         * Note that calling loadManifest appends to the current queue, so it can be used multiple times to add files.
+         * To clear the queue first, use the <b>close()</b> method.
+         *
          * @method loadManifest
          * @param {Array} manifest The list of files to load. Each file can be either
-         * <ol>
-         *     <li>a path to a resource (string). Note that this kind of load item will be
-         *     converted to an object (next item) in the background.</li>
-         *     <li>OR an object that contains:<ul>
-         *         <li>src: The source of the file that is being loaded. This property is <b>required</b>.
-         *         The source can either be a string (recommended), or an HTML tag. </li>
-         *         <li>type: The type of file that will be loaded (image, sound, json, etc).
-         *         Preload does auto-detection of types using the extension. Supported types are defined on Preload, such as Preload.IMAGE.
-         *         It is recommended that a type is specified when a non-standard file URI (such as a php script) us used.</li>
-         *         <li>id: A string indentifier which can be used to reference the loaded object.</li>
-         *         <li>data: An arbitrary data object, which is included with the loaded object</li>
-         *     </ul>
-         * </ol>
-         * @param {Boolean} loadNow Kick off an immediate load (true) or wait for a load call (false). The default value is true. If the queue is paused, and this value
-         * is true, the queue will resume.
+         *
+         *  - a path to a resource (string). Note that this kind of load item will be
+         *    converted to an object (next item) in the background.
+         *  - OR an object that contains:
+         *    - *src*: The source of the file that is being loaded. This property is **required**.
+         *      The source can either be a string (recommended), or an HTML tag.
+         *    - *type*: The type of file that will be loaded (image, sound, json, etc).
+         *      Preload does auto-detection of types using the extension. Supported types are defined on Preload,
+         *      such as Preload.IMAGE.
+         *      It is recommended that a type is specified when a non-standard file URI (such as a php script) us used.
+         *    - *id*: A string identifier which can be used to reference the loaded object.
+         *    - *data*: An arbitrary data object, which is included with the loaded object
+         *
+         * @param {Boolean} loadNow Kick off an immediate load (true) or wait for a load call (false).
+         *  The default value is true. If the queue is paused, and this value
+         *  is true, the queue will resume.
          */
         Preload.prototype.loadManifest = function(manifest, loadNow) {
             var data;
@@ -343,11 +352,14 @@ var TW = TW || {};
          * Lookup a loaded item using either the "id" or "src" that was specified when loading it.
          * @method getResult
          * @param {String} value The "id" or "src" of the loaded item.
-         * @return {Object} A result object containing the contents of the object that was initially requested using loadFile or loadManifest, including:
+         * @return {Object} A result object containing the contents of the object that was initially requested using
+         *  loadFile or loadManifest, including:
          * <ol>
          *     <li>src: The source of the file that was requested.</li>
-         *     <li>type: The type of file that was loaded. If it was not specified, this is auto-detected by Preload using the file extension.</li>
-         *     <li>id: The id of the loaded object. If it was not specified, the ID will be the same as the "src" property.</li>
+         *     <li>type: The type of file that was loaded. If it was not specified,
+         *     this is auto-detected by Preload using the file extension.</li>
+         *     <li>id: The id of the loaded object.
+         *     If it was not specified, the ID will be the same as the "src" property.</li>
          *     <li>data: Any arbitrary data that was specified, otherwise it will be undefined.
          *     <li>result: The loaded object. Preload provides usable tag elements when possible:<ul>
          *          <li>An HTMLImageElement tag (&lt;image /&gt;) for images</li>
@@ -357,7 +369,8 @@ var TW = TW || {};
          *          <li>Raw text for JSON or any other kind of loaded item</li>
          *     </ul></li>
          * </ol>
-         * This object is also returned via the "onFileLoad" callback, although a "target" will be included, which is a reference to the Preload instance.
+         * This object is also returned via the "onFileLoad" callback, although a "target" will be included,
+         * which is a reference to the Preload instance.
          */
         Preload.prototype.getResult = function(value) {
             return this._loadedItemsById[value] || this._loadedItemsBySrc[value];
@@ -377,7 +390,8 @@ var TW = TW || {};
         };
 
         /**
-         * Close the active queue. Closing a queue completely empties the queue, and prevents any remaining items from starting to
+         * Close the active queue. Closing a queue completely empties the queue,
+         * and prevents any remaining items from starting to
          * download. Note that currently there any active loads will remain open, and events may be processed.<br/><br/>
          * To stop and restart a queue, use the <b>setPaused(true|false)</b> method instead.
          * @method close
@@ -483,6 +497,11 @@ var TW = TW || {};
                         return;
                     }
                     break;
+                case TW.Preload.SVG:
+                case TW.Preload.SOUND:
+                    break;
+                default:
+                    break;
             }
 
             this._handleFileTagComplete(item, resultData);
@@ -554,9 +573,11 @@ var TW = TW || {};
             var parser;
 
             if (window.DOMParser) {
+                /*global DOMParser */
                 parser = new DOMParser();
                 resultData = parser.parseFromString(data, type);
             } else { // Internet Explorer
+                /*global ActiveXObject */
                 parser = new ActiveXObject("Microsoft.XMLDOM");
                 parser.async = false;
                 parser.loadXML(data);
@@ -597,6 +618,7 @@ var TW = TW || {};
                     item.src = loadItem;
                     break;
                 case "object":
+                    /*global HTMLAudioElement */
                     if (loadItem instanceof HTMLAudioElement) {
                         item.tag = loadItem;
                         item.src = item.tag.src;

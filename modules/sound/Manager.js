@@ -22,240 +22,240 @@ var TW = TW || {};
 
     function init() {
 
-	/**
-	 * Manager class is utility for manage all sound in channel.
-     *
-	 * @class Manager
-	 * @constructor
-	 */
-	function Manager() {
-
-		/**
-		 * Array of Channel.
+        /**
+         * Manager class is utility for manage all sound in channel.
          *
-		 * @property {Array} instances
-		 * @default empty
-		 **/
-		this.instances = [];
+         * @class Manager
+         * @constructor
+         */
+        function Manager() {
 
-		/**
-		 * Number of Channel.
-         *
-		 * @property {Number} length
-		 * @default 0
-		 **/
-		this.length = 0;
+            /**
+             * Array of Channel.
+             *
+             * @property {Array} instances
+             * @default empty
+             **/
+            this.instances = [];
 
-		/**
-		 * LastId of Channel.
-         *
-		 * @property {Number} lastId
-		 * @default 0
-		 **/
-		this.lastId = 0;
+            /**
+             * Number of Channel.
+             *
+             * @property {Number} length
+             * @default 0
+             **/
+            this.length = 0;
 
-		/**
-		 * Number of Channel ready to play.
-         *
-		 * @property {Number} ready
-		 * @default 0
-		 **/
-		this.ready = 0;
+            /**
+             * LastId of Channel.
+             *
+             * @property {Number} lastId
+             * @default 0
+             **/
+            this.lastId = 0;
 
-		/**
-		 * Callback function when all channel is ready to play.
-         *
-		 * @property {Function} allInstancesReady
-		 * @default null
-		 **/
-		this.allInstancesReady = null;
+            /**
+             * Number of Channel ready to play.
+             *
+             * @property {Number} ready
+             * @default 0
+             **/
+            this.ready = 0;
 
-		/**
-		 * Callback function when a channel is ready to play.
-         *
-		 * @property {Function} instanceReady
-		 * @default null
-		 **/
-		this.instanceReady = null;
+            /**
+             * Callback function when all channel is ready to play.
+             *
+             * @property {Function} allInstancesReady
+             * @default null
+             **/
+            this.allInstancesReady = null;
 
-		/**
-		 Volume of all sound in all channel.
+            /**
+             * Callback function when a channel is ready to play.
+             *
+             * @property {Function} instanceReady
+             * @default null
+             **/
+            this.instanceReady = null;
 
-		 @property volume
-		 @type Number
-		 @default 1
-		 **/
-		this.masterVolume = 1;
+            /**
+             Volume of all sound in all channel.
 
-		this.allInstancesReadyHandler = this.handleAllInstancesReady.bind(this);
-	}
+             @property volume
+             @type Number
+             @default 1
+             **/
+            this.masterVolume = 1;
 
-	/**
-	 Create new channel with src and max sound instance.
+            this.allInstancesReadyHandler = this.handleAllInstancesReady.bind(this);
+        }
 
-	 @method add
-	 @param {String} src The source of channel separated with '|' for multiformat.
-	 @param {Number} max The number of sound allocated in this channel.
-	 @return {Number} The id of the channel.
-	 **/
-	Manager.prototype.add = function(src, max) {
-		this.lastId++;
-		this.instances[this.lastId] = new TW.Sound.Channel(src, max, this.lastId);
-		this.length++;
-		return this.lastId;
-	};
+        /**
+         Create new channel with src and max sound instance.
 
-	/**
-	 Remove a channel.
+         @method add
+         @param {String} src The source of channel separated with '|' for multiformat.
+         @param {Number} max The number of sound allocated in this channel.
+         @return {Number} The id of the channel.
+         **/
+        Manager.prototype.add = function(src, max) {
+            this.lastId++;
+            this.instances[this.lastId] = new TW.Sound.Channel(src, max, this.lastId);
+            this.length++;
+            return this.lastId;
+        };
 
-	 @method remove
-	 @param {Number} uniqueId The id of the channel need remove.
-	 @return {Boolean} True if the channel has been remove or False.
-	 **/
-	Manager.prototype.remove = function(uniqueId) {
-		if (this.instances[uniqueId] === null) {
-			return false;
-		}
-		delete this.instances[uniqueId];
-		this.length--;
-		return true;
-	};
+        /**
+         Remove a channel.
 
-	/**
-	 Get a channel.
+         @method remove
+         @param {Number} uniqueId The id of the channel need remove.
+         @return {Boolean} True if the channel has been remove or False.
+         **/
+        Manager.prototype.remove = function(uniqueId) {
+            if (this.instances[uniqueId] === null) {
+                return false;
+            }
+            delete this.instances[uniqueId];
+            this.length--;
+            return true;
+        };
 
-	 @method get
-	 @param {Number} uniqueId The id of the channel need get.
-	 @return {Object} The channel with uniqueId.
-	 **/
-	Manager.prototype.get = function(uniqueId) {
-		return this.instances[uniqueId];
-	};
+        /**
+         Get a channel.
 
-	/**
-	 Get a playable sound.
+         @method get
+         @param {Number} uniqueId The id of the channel need get.
+         @return {Object} The channel with uniqueId.
+         **/
+        Manager.prototype.get = function(uniqueId) {
+            return this.instances[uniqueId];
+        };
 
-	 @method getPlayableSound
-	 @param {Number} uniqueId The id of the channel need get a sound.
-	 @return {Object} A playable sound.
-	 **/
-	Manager.prototype.getPlayableSound = function(uniqueId) {
-		return this.instances[uniqueId].getPlayableSound();
-	};
+        /**
+         Get a playable sound.
 
-	/**
-	 Load all sounds on all channels.
+         @method getPlayableSound
+         @param {Number} uniqueId The id of the channel need get a sound.
+         @return {Object} A playable sound.
+         **/
+        Manager.prototype.getPlayableSound = function(uniqueId) {
+            return this.instances[uniqueId].getPlayableSound();
+        };
 
-	 @method loadAll
-	 **/
-	Manager.prototype.loadAll = function() {
-		this.ready = 0;
-		for (var key in this.instances) {
-			var sounds = this.instances[key];
-			sounds.allSoundsReady = this.allInstancesReadyHandler;
-			sounds.load();
-		}
-	};
+        /**
+         Load all sounds on all channels.
 
-	Manager.prototype.handleAllInstancesReady = function(channel) {
-		this.ready++;
+         @method loadAll
+         **/
+        Manager.prototype.loadAll = function() {
+            this.ready = 0;
+            for (var key in this.instances) {
+                var sounds = this.instances[key];
+                sounds.allSoundsReady = this.allInstancesReadyHandler;
+                sounds.load();
+            }
+        };
 
-		if (this.instanceReady !== null) {
-			this.instanceReady(channel.id);
-		}
-		if (this.allInstancesReady !== null && this.ready === this.length) {
-			this.allInstancesReady();
-		}
-	};
+        Manager.prototype.handleAllInstancesReady = function(channel) {
+            this.ready++;
 
-	Manager.prototype.tellAllInstances = function(command, value) {
-		var key;
-		var sound;
+            if (this.instanceReady !== null) {
+                this.instanceReady(channel.id);
+            }
+            if (this.allInstancesReady !== null && this.ready === this.length) {
+                this.allInstancesReady();
+            }
+        };
 
-		for (key in this.instances) {
-			sounds = this.instances[key];
-			switch (command) {
-				case "pause":
-					sounds.pause();
-					break;
-				case "resume":
-					sounds.resume();
-					break;
-				case "setVolume":
-					sounds.setMasterVolume(value);
-					break;
-				case "mute":
-					sounds.setMute(value);
-					break;
-				case "stop":
-					sounds.stop();
-					break;
-			}
-		}
-	};
+        Manager.prototype.tellAllInstances = function(command, value) {
+            var key;
+            var sound;
 
-	/**
-	 Get a current master volume.
+            for (key in this.instances) {
+                var sounds = this.instances[key];
+                switch (command) {
+                    case "pause":
+                        sounds.pause();
+                        break;
+                    case "resume":
+                        sounds.resume();
+                        break;
+                    case "setVolume":
+                        sounds.setMasterVolume(value);
+                        break;
+                    case "mute":
+                        sounds.setMute(value);
+                        break;
+                    case "stop":
+                        sounds.stop();
+                        break;
+                }
+            }
+        };
 
-	 @method getMasterVolume
-	 @return {Number} A current master volume.
-	 **/
-	Manager.prototype.getMasterVolume = function() {
-		return this.masterVolume;
-	};
+        /**
+         Get a current master volume.
 
-	/**
-	 Mute or Unmute all sound in every channel.
+         @method getMasterVolume
+         @return {Number} A current master volume.
+         **/
+        Manager.prototype.getMasterVolume = function() {
+            return this.masterVolume;
+        };
 
-	 @method setMute
-	 @param {Boolean} isMuted True for mute or false for unmute.
-	 **/
-	Manager.prototype.setMute = function(isMuted) {
-		this.tellAllInstances("mute", isMuted);
-	};
+        /**
+         Mute or Unmute all sound in every channel.
 
-	/**
-	 Pause all sound in every channel.
+         @method setMute
+         @param {Boolean} isMuted True for mute or false for unmute.
+         **/
+        Manager.prototype.setMute = function(isMuted) {
+            this.tellAllInstances("mute", isMuted);
+        };
 
-	 @method pause
-	 **/
-	Manager.prototype.pause = function() {
-		this.tellAllInstances("pause", null);
-	};
+        /**
+         Pause all sound in every channel.
 
-	/**
-	 Resume all sound in every channel.
+         @method pause
+         **/
+        Manager.prototype.pause = function() {
+            this.tellAllInstances("pause", null);
+        };
 
-	 @method resume
-	 **/
-	Manager.prototype.resume = function() {
-		this.tellAllInstances("resume", null);
-	};
+        /**
+         Resume all sound in every channel.
 
-	/**
-	 Stop all sound in every channel.
+         @method resume
+         **/
+        Manager.prototype.resume = function() {
+            this.tellAllInstances("resume", null);
+        };
 
-	 @method stop
-	 **/
-	Manager.prototype.stop = function() {
-		this.tellAllInstances("stop", null);
-	};
+        /**
+         Stop all sound in every channel.
 
-	/**
-	 Set a volume for all sound in every channel.
+         @method stop
+         **/
+        Manager.prototype.stop = function() {
+            this.tellAllInstances("stop", null);
+        };
 
-	 @method setMasterVolume
-	 @param {Number} value The value of volume needed. min: 0.0 -> max: 1.0
-	 **/
-	Manager.prototype.setMasterVolume = function(value) {
-		value = (value > 1.0) ? 1.0 : value;
-		value = (value < 0.0) ? 0.0 : value;
+        /**
+         Set a volume for all sound in every channel.
 
-		this.masterVolume = value;
-		this.tellAllInstances("setVolume", value);
-	};
+         @method setMasterVolume
+         @param {Number} value The value of volume needed. min: 0.0 -> max: 1.0
+         **/
+        Manager.prototype.setMasterVolume = function(value) {
+            value = (value > 1.0) ? 1.0 : value;
+            value = (value < 0.0) ? 0.0 : value;
 
-	return Manager;
+            this.masterVolume = value;
+            this.tellAllInstances("setVolume", value);
+        };
+
+        return Manager;
     }
 
 }(TW));

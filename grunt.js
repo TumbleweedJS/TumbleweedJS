@@ -8,6 +8,8 @@ module.exports = function(grunt) {
         },
         jshint: {
             options: {
+
+                predef: ['define', 'TW'],
                 /* variables */
                 quotmark: "double",
                 indent: 2,
@@ -80,8 +82,7 @@ module.exports = function(grunt) {
         }
     });
 
-    // Default task.
-    grunt.registerTask('all', 'lint test requirejs');
     grunt.loadNpmTasks('grunt-requirejs');
-    grunt.registerTask('default', 'requirejs');
+    grunt.registerTask('default', 'lint requirejs');
+    //grunt.registerTask('default', 'lint test requirejs');
 };
