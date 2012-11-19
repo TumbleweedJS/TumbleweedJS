@@ -88,6 +88,7 @@ module.exports = function(grunt) {
                 Description:    "The TumbleweedJS API",
                 version:        "0.1.0",
                 url:            "http://api.tumbleweed-studio.net",
+                themedir: "./theme_dir",
                 options: {
                     outdir:     "./docs",
                     paths: ["./modules/"]
@@ -98,5 +99,6 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib');
     grunt.registerTask('default', 'lint yuidoc requirejs');
+    grunt.registerTask('check-server', 'lint');
     //grunt.registerTask('default', 'lint test requirejs');
 };
