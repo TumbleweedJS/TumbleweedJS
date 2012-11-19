@@ -16,6 +16,7 @@ if (typeof window.define === "function" && window.define.amd) {
         './graphic_new_version/Circle',
         './graphic_new_version/GraphicObject',
         './graphic_new_version/Layer',
+        './graphic_new_version/Rect',
         './graphic_new_version/Shape',
         './graphic_new_version/SpatialContainer',
         './graphic_new_version/Sprite',

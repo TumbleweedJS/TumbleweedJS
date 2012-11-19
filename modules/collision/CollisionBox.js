@@ -51,7 +51,7 @@ var TW = TW || {};
          @method isPointInside
          @param {Integer} px the x coordinate of the point
          @param {Integer} py the y coordinate of the point
-         @return {boolean} return true if the point is inside the box, else return false.
+         @return {boolean} true if the point is inside the box, else return false.
          */
         CollisionBox.prototype.isPointInside = function(px, py) {
             return px >= this.getX() && px <= this.getX() + this.getWidth() &&

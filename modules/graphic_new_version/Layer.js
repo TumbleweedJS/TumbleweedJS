@@ -7,7 +7,7 @@ var TW = TW || {};
 
 (function(TW) {
     if (typeof window.define === "function" && window.define.amd) {
-        window.define([], initWrap(init));
+        define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritance'], initWrap(init));
     } else {
         initWrap(init);
     }
@@ -193,10 +193,14 @@ var TW = TW || {};
         };
 
         /**
-         * This method will be called when a child is changed. By using this method it will notice the current Layer to redraw the local canvas.
+         * This method will be called when a child is changed.
+         * By using this method it will notice the current Layer to redraw the local canvas.
+         *
+         * This method is called automatically when a child object change.
+         * You can call this method for clear internal cache.
          *
          * @method onChange
-         * @param {GraphicObject} child this object represent the child who has been changed.
+         * @param {GraphicObject} [child] this object represent the child who has been changed.
          */
         Layer.prototype.onChange = function(child) {
 			this._needToRedraw = true;

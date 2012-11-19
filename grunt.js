@@ -74,7 +74,7 @@ module.exports = function(grunt) {
 
             //wrap: true,
 
-            //optimize: 'none',
+            optimize: 'none',
             modules: [
                 {
                     name: 'TW',

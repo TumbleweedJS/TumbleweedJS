@@ -8,7 +8,7 @@ var TW = TW || {};
 (function(TW) {
 
     if (typeof window.define === "function" && window.define.amd) {
-        window.define([], initWrap(init));
+        define(['../math/Matrix2D'], initWrap(init));
     } else {
         initWrap(init);
     }
@@ -23,20 +23,34 @@ var TW = TW || {};
     function init() {
 
         /**
-         * GraphicObject represent an object that has a relationship with graphical context. It is the root class of every graphical component of the framework.
+         * GraphicObject represent an object that has a relationship with graphical context.
+         * It is the root class of every graphical component of the framework.
+         *
+         * ## General
+         * It provide many method for manipulate object in 2D space,
+         * keeping a internal matrix. It contain also dimensions, and a reference point for all transformations (center point).<br />
+         * Each object can have a parent, which is informed to any child modification, with the method `onChange()`.
+         *
+         * ## extend this class
+         * All 2D graphical objects should inherit from this class.
+         * All inherited class should implement the {{#crossLink "Graphic.GraphicObject/draw"}}{{/crossLink}} method,
+         * not implemented by default.<br />
+         * Inherited class must also inform the parent (if any) after each modification that influence the graphical render,
+         * by calling protected method {{#crossLink "Graphic.GraphicObject/notifyParentChange"}}{{/crossLink}}
+         *
          *
          * @class GraphicObject
          * @param {Object} param it is an object that represent the parameters of the graphicalObject to set.
-         *  @param {Number} param.zIndex define display order with other graphic elements. default to 0.
-         *  @param {Matrix2D} param.matrix matrix to set to the object. default to identity matrix.
-         *  @param {Number} param.alpha set the transparency, between 0 and 1. default to 1 (completely opaque).
-         *  @param {Number} param.width width of the element.
-         *  @param {Number} param.height height of the element.
-         *  @param {Number} param.x position on X axis.
-         *  @param {Number} param.y position on Y axis.
-         *  @param {Number} param.parent parent of the element.
-		 *  @param {Number} param.xCenter x position of the center in the current object
-		 *  @param {Number} param.yCenter y position of the center in the current object
+         *  @param {Number} [param.zIndex] define display order with other graphic elements. default to 0.
+         *  @param {Matrix2D} [param.matrix] matrix to set to the object. default to identity matrix.
+         *  @param {Number} [param.alpha] set the transparency, between 0 and 1. default to 1 (completely opaque).
+         *  @param {Number} [param.width] width of the element.
+         *  @param {Number} [param.height] height of the element.
+         *  @param {Number} [param.x] position on X axis.
+         *  @param {Number} [param.y] position on Y axis.
+         *  @param {Number} [param.parent] parent of the element.
+		 *  @param {Number} [param.xCenter] x position of the center in the current object
+		 *  @param {Number} [param.yCenter] y position of the center in the current object
          * @constructor
          */
         function GraphicObject(param) {

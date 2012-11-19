@@ -8,7 +8,7 @@ var TW = TW || {};
 (function(TW) {
 
     if (typeof window.define === "function" && window.define.amd) {
-        window.define([], initWrap(init));
+        define(['./Shape', '../utils/Inheritance'], initWrap(init));
     } else {
         initWrap(init);
     }
