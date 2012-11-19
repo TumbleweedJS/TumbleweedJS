@@ -1,5 +1,6 @@
 /**
- * TODO: describe module here.
+ * This module contain all classes relating to time management and
+ * scheduling actions by object or group objects.
  *
  * @module Gameloop
  * @main

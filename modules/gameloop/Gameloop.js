@@ -38,13 +38,15 @@ var TW = TW || {};
         null;
 
     /**
-     A class to manage the game logic and time.
-
-     @class Gameloop
-     @param {Object} [params] ...
-     @constructor
+     * A class to manage the game logic and time.
+     * Provide the simplest way to use a regular loop, splitting draw and update.
+     * All elements added in `object` are updated or draw when te loop is started.
+     *
+     * @class Gameloop
+     *
+     * @constructor
      */
-    function Gameloop(params) {
+    function Gameloop() {
         this._last_id = 0;
         this._update_handler = null;
         this._draw_handler = null;
