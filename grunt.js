@@ -82,7 +82,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-requirejs');
+    grunt.loadNpmTasks('grunt-contrib');
     grunt.registerTask('default', 'lint requirejs');
     //grunt.registerTask('default', 'lint test requirejs');
 };
