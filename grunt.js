@@ -11,8 +11,8 @@ module.exports = function(grunt) {
 
                 predef: ['define', 'TW'],
                 /* variables */
-                quotmark: "double",
-                indent: 2,
+                //quotmark: "double",
+                //indent: 2,
                 maxlen: 120,
 
                 browser:true,       //allow to use the window object
@@ -47,42 +47,56 @@ module.exports = function(grunt) {
         },
         uglify: {},
         requirejs: {
-            dir:	'build',
-            baseUrl: 'modules',
-            paths: { 'TW': '.' },
+            options: {
+                dir:	'build',
+                baseUrl: 'modules',
+                paths: { 'TW': '.' },
 
-            skipModuleInsertion: true,
-            removeCombined: true,
+                skipModuleInsertion: true,
+                removeCombined: true,
 
-            //optimize: 'none',
-            modules: [
-                {
-                    name: 'TW',
-                    include: [
-                        'TW/collision',
-                        'TW/event',
-                        'TW/gameloop',
-                        'TW/graphic',
-                        'TW/math',
-                        'TW/preload',
-                        'TW/sound',
-                        'TW/utils'
-                    ],
-                    create: true
-                },
-                { name: 'collision' },
-                { name: 'event' },
-                { name: 'gameloop' },
-                { name: 'graphic' },
-                { name: 'math' },
-                { name: 'preload' },
-                { name: 'sound' },
-                { name: 'utils' }
-            ]
+                //optimize: 'none',
+                modules: [
+                    {
+                        name: 'TW',
+                        include: [
+                            'TW/collision',
+                            'TW/event',
+                            'TW/gameloop',
+                            'TW/graphic',
+                            'TW/math',
+                            'TW/preload',
+                            'TW/sound',
+                            'TW/utils'
+                        ],
+                        create: true
+                    },
+                    { name: 'collision' },
+                    { name: 'event' },
+                    { name: 'gameloop' },
+                    { name: 'graphic' },
+                    { name: 'math' },
+                    { name: 'preload' },
+                    { name: 'sound' },
+                    { name: 'utils' }
+                ]
+            }
+        },
+        yuidoc: {
+            tumbleweed: {
+                name:           "TumbleweedJS",
+                Description:    "The TumbleweedJS API",
+                version:        "0.1.0",
+                url:            "http://api.tumbleweed-studio.net",
+                options: {
+                    outdir:     "./docs",
+                    paths: ["./modules/"]
+                }
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib');
-    grunt.registerTask('default', 'lint requirejs');
+    grunt.registerTask('default', 'lint yuidoc requirejs');
     //grunt.registerTask('default', 'lint test requirejs');
 };
