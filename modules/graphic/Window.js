@@ -8,7 +8,7 @@ var TW = TW || {};
 (function(TW) {
 
     if (typeof window.define === "function" && window.define.amd) {
-        window.define([], initWrap(init));
+        define(['./Layer', '../utils/Inheritance'], initWrap(init));
     } else {
         initWrap(init);
     }
@@ -29,7 +29,7 @@ var TW = TW || {};
          * @class Window
          * @extends Layer
          * @constructor
-         * @param {HTMLCanvasElement} [canvas] main canvas for the window\
+         * @param {HTMLCanvasElement} [canvas] main canvas for the window
          */
         function Window(canvas) {
             this._realCanvas = (canvas === undefined ? document.createElement('canvas') : canvas);
@@ -58,7 +58,7 @@ var TW = TW || {};
             this._realCanvas = canvas;
             this.width = canvas.width;
             this.height = canvas.height;
-            this._callParentOnChange();
+            this.notifyParentChange();
         };
 
         /**

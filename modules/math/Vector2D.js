@@ -234,11 +234,13 @@ var TW = TW || {};
         };
 
         /**
-         get the det of the current Vector2D and vector
-
-         @method getDet
-         @param {Vector2D} vector the second Vector2D to use to compute the det of the two vectors
-         @return {Number} returns the det of the current Vector2D and vector, if the return value > 0 then vector is at left of this, if the return value is < 0 then vector is at right of this, if the return value is equal to 0 then vector is on this.
+         * get the det of the current Vector2D and vector
+         *
+         * @method getDet
+         * @param {Vector2D} vector the second Vector2D to use to compute the det of the two vectors
+         * @return {Number} returns the det of the current Vector2D and vector,
+         *  if the return value > 0 then vector is at left of this, if the return value is < 0 then vector is at right
+         *  of this, if the return value is equal to 0 then vector is on this.
          */
         Vector2D.prototype.getDet = function(vector) {
             return this.crossProduct(vector);

@@ -8,7 +8,7 @@ var TW = TW || {};
 (function(TW) {
 
 	if (typeof window.define === "function" && window.define.amd) {
-		define(['./EventProvider', '../utils/Inheritance'], initWrap(init));
+        define(['./EventProvider', '../utils/Inheritance'], initWrap(init));
 	} else {
 		initWrap(init);
 	}

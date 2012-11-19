@@ -38,13 +38,15 @@ var TW = TW || {};
         null;
 
     /**
-     A class to manage the game logic and time.
-
-     @class Gameloop
-     @param {Object} [params] ...
-     @constructor
+     * A class to manage the game logic and time.
+     * Provide the simplest way to use a regular loop, splitting draw and update.
+     * All elements added in `object` are updated or draw when te loop is started.
+     *
+     * @class Gameloop
+     *
+     * @constructor
      */
-    function Gameloop(params) {
+    function Gameloop() {
         this._last_id = 0;
         this._update_handler = null;
         this._draw_handler = null;
@@ -70,15 +72,16 @@ var TW = TW || {};
 
 
         /**
-         array which contains all games elements.
-         You must add elements to `object` for updating
-         and drawing these elements.
-
-         If an element is a function, it's called during update phase.
-         If it's an object, its draw function will be called during draw phase, an its update function during update phase.
-         If a function does not exist, the gameloop will ignore it. update and draw functions are not mandatory.
-
-         @property {Array} object
+         * array which contains all games elements.
+         * You must add elements to `object` for updating
+         * and drawing these elements.
+         *
+         * If an element is a function, it's called during update phase.
+         * If it's an object, its draw function will be called during draw phase,
+         * an its update function during update phase.
+         * If a function does not exist, the gameloop will ignore it. update and draw functions are not mandatory.
+         *
+         * @property {Array} object
          */
         this.object = [];
     }

@@ -23,12 +23,14 @@ var TW = TW || {};
     function init() {
 
         /**
-         The CollisionCircle class allow you to create a CollisionCircle to test intersections with other collision objects like circles, segments or boxes.
-         @class CollisionCircle
-         @constructor
-         @param {Integer} x the x coordinate of the CollisionCircle
-         @param {Integer} y the y coordinate of the CollisionCircle
-         @param {Integer} radius the radius of the CollisionCircle
+         * The CollisionCircle class allow you to create a CollisionCircle to test intersections
+         * with other collision objects like circles, segments or boxes.
+         *
+         * @class CollisionCircle
+         * @constructor
+         * @param {Integer} x the x coordinate of the CollisionCircle
+         * @param {Integer} y the y coordinate of the CollisionCircle
+         * @param {Integer} radius the radius of the CollisionCircle
          */
         function CollisionCircle(x, y, radius) {
             this.type = "CollisionCircle";
@@ -43,20 +45,23 @@ var TW = TW || {};
 
 
         /**
-         The method is CollidingCircle allow you to test if two circles are Colliding. Let's see an example :
-         `var cercle = new CollisionCircle(x, y, radius);
-         var cercle2 = new CollisionCircle(x2, y2, radius2);
-         var result = cercle.isCollidingCircle(cercle2);`
-         If result is true, so the cercle object is colliding the cercle2 object.
-         If result if false, so the cercle object is not colliding the cercle2 object.
-         @method isCollisingCircle
-         @param {CollisionCircle} circle the CollisionCircle to test collision with.
-         @return {boolean} return true if the two circles are colliding, otherwise return false.
+         * The method is CollidingCircle allow you to test if two circles are Colliding. Let's see an example :
+         *
+         *      var circle = new CollisionCircle(x, y, radius);
+         *      var circle2 = new CollisionCircle(x2, y2, radius2);
+         *      var result = circle.isCollidingCircle(circle2);
+         *
+         * If result is true, so the circle object is colliding the circle2 object.
+         * If result if false, so the circle object is not colliding the circle2 object.
+         * @method isCollidingCircle
+         * @param {CollisionCircle} circle the CollisionCircle to test collision with.
+         * @return {boolean} return true if the two circles are colliding, otherwise return false.
          */
         CollisionCircle.prototype.isCollidingCircle = function(circle) {
             var circle_x = circle.getX();
             var circle_y = circle.getY();
-            var dist = Math.sqrt(((circle_x - this.x) * (circle_x - this.x)) + ((circle_y - this.y) * (circle_y - this.y)));
+            var dist = Math.sqrt(((circle_x - this.x) * (circle_x - this.x)) +
+                ((circle_y - this.y) * (circle_y - this.y)));
 
             return dist < (this.radius + circle.getRadius());
         };
@@ -68,7 +73,7 @@ var TW = TW || {};
          @param {Integer} a_y the y coordinate of the first point of the segment to test intersection with.
          @param {Integer} b_x the x coordinate of the second point of the segment to test intersection with.
          @param {Integer} b_y the y coordinate of the second point of the segment to test intersection with.
-         @return {boolean} returns true if the current CollisionCircle is colliding the segment. Ortherwise return false.
+         @return {boolean} returns true if the current CollisionCircle is colliding the segment. Otherwise return false.
          */
         CollisionCircle.prototype.isCollidingSegment = function(a_x, a_y, b_x, b_y) {
             var v_x = b_x - a_x;
@@ -111,10 +116,13 @@ var TW = TW || {};
         };
 
         /**
-         The isCollidingBox method allow you to test if the current CollisionCircle is colliding the CollidingBox in parameter.
-         @method isCollidingBox
-         @param {CollisionBox} box the CollidingBox to test collision with.
-         @return {boolean} returns true if the current CollisionCircle is colliding the box, otherwise, it returns false
+         * The isCollidingBox method allow you to test if the current CollisionCircle
+         * is colliding the CollidingBox in parameter.
+         *
+         * @method isCollidingBox
+         * @param {CollisionBox} box the CollidingBox to test collision with.
+         * @return {boolean} returns true if the current CollisionCircle is colliding the box;
+         *  otherwise, it returns false
          */
         CollisionCircle.prototype.isCollidingBox = function(box) {
             //On check si la boite englobante du cercle rentre en collision avec this
@@ -227,18 +235,22 @@ var TW = TW || {};
         };
 
         /**
-         the setDebug method allow you to set the debug mode of the current CollisionCircle object.
-         @method setDebug
-         @param {boolean} true_or_false the boolean value to determine if the current CollisionCircle object must switch into debug mode (true) or release mode (false)
+         * the setDebug method allow you to set the debug mode of the current CollisionCircle object.
+         * @method setDebug
+         * @param {Boolean} debug the boolean value to determine if the current CollisionCircle object must
+         *  switch into debug mode (true) or release mode (false)
          */
-        CollisionCircle.prototype.setDebug = function(true_or_false) {
-            this.debug_mode = true_or_false;
+        CollisionCircle.prototype.setDebug = function(debug) {
+            this.debug_mode = debug;
         };
 
         /**
-         the draw method allow you to draw the circle of the current CollisionCircle on the context only if the current CollisionCircle object is in debug mode (that mean you must call `setDebug(true);` before draw something on the context).
-         @method draw
-         @param {CanvasRenderingContext2D} context the context to draw on.
+         * the draw method allow you to draw the circle of the current CollisionCircle on the context only
+         * if the current CollisionCircle object is in debug mode (that mean you must call `setDebug(true);`
+         * before draw something on the context).
+         *
+         * @method draw
+         * @param {CanvasRenderingContext2D} context the context to draw on.
          */
         CollisionCircle.prototype.draw = function(context) {
             if (context && this.debug_mode) {

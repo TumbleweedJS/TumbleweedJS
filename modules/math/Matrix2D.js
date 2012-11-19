@@ -61,7 +61,7 @@ var TW = TW || {};
          * Check if the current matrix match the identity.
          *
          * @method isIdentity
-         * @return {Boolean} ret ret will match true if the current matrix is set to the identity, otherwise it returns false.
+         * @return {Boolean} ret true if the current matrix is set to the identity, otherwise it returns false.
          */
 
         Matrix2D.prototype.isIdentity = function() {
@@ -75,7 +75,8 @@ var TW = TW || {};
 
 
         /**
-         * Set the current matrix to the specified scalars (a, b, c, d, e, f). **Note that the parameters are given in column major order.**
+         * Set the current matrix to the specified scalars (a, b, c, d, e, f).
+         * **Note that the parameters are given in column major order.**
          *
          * @method setTransform
          * @param a represent the top-left scalar in the matrix
@@ -101,7 +102,8 @@ var TW = TW || {};
         };
 
         /**
-         * Transform the current matrix by the scalars a,b,c,d,e,f. If C if our current matrix and B the matrix made by a,b,c,d,e,f scalars. Then, the transform will be :
+         * Transform the current matrix by the scalars a,b,c,d,e,f.
+         * If C if our current matrix and B the matrix made by a,b,c,d,e,f scalars. Then, the transform will be :
          *
          *       C Matrix      B matrix
          *     [Ca, Cc, Ce]   [a, c, e]
@@ -129,7 +131,8 @@ var TW = TW || {};
          * Get the current state of the matrix by a 2d array of floats.
          *
          * @method getData
-         * @return {Array} data return the internal data array of the matrix (In column-major order). **Note**: It is just a copy, we do not allow the user to access original data's of the matrix.
+         * @return {Array} data return the internal data array of the matrix (In column-major order).
+         *  **Note**: It is just a copy, we do not allow the user to access original data's of the matrix.
          */
 
         Matrix2D.prototype.getData = function() {
@@ -252,7 +255,8 @@ var TW = TW || {};
                 var matrix_temp = new TW.Math.Matrix2D();
                 for (var i = 0; i < 3; i++) {
                     for (var j = 0; j < 3; j++) {
-                        matrix_temp.data[i][j] = this.data[i][0] * matrix.data[0][j] + this.data[i][1] * matrix.data[1][j] +
+                        matrix_temp.data[i][j] = this.data[i][0] * matrix.data[0][j] +
+                            this.data[i][1] * matrix.data[1][j] +
                             this.data[i][2] * matrix.data[2][j];
                     }
                 }
@@ -291,7 +295,8 @@ var TW = TW || {};
 			if (context === null) {
 				return false;
             }
-			context.transform(this.data[0][0], this.data[0][1], this.data[1][0], this.data[1][1], this.data[2][0], this.data[2][1]);
+			context.transform(this.data[0][0], this.data[0][1], this.data[1][0],
+                this.data[1][1], this.data[2][0], this.data[2][1]);
 			return true;
 		};
 
@@ -336,7 +341,7 @@ var TW = TW || {};
          *
          * @method rotation
          * @static
-         * @param angle this parameter is a scalar expressed in degree who represent the angle of rotation of the matrix to generate.
+         * @param angle a scalar expressed in degree who represent the angle of rotation of the matrix to generate.
          * @return {Matrix2D} return a rotation matrix object
          */
         Matrix2D.rotation = function(angle) {

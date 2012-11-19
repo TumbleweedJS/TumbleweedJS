@@ -24,8 +24,8 @@ var TW = TW || {};
 
         /**
          * The Camera class allow you to create a camera who has the purpose to simulate a camera on some layers.
-         * Each {{#crossLink "Graphic.Layer"}{{/crossLink}} or {{#crossLink "Graphic.Window"}{{/crossLink}} contain
-         * a camera for moving the point of view displayed.
+         * Each {{#crossLink "Graphic.Layer" }}{{/crossLink}} or {{#crossLink "Graphic.Window" }}{{/crossLink}} contain
+         * a camera for moving te point of view displayed.
          *
          * ### Manipulate the camera
          *
@@ -39,12 +39,13 @@ var TW = TW || {};
          *  - skew
          *  - scale
          *
-         *  the aim is to use each type of transformation separately, regardless of the order of method calls.
+         * the aim is to use each type of transformation separately, regardless of the order of method calls.
          *
-         *  It's also possible to directly use the matrix methods, but both methods are not compatible,
-         *  because calling a method from the camera will overwrite the matrix.<br />
-         *  __If you choose to directly manipulate the matrix, be careful to not use matrix transformations method
-         *  provided by the Camera class.__
+         *
+         * It's also possible to directly use the matrix methods, but both methods are not compatible,
+         * because calling a method from the camera will overwrite the matrix.<br />
+         * __If you choose to directly manipulate the matrix, be careful to not use matrix transformations method
+         * provided by the Camera class.__
          *
          * ### Extending the class
          *

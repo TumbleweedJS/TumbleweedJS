@@ -185,7 +185,7 @@ var TW = TW || {};
 
 	XMLHttpRequestLoader.prototype._checkError = function() {
 		//LM: Probably need additional handlers here.
-		var status = parseInt(this._request.status);
+		var status = parseInt(this._request.status, 10);
 
 		switch (status) {
 			case 404:   // Not Found
@@ -252,6 +252,7 @@ var TW = TW || {};
 			this._request = new XMLHttpRequest();
 		} else {
 			try {
+                /*global ActiveXObject */
 				this._request = new ActiveXObject("MSXML2.XMLHTTXMLHttpRequestLoader.prototype.3.0");
 			} catch (ex) {
 				return null;
