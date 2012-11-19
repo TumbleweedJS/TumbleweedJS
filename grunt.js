@@ -88,7 +88,7 @@ module.exports = function(grunt) {
                 Description:    "The TumbleweedJS API",
                 version:        "0.1.0",
                 url:            "http://api.tumbleweed-studio.net",
-                themedir: "./theme_dir",
+                themedir: "./theme_doc",
                 options: {
                     outdir:     "./docs",
                     paths: ["./modules/"]
