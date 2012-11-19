@@ -23,11 +23,14 @@ var TW = TW || {};
     function init() {
 
         /**
-         * A spatial container is a data structure used for storage of spatial 2D objects (generally {{#crossLink}}{{/crossLink}}.
+         * A spatial container is a data structure used for storage of spatial 2D objects
+         * (generally {{#crossLink}}{{/crossLink}}.
          * It propose many method for manipulate these objects using theirs coordinates.
          *
-         * This class provide a basic implementation of all methods, and also represent an interface to others spatial containers.
-         * Different containers provides different complexities, and for each situation, someone are more adapted than others.
+         * This class provide a basic implementation of all methods,
+         * and also represent an interface to others spatial containers.
+         * Different containers provides different complexities, and for each situation,
+         * someone are more adapted than others.
          *
          * @class SpatialContainer
          * @constructor
@@ -70,12 +73,15 @@ var TW = TW || {};
         /**
          * This method allow you to apply a callback for every GraphicObject contained in the SpatialContainer.
          *
-         * The callback shouldn't remove directly an element until the end of `applyAll`. The behavior in this case is undefined.
+         * The callback shouldn't remove directly an element until the end of `applyAll`.
+         * The behavior in this case is undefined.
          *
          * @method applyAll
-         * @param {Function} callback must be a function object defined like `function callback(element){Do some things;}`
+         * @param {Function} callback must be a function object defined like
+         *   `function callback(element){Do some things;}`
          *  @param {Object} callback.element element contained in spatial container.
-         * @return {Boolean} true if callback is a function object and callback has been applied to every GraphicObject, otherwise it returns true.
+         * @return {Boolean} true if callback is a function object and has been applied to every GraphicObject;
+         *  otherwise false.
          */
         SpatialContainer.prototype.applyAll = function(callback) {
             if (typeof(callback) === "function") {
@@ -93,10 +99,9 @@ var TW = TW || {};
          * __TODO: not available__
          *
          * @method applyToPoint
-         * @param {Number} x represent the x position where the GraphicObject must be to get the callback applied on them
-         * @param {Number} y represent the y position where the GraphicObject must be to get the callback applied on them.
-         * @param {Function} callback represent the callback to apply to every GraphicObject which position match the x, y
-         * parameters.
+         * @param {Number} x the x position where the GraphicObject must be to get the callback applied on them
+         * @param {Number} y the y position where the GraphicObject must be to get the callback applied on them.
+         * @param {Function} callback to apply to every GraphicObject which position match the x, y parameters.
          */
         SpatialContainer.prototype.applyToPoint = function(x, y, callback) {
             for (var i = 0; i < this.containerList.length; i++) {
@@ -120,13 +125,15 @@ var TW = TW || {};
         };
 
         /**
-         * This method allow you to apply a callback only on the object that are inside of the polygon specified by the points.
+         * This method allow you to apply a callback only on the object that are inside of the polygon
+         * specified by the points.
          *
          * @method applyToZone
-         * @param {Array} pointsArray array of points like `{{10,0},{0,10},{2,3}} *Note that the polygon MUST BE composed at
-         * least of 3 points, otherwise the method will not do anything and then it'll return false.`
-         * @param {Function} callback function to be called on every GraphicObject that are inside of the polygon specified
-         * by pointsArray.
+         * @param {Array} pointsArray array of points like `{{10,0},{0,10},{2,3}}
+         *  *Note that the polygon MUST BE composed at least of 3 points,
+         *  otherwise the method will not do anything and then it'll return false.*
+         * @param {Function} callback function to be called on every GraphicObject that are inside of
+         *  the polygon specified by pointsArray.
          * @return {Boolean} return true if the pointArray was a valid array of points, otherwise it will return false.
          */
         SpatialContainer.prototype.applyToZone = function(pointsArray, callback) {

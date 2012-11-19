@@ -1,5 +1,6 @@
 /**
- * The aim of this module is to give you tools to test intersections between bounding boxes, bouncing circles and segments
+ * The aim of this module is to give you tools to test intersections between bounding boxes,
+ * bouncing circles and segments.
  *
  * @module Collision
  * @main

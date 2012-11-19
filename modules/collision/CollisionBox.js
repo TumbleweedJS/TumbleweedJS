@@ -24,14 +24,15 @@ var TW = TW || {};
 
 
         /**
-         The CollisionBox class allow you to declare a bounding box to test collisions between other collisions boxes and collisions circles.
-
-         @class CollisionBox
-         @param {Integer} x the x coordinate of the collision box
-         @param {Integer} y the y coordinate of the collision box
-         @param {Integer} w the width of the collision box
-         @param {Integer} h the height of the collision box
-         @constructor
+         * The CollisionBox class allow you to declare a bounding box to test collisions between
+         * other collisions boxes and collisions circles.
+         *
+         * @class CollisionBox
+         * @param {Integer} x the x coordinate of the collision box
+         * @param {Integer} y the y coordinate of the collision box
+         * @param {Integer} w the width of the collision box
+         * @param {Integer} h the height of the collision box
+         * @constructor
          */
         function CollisionBox(x, y, w, h) {
             this.type = "CollisionBox";
@@ -94,10 +95,13 @@ var TW = TW || {};
         };
 
         /**
-         The isCollidingCircle method allow you to test if the current CollisionBox is colliding the CollisionCircle object.
-         @method isCollidingCircle
-         @param {CollisionCircle} circle the CollisionCircle object to test the collision with.
-         @return {boolean} if the current CollisionBox is colliding the CollisionCircle object, then the isCollidingCircle function will return true otherwise it will return false.
+         * The isCollidingCircle method allow you to test if the current CollisionBox
+         * is colliding the CollisionCircle object.
+         *
+         * @method isCollidingCircle
+         * @param {CollisionCircle} circle the CollisionCircle object to test the collision with.
+         * @return {boolean} if the current CollisionBox is colliding the CollisionCircle object,
+         *  then the isCollidingCircle function will return true otherwise it will return false.
          */
         CollisionBox.prototype.isCollidingCircle = function(circle) {
             var radius = circle.getRadius();
@@ -154,10 +158,12 @@ var TW = TW || {};
         };
 
         /**
-         The isCollidingBox method allow you to test if the current CollisionBox object is colliding the CollisionBox object gived in parameter.
-         @method isCollidingBox
-         @param {CollisionBox} box the CollisionBox object to test the collision with
-         @return {boolean} return true if the box object is colliding the this object.
+         * The isCollidingBox method allow you to test if the current CollisionBox object is colliding
+         * the CollisionBox object given in parameter.
+         *
+         * @method isCollidingBox
+         * @param {CollisionBox} box the CollisionBox object to test the collision with
+         * @return {Boolean} return true if the box object is colliding the this object.
          */
         CollisionBox.prototype.isCollidingBox = function(box) {
             var box_x = box.getX();
@@ -181,7 +187,7 @@ var TW = TW || {};
         };
 
         /**
-         This method allow you to set the x coordinate of the CollisonBox
+         This method allow you to set the x coordinate of the CollisionBox
          @method setX
          @param {Integer} val the x coordinate of the CollisionBox
          */
@@ -208,7 +214,7 @@ var TW = TW || {};
         };
 
         /**
-         This method allow you to get the y coordinate of the CollisonBox
+         This method allow you to get the y coordinate of the CollisionBox
          @method getY
          @return {Integer} return the y coordinate of the CollisionBox
          */
@@ -246,16 +252,18 @@ var TW = TW || {};
         /**
          The getHeight method allow you to get the height of the CollisionBox
          @method getHeight
-         @return {Integer} return the height of the CollisonBox.
+         @return {Integer} return the height of the CollisionBox.
          */
         CollisionBox.prototype.getHeight = function() {
             return this.h;
         };
 
         /**
-         The setDebug method allow you to switch the mode of the CollisionBox beetween debug and release.
-         @method setDebug
-         @param {Integer} debug the parameter to define which type of mode choose (true means debug mode, false means release)
+         * The setDebug method allow you to switch the mode of the CollisionBox between debug and release.
+         *
+         * @method setDebug
+         * @param {Integer} debug the parameter to define which type of mode choose
+         * (true means debug mode, false means release)
          */
         CollisionBox.prototype.setDebug = function(debug) {
             this.debug_mode = debug;

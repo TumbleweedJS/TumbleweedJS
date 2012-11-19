@@ -28,15 +28,16 @@ var TW = TW || {};
          *
          * ## General
          * It provide many method for manipulate object in 2D space,
-         * keeping a internal matrix. It contain also dimensions, and a reference point for all transformations (center point).<br />
+         * keeping a internal matrix. It contain also dimensions, and a reference point
+         * for all transformations (center point).<br />
          * Each object can have a parent, which is informed to any child modification, with the method `onChange()`.
          *
          * ## extend this class
          * All 2D graphical objects should inherit from this class.
          * All inherited class should implement the {{#crossLink "Graphic.GraphicObject/draw"}}{{/crossLink}} method,
          * not implemented by default.<br />
-         * Inherited class must also inform the parent (if any) after each modification that influence the graphical render,
-         * by calling protected method {{#crossLink "Graphic.GraphicObject/notifyParentChange"}}{{/crossLink}}
+         * Inherited class must also inform the parent (if any) after each modification that influence the graphical
+         * render, by calling protected method {{#crossLink "Graphic.GraphicObject/notifyParentChange"}}{{/crossLink}}
          *
          *
          * @class GraphicObject
@@ -116,7 +117,8 @@ var TW = TW || {};
          * This method allows the user to get the coordinates of the current GraphicObject.
          *
          * @method getLocalPosition
-         * @return {Object} return an object that contains the x and the y position of the GraphicObject onto its parent.
+         * @return {Object} return an object that contains the x and the y position of the GraphicObject
+         *  onto its parent.
          */
         GraphicObject.prototype.getLocalPosition = function() {
             return {x: this.x, y: this.y};
@@ -129,7 +131,8 @@ var TW = TW || {};
          * @param {Object} obj contains the width and the height to apply to the current GraphicObject.
          *  @param {Number} obj.width
          *  @param {Number} obj.height
-         * @return {Boolean} return false if the obj does not contains width and height or if their values are not positives numbers.
+         * @return {Boolean} return false if the obj does not contains width and height or
+         *  if their values are not positives numbers.
          */
         GraphicObject.prototype.setDimensions = function(obj) {
             if (obj && obj.width && obj.height && obj.width > 0 && obj.height > 0) {
@@ -149,7 +152,8 @@ var TW = TW || {};
          * @param {Object} obj contains the x and the y position to apply to the current GraphicObject.
          *  @param {Number} obj.x position on X axis
          *  @param {Number} obj.y position on Y axis
-         * @return {Boolean} return false if the obj does not contains x and y components or if their values are not defined.
+         * @return {Boolean} return false if the obj does not contains x and y components or
+         *  if their values are not defined.
          */
         GraphicObject.prototype.setLocalPosition = function(obj) {
             if (obj && obj.x && obj.y) {
@@ -184,7 +188,8 @@ var TW = TW || {};
         };
 
         /**
-         * This method allow you to get the alpha value of GraphicObject *Note: alpha means the opacity factor of the GraphicObject, alpha is always between 0.0 and 1.0.*
+         * This method allow you to get the alpha value of GraphicObject
+         * *Note: alpha means the opacity factor of the GraphicObject, alpha is always between 0.0 and 1.0.*
          *
          * @method getAlpha
          * @return {Number} The alpha value of the GraphicObject.
@@ -194,7 +199,8 @@ var TW = TW || {};
         };
 
         /**
-         * This method allow you to set the alpha value of the GraphicObject. *Note: alpha must be a number factor between 0.0 and 1.0*.
+         * This method allow you to set the alpha value of the GraphicObject.
+         * *Note: alpha must be a number factor between 0.0 and 1.0*.
          *
          * @method setAlpha
          * @param {Number} alpha
@@ -205,7 +211,8 @@ var TW = TW || {};
         };
 
         /**
-         * This method allow you to translate the GraphicalObject, internally this method modify the GraphicObject's matrix.
+         * This method allow you to translate the GraphicalObject,
+         * Internally this method modify the GraphicObject's matrix.
          *
          * @method translate
          * @param {Number} x this is the translation scalar of the x axis.
@@ -219,7 +226,8 @@ var TW = TW || {};
         };
 
         /**
-         * This method allow you to set the position of the GraphicalObject. Internally, it reset the translation matrix and set it with the x and y scalars.
+         * This method allow you to set the position of the GraphicalObject.
+         * Internally, it reset the translation matrix and set it with the x and y scalars.
          *
          * @method setPosition
          * @param {Number} x this is the scalar of the x axis.
@@ -286,8 +294,8 @@ var TW = TW || {};
          * @method setCenterPoint
          * @param {Number} x represent the x axis value of the centerPoint
          * @param {Number} y represent the y axis value of the centerPoint
-         * @return {Boolean} return true if the setCenterPoint method was called with valid arguments. Otherwise it returns
-         * false. Valid arguments means coordinate within GraphicObject dimension.
+         * @return {Boolean} return true if the setCenterPoint method was called with valid arguments. Otherwise false.
+         *  Valid arguments means coordinate within GraphicObject dimension.
          */
         GraphicObject.prototype.setCenterPoint = function(x, y) {
             if (x && x >= 0 && x <= this.width && y && y >= 0 && y <= this.height) {

@@ -23,8 +23,14 @@ var TW = TW || {};
     function init() {
 
         /**
-         * The Sprite class provide methods to draw sprites on a context. the aim of the sprites object is to be added to a
-         * Layer or to be use directly with a graphical context by invoking the draw method of the Sprite. like `var mySprite = new TW.Graphic.Sprite(); mySprite.draw(canvasContext);`
+         * The Sprite class provide methods to draw sprites on a context. the aim of the sprites object is to be added
+         * to a Layer or to be use directly with a graphical context by invoking the draw method of the Sprite.
+         *
+         * @example
+         *
+         *      var mySprite = new TW.Graphic.Sprite();
+         *      mySprite.draw(canvasContext);
+         *
          * @class Sprite
          * @extends GraphicObject
          * @constructor
@@ -67,7 +73,8 @@ var TW = TW || {};
          * This method allow you to draw the sprite on a context.
          *
          * @method draw
-         * @param context this parameter must be a valid canvas context, otherwise the behavior of the draw method is unspecified.
+         * @param context this parameter must be a valid canvas context,
+         *  otherwise the behavior of the draw method is unspecified.
          * @return {Boolean} this methods return true if the context parameter is a valid object and if the sprite's
          * image is also a valid object.
          */
@@ -81,7 +88,8 @@ var TW = TW || {};
                 if (this.imageRect === null) {
                     context.drawImage(this.image, 0, 0, this.width, this.height);
                 } else {
-                    context.drawImage(this.image, this.imageRect.x, this.imageRect.y, this.imageRect.w, this.imageRect.h, 0, 0,
+                    context.drawImage(this.image, this.imageRect.x, this.imageRect.y,
+                        this.imageRect.w, this.imageRect.h, 0, 0,
                         this.width, this.height);
                 }
                 context.restore();

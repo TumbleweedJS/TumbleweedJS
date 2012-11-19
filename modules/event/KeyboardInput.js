@@ -106,12 +106,16 @@ var TW = TW || {};
          * This class use the `keyCode` attribute from KeyboardEvent object.
          * The code list of [current W3C standard](http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071221/keyset.html)
          * is not implemented and there is differences between each browser.<br />
-         * The [next W3C standard](http://www.w3.org/TR/DOM-Level-3-Events/#keys-keyvalues) should improve compatibility.<br />
-         * __Currently, using Numeric key (from Keypad or not) with the Shift, CapsLock or NumLock keys is not possible.__<br />
+         * The [next W3C standard](http://www.w3.org/TR/DOM-Level-3-Events/#keys-keyvalues)
+         * should improve compatibility.<br />
+         * __Currently, using Numeric key (from Keypad or not) with the Shift,
+         * CapsLock or NumLock keys is not possible.__<br />
          * __Use exotic keys are strongly discouraged.__<br />
          * <br />
-         * For example, using Chrome 22.0.1229.94 (under Linux) with a fr keyboard, key `&` (key `1` without `Shift`) are equally to key `7`.
-         * For more information about compatibility,[this document](http://unixpapa.com/js/key.html) provide a good summary of the situation.
+         * For example, using Chrome 22.0.1229.94 (under Linux) with a fr keyboard, key `&` (key `1` without `Shift`)
+         * are equally to key `7`.
+         * For more information about compatibility,[this document](http://unixpapa.com/js/key.html) provide
+         * a good summary of the situation.
          *
          * Usage of arrows keys, and usage of controls keys with alphabetic characters are supported.
          *

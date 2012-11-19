@@ -20,14 +20,15 @@ var TW = TW || {};
 
     function init() {
         /**
-         * The Layer class can hold several GraphicObjects and it provides some transformations methods to move or scale all the
-         * GraphicalObjects that it contains. This is helpful when you want for example apply the same plane transformation to some
-         * GraphicalObjects
+         * The Layer class can hold several GraphicObjects and it provides some transformations methods to move or
+         * scale all the GraphicalObjects that it contains. This is helpful when you want for example apply
+         * the same plane transformation to some GraphicalObjects.
          *
          * @class Layer
          * @extends GraphicObject
          * @constructor
-         * @param {Object} param All properties given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} are available.
+         * @param {Object} param All properties given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}}
+         *   are available.
          *   @param {Camera} [param.camera] camera used be the layer. if not set, a new Camera is created.
          *   @param {SpatialContainer} [param.spatialContainer]
          *   @param {CanvasRenderingContext2D} [param.localCanvas] you can set directly the canvas used by the layer.
@@ -36,8 +37,10 @@ var TW = TW || {};
             TW.Graphic.GraphicObject.call(this, param);
 
             this._camera =  param.camera ? param.camera : new TW.Graphic.Camera();
-            this._spatialContainer = param.spatialContainer ? param.spatialContainer : new TW.Graphic.SpatialContainer();
-            this._localCanvas = param.localCanvas ? param.localCanvas : document.createElement('canvas').getContext("2d");
+            this._spatialContainer = param.spatialContainer ? param.spatialContainer :
+                new TW.Graphic.SpatialContainer();
+            this._localCanvas = param.localCanvas ? param.localCanvas :
+                document.createElement('canvas').getContext("2d");
             this._localCanvas.canvas.width = param.width;
             this._localCanvas.canvas.height = param.height;
             this._needToRedraw = true;
@@ -59,8 +62,9 @@ var TW = TW || {};
 
 
         /**
-         * This method allow the user to draw on the canvas's context. If nothing has changed in the childs of the layer, then a buffered layer is printed on the canvas. Otherwise
-         * all the canvas is redraw.
+         * This method allow the user to draw on the canvas's context.
+         * If nothing has changed in the childs of the layer, then a buffered layer is printed on the canvas.
+         * Otherwise all the canvas is redraw.
          *
          * @method draw
          * @param {CanvasRenderingContext2D} context
@@ -68,9 +72,9 @@ var TW = TW || {};
         Layer.prototype.draw = function(context) {
             if (this._needToRedraw === true) {
                 this._localCanvas.save();
-				this._localCanvas.translate(this.x, this.y);
+                this._localCanvas.translate(this.x, this.y);
                 this._camera.prepare(this._localCanvas);
-				this._localCanvas.translate(-this.xCenterPoint, -this.yCenterPoint);
+                this._localCanvas.translate(-this.xCenterPoint, -this.yCenterPoint);
                 this._spatialContainer.applyAll(function(child) {
                     child.draw(this._localCanvas);
                 }.bind(this));
@@ -87,7 +91,8 @@ var TW = TW || {};
          * This method allow you to set the dimensions of the layer.
          *
          * @method setDimensions
-         * @param {Object} obj this object must contains the width and the height of the object like this : `{obj.width, obj.height}`
+         * @param {Object} obj this object must contains the width and the height of the object like this:
+         * `{obj.width, obj.height}`
          * @return {Boolean} this method returns false if the obj parameter isn't a valid object, otherwise this method
          * returns true.
          */
@@ -132,7 +137,8 @@ var TW = TW || {};
          * @method setSpatialContainer
          * @param spatialContainer this parameter must be a valid spatialContainer, otherwise the method will have an
          * undefined behavior.
-         * @return {Boolean} this method will returns true if the spatialContainer is a valid object, otherwise it will return false.
+         * @return {Boolean} this method will returns true if the spatialContainer is a valid object,
+         * otherwise it will return false.
          */
         Layer.prototype.setSpatialContainer = function(spatialContainer) {
             if (spatialContainer) {
@@ -148,10 +154,10 @@ var TW = TW || {};
          * This method will allow you to add a child to the current Layer.
          *
          * @method addChild
-         * @param {GraphicObject} graphicObject this parameter must be a valid GraphicObject, otherwise the method will have an undefined
-         * behavior.
-         * @return {Boolean} this method will return false if the graphicObject parameter is a valid object. Otherwise it
-         * will returns true.
+         * @param {GraphicObject} graphicObject this parameter must be a valid GraphicObject, otherwise the method
+         * will have an undefined behavior.
+         * @return {Boolean} this method will return false if the graphicObject parameter is a valid object.
+         * Otherwise it will returns true.
          */
         Layer.prototype.addChild = function(graphicObject) {
             if (graphicObject) {
@@ -168,8 +174,8 @@ var TW = TW || {};
          * This method will allow you to remove a child from the current Layer.
          *
          * @method rmChild
-         * @param {GraphicObject} graphicObject this parameter is the GraphicObject that the method will try to find inside the child of
-         * the current layer.
+         * @param {GraphicObject} graphicObject this parameter is the GraphicObject that the method will try
+         * to find inside the child of the current layer.
          * @return {Boolean} if the graphicObject was found in the childs of the current layer then the method
          * will returns true, otherwise the method will returns true.
          */
@@ -203,8 +209,8 @@ var TW = TW || {};
          * @param {GraphicObject} [child] this object represent the child who has been changed.
          */
         Layer.prototype.onChange = function(child) {
-			this._needToRedraw = true;
-               return this.notifyParentChange();
+            this._needToRedraw = true;
+            return this.notifyParentChange();
         };
 
         return Layer;

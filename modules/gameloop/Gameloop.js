@@ -72,15 +72,16 @@ var TW = TW || {};
 
 
         /**
-         array which contains all games elements.
-         You must add elements to `object` for updating
-         and drawing these elements.
-
-         If an element is a function, it's called during update phase.
-         If it's an object, its draw function will be called during draw phase, an its update function during update phase.
-         If a function does not exist, the gameloop will ignore it. update and draw functions are not mandatory.
-
-         @property {Array} object
+         * array which contains all games elements.
+         * You must add elements to `object` for updating
+         * and drawing these elements.
+         *
+         * If an element is a function, it's called during update phase.
+         * If it's an object, its draw function will be called during draw phase,
+         * an its update function during update phase.
+         * If a function does not exist, the gameloop will ignore it. update and draw functions are not mandatory.
+         *
+         * @property {Array} object
          */
         this.object = [];
     }

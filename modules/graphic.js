@@ -30,7 +30,8 @@
  * and {{#crossLink "Graphic.Window"}}{{/crossLink}} classes. After a first draw, a canvas cache is kept in memory
  * for don't redraw until object has changed.<br />
  *
- * The second point is the purpose of the class {{#crossLink "Graphic.SpatialContainer"}}{{/crossLink}}, used by {{#crossLink "Graphic.Layer"}}{{/crossLink}}
+ * The second point is the purpose of the class {{#crossLink "Graphic.SpatialContainer"}}{{/crossLink}},
+ * used by {{#crossLink "Graphic.Layer"}}{{/crossLink}}
  * and {{#crossLink "Graphic.Window"}}{{/crossLink}}.
  *
  * Each SpatialContainer check for draw only a part of all objects, and not try to draw objects

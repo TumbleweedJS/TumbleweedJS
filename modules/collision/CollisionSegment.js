@@ -23,13 +23,15 @@ var TW = TW || {};
     function init() {
 
         /**
-         The CollisionSegment class allow you to define a segment to test collision width other segments and collision circles.
-         @class CollisionSegment
-         @constructor
-         @param {Integer} x1 the x coordinate of the first point of the segment
-         @param {Integer} y1 the y coordinate of the first point of the segment
-         @param {Integer} x2 the x coordinate of the second point of the segment
-         @param {Integer} y2 the y coordinate of the second point of the segment
+         * The CollisionSegment class allow you to define a segment to test
+         * collision width other segments and collision circles.
+         *
+         * @class CollisionSegment
+         * @constructor
+         * @param {Integer} x1 the x coordinate of the first point of the segment
+         * @param {Integer} y1 the y coordinate of the first point of the segment
+         * @param {Integer} x2 the x coordinate of the second point of the segment
+         * @param {Integer} y2 the y coordinate of the second point of the segment
          */
         function CollisionSegment(x1, y1, x2, y2) {
             this.px = x1;
@@ -65,10 +67,11 @@ var TW = TW || {};
         };
 
         /**
-         The isCollidingSegment method allow you to test if the current segment is colliding another segment.
-         @method isCollidingSegment
-         @param {CollisionSegment} segment the CollisionSegment to test if is colliding the current collision segment object.
-         @return {boolean} return true if segment is colliding the current CollisionSegment.
+         * The isCollidingSegment method allow you to test if the current segment is colliding another segment.
+         * @method isCollidingSegment
+         * @param {CollisionSegment} segment the CollisionSegment to test
+         * if is colliding the current collision segment object.
+         * @return {boolean} return true if segment is colliding the current CollisionSegment.
          */
         CollisionSegment.prototype.isCollidingSegment = function(segment) {
             var ax = this.px;
