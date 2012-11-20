@@ -48,15 +48,15 @@ var TW = TW || {};
 if (typeof window.define === "function" && window.define.amd) {
 
     define([
-        './graphic_new_version/Camera',
-        './graphic_new_version/Circle',
-        './graphic_new_version/GraphicObject',
-        './graphic_new_version/Layer',
-        './graphic_new_version/Rect',
-        './graphic_new_version/Shape',
-        './graphic_new_version/SpatialContainer',
-        './graphic_new_version/Sprite',
-        './graphic_new_version/Window'
+        './graphic/Camera',
+        './graphic/Circle',
+        './graphic/GraphicObject',
+        './graphic/Layer',
+        './graphic/Rect',
+        './graphic/Shape',
+        './graphic/SpatialContainer',
+        './graphic/Sprite',
+        './graphic/Window'
     ], function() {
         return TW.Math;
     });

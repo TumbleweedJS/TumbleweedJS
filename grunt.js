@@ -11,8 +11,8 @@ module.exports = function(grunt) {
 
                 predef: ['define', 'TW'],
                 /* variables */
-                quotmark: "double",
-                indent: 2,
+                //quotmark: "double",
+                //indent: 2,
                 maxlen: 120,
 
                 browser:true,       //allow to use the window object
