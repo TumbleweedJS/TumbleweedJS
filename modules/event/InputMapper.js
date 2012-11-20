@@ -21,14 +21,20 @@ var TW = TW || {};
 
 	function init() {
 
-		function InputMapper(target) {
+        /**
+         * InputMapper is a virtual event provider used to redirect event under an other event.
+         *
+         * It allow to create custom events (user-defined), following others eventProviders.
+         * Its role is to act as an interface, hiding real event which can be changed without the user noticing.
+         *
+         * A typical utilisation is the remapping is to let the choice of controls keyboard to the player.
+         *
+         * @class InputMapper
+         * @constructor
+         */
+		function InputMapper() {
 
 			TW.Event.EventProvider.call(this);
-
-
-			if (target === undefined) {
-				target = window.document;
-			}
 
 			this.enable = true;
 
@@ -48,6 +54,12 @@ var TW = TW || {};
 			return "MAPPER";
 		};
 
+        /**
+         *
+         * @method getRealEvent
+         * @param {String} localEvent
+         * @return {*}
+         */
 		InputMapper.prototype.getRealEvent = function(localEvent) {
 			var i;
 			i = this.states.indexOf(localEvent);
@@ -59,6 +71,10 @@ var TW = TW || {};
 			return this._binds[i] ? this._binds[i].event : null;
 		};
 
+        /**
+         * @method getNoMappedEvents
+         * @return {Array}
+         */
 		InputMapper.prototype.getNoMappedEvents = function() {
 			var i, len, arr;
 
@@ -116,12 +132,12 @@ var TW = TW || {};
 		/**
 		 * Bind a remote event to a local event.
 		 *
-		 * @method bind
+		 * @method bindEvent
 		 * @param {String}  localEvent
 		 * @param {String}  remoteEvent
 		 * @param {EventProvider}  input
 		 */
-		InputMapper.prototype.bind = function(localEvent, remoteEvent, input) {
+		InputMapper.prototype.bindEvent = function(localEvent, remoteEvent, input) {
 			var i, id;
 			i = this.states.indexOf(localEvent);
 
@@ -138,6 +154,13 @@ var TW = TW || {};
             return true;
 		};
 
+        /**
+         *
+         * @method bindListen
+         * @param localEvent
+         * @param input
+         * @return {Boolean}
+         */
 		InputMapper.prototype.bindListen = function(localEvent, input) {
 			var i, id;
 			i = this.states.indexOf(localEvent);
@@ -157,6 +180,9 @@ var TW = TW || {};
             return true;
 		};
 
+        /**
+         * @method stopBindListen
+         */
 		InputMapper.prototype.stopBindListen = function() {
 			var i, len;
 
