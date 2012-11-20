@@ -22,7 +22,7 @@ window.onload = function() {
 	inputMapper.addEvent("MOVE_LEFT");
 	inputMapper.addEvent("MOVE_RIGHT");
 
-	inputMapper.bind("MOVE_UP", "KEY_Z", keyboardEvents);
+	inputMapper.bindEvent("MOVE_UP", "KEY_Z", keyboardEvents);
 
 	keyboardEvents.addListener("KEY_B", function(event, new_value, object) {
 		inputMapper.bindListen("ATTACK", mouseEvents);
@@ -40,4 +40,4 @@ window.onload = function() {
 
 	console.log(inputMapper.getRealEvent("ATTACK"));
 	console.log(inputMapper.getNoMappedEvents());
-}
+};

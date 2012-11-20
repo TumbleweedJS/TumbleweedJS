@@ -24,7 +24,7 @@ var TW = TW || {};
 
         /**
          * A spatial container is a data structure used for storage of spatial 2D objects
-         * (generally {{#crossLink}}{{/crossLink}}.
+         * (generally {{#crossLink "Graphic.GraphicObject" }}{{/crossLink}}).
          * It propose many method for manipulate these objects using theirs coordinates.
          *
          * This class provide a basic implementation of all methods,
