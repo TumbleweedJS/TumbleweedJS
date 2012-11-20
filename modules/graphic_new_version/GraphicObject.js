@@ -50,8 +50,8 @@ var TW = TW || {};
          *  @param {Number} [param.x] position on X axis.
          *  @param {Number} [param.y] position on Y axis.
          *  @param {Number} [param.parent] parent of the element.
-		 *  @param {Number} [param.xCenter] x position of the center in the current object
-		 *  @param {Number} [param.yCenter] y position of the center in the current object
+         *  @param {Number} [param.xCenter] x position of the center in the current object
+         *  @param {Number} [param.yCenter] y position of the center in the current object
          * @constructor
          */
         function GraphicObject(param) {
@@ -62,8 +62,8 @@ var TW = TW || {};
             this.height =  param.height ? param.height : 0;
             this.x =  param.x ? param.x : 0;
             this.y = param.y ? param.y : 0;
-			this.xCenterPoint = param.xCenterPoint ? param.xCenterPoint : 0;
-			this.yCenterPoint = param.yCenterPoint ? param.yCenterPoint : 0;
+            this.xCenterPoint = param.xCenterPoint ? param.xCenterPoint : 0;
+            this.yCenterPoint = param.yCenterPoint ? param.yCenterPoint : 0;
             this.parent = param.parent ? param.parent : null;
         }
 
@@ -294,18 +294,12 @@ var TW = TW || {};
          * @method setCenterPoint
          * @param {Number} x represent the x axis value of the centerPoint
          * @param {Number} y represent the y axis value of the centerPoint
-         * @return {Boolean} return true if the setCenterPoint method was called with valid arguments. Otherwise false.
-         *  Valid arguments means coordinate within GraphicObject dimension.
          */
         GraphicObject.prototype.setCenterPoint = function(x, y) {
-            if (x && x >= 0 && x <= this.width && y && y >= 0 && y <= this.height) {
-                this.x_center = x;
-                this.y_center = y;
-                this.notifyParentChange();
-                return true;
-            } else {
-                return false;
-            }
+            this.xCenterPoint = x;
+            this.yCenterPoint = y;
+            this.notifyParentChange();
+            return true;
         };
 
         /**
@@ -315,7 +309,7 @@ var TW = TW || {};
          * @return {Object} return an object containing the x and y coordinate of the CenterPoint. Like `{x:12, y:65}`.
          */
         GraphicObject.prototype.getCenterPoint = function() {
-            return {x:this.x_center, y:this.y_center};
+            return {x:this.xCenterPoint, y:this.yCenterPoint};
         };
 
 
