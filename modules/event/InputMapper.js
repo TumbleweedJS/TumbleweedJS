@@ -8,7 +8,7 @@ var TW = TW || {};
 (function(TW) {
 
 	if (typeof window.define === "function" && window.define.amd) {
-        define(['./EventProvider', '../utils/Inheritance'], initWrap(init));
+		define(['./EventProvider', '../utils/Inheritance'], initWrap(init));
 	} else {
 		initWrap(init);
 	}
@@ -21,17 +21,28 @@ var TW = TW || {};
 
 	function init() {
 
-        /**
-         * InputMapper is a virtual event provider used to redirect event under an other event.
-         *
-         * It allow to create custom events (user-defined), following others eventProviders.
-         * Its role is to act as an interface, hiding real event which can be changed without the user noticing.
-         *
-         * A typical utilisation is the remapping is to let the choice of controls keyboard to the player.
-         *
-         * @class InputMapper
-         * @constructor
-         */
+		/**
+		 * InputMapper is a virtual event provider used to redirect event under an other event.
+		 *
+		 * It allow to create custom events (user-defined), following others eventProviders.
+		 * Its role is to act as an interface, hiding real event which can be changed without the user noticing.
+		 *
+		 * A typical utilisation is the remapping is to let the choice of controls keyboard to the player.
+		 *
+		 * @example
+		 *
+		 *      var keyboardEvents = new KeyboardInput();
+		 *      var inputMapper = new InputMapper();
+		 *
+		 *      inputMapper.addEvent("ATTACK");
+		 *      inputMapper.bind("ATTACK", "KEY_Q", keyboardEvents);
+		 *
+		 *      inputMapper.addListener("ATTACK", KeyboardInput.KEY_PRESSED, function(event, value, provider) {
+		 *      });
+		 *
+		 * @class InputMapper
+		 * @constructor
+		 */
 		function InputMapper() {
 
 			TW.Event.EventProvider.call(this);
@@ -54,12 +65,14 @@ var TW = TW || {};
 			return "MAPPER";
 		};
 
-        /**
-         *
-         * @method getRealEvent
-         * @param {String} localEvent
-         * @return {*}
-         */
+
+		/**
+		 * Getting the name of event bind with localEvent.
+		 *
+		 * @method getRealEvent
+		 * @param {String}  localEvent
+		 * @return {String} Name of the real event if it exist or null
+		 */
 		InputMapper.prototype.getRealEvent = function(localEvent) {
 			var i;
 			i = this.states.indexOf(localEvent);
@@ -71,10 +84,13 @@ var TW = TW || {};
 			return this._binds[i] ? this._binds[i].event : null;
 		};
 
-        /**
-         * @method getNoMappedEvents
-         * @return {Array}
-         */
+
+		/**
+		 * Getting a array of all no mapped local event.
+		 *
+		 * @method getNoMappedEvents
+		 * @return {Array} Array with all local events who is not already bound
+		 */
 		InputMapper.prototype.getNoMappedEvents = function() {
 			var i, len, arr;
 
@@ -151,16 +167,17 @@ var TW = TW || {};
 
 			id = input.addListener(remoteEvent, this._bindEvent.bind(this));
 			this._binds[i] = {event: remoteEvent, input: input, id: id};
-            return true;
+			return true;
 		};
 
-        /**
-         *
-         * @method bindListen
-         * @param localEvent
-         * @param input
-         * @return {Boolean}
-         */
+
+		/**
+		 * Bind a remote event to a local event by listening to the next event of input.
+		 *
+		 * @method bindListen
+		 * @param {String}  localEvent
+		 * @param {EventProvider}  input
+		 */
 		InputMapper.prototype.bindListen = function(localEvent, input) {
 			var i, id;
 			i = this.states.indexOf(localEvent);
@@ -177,12 +194,15 @@ var TW = TW || {};
 
 			id = input.addListener(this._bindListenEvent.bind(this));
 			this._binds[i] = {event: undefined, input: input, id: id};
-            return true;
+			return true;
 		};
 
-        /**
-         * @method stopBindListen
-         */
+
+		/**
+		 * Stop a listening of the function bindListen.
+		 *
+		 * @method stopBindListen
+		 */
 		InputMapper.prototype.stopBindListen = function() {
 			var i, len;
 
@@ -195,29 +215,47 @@ var TW = TW || {};
 			}
 		};
 
+		/**
+		 * Callback function who bind a local event with remote event.
+		 *
+		 * @method _bindEvent
+		 * @param {String}   event
+		 * @param {Boolean|Object}   new_value
+		 * @param {EventProvider}   object
+		 * @private
+		 */
 		InputMapper.prototype._bindEvent = function(event, new_value, object) {
 			var i, len;
 			if (this.enable) {
 				for (i = 0, len = this._binds.length; i < len; ++i) {
 					if (this._binds[i] !== undefined && this._binds[i].event === event &&
-                    this._binds[i].input === object) {
+					    this._binds[i].input === object) {
 						this.modifyState(this.states[i], new_value);
 					}
 				}
 			}
 		};
 
+		/**
+		 * Callback function who bind a local event with remote event when bindListen is run.
+		 *
+		 * @method _bindListenEvent
+		 * @param {String}   event
+		 * @param {Boolean|Object}   new_value
+		 * @param {EventProvider}   object
+		 * @private
+		 */
 		InputMapper.prototype._bindListenEvent = function(event, new_value, object) {
-            var i, len;
-            for (i = 0, len = this._binds.length; i < len; ++i) {
-                if (this._binds[i] !== undefined && this._binds[i].event === undefined &&
-                    this._binds[i].input === object) {
+			var i, len;
+			for (i = 0, len = this._binds.length; i < len; ++i) {
+				if (this._binds[i] !== undefined && this._binds[i].event === undefined &&
+				    this._binds[i].input === object) {
 
-                    this._binds[i].input.rmListener(this._binds[i].id);
-                    this.bind(this.states[i], event, object);
-                }
-            }
-        };
+					this._binds[i].input.rmListener(this._binds[i].id);
+					this.bindEvent(this.states[i], event, object);
+				}
+			}
+		};
 
 		return InputMapper;
 	}
