@@ -116,7 +116,7 @@ var TW = TW || {};
             if (circle.getY() + radius < this.y) {
                 return false;
             }
-            if (this.y - radius > this.y + this.h) {
+            if (circle.getY()- radius > this.y + this.h) {
                 return false;
             }
             //On check si un des segments de la box rentre en collision avec le cercle
