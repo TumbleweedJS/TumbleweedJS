@@ -24,6 +24,10 @@ window.onload = function() {
 
 	inputMapper.bindEvent("MOVE_UP", "KEY_Z", keyboardEvents);
 
+	mouseEvents.addListener("MOUSE_BUTTON_RIGHT", TW.Event.MouseInput.BUTTON_PRESSED, function(event, new_value, object) {
+		alert("Ca marche !");
+	});
+
 	keyboardEvents.addListener("KEY_B", function(event, new_value, object) {
 		inputMapper.bindListen("ATTACK", mouseEvents);
 	});
