@@ -244,7 +244,7 @@ var TW = TW || {};
                     if (this._stateCallbacks[i] !== undefined) {
                         for (j = 0, len2 = this._stateCallbacks[i].length; j < len2; ++j) {
                             if (this._stateCallbacks[i][j].filter === undefined ||
-                                new_value === this._stateCallbacks[i][j].filter) {
+                                JSON.stringify(new_value) === JSON.stringify(this._stateCallbacks[i][j].filter)) {
                                 this._stateCallbacks[i][j].callback(event, new_value, this);
                             }
                         }

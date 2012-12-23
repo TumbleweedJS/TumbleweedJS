@@ -9,12 +9,37 @@
 window.onload = function() {
 
 	var mouseEvents = new TW.Event.MouseInput();
+
 	var keyboardEvents = new TW.Event.KeyboardInput();
 
 	var inputMapper = new TW.Event.InputMapper();
 
+	var eventCombination = new TW.Event.EventCombination(keyboardEvents);
+
 	mouseEvents.contextMenuActive = false;
 
+	eventCombination.addCombination("ATTACK_COMBO", ["KEY_A", "KEY_Z", "KEY_E"]);
+	eventCombination.addCombination("ATTACK_COMBO2", ["KEY_S", "KEY_Z"]);
+
+	eventCombination.addListener("ATTACK_COMBO", [{event:"KEY_A", value:true}, {event:"KEY_Z", value:true}, {event:"KEY_E", value:true}], function(event, new_value, object) {
+		console.log("ATTACK_COMBO");
+		console.log("");
+	});
+
+	eventCombination.addListener("ATTACK_COMBO2", [{event:"KEY_S", value:true}, {event:"KEY_Z", value:true}], function(event, new_value, object) {
+		console.log("ATTACK_COMBO2");
+		console.log("");
+	});
+/*
+	mouseEvents.addListener("MOUSE_MOVE", function(event, new_value, object) {
+		console.log(new_value);
+	});
+
+	mouseEvents.addListener("MOUSE_MOVE", {x: 500, y: 500}, function(event, new_value, object) {
+		console.log("Ca marche !");
+	});
+*/
+	/*
 	inputMapper.addEvent("ATTACK");
 
 	inputMapper.addEvent("MOVE_UP");
@@ -44,4 +69,7 @@ window.onload = function() {
 
 	console.log(inputMapper.getRealEvent("ATTACK"));
 	console.log(inputMapper.getNoMappedEvents());
+	*/
+
+
 };
