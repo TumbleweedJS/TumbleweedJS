@@ -72,8 +72,8 @@ var TW = TW || {};
         Layer.prototype.draw = function(context) {
             if (this._needToRedraw === true) {
                 this._localCanvas.save();
-
                 this._camera.prepare(this._localCanvas);
+                this._localCanvas.translate(-this.xCenterPoint, -this.yCenterPoint);
                 this._spatialContainer.applyAll(function(child) {
                     child.draw(this._localCanvas);
                 }.bind(this));
@@ -81,11 +81,10 @@ var TW = TW || {};
                 this._needToRedraw = false;
             }
             context.save();
-            context.translate(this.x, this.y);
-            this._matrix.transformContext(context);
-            context.translate(-this.xCenterPoint, -this.yCenterPoint);
-            context.drawImage(this._localCanvas.canvas, 0, 0, this.width, this.height);
-            context.restore();
+	        context.translate(this.x, this.y);
+	        this._matrix.transformContext(context);
+	        context.drawImage(this._localCanvas.canvas, 0, 0, this.width, this.height);
+	        context.restore();
         };
 
         /**
