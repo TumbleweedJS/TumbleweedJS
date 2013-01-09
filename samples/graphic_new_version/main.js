@@ -30,9 +30,11 @@ function funcUpdateLayerJeu()
 function setupLayerFrame(myLayerFrame)
 {
 	var image = new Image();
+	image.onload = function() {
+		var spriteFrame = new TW.Graphic.Sprite({image:image, width:800, height:500});
+		myLayerFrame.addChild(spriteFrame);
+	};
 	image.src = "ressources/frame.png";
-	var spriteFrame = new TW.Graphic.Sprite({image:image, width:800, height:500});
-	myLayerFrame.addChild(spriteFrame);
 }
 
 //This function animate the carots to make them growing and shrinking.
@@ -139,13 +141,15 @@ function update_carot() {
 function createAndAddCarots(myLayerJeu)
 {
 	var image_carot = new Image();
+	image_carot.onload = function(){
+		var carot;
+		for (var i = 0; i <= 5; i++) {
+			carot = new TW.Graphic.Sprite({x:(Math.random() * myLayerJeu.width), y:(Math.random() * myLayerJeu.height), width:image_carot.width, height:image_carot.height, image:image_carot});
+			myLayerJeu.addChild(carot);
+			carot.update = update_carot;
+		}
+	};
 	image_carot.src = "ressources/carrote.png";
-	var carot;
-	for (var i = 0; i <= 5; i++) {
-		carot = new TW.Graphic.Sprite({x:(Math.random() * myLayerJeu.width), y:(Math.random() * myLayerJeu.height), width:image_carot.width, height:image_carot.height, image:image_carot});
-		myLayerJeu.addChild(carot);
-		carot.update = update_carot;
-	}
 }
 
 //This function configure the Game layer by adding in the mountain sprites.
@@ -155,12 +159,14 @@ function setupLayerJeu(myLayerJeu)
  cadre.setStrokeColor("BLACK");
  cadre.setMode("WIRED");
  var imageMontagne = new Image();
+ imageMontagne.onload = function(){
+	var spriteMontagne = new TW.Graphic.Sprite({width:800, height:480, image:imageMontagne});
+	myLayerJeu.addChild(spriteMontagne);
+	myLayerJeu.addChild(cadre);
+	createAndAddCarots(myLayerJeu);
+	myLayerJeu.update = funcUpdateLayerJeu;
+ };
  imageMontagne.src = "ressources/montagne.png";
- var spriteMontagne = new TW.Graphic.Sprite({width:800, height:480, image:imageMontagne});
- myLayerJeu.addChild(spriteMontagne);
- myLayerJeu.addChild(cadre);
- createAndAddCarots(myLayerJeu);
- myLayerJeu.update = funcUpdateLayerJeu;
 }
 
 
@@ -263,9 +269,11 @@ function setupLayerParticules(myLayerParticule)
 function setupLayerMontagneGrise(layer)
 {
 	var imageMontagneGrise = new Image();
+	imageMontagneGrise.onload = function(){
+	var spriteMontagneGrise = new TW.Graphic.Sprite({y:50, width:800, height:600, image:imageMontagneGrise});
+	layer.addChild(spriteMontagneGrise);	
+	};
 	imageMontagneGrise.src = "ressources/montagneGrise.png";
-	var spriteMontagneGrise = new TW.Graphic.Sprite({y:100, width:800, height:400, image:imageMontagneGrise});
-	layer.addChild(spriteMontagneGrise);
 }
 
 //This function update the cloud sprite and make it moving from left to right periodically.
@@ -307,12 +315,16 @@ function setupLayerSky(layer)
 	rectSky.setFillColor("BLUE");
 	layer.addChild(rectSky);
 	var imageNuages = new Image();
-	imageNuages.src = "ressources/nuage.png";
+	imageNuages.onload = function(){
 	var spriteNuage = new TW.Graphic.Sprite({width:800, height:400, image:imageNuages});
 	layer.addChild(spriteNuage);
 	layer.addChild(cadre);
 	spriteNuage.update = updateNuage;
+	};
+	imageNuages.src = "ressources/nuage.png";
 }
+
+var ref_layer_montagne_grise;
 
 //This function is the main one. Here, window, layers and gameloop are created and then used.
 function main()
@@ -337,6 +349,8 @@ function main()
 	// will refresh Sprites which will be drawn on the window's canvas.
 	var gl = new TW.Gameloop.Gameloop();
 
+	
+	ref_layer_montagne_grise = myLayerMontagneGrise;
 	//Add the frame layer to the window
 	myWindow.addChild(myLayerFrame);
 	//Add the sky Layer to the frame Layer

@@ -161,9 +161,9 @@ var TW = TW || {};
          */
         Layer.prototype.addChild = function(graphicObject) {
             if (graphicObject) {
-                this.notifyParentChange();
                 this._spatialContainer.addElement(graphicObject);
                 graphicObject.setParent(this);
+				this.onChange(graphicObject);
                 return true;
             } else {
                 return false;
@@ -180,8 +180,8 @@ var TW = TW || {};
          * will returns true, otherwise the method will returns true.
          */
         Layer.prototype.rmChild = function(graphicObject) {
-            this.notifyParentChange();
-            return this._spatialContainer.removeElement(graphicObject);
+            this._spatialContainer.removeElement(graphicObject);
+			this.onChange(null);
         };
 
 
