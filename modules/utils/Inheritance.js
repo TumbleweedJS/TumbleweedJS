@@ -15,8 +15,7 @@ var TW = TW || {};
 
     function initWrap(f) {
         TW.Utils = TW.Utils ||  {};
-        TW.Utils.inherit = f();
-        return TW.Utils.inherit;
+        return f();
     }
 
 
@@ -38,7 +37,23 @@ var TW = TW || {};
             child.prototype = new F();
         };
 
-        return TW.Utils.inherit;
+		TW.Utils.clone = function(srcInstance) {
+			if(typeof(srcInstance) !== 'object' || srcInstance === null)
+			{
+				return srcInstance;
+			}
+			var newInstance = srcInstance.constructor();
+			for(var i in srcInstance)
+			{
+				newInstance[i] = TW.Utils.clone(srcInstance[i]);
+			}
+			return newInstance;
+		};
     }
+
+        return {
+			inherit: TW.Utils.inherit,
+            mixin: TW.Utils.clone
+        };
 }(TW));
 

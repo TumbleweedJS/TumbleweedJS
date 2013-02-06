@@ -56,10 +56,11 @@ if (typeof window.define === "function" && window.define.amd) {
         './graphic/Shape',
         './graphic/SpatialContainer',
         './graphic/Sprite',
-        './graphic/Window'
+        './graphic/Window',
+        './graphic/SpriteSheet',
+        './graphic/AnimatedSprite'
     ], function() {
-        return TW.Math;
+        return TW.Graphic;
     });
-
 }
 
