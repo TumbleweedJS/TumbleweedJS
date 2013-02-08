@@ -190,10 +190,10 @@ var TW = TW || {};
          *
          * @method update
          */
-        Layer.prototype.update = function() {
+        Layer.prototype.update = function(elapsed_time) {
             this._spatialContainer.applyAll(function(child) {
                 if (child.update) {
-                    child.update();
+                    child.update(elapsed_time);
                 }
             });
         };

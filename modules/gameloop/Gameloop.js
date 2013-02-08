@@ -56,6 +56,7 @@ var TW = TW || {};
 		    date_repository: new Date(),
 		    counter: 0
 	    };
+	    this._time_last_update = new Date().getTime();
 		this._tps_object = {
 			tps_amount: 0,
 			date_repository: new Date(),
@@ -214,6 +215,7 @@ var TW = TW || {};
      @method update
      */
     Gameloop.prototype.update = function() {
+	    var current_date = new Date();
 	    for (var indexObjectToSuppress = 0; indexObjectToSuppress < this.object_to_suppress.length; indexObjectToSuppress++) {
 		    for (var indexObject = 0; indexObject < this.object.length; indexObject++) {
 			    if (this.object_to_suppress[indexObjectToSuppress] === this.object[indexObject]) {
@@ -224,22 +226,23 @@ var TW = TW || {};
 	    }
         for (var i = 0; i < this.object.length; i++) {
             if (typeof this.object[i] === "function") {
-                this.object[i]();
+                this.object[i](current_date.getTime() - this._time_last_update);
             }
             if (typeof this.object[i] === "object") {
                 if (typeof this.object[i].update !== "undefined") {
-                    this.object[i].update();
+                    this.object[i].update(current_date.getTime() - this._time_last_update);
                 }
             }
         }
 	    this._tps_object.counter++;
 	    var time;
-	    time = new Date().getTime();
+	    time = current_date.getTime();
 	    if (time - this._tps_object.date_repository.getTime() >= 1000) {
 		    this._tps_object.date_repository = new Date();
 		    this._tps_object.tps_amount = this._tps_object.counter;
 		    this._tps_object.counter = 0;
 	    }
+	    this._time_last_update = current_date.getTime();
     };
 
     /**

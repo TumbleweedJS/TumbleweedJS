@@ -41,6 +41,7 @@ var TW = TW || {};
 			this.timeStart = this.date.getTime();
 			this.callback = null;
 			this.status = "stop";
+			this.sigma_elapsed_time = 0;
 		}
 
 		TW.Utils.inherit(AnimatedSprite, TW.Graphic.Sprite);
@@ -126,6 +127,7 @@ var TW = TW || {};
 			this.currentFrame = 0;
 			if (this.callback && typeof this.callback === "function") {
 				this.callback({loop: this.loop, anim: this.currentAnim, sprite: this, status: "END:STOP"});
+			}
 		};
 
 		/**
@@ -163,9 +165,8 @@ var TW = TW || {};
 		 * @return {Boolean} return true if the update function has been called successfully,
 		 * otherwise false is returned.
 		 */
-		AnimatedSprite.prototype.update = function() {
-			this.date = new Date();
-			var delta_time = this.date.getTime() - this.timeStart;
+		AnimatedSprite.prototype.update = function(delta_time) {
+			this.sigma_elapsed_time += delta_time;
 			if (this.image === null || this.currentAnim === "") {
 				return false;
 			}
@@ -174,27 +175,27 @@ var TW = TW || {};
 				return false;
 			}
 			if (this.isPlaying()) {
-				if (delta_time >= 1000/current_anim.framerate) {
+				if (this.sigma_elapsed_time >= 1000/current_anim.framerate) {
 					this.currentFrame++;
 					if (this.currentFrame >= current_anim.frames.length) {
 						if (this.loop === true) {
 							this.currentFrame = 0;
 							this.notifyParentChange();
-							if (this.callback && typeof this.callback === "function") {
-								this.callback({loop: this.loop, anim: this.currentAnim, sprite: this, status: "END:LOOP"});
-							}
 						} else {
 							this.stop();
-							}
+						}
+						if (this.callback && typeof this.callback === "function") {
+							this.callback({loop: this.loop, anim: this.currentAnim, sprite: this, status: "END:LOOP"});
 						}
 					} else {
 						this.notifyParentChange();
 					}
-					this.timeStart = this.date.getTime();
+				this.timeStart = this.date.getTime();
+				this.sigma_elapsed_time = 0;
 				}
 			}
 		  return true;
-		}
+		};
 
 		/**
 		 * This method allow you to draw an animated sprite on a context.
