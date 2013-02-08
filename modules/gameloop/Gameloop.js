@@ -50,7 +50,18 @@ var TW = TW || {};
         this._last_id = 0;
         this._update_handler = null;
         this._draw_handler = null;
-
+	    this._start_date = new Date();
+	    this._fps_object = {
+		    fps_amount: 0,
+		    date_repository: new Date(),
+		    counter: 0
+	    };
+		this._tps_object = {
+			tps_amount: 0,
+			date_repository: new Date(),
+			counter: 0
+		};
+	    this.object_to_suppress = [];
         /**
          The value that limits the maximum number of frames per second.
          Used only if requestAnimationFrame is not found
@@ -85,6 +96,58 @@ var TW = TW || {};
          */
         this.object = [];
     }
+
+	    /**
+	     * This function allows you to get a Date object which represents the instant when you called
+	     * the start method of the gameloop.
+	     *
+	     * @method getStartDate
+	     * @return {Date} if the gameloop has already been started this function returns an object which represent
+	     * the start of the gameloop otherwise this method returns null.
+	     */
+	Gameloop.prototype.getStartDate = function() {
+		return this._start_date;
+	};
+
+	    /**
+	     * this method returns the average fps off ten seconds.
+	     * @method getRealFPS
+	     * @return {Number} returns the average fps off ten seconds.
+	     */
+	Gameloop.prototype.getRealFPS = function() {
+		return this._fps_object.fps_amount;
+	};
+
+	    /**
+	     * This method returns the average of TPS (average of update calls) in ten seconds.
+	     * @method getRealTPS
+	     * @return {Number} returns the average of tps in ten seconds.
+	     */
+	Gameloop.prototype.getRealTPS = function() {
+		return this._tps_object.tps_amount;
+	};
+
+	    /**
+	     * This method allows you to add an object to the Gameloop.
+	     * when the gameloop is refreshing itself it tries to call the update and draw function of each object which
+	     * are in its list. You can add any kind of object. you should add draw and update method to these objects
+	     * because the gameloop will call them each cycle.
+	     * @param {Object} object it is an object which will be added to the Gameloop's internal list.
+	     * @return {Boolean} returns true on success otherwise returns false.
+	     */
+	Gameloop.prototype.addObject = function(object) {
+		this.object.push(object);
+	};
+
+	    /**
+	     * This method allows you to remove an object from the Gameloop's list.
+	     * @param {Object} object a reference to the object that you want to suppress from the Gameloop's list.
+	     * @return {Boolean} return true on success (the object have successfully been removed)
+	     * otherwise it returns false.
+	     */
+	Gameloop.prototype.rmObject = function(object) {
+		this.object_to_suppress.push(object);
+	};
 
     /**
      start or unpause the gameloop.
@@ -151,8 +214,15 @@ var TW = TW || {};
      @method update
      */
     Gameloop.prototype.update = function() {
-        var i;
-        for (i = 0; i < this.object.length; i++) {
+	    for (var indexObjectToSuppress = 0; indexObjectToSuppress < this.object_to_suppress.length; indexObjectToSuppress++) {
+		    for (var indexObject = 0; indexObject < this.object.length; indexObject++) {
+			    if (this.object_to_suppress[indexObjectToSuppress] === this.object[indexObject]) {
+				    this.object.splice(indexObject, 1);
+				    indexObject--;
+			    }
+		    }
+	    }
+        for (var i = 0; i < this.object.length; i++) {
             if (typeof this.object[i] === "function") {
                 this.object[i]();
             }
@@ -162,6 +232,14 @@ var TW = TW || {};
                 }
             }
         }
+	    this._tps_object.counter++;
+	    var time;
+	    time = new Date().getTime();
+	    if (time - this._tps_object.date_repository.getTime() >= 1000) {
+		    this._tps_object.date_repository = new Date();
+		    this._tps_object.tps_amount = this._tps_object.counter;
+		    this._tps_object.counter = 0;
+	    }
     };
 
     /**
@@ -181,6 +259,14 @@ var TW = TW || {};
         if (anim_frame !== null) {
             this._draw_handler = anim_frame(this.draw.bind(this));
         }
+	    this._fps_object.counter++;
+	    var time;
+	    time = new Date().getTime();
+	    if (time - this._fps_object.date_repository.getTime() >= 1000) {
+		    this._fps_object.date_repository = new Date();
+		    this._fps_object.tps_amount = this._fps_object.counter;
+		    this._fps_object.counter = 0;
+	    }
     };
 
     return Gameloop;
