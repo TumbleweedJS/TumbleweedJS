@@ -267,7 +267,7 @@ var TW = TW || {};
 	    time = new Date().getTime();
 	    if (time - this._fps_object.date_repository.getTime() >= 1000) {
 		    this._fps_object.date_repository = new Date();
-		    this._fps_object.tps_amount = this._fps_object.counter;
+		    this._fps_object.fps_amount = this._fps_object.counter;
 		    this._fps_object.counter = 0;
 	    }
     };
