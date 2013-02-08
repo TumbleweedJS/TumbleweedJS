@@ -195,6 +195,34 @@ var TW = TW || {};
     };
 
     /**
+     * This method will allow you to remove a child from the current Layer.
+     *
+     * @method rmChild
+     * @param {GraphicObject} graphicObject this parameter is the GraphicObject that the method will try
+     * to find inside the child of the current layer.
+     * @return {Boolean} if the graphicObject was found in the childs of the current layer then the method
+     * will returns true, otherwise the method will returns true.
+     */
+    Layer.prototype.rmChild = function(graphicObject) {
+        this._spatialContainer.removeElement(graphicObject);
+        this.onChange(null);
+    };
+
+
+    /**
+     * This method will allow you to update the layer and all the childs within the layer.
+     *
+     * @method update
+     */
+    Layer.prototype.update = function(elapsed_time) {
+        this._spatialContainer.applyAll(function(child) {
+            if (child.update) {
+                child.update(elapsed_time);
+            }
+        });
+    };
+
+    /**
      * This method will be called when a child is changed.
      * By using this method it will notice the current Layer to redraw the local canvas.
      *
