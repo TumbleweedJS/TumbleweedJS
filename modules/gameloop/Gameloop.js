@@ -8,21 +8,14 @@ var TW = TW || {};
 
 (function(TW) {
 
+    TW.Gameloop = TW.Gameloop ||  {};
+    TW.Gameloop.Gameloop = Gameloop;
+
     if (typeof window.define === "function" && window.define.amd) {
-        define(['../utils/Polyfills'], initWrap(init));
-    } else {
-        initWrap(init);
+        define([], function() {
+            return Gameloop;
+        });
     }
-
-    function initWrap(f) {
-        TW.Gameloop = TW.Gameloop ||  {};
-        TW.Gameloop.Gameloop = f();
-        return TW.Gameloop.Gameloop;
-    }
-
-
-    function init() {
-
 
     var anim_frame = window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
@@ -269,6 +262,4 @@ var TW = TW || {};
 	    }
     };
 
-    return Gameloop;
-    }
 }(TW));

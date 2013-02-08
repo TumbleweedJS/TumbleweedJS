@@ -7,21 +7,14 @@ var TW = TW || {};
 
 (function(TW) {
 
+    TW.Preload = TW.Preload ||  {};
+    TW.Preload.XMLHttpRequestLoader = XMLHttpRequestLoader;
+
     if (typeof window.define === "function" && window.define.amd) {
-        define(['../utils/Polyfills'], initWrap(init));
-    } else {
-        initWrap(init);
+        define(['./Preload'], function() {
+            return XMLHttpRequestLoader;
+        });
     }
-
-    function initWrap(f) {
-        TW.Preload = TW.Preload ||  {};
-        TW.Preload.XMLHttpRequestLoader = f();
-        return TW.Preload.XMLHttpRequestLoader;
-    }
-
-
-    function init() {
-
 
 	/**
 	 * @class XMLHttpRequestLoader
@@ -343,7 +336,4 @@ var TW = TW || {};
 		}
 	};
 
-	return XMLHttpRequestLoader;
-
-}
 }(TW));
