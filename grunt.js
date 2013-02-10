@@ -1,4 +1,5 @@
-/*global module:false*/
+
+
 module.exports = function(grunt) {
 
     // Project configuration.
@@ -10,14 +11,16 @@ module.exports = function(grunt) {
             options: {
 
                 predef: ['define', 'TW'],
+
                 /* variables */
-                //quotmark: "double",
-                //indent: 2,
+
+                indent: 4,
                 maxlen: 120,
 
                 browser:true,       //allow to use the window object
 
                 /*	less strict:	*/
+
                 //debug: true,      //instruction `debugger`
                 eqnull: true,       //Warning about `==` and `===` for null only.
                 es5: true,          //Allow you to use EcmaScript 5 features
@@ -47,42 +50,79 @@ module.exports = function(grunt) {
         },
         uglify: {},
         requirejs: {
-            dir:	'build',
-            baseUrl: 'modules',
-            paths: { 'TW': '.' },
 
-            skipModuleInsertion: true,
-            removeCombined: true,
+            // release options (default)
+            options: {
+                dir:	'build',
+                baseUrl: 'modules',
+                paths: { 'TW': '.' },
 
-            //optimize: 'none',
-            modules: [
-                {
-                    name: 'TW',
-                    include: [
-                        'TW/collision',
-                        'TW/event',
-                        'TW/gameloop',
-                        'TW/graphic',
-                        'TW/math',
-                        'TW/preload',
-                        'TW/sound',
-                        'TW/utils'
-                    ],
-                    create: true
-                },
-                { name: 'collision' },
-                { name: 'event' },
-                { name: 'gameloop' },
-                { name: 'graphic' },
-                { name: 'math' },
-                { name: 'preload' },
-                { name: 'sound' },
-                { name: 'utils' }
-            ]
+                skipModuleInsertion: true,
+                removeCombined: true,
+                logLevel: 1,
+
+                name: 'TW',
+                include: [
+                    'TW/collision',
+                    'TW/event',
+                    'TW/gameloop',
+                    'TW/graphic',
+                    'TW/math',
+                    'TW/preload',
+                    'TW/sound',
+                    'TW/utils'
+                ],
+                create: true
+            },
+            debug: {
+                options: { optimize: 'none' }
+            },
+            'release-with-polyfills': {
+                options: { deps: [ 'TW/utils/Polyfills'] }
+            },
+            'debug-with-polyfills': {
+                options: {
+                    optimize: 'none',
+                    deps: [ 'TW/utils/Polyfills']
+                }
+            }
+        },
+        yuidoc: {
+            tumbleweed: {
+                name:           "Tumbleweed.js",
+                Description:    "The Tumbleweed.js API",
+                version:        "1.0.1",
+                url:            "http://api.tumbleweed-studio.net",
+                themedir: "./theme_doc",
+                options: {
+                    outdir:     "./docs",
+                    paths: ["./modules/"]
+                }
+            }
         }
     });
 
-    grunt.loadNpmTasks('grunt-requirejs');
-    grunt.registerTask('default', 'lint requirejs');
-    //grunt.registerTask('default', 'lint test requirejs');
+    grunt.loadNpmTasks('grunt-contrib');
+    grunt.registerTask('check-server', 'lint');
+
+
+    grunt.registerTask('release', 'requirejs:options');
+    grunt.registerTask('debug', 'requirejs:debug');
+    grunt.registerTask('release-with-polyfills', 'requirejs:release-with-polyfills');
+    grunt.registerTask('debug-with-polyfills', 'requirejs:debug-with-polyfills');
+    grunt.registerTask('doc', 'yuidoc');
+
+    grunt.registerTask('default', 'release');
+
+
+    /**
+     * The following options are available:
+     *  - release (default)
+     *  - debug
+     *  - release-with-polyfill
+     *  - debug-with-polyfill
+     *  - doc
+     *  - lint
+     */
+
 };
