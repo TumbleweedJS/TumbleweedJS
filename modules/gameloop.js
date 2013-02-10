@@ -15,7 +15,9 @@ var TW = TW || {};
 if (typeof window.define === "function" && window.define.amd) {
 
     define([
-        './gameloop/Gameloop'
+        './gameloop/Gameloop',
+        './gameloop/GameStateStack',
+        './gameloop/GameState'
     ], function() {
         return TW.Gameloop;
     });
