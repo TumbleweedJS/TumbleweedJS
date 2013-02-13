@@ -175,7 +175,9 @@ var TW = TW || {};
                 return 0;
             }
         }
-        return Math.atan(this.y / this.x) * 180.0 / Math.PI;
+	    var temp_x = this.x / this.getLength();
+	    var temp_y = this.y / this.getLength();
+	    return Math.atan(temp_y / temp_x) * 180.0 / Math.PI + ( temp_x < 0 ? 180 : 0);
     };
 
 
