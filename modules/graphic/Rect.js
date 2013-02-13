@@ -18,6 +18,7 @@ var TW = TW || {};
 		
     function Rect(param) {
         TW.Graphic.GraphicObject.call(this, param);
+	    TW.Graphic.Shape.call(this, param);
     }
 
     TW.Utils.inherit(Rect, TW.Graphic.Shape);
