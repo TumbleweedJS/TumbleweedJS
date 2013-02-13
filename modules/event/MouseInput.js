@@ -128,7 +128,8 @@ var TW = TW || {};
 		 */
 		MouseInput.prototype._onMouseMove = function(event) {
 
-			this.modifyState('MOUSE_MOVE', {x: event.clientX - event.target.getBoundingClientRect().left, y: event.clientY - event.target.getBoundingClientRect().top});
+			this.modifyState('MOUSE_MOVE', {x: event.clientX - event.target.getBoundingClientRect().left,
+				y: event.clientY - event.target.getBoundingClientRect().top});
 		};
 
 		/**
