@@ -69,7 +69,7 @@ module.exports = function(grunt) {
                     'TW/graphic',
                     'TW/math',
                     'TW/preload',
-                    'TW/sound',
+                    'TW/audio',
                     'TW/utils'
                 ],
                 create: true
