@@ -69,7 +69,7 @@ var TW = TW || {};
         if (this._needToRedraw === true) {
             this._localCanvas.save();
             this._camera.prepare(this._localCanvas);
-            this._localCanvas.translate(-this.xCenterPoint, -this.yCenterPoint);
+            //this._localCanvas.translate(-this.xCenterPoint, -this.yCenterPoint);
             this._spatialContainer.applyAll(function(child) {
                 child.draw(this._localCanvas);
             }.bind(this));
@@ -79,7 +79,8 @@ var TW = TW || {};
         context.save();
         context.translate(this.x, this.y);
         this._matrix.transformContext(context);
-        context.drawImage(this._localCanvas.canvas, 0, 0, this.width, this.height);
+	    context.drawImage(this._localCanvas.canvas, -this.xCenterPoint, -this.yCenterPoint, this.width, this.height);
+        //context.drawImage(this._localCanvas.canvas, 0, 0, this.width, this.height);
         context.restore();
     };
 
