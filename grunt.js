@@ -1,4 +1,4 @@
-
+ 
 
 module.exports = function(grunt) {
 
@@ -54,24 +54,12 @@ module.exports = function(grunt) {
             options: {
                 dir:	'build',
                 baseUrl: 'modules',
-                paths: { 'TW': '.' },
 
                 skipModuleInsertion: true,
-                removeCombined: true,
+                //removeCombined: true,
                 logLevel: 1,
 
                 name: 'TW',
-                include: [
-                    'TW/collision',
-                    'TW/event',
-                    'TW/gameloop',
-                    'TW/graphic',
-                    'TW/math',
-                    'TW/preload',
-                    'TW/audio',
-                    'TW/utils'
-                ],
-                create: true
             },
             debug: {
                 options: { optimize: 'none' }
