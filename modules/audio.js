@@ -1,7 +1,7 @@
 /**
  * TODO: describe module here.
  *
- * @module Sound
+ * @module Audio
  * @main
  */
 
@@ -11,11 +11,11 @@ var TW = TW || {};
 if (typeof window.define === "function" && window.define.amd) {
 
     define([
-        './sound/Sound',
-        './sound/Manager',
-        './sound/Channel'
+        './audio/Sound',
+        './audio/Manager',
+        './audio/Channel'
     ], function() {
-        return TW.Sound;
+        return TW.Audio;
     });
 
 }

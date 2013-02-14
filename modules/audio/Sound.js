@@ -1,14 +1,14 @@
 /**
- @module Sound
- @namespace Sound
+ @module Audio
+ @namespace Audio
  */
 
 var TW = TW || {};
 
 (function(TW) {
 
-    TW.Sound = TW.Sound ||  {};
-    TW.Sound.Sound = Sound;
+    TW.Audio = TW.Audio ||  {};
+    TW.Audio.Sound = Sound;
 
     if (typeof window.define === "function" && window.define.amd) {
         define([], function() {
@@ -18,13 +18,13 @@ var TW = TW || {};
 
 
 
-    TW.Sound.PLAY_SUCCEEDED = "playSucceeded";
-    TW.Sound.PLAY_FINISHED = "playFinished";
-    TW.Sound.PLAY_FAILED = "playFailed";
+    TW.Audio.PLAY_SUCCEEDED = "playSucceeded";
+    TW.Audio.PLAY_FINISHED = "playFinished";
+    TW.Audio.PLAY_FAILED = "playFailed";
 
-    TW.Sound.AUDIO_READY = "canplaythrough";
-    TW.Sound.AUDIO_ENDED = "ended";
-    TW.Sound.AUDIO_PLAYED = "play";
+    TW.Audio.AUDIO_READY = "canplaythrough";
+    TW.Audio.AUDIO_ENDED = "ended";
+    TW.Audio.AUDIO_PLAYED = "play";
 
     /**
      Sound class is object represent html5 sound tag.
@@ -165,7 +165,7 @@ var TW = TW || {};
         var c = this.capabilities;
         var i;
 
-        for (i = 0, i = sounds.length; i < i; i++) {
+        for (i = 0, l = sounds.length; i < l; i++) {
             var sound = sounds[i];
             var point = sound.lastIndexOf(".");
             var ext = sound.substr(point + 1).toLowerCase();
@@ -202,13 +202,13 @@ var TW = TW || {};
             this.audio.currentTime = 0;
         } catch (error) {
         }
-        this.audio.removeEventListener(TW.Sound.AUDIO_ENDED, this.endedHandler, false);
-        this.audio.removeEventListener(TW.Sound.AUDIO_READY, this.readyHandler, false);
+        this.audio.removeEventListener(TW.Audio.AUDIO_ENDED, this.endedHandler, false);
+        this.audio.removeEventListener(TW.Audio.AUDIO_READY, this.readyHandler, false);
         this.audio = null;
     };
 
     Sound.prototype._playFailed = function() {
-        this.playState = TW.Sound.PLAY_FAILED;
+        this.playState = TW.Audio.PLAY_FAILED;
         this._cleanUp();
     };
 
@@ -228,7 +228,7 @@ var TW = TW || {};
             return false;
         }
 
-        this.audio.addEventListener(TW.Sound.AUDIO_ENDED, this.endedHandler, false);
+        this.audio.addEventListener(TW.Audio.AUDIO_ENDED, this.endedHandler, false);
 
         this.offset = offset;
         this.volume = volume;
@@ -236,7 +236,7 @@ var TW = TW || {};
         this.remainingLoops = loop;
 
         if (this.audio.readyState !== 4) {
-            this.audio.addEventListener(TW.Sound.AUDIO_READY, this.readyHandler, false);
+            this.audio.addEventListener(TW.Audio.AUDIO_READY, this.readyHandler, false);
             this.audio.load();
         } else {
             this.handleSoundReady();
@@ -246,9 +246,9 @@ var TW = TW || {};
     };
 
     Sound.prototype.handleSoundReady = function() {
-        this.playState = TW.Sound.PLAY_SUCCEEDED;
+        this.playState = TW.Audio.PLAY_SUCCEEDED;
         this.paused = false;
-        this.audio.removeEventListener(TW.Sound.AUDIO_READY, this.readyHandler, false);
+        this.audio.removeEventListener(TW.Audio.AUDIO_READY, this.readyHandler, false);
 
         if (this.offset >= this.getDuration()) {
             this._playFailed();
@@ -275,7 +275,7 @@ var TW = TW || {};
             }
             return;
         }
-        this.playState = TW.Sound.PLAY_FINISHED;
+        this.playState = TW.Audio.PLAY_FINISHED;
 
         if (this.onComplete !== null) {
             this.onComplete(this);
@@ -289,7 +289,7 @@ var TW = TW || {};
      **/
     Sound.prototype.play = function() {
         this.audio.play();
-        this.playState = TW.Sound.AUDIO_PLAYED;
+        this.playState = TW.Audio.AUDIO_PLAYED;
     };
 
     /**
@@ -319,7 +319,7 @@ var TW = TW || {};
      **/
     Sound.prototype.stop = function() {
         this.pause();
-        this.playState = TW.Sound.PLAY_FINISHED;
+        this.playState = TW.Audio.PLAY_FINISHED;
         try {
             this.audio.currentTime = 0;
         } catch (error) {
