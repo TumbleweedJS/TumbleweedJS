@@ -191,6 +191,19 @@ var TW = TW || {};
       return true;
     };
 
+	/**
+	 * This method is private and associate to the animated sprite the hotpoint
+	 * @method _setCenterPointByHotPoint
+	 * @param {Object} current_anim current animation of the Animated Sprite.
+	 * @private
+	 */
+	AnimatedSprite.prototype._setCenterPointByHotPoint = function(current_anim) {
+		if (current_anim.frames[this.currentFrame].hotpoint) {
+			this.xCenterPoint = current_anim.frames[this.currentFrame].hotpoint.x;
+			this.yCenterPoint = current_anim.frames[this.currentFrame].hotpoint.y;
+		}
+	};
+
     /**
      * This method allow you to draw an animated sprite on a context.
      *
@@ -212,6 +225,7 @@ var TW = TW || {};
             context.save();
             context.translate(this.x, this.y);
             this._matrix.transformContext(context);
+	        this._setCenterPointByHotPoint(current_anim);
             context.translate(-this.xCenterPoint, -this.yCenterPoint);
             if (current_anim.flip_x) {
                 context.scale(-1, 1);

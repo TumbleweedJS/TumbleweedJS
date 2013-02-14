@@ -334,6 +334,122 @@ var TW = TW || {};
         }
     };
 
+	/**
+	 * This function is private and have the aim to autoincrement each frame duplicated in order to generate animation.
+	 * @param {Object} frame frame which will be transformed
+	 * @param {Number} index index of the frame
+	 * @method _applyFrameIncrementation
+	 * @private
+	 */
+	SpriteSheet.prototype._applyFrameIncrementation = function(frame) {
+		if (!frame.way) {
+			return;
+		}
+		switch (frame.way) {
+			case "LEFT" :
+				frame.x = frame.x - frame.w;
+				if (frame.x  < 0) {
+					frame.x = this.image.width - frame.w;
+					frame.y = frame.y + frame.h;
+				}
+				break;
+			case "RIGHT" :
+				frame.x = frame.x + frame.w;
+				if (frame.x + frame.w > this.image.width) {
+					frame.x = 0;
+					frame.y = frame.y + frame.h;
+				}
+				break;
+			case "UP" :
+				frame.y = frame.y - frame.h;
+				if (frame.y < 0) {
+					frame.x = frame.x + frame.w;
+					frame.y = this.image.height - frame.h;
+				}
+				break;
+			case "DOWN" :
+				frame.y = frame.y + frame.h;
+				if (frame.y + frame.h > this.image.height) {
+					frame.x = frame.x + frame.w;
+					frame.y = 0;
+				}
+				break;
+		}
+		//delete frame.way;
+	};
+
+	SpriteSheet.prototype._setLitteralHotPoint = function(frame, stringHotpoint) {
+		var x_hot_point;
+		var y_hot_point;
+
+		switch (stringHotpoint) {
+			case "LEFT-TOP":
+				x_hot_point = 0;
+				y_hot_point = 0;
+				break;
+			case "CENTER-TOP":
+				x_hot_point = frame.w / 2;
+				y_hot_point = 0;
+				break;
+			case "RIGHT-TOP":
+				x_hot_point = frame.w;
+				y_hot_point = 0;
+				break;
+			case "LEFT-CENTER":
+				x_hot_point = 0;
+				y_hot_point = frame.h / 2;
+				break;
+			case "CENTER-CENTER":
+				x_hot_point = frame.w / 2;
+				y_hot_point = frame.h / 2;
+				break;
+			case "RIGHT-CENTER":
+				x_hot_point = frame.w;
+				y_hot_point = frame.h / 2;
+				break;
+			case "LEFT-BOTTOM":
+				x_hot_point = 0;
+				y_hot_point = frame.h;
+				break;
+			case "CENTER-BOTTOM":
+				x_hot_point = frame.w / 2;
+				y_hot_point = frame.h;
+				break;
+			case "RIGHT-BOTTOM":
+				x_hot_point = frame.w;
+				y_hot_point = frame.h;
+				break;
+		}
+		frame.hotpoint = {x:x_hot_point, y:y_hot_point};
+	};
+
+	/**
+	 * The _applyHotPoint is private and set some parameters about the hot points.
+	 * @method _applyHotPoint
+	 * @param frames
+	 * @private
+	 */
+	SpriteSheet.prototype._applyHotPoint = function(animation_entry, frames) {
+		var x_hot_point;
+		var y_hot_point;
+
+		if (animation_entry.hotpoint) {
+			for (var i = 0; i < frames.length; i++) {
+				if (typeof animation_entry.hotpoint === "string") {
+					this._setLitteralHotPoint(frames[i], animation_entry.hotpoint);
+				} else {
+					if (!animation_entry.hotpoint.x || !animation_entry.hotpoint.y ||
+					    isNaN(animation_entry.hotpoint.x) || isNaN(animation_entry.hotpoint.y)) {
+						return;
+					}
+					x_hot_point = animation_entry.hotpoint.x;
+					y_hot_point = animation_entry.hotpoint.y;
+					frames[i].hotpoint = {x: x_hot_point, y: y_hot_point};
+				}
+			}
+		}
+	};
+
     /**
      * This function is private and have the aim to clone an animation entry.
      * @private
@@ -343,6 +459,8 @@ var TW = TW || {};
     SpriteSheet.prototype.developAnimationFrames = function(animationEntry) {
         var newFrames = [];
         var offset = 0;
+	    var frame_clone;
+
         this.applyDefaultValuesToFrames(animationEntry);
         if (!animationEntry.frames) {
             return;
@@ -350,14 +468,23 @@ var TW = TW || {};
         for (var i = 0; i < animationEntry.frames.length; i++) {
             if (animationEntry.frames[i].nb_frames && animationEntry.frames[i].nb_frames >= 1) {
                 for (var j = 0; j < animationEntry.frames[i].nb_frames; j++) {
-                    newFrames.push(TW.Utils.clone(animationEntry.frames[i]));
-                    delete newFrames[i + offset].nb_frames;
+	                if (j === 0) {
+	                 frame_clone = TW.Utils.clone(animationEntry.frames[i]);
+	                } else {
+		             frame_clone = TW.Utils.clone(newFrames[offset - 1]);
+	                }
+	                if (j > 0) {
+	                 this._applyFrameIncrementation(frame_clone);
+	                }
+                    newFrames.push(frame_clone);
+                    delete newFrames[offset].nb_frames;
                     offset++;
                 }
             } else {
                 newFrames.push(TW.Utils.clone(animationEntry.frames[i]));
             }
         }
+	    this._applyHotPoint(animationEntry, newFrames);
         animationEntry.frames = newFrames;
     };
 
