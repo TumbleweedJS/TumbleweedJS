@@ -50,7 +50,6 @@ module.exports = function(grunt) {
         },
         uglify: {},
         requirejs: {
-
             // release options (default)
             options: {
                 dir:	'build',
@@ -91,7 +90,7 @@ module.exports = function(grunt) {
             tumbleweed: {
                 name:           "Tumbleweed.js",
                 Description:    "The Tumbleweed.js API",
-                version:        "1.0.1",
+                version:        "0.3.0",
                 url:            "http://api.tumbleweed-studio.net",
                 themedir: "./theme_doc",
                 options: {
@@ -123,6 +122,6 @@ module.exports = function(grunt) {
      *  - debug-with-polyfill
      *  - doc
      *  - lint
+	 *  - qunit
      */
-
 };

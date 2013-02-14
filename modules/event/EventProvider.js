@@ -245,8 +245,39 @@ var TW = TW || {};
                 }
             }
         }
+	};
+
+    /**
+     * Apply a modification to an internal state variable
+     * and call listeners.
+     *
+     * @method modifyState
+     * @param {String}  event       event name
+     * @param {*}       new_value   the new value.
+     * @protected
+     */
+    EventProvider.prototype.modifyState = function(event, new_value) {
+        var i, j, len, len2;
+
+        for (i = 0, len = this.states.length; i < len; ++i) {
+            if (this.states[i] === event) {
+                this.oldValues[i] = this.values[i];
+                this.values[i] = new_value;
+
+                for (j = 0, len2 = this._globalCallbacks.length; j < len2; ++j) {
+                    this._globalCallbacks[j].callback(event, new_value, this);
+                }
+                if (this._stateCallbacks[i] !== undefined) {
+                    for (j = 0, len2 = this._stateCallbacks[i].length; j < len2; ++j) {
+                        if (this._stateCallbacks[i][j].filter === undefined ||
+                            JSON.stringify(new_value) === JSON.stringify(this._stateCallbacks[i][j].filter)) {
+                            this._stateCallbacks[i][j].callback(event, new_value, this);
+                        }
+                    }
+                }
+            }
+        }
         // TODO: throw exception ?
     };
-
 
 }(TW));

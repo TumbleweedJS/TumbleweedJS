@@ -173,7 +173,7 @@ var TW = TW || {};
      * @param {String}  localEvent
      * @param {EventProvider}  input
      */
-    InputMapper.prototype.bindListen = function(localEvent, input) {
+    InputMapper.prototype.bindListen = function(localEvent, input, callback) {
         var i, id;
         i = this.states.indexOf(localEvent);
 
@@ -188,7 +188,7 @@ var TW = TW || {};
         this.stopBindListen();
 
         id = input.addListener(this._bindListenEvent.bind(this));
-        this._binds[i] = {event: undefined, input: input, id: id};
+        this._binds[i] = {event: undefined, input: input, id: id, callback: callback};
         return true;
     };
 
@@ -247,6 +247,9 @@ var TW = TW || {};
                 this._binds[i].input === object) {
 
                 this._binds[i].input.rmListener(this._binds[i].id);
+                if (this._binds[i].callback !== undefined) {
+                    this._binds[i].callback(event);
+                }
                 this.bindEvent(this.states[i], event, object);
             }
         }
