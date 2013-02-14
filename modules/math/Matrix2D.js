@@ -59,9 +59,11 @@ var TW = TW || {};
      */
 
     Matrix2D.prototype.isIdentity = function() {
-        for (var i=0; i<3; i++) {
-            if (this.data[i][i] !== 1.0) {
-                return false;
+        for (var i = 0; i < 3; i++) {
+            for (var j = 0; j < 3; j++) {
+                if (this.data[i][j] !== (i === j ? 1 : 0)) {
+                    return false;
+                }
             }
         }
         return true;
