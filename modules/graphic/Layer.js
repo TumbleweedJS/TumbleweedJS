@@ -11,8 +11,11 @@ var TW = TW || {};
 
     if (typeof window.define === "function" && window.define.amd) {
         define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritance'], function() {
+            TW.Utils.inherit(Layer, TW.Graphic.GraphicObject);
             return Layer;
         });
+    } else {
+        TW.Utils.inherit(Layer, TW.Graphic.GraphicObject);
     }
 
     /**
@@ -41,8 +44,6 @@ var TW = TW || {};
         this._localCanvas.canvas.height = param.height;
         this._needToRedraw = true;
     }
-
-    TW.Utils.inherit(Layer, TW.Graphic.GraphicObject);
 
     /**
      * This method allow the user to get the current camera used into the Layer.

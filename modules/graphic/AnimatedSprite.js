@@ -12,8 +12,11 @@ var TW = TW || {};
 
     if (typeof window.define === "function" && window.define.amd) {
 		define(['./Sprite', '../utils/Inheritance'], function() {
+            TW.Utils.inherit(AnimatedSprite, TW.Graphic.Sprite);
             return AnimatedSprite;
         });
+    } else {
+        TW.Utils.inherit(AnimatedSprite, TW.Graphic.Sprite);
     }
 
     /**
@@ -37,8 +40,6 @@ var TW = TW || {};
         this.status = "stop";
         this.sigma_elapsed_time = 0;
     }
-
-    TW.Utils.inherit(AnimatedSprite, TW.Graphic.Sprite);
 
     /**
      * The setSpriteSheet method allows you to set the current spriteSheet to use.

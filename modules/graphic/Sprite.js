@@ -12,8 +12,11 @@ var TW = TW || {};
 
     if (typeof window.define === "function" && window.define.amd) {
         define(['./GraphicObject', '../utils/Inheritance'], function() {
+            TW.Utils.inherit(Sprite, TW.Graphic.GraphicObject);
             return Sprite;
         });
+    } else {
+        TW.Utils.inherit(Sprite, TW.Graphic.GraphicObject);
     }
 
     /**
@@ -35,7 +38,7 @@ var TW = TW || {};
         TW.Graphic.GraphicObject.call(this, param);
     }
 
-    TW.Utils.inherit(Sprite, TW.Graphic.GraphicObject);
+
 
     /**
      * This method allow you to set the image of the Sprite. the image object must be a valid object otherwise the

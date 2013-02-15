@@ -12,8 +12,11 @@ var TW = TW || {};
 
     if (typeof window.define === "function" && window.define.amd) {
         define(['./GraphicObject', '../utils/Inheritance'], function() {
+            TW.Utils.inherit(Shape, TW.Graphic.GraphicObject);
             return Shape;
         });
+    } else {
+        TW.Utils.inherit(Shape, TW.Graphic.GraphicObject);
     }
 
     /**
@@ -32,8 +35,6 @@ var TW = TW || {};
         this.strokeColor = params.strokeColor ? params.strokeColor : "black";
         this.mode = params.mode ? params.mode : "WIRED";
     }
-
-    TW.Utils.inherit(Shape, TW.Graphic.GraphicObject);
 
     /**
      * This method allow you to set the color of the current Shape.

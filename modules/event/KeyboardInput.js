@@ -12,8 +12,11 @@ var TW = TW || {};
 
     if (typeof window.define === "function" && window.define.amd) {
         define(['./EventProvider', '../utils/Inheritance'], function() {
+            TW.Utils.inherit(KeyboardInput, TW.Event.EventProvider);
             return KeyboardInput;
         });
+    } else {
+        TW.Utils.inherit(KeyboardInput, TW.Event.EventProvider);
     }
 
     /**
@@ -184,9 +187,6 @@ var TW = TW || {};
         target.addEventListener("keydown", this._onKeyDown.bind(this), false);
         target.addEventListener("keyup", this._onKeyUp.bind(this), false);
     }
-
-    TW.Utils.inherit(KeyboardInput, TW.Event.EventProvider);
-
 
     /**
      * Represent a key pressed state

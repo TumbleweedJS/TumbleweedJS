@@ -12,8 +12,11 @@ var TW = TW || {};
 
     if (typeof window.define === "function" && window.define.amd) {
         define(['./Layer', '../utils/Inheritance'], function() {
+            TW.Utils.inherit(Window, TW.Graphic.Layer);
             return Window;
         });
+    } else {
+        TW.Utils.inherit(Window, TW.Graphic.Layer);
     }
 
     /**
@@ -33,8 +36,6 @@ var TW = TW || {};
             height: canvas.height
         });
     }
-
-    TW.Utils.inherit(Window, TW.Graphic.Layer);
 
     /**
      * @method getCanvas

@@ -12,9 +12,12 @@ var TW = TW || {};
 
     if (typeof window.define === "function" && window.define.amd) {
 		define(['./EventProvider', '../utils/Inheritance'], function() {
+            TW.Utils.inherit(MouseInput, TW.Event.EventProvider);
             return MouseInput;
         });
-	}
+	} else {
+        TW.Utils.inherit(MouseInput, TW.Event.EventProvider);
+    }
 
     /**
      * EventProvider using the mouse.
@@ -83,9 +86,6 @@ var TW = TW || {};
         target.addEventListener("mousedown", this._onMouseDown.bind(this), false);
         target.addEventListener("contextmenu",  this._showContextMenu.bind(this), false);
     }
-
-    TW.Utils.inherit(MouseInput, TW.Event.EventProvider);
-
 
     /**
      * Represent a button pressed state

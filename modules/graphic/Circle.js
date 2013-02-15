@@ -12,8 +12,11 @@ var TW = TW || {};
 
     if (typeof window.define === "function" && window.define.amd) {
         define(['./Shape', '../utils/Inheritance'], function() {
+            TW.Utils.inherit(Circle, TW.Graphic.Shape);
             return Circle;
         });
+    } else {
+        TW.Utils.inherit(Circle, TW.Graphic.Shape);
     }
 
     /**
@@ -30,7 +33,7 @@ var TW = TW || {};
         this.radius = params.radius ? params.radius : 50;
     }
 
-    TW.Utils.inherit(Circle, TW.Graphic.Shape);
+
 
     /**
      * This overridden draw method allow the Circle class to draw a circle on the context given in parameter.
