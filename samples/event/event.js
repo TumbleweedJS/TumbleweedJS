@@ -1,8 +1,6 @@
 window.onload = function() {
 
 	var canvas = document.getElementById("eventCanvas");
-	canvas.width = document.width * 0.7;
-	canvas.height = document.height * 0.9;
 
 	var mouseEvents = new TW.Event.MouseInput(canvas);
 	var keyboardEvents = new TW.Event.KeyboardInput();
