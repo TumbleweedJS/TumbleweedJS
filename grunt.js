@@ -100,7 +100,7 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib');
-    grunt.registerTask('check-server', 'lint qunit');
+    grunt.registerTask('check-server', 'lint release qunit');
 
     grunt.registerTask('release', 'requirejs:options');
     grunt.registerTask('debug', 'requirejs:debug');
