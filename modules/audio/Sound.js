@@ -163,7 +163,7 @@ var TW = TW || {};
         var sounds = value.split("|");
         var found = false;
         var c = this.capabilities;
-        var i;
+        var i, l;
 
         for (i = 0, l = sounds.length; i < l; i++) {
             var sound = sounds[i];

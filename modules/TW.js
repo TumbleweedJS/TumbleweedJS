@@ -10,8 +10,5 @@ define(['collision',
         'audio',
         'utils'
 	   ], function(a) {
-		   console.log(a);
-		   console.log("testzzz");
-		   console.log(TW);
 		   return TW;
 	   });

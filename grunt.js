@@ -1,45 +1,56 @@
  
-
+/*global module: false */
 module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
         lint: {
-            files: ['grunt.js', 'modules/**/*.js', 'test/**/*.js']
+            files: ['grunt.js', 'modules/!(hud|parallax)**/*.js'],
+			test: ['test/**/*.js']
         },
         jshint: {
             options: {
 
-                predef: ['define', 'TW'],
-
-                /* variables */
-
+				/* coding style */
                 indent: 4,
                 maxlen: 120,
+				white: false,
+                multistr: true,
+                smarttabs: true,	//mixed tabs and spaces
+                trailing: true,		//Spaces in end of lines
+                curly: true,		//Add warning for using if without accolade
+                newcap: true,
 
-                browser:true,       //allow to use the window object
+				/* env */
+                browser: true,		//allow to use the window object
+                //debug: true,		//instruction `debugger`
+                //es5: true,		//allow you to use EcmaScript 5 features
+                //strict:true,		//Force the strict mode in each functions
 
-                /*	less strict:	*/
-
-                //debug: true,      //instruction `debugger`
-                eqnull: true,       //Warning about `==` and `===` for null only.
-                es5: true,          //Allow you to use EcmaScript 5 features
-                multistr:true,
-                smarttabs:true,     //Mixed Tabs and Spaces
-
-                /*	more strict:	*/
-
+				/* correctness */
+                //eqnull: true,		//Warning about `==` and `===` for null only.
                 noarg: true,        //Forbidden use to argument.caller and argument.callee
-                bitwise:true,
-                curly:true,         //Add warning for using if without accolade
-                eqeqeq:true,
+                bitwise: true,
+                eqeqeq: true,
                 //latedef:true,
-                newcap:true,
-                nonew:true,
-                undef:true,
-                //strict:true,      //Force the strict mode in each functions
-                trailing:true       //Spaces in end of lines
-            }
+                nonew: true,
+                undef: true
+            },
+			globals: {
+				TW: true,
+				define: false
+			},
+			test: {
+				globals: {
+					TW: true,
+					QUnit: false,
+					module: false,
+					test: false,
+					ok: false,
+					equal: false,
+					deepEqual: false
+				}
+			}
         },
         qunit: {
             files: ['test/**/*.html']
@@ -56,10 +67,9 @@ module.exports = function(grunt) {
                 baseUrl: 'modules',
 
                 skipModuleInsertion: true,
-                //removeCombined: true,
                 logLevel: 1,
 
-                name: 'TW',
+                name: 'TW'
             },
             debug: {
                 options: { optimize: 'none' }
@@ -90,8 +100,7 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib');
-    grunt.registerTask('check-server', 'lint');
-
+    grunt.registerTask('check-server', 'lint qunit');
 
     grunt.registerTask('release', 'requirejs:options');
     grunt.registerTask('debug', 'requirejs:debug');
