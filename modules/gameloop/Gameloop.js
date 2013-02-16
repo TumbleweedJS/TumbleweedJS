@@ -219,7 +219,7 @@ var TW = TW || {};
             }
         }
         this.object_to_suppress = [];
-        
+
         for (var i = 0; i < this.object.length; i++) {
             if (typeof this.object[i] === "function") {
                 this.object[i](current_date.getTime() - this._time_last_update);
