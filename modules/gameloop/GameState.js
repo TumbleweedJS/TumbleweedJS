@@ -19,7 +19,29 @@ var TW = TW || {};
 	}
 
 	/**
-	 * The GameStateClass provides an object which handle severals methods which can be called by the GameStateStack.
+	 * The GameState class provides an object which handle severals methods which can be called by the GameStateStack.
+	 * Each GameState object contains some methods :
+	 *
+	 * - onUpdate       this method is called when the GameState is updating.
+	 * - onDraw         this method is called when the GameState is drawing
+	 * - onCreation     this method is called when the GameState is added to a GameStateStack
+	 * - onDelete       this method is called when the GameState is removed from a GameStateStack
+	 * - onSleep        this method is called when the GameState looses the focus.
+	 * - onWakeUp       this method is called when the GameState takes back the focus.
+	 *
+	 * The main aim of these methods is to be overrided by your own methods.
+	 * For example, if you want to override the onUpdate and onDraw method, you should do as follow :
+	 *
+	 *   var myGameState = new TW.Gameloop.GameState();
+	 *   myGameState.onUpdate = myOnUpdateFunc;
+	 *   myGameState.onDraw = myOnDrawFunc;
+	 *
+	 * You can also insert Layers into the GameState. You can sort them by their z-index in asc or desc order.
+	 * Layers allows you to render something on the context of the GameStateStack.
+	 *
+	 * You can also insert Callbacks into the GameState some callbacks which will be executed when the GameState is updating.
+	 * Notice that callbacks are executed after the onUpdate event.
+	 * You can sort the callbacks by specifiying a priority order.
      *
      * @class GameState
 	 * @param {Object} param this object should contain severals members
