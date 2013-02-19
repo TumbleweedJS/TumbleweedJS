@@ -19,22 +19,22 @@ var TW = TW || {};
 	}
 
 	/**
-	 * This class allows you to manipulate GameStates. It is quite useful and widely used in GameProgramming to
-	 * implements differents game states.
+	 * This class allows you to manipulate some GameStates. It is quite useful and widely used in Game Programming
 	 * The default usage of this GameStateStack is to be added to a Gameloop which will call periodically the
 	 * GameStateStack's update and draw methods.
 	 * The GameStateStack class act like the Window class. When you create a GameStateStack object you must give
 	 * it a canvas.
 	 * You can add and suppress GameState objects from the GameStateStack.
 	 * The main difference with the Window class is that the GameStateStack organize Layers in differents GameStates.
-	 * And the focused GameState can change to represent the State of the Game.
+	 * And the focused GameState can change be change at runtime.
 	 *
-	 * Let's take an example, you want to do a little game which contain 2 states :
+	 * Let's take an example, you want to do a little game which contains 2 states :
 	 *
 	 * - Paused
 	 * - In Game
 	 *
 	 * Each state have to contains its own layers which represent it. But it is not the purpose of this Class.
+	 * Refer to GameState class for more informations about that.
 	 *
 	 * You have to add the first State to the GameStateStack, in our case it is the "In Game" state.
 	 * Then you can add the GameStateStack to the Gameloop.
@@ -42,6 +42,7 @@ var TW = TW || {};
 	 * current state of the GameStateStack.
 	 * For example, if the "In Game" state detect that you have pressed "space" to set the game in pause.
 	 * Then a new State must be pushed to the GameStateStack which will be the "Paused" state.
+	 *
 	 * Then, the pause state will be the focused state. if it detects that the "space" key is pressed again. Then the
 	 * current state of the GameStateStack must be poped.
 	 * Then, the current state will be again the "In Game" state, and it will be resume where the "pause" state have

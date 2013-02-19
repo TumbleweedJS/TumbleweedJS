@@ -44,6 +44,17 @@ var TW = TW || {};
 	 * Notice that callbacks are executed after the onUpdate event.
 	 * You can sort the callbacks by specifiying a priority order.
      *
+	 * Note that you can also interact with the GameStateStack which own the GameState object.
+	 * You can :
+	 * - push states
+	 * - pop states
+	 * - go to a special state in the stack
+	 *
+	 * Here is an example on which i show how you can push state, pop state and go to a special state :
+	 *     this.getGameStateStack().push(newState);
+	 *     this.getGameStateStack().pop();
+	 *     this.getGameStateStack().goToState("state_name");
+	 *
      * @class GameState
 	 * @param {Object} param this object should contain severals members
 	 * @param {String} [param.name] which is the name of the State.
