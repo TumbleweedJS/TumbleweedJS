@@ -39,7 +39,8 @@ var TW = TW || {};
 	 * You can also insert Layers into the GameState. You can sort them by their z-index in asc or desc order.
 	 * Layers allows you to render something on the context of the GameStateStack.
 	 *
-	 * You can also insert Callbacks into the GameState some callbacks which will be executed when the GameState is updating.
+	 * You can also insert Callbacks into the GameState some callbacks which will be executed when the
+	 * GameState is updating.
 	 * Notice that callbacks are executed after the onUpdate event.
 	 * You can sort the callbacks by specifiying a priority order.
      *
@@ -190,7 +191,8 @@ var TW = TW || {};
 	};
 
 	/**
-	 * This method allows you to set the GameStateStack parent of the gameState. Note that this method is use internally
+	 * This method allows you to set the GameStateStack parent of the gameState. Note that this method
+	 * is use internally
 	 * by the GameStateStack implementation.
 	 * You should not use it from your own.
 	 * @private

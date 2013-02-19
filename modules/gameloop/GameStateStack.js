@@ -23,7 +23,8 @@ var TW = TW || {};
 	 * implements differents game states.
 	 * The default usage of this GameStateStack is to be added to a Gameloop which will call periodically the
 	 * GameStateStack's update and draw methods.
-	 * The GameStateStack class act like the Window class. When you create a GameStateStack object you must give it a canvas.
+	 * The GameStateStack class act like the Window class. When you create a GameStateStack object you must give
+	 * it a canvas.
 	 * You can add and suppress GameState objects from the GameStateStack.
 	 * The main difference with the Window class is that the GameStateStack organize Layers in differents GameStates.
 	 * And the focused GameState can change to represent the State of the Game.
@@ -37,15 +38,20 @@ var TW = TW || {};
 	 *
 	 * You have to add the first State to the GameStateStack, in our case it is the "In Game" state.
 	 * Then you can add the GameStateStack to the Gameloop.
-	 * Then during updating process. Your "In Game" state will be updated. And during its update it can change the current state of the GameStateStack.
+	 * Then during updating process. Your "In Game" state will be updated. And during its update it can change the
+	 * current state of the GameStateStack.
 	 * For example, if the "In Game" state detect that you have pressed "space" to set the game in pause.
 	 * Then a new State must be pushed to the GameStateStack which will be the "Paused" state.
-	 * Then, the pause state will be the focused state. if it detects that the "space" key is pressed again. Then the current state of the GameStateStack must be poped.
-	 * Then, the current state will be again the "In Game" state, and it will be resume where the "pause" state have been created.
-	 * That's why this class is called a Stack, because internally, the GameStates are stacked and saved. It allows you to manage and save differents states.
+	 * Then, the pause state will be the focused state. if it detects that the "space" key is pressed again. Then the
+	 * current state of the GameStateStack must be poped.
+	 * Then, the current state will be again the "In Game" state, and it will be resume where the "pause" state have
+	 * been created.
+	 * That's why this class is called a Stack, because internally, the GameStates are stacked and saved. It allows you
+	 * to manage and save differents states.
 	 * Like in the previous example you can save the current state of the game and set it in pause.
 	 *
-	 * Note that all the States are drawn on the canvas during draw procedure. Also note that only the last State which have been added to the GameState is updated.
+	 * Note that all the States are drawn on the canvas during draw procedure. Also note that only the last State which
+	 * have been added to the GameState is updated.
 	 * That's why all other states are paused. Because they are no more updated.
 	 *
      * @class GameStateStack
