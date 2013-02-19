@@ -44,7 +44,8 @@ var TW = TW || {};
 	}
 
 	/**
-	 * The setSortLayer order allows you to define the sort order of the Layers
+	 * The setSortLayer order allows you to define the sort order of the Layers.
+	 * Note that the Layers are ordered by their z-index values.
 	 * @method setSortLayerOrder
 	 * @param {Boolean} asc represents the sort order. If asc is equal to true it means that your layers will be sort by ascendant order.
 	 * Otherwise, your layers will be sorted by descendant order.
@@ -54,7 +55,7 @@ var TW = TW || {};
 	};
 
 	/**
-	 * The setCallOrder order allows you to define the sort order of the Callbacks
+	 * The setCallbackOrder order allows you to define the sort order of the Callbacks
 	 * @method setCallbackOrder
 	 * @param {Boolean} asc represents the sort order. If asc is equal to true it means that your layers will be sort by ascendant order.
 	 * Otherwise, your layers will be sorted by descendant order.
@@ -64,7 +65,7 @@ var TW = TW || {};
 	};
 
 	/**
-	 * The getName method allow you to retrieve the name which is associated to the current GameState.
+	 * The getName method allows you to retrieve the name which is associated to the current GameState.
 	 * @method getName
 	 * @return {String} return the name of the current GameState object.
 	 */
