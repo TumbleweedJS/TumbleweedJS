@@ -24,9 +24,8 @@ var TW = TW || {};
      * @param {Image} image represents the image on which the SpriteSheet coordinate will be applied.
      * @param {Object} config represents the object which provides the description of each animation.
      *
-     * @example
      *
-     *  var mySpriteSheet = new SpriteSheet(image, config);
+     *      var mySpriteSheet = new SpriteSheet(image, config);
      *
      *  config object represents the raw configuration of the spriteSheet.
      *  Please see below the synthax of a spriteSheet :
@@ -37,33 +36,31 @@ var TW = TW || {};
      *  Here is how tumbleweed's spritesheets are configured :
      *
      *  First of all let's define the structure of our SpriteSheet object :
-     *  {}
+     *      {}
      *  As you can see it is only an empty JSON object.
      *  This object can handle some informations about the animation.
      *
-     *  Setting default values.
-     *  default : {}
+     *  **Setting default values.**
+     *      default : {}
      *  The default object can handle default values. It is useful to make some constants in the spriteSheet.
      *  For example if you want to define 5 constants (x = 10, y = 30, w = 50, h = 60, framerate = 25) You must
      *  proceed like this :
      *
-     *  @example
-     *  default : {x : 10,
+     *      default : {x : 10,
      *             y : 30,
      *             w : 50,
      *             h : 60,
      *             framerate : 25}
      *
      *
-     *  Setting animations.
+     *  **Setting animations.**
      *  Each animation is composed by frames and can also define a framerate value which override the framerate
      *  from default values.
      *  Here is an important tip, in some animations you may don't want to use the default values. Then you just
      *  Have to redefine them inside of the animation.
      *  To create an animation named 'walk' which have framerate set to 12 you must proceed like this :
      *
-     *  @example
-     *  walk : {
+     *      walk : {
      *          framerate: 12,
      *          frames : []
      *          }
@@ -71,7 +68,7 @@ var TW = TW || {};
      *  Note that there is an entry in you walk animation called frames. This entry must contain each frame of the
      *  walk animation.
      *
-     *  Setting frames.
+     *  **Setting frames.**
      *  Each animation contain some frames. It works like a flipbook, each frame are displayed one
      *  after another, tumbleweed will wait 1/framerate seconds to display the next frame.
      *  Let's imagine that your walk animation is made of three frames inside of your SpriteSheet.
@@ -81,8 +78,7 @@ var TW = TW || {};
      *
      *  Let's see below what will be the result of these frame inside of our walk animation object :
      *
-     *  @example
-     *  walk : {
+     *      walk : {
      *          framerate: 12,
      *          frames : [{x:0, y:0, w: 50, h: 50},
      *                    {x:50, y:0, w:50, h:50},
@@ -91,8 +87,7 @@ var TW = TW || {};
      *
      * Let's wrap it inside of our config object :
      *
-     * @example
-     * var config = {
+     *     var config = {
      *   default: {
      *    x: 0,
      *    y: 0,
@@ -113,7 +108,7 @@ var TW = TW || {};
      * In the following parts i will describe how to make animation's reference and how you can do
      * transformations on them.
      *
-     * Animation's reference
+     * **Animation's reference**
      * Sometimes you can need to specify another animation which is a copy of another animation but with some
      * transformations on it, the typical case will be an animation of walking to right and another animation which
      * is walking to left.
@@ -127,10 +122,9 @@ var TW = TW || {};
      * Initially we will consider that our previous definition of the walk animation was equivalent to the
      * walk_left animation.
      *
-     * Now let's see how now looks like our config object :
+     * Now let's see now how looks like our config object :
      *
-     * @example
-     * var config = {
+     *     var config = {
      *   default: {
      *    x: 0,
      *    y: 0,
@@ -157,13 +151,12 @@ var TW = TW || {};
      * There's one annoying thing in the previous definition, as you can see, the frames of the walk_left animation
      * and the frames of the walk_right animation are duplicated. There's one way to solve this problem. the alias flag.
      *
-     * alias flag.
+     * **alias flag.**
      * Alias flag allows you to define an animation by referencing another, it's quite useful when an animation has
      * the same frames than another. And we're actually in this case.
      * Using the alias flag, this is what will be your config object :
      *
-     * @example
-     * var config = {
+     *     var config = {
      *   default: {
      *    x: 0,
      *    y: 0,
@@ -191,8 +184,7 @@ var TW = TW || {};
      *  will create 5 frames from the current frame (including the current frame). Let's duplicate 5 times the last
      *  frame of walk_left animation.
      *
-     * @example
-     * var config = {
+     *     var config = {
      *   default: {
      *    x: 0,
      *    y: 0,
@@ -220,8 +212,7 @@ var TW = TW || {};
      *  To make them i will apply to them respectively an alias of the walk_left and walk_right, and then, i will apply
      *  to moonwalk_right and moonwalk_right the reverse flag which will reverse the frames that the animation contains.
      *
-     *  @example
-     * var config = {
+     *     var config = {
      *   default: {
      *    x: 0,
      *    y: 0,
