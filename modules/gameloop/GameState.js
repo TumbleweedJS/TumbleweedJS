@@ -1,6 +1,6 @@
 /**
  @module Gameloop
- @namespace GameStateStack
+ @namespace Gameloop
  */
 
 var TW = TW || {};
@@ -20,9 +20,12 @@ var TW = TW || {};
 
 	/**
 	 * The GameStateClass provides an object which handle severals methods which can be called by the GameStateStack.
+     *
+     * @class GameState
 	 * @param {Object} param this object should contain severals members
 	 * @param {String} [param.name] which is the name of the State.
-	 * @param {Boolean} [param.sortLayerAsc] which is a boolean. It must be equal to true if you want to sort Layers by ascendant order.
+	 * @param {Boolean} [param.sortLayerAsc] which is a boolean.
+     * It must be equal to true if you want to sort Layers by ascendant order.
 	 * Otherwise it must be equal to false. Default value equals true.
 	 * @param {Boolean} [param.sortCallbackAsc] which is a boolean. It must be equal to true if you
 	 * want to sort Callbacks by ascendant order. Otherwise it must be equal to false. default value equals true.
@@ -47,7 +50,8 @@ var TW = TW || {};
 	 * The setSortLayer order allows you to define the sort order of the Layers.
 	 * Note that the Layers are ordered by their z-index values.
 	 * @method setSortLayerOrder
-	 * @param {Boolean} asc represents the sort order. If asc is equal to true it means that your layers will be sort by ascendant order.
+	 * @param {Boolean} asc represents the sort order.
+     * If asc is equal to true it means that your layers will be sort by ascendant order.
 	 * Otherwise, your layers will be sorted by descendant order.
 	 */
 	GameState.prototype.setSortLayerOrder = function(asc) {
@@ -57,7 +61,8 @@ var TW = TW || {};
 	/**
 	 * The setCallbackOrder order allows you to define the sort order of the Callbacks
 	 * @method setCallbackOrder
-	 * @param {Boolean} asc represents the sort order. If asc is equal to true it means that your layers will be sort by ascendant order.
+	 * @param {Boolean} asc represents the sort order.
+     * If asc is equal to true it means that your layers will be sort by ascendant order.
 	 * Otherwise, your layers will be sorted by descendant order.
 	 */
 	GameState.prototype.setCallbackOrder = function(asc) {
@@ -130,7 +135,7 @@ var TW = TW || {};
 	 */
 	GameState.prototype.removeCallback = function(refCallback) {
 		for (var i = 0; i < this.callbackList.length; i++) {
-			if (refLayer === this.callbackList[i]) {
+			if (refCallback === this.callbackList[i]) {
 				this.callbackList.splice(i, 1);
 				return true;
 			}

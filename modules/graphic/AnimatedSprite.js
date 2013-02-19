@@ -1,6 +1,6 @@
 /**
  @module Graphic
- @namespace AnimatedSprite
+ @namespace Graphic
  */
 
 var TW = TW || {};
@@ -12,8 +12,11 @@ var TW = TW || {};
 
     if (typeof window.define === "function" && window.define.amd) {
 		define(['./Sprite', '../utils/Inheritance'], function() {
+            TW.Utils.inherit(AnimatedSprite, TW.Graphic.Sprite);
             return AnimatedSprite;
         });
+    } else {
+        TW.Utils.inherit(AnimatedSprite, TW.Graphic.Sprite);
     }
 
     /**
@@ -37,8 +40,6 @@ var TW = TW || {};
         this.status = "stop";
         this.sigma_elapsed_time = 0;
     }
-
-    TW.Utils.inherit(AnimatedSprite, TW.Graphic.Sprite);
 
     /**
      * The setSpriteSheet method allows you to set the current spriteSheet to use.
@@ -65,15 +66,22 @@ var TW = TW || {};
      * SpriteSheet object currently used by the AnimatedSprite).
      * @method play
      * @param {String} name string parameter which represents the name of the animation to start
-     * @param {Boolean} loop boolean parameter which set looping the animation if set to true. Otherwise, looping is disabled.
-     * @param {Function} callback function which is called each time the animation reach it's end. callback take one parameter which is an object which contains the following parameters :
-     * loop : a boolean which represent the loop status of the animation, if loop true then the animation will loop
-     * when its reach its end.
-     * anim : a string which represent the name of the animation which reach end.
-     * sprite : a reference to the animated sprite which called the callback
-     * status : a string which represent the status of the callback, status can have the following values :
-     * "END:LOOP" the AnimatedSprite will loop, "END:STOP" the AnimatedSprite is now stopped,
-     * "PAUSE" the AnimatedSprite is now paused, "RESUME" the animated sprite is now resumed
+     * @param {Boolean} loop boolean parameter which set looping the animation if set to true.
+     * Otherwise, looping is disabled.
+     * @param {Function} callback function which is called each time the animation reach it's end.
+     * Callback take one parameter which is an object which contains the following parameters :
+     * @param {Boolean} callback.loop a boolean which represent the loop status of the animation,
+     * if loop true then the animation will loop when its reach its end.
+     * @param {String} callback.anim a string which represent the name of the animation which reach end.
+     * @param {AnimatedSprite} callback.sprite a reference to the animated sprite which called the callback
+     * @param {String} callback.status a string which represent the status of the callback,
+     * status can have the following values :
+     *
+     * - `"END:LOOP"` the AnimatedSprite will loop
+     * - `"END:STOP"` the AnimatedSprite is now stopped,
+     * - `"PAUSE"` the AnimatedSprite is now paused
+     * - `"RESUME"` the animated sprite is now resumed
+     *
      * @return {Boolean} if the animation have been finded and will be played the return value will be true,
      * otherwise it will be false.
      */
@@ -236,9 +244,12 @@ var TW = TW || {};
                 context.translate(0, -this.height);
             }
             //TODO do transformation from the GraphicObject matrix.
-            context.drawImage(this.image.getImage(), current_anim.frames[this.currentFrame].x, current_anim.frames[this.currentFrame].y,
-                              current_anim.frames[this.currentFrame].w, current_anim.frames[this.currentFrame].h, 0, 0,
-                              this.width, this.height);
+            context.drawImage(this.image.getImage(),
+                current_anim.frames[this.currentFrame].x,
+                current_anim.frames[this.currentFrame].y,
+                current_anim.frames[this.currentFrame].w,
+                current_anim.frames[this.currentFrame].h,
+                0, 0, this.width, this.height);
             context.restore();
             return true;
         } else {

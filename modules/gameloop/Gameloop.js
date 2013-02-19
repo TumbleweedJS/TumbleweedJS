@@ -208,15 +208,18 @@ var TW = TW || {};
      @method update
      */
     Gameloop.prototype.update = function() {
-	    var current_date = new Date();
-	    for (var indexObjectToSuppress = 0; indexObjectToSuppress < this.object_to_suppress.length; indexObjectToSuppress++) {
-		    for (var indexObject = 0; indexObject < this.object.length; indexObject++) {
-			    if (this.object_to_suppress[indexObjectToSuppress] === this.object[indexObject]) {
-				    this.object.splice(indexObject, 1);
-				    indexObject--;
-			    }
-		    }
-	    }
+        var current_date = new Date();
+        var nb_to_suppress = this.object_to_suppress.length;
+        for (var indexObjectToSuppress = 0; indexObjectToSuppress < nb_to_suppress; indexObjectToSuppress++) {
+            for (var indexObject = 0; indexObject < this.object.length; indexObject++) {
+                if (this.object_to_suppress[indexObjectToSuppress] === this.object[indexObject]) {
+                    this.object.splice(indexObject, 1);
+                    indexObject--;
+                }
+            }
+        }
+        this.object_to_suppress = [];
+
         for (var i = 0; i < this.object.length; i++) {
             if (typeof this.object[i] === "function") {
                 this.object[i](current_date.getTime() - this._time_last_update);

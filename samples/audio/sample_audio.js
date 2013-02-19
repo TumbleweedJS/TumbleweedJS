@@ -1,7 +1,7 @@
 window.onload = function () {
 
     // Initialisation du manager de son.
-    this.manager =  new TW.Sound.Manager;
+    this.manager =  new TW.Audio.Manager;
 
     // Création d'un channel de son.
     this.id1 = this.manager.add("assets/Game-Death.mp3", 1);

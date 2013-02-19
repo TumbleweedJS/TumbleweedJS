@@ -1,14 +1,14 @@
 /**
- @module Sound
- @namespace Sound
+ @module Audio
+ @namespace Audio
  */
 
 var TW = TW || {};
 
 (function(TW) {
 
-    TW.Sound = TW.Sound ||  {};
-    TW.Sound.Channel = Channel;
+    TW.Audio = TW.Audio ||  {};
+    TW.Audio.Channel = Channel;
 
     if (typeof window.define === "function" && window.define.amd) {
         define(['./Sound'], function() {
@@ -86,7 +86,7 @@ var TW = TW || {};
     Channel.prototype.add = function(max) {
 
         while (this.sounds.length < max) {
-            this.sounds.push(new TW.Sound.Sound(this.src));
+            this.sounds.push(new TW.Audio.Sound(this.src));
         }
     };
 
@@ -118,7 +118,7 @@ var TW = TW || {};
 
         for (i = 0; i < this.sounds.length; ++i) {
             sound = this.sounds[i];
-            if (sound.playState !==  TW.Sound.AUDIO_PLAYED) {
+            if (sound.playState !==  TW.Audio.AUDIO_PLAYED) {
                 return this.sounds[i];
             }
         }

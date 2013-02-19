@@ -1,14 +1,14 @@
 /**
- @module Sound
- @namespace Sound
+ @module Audio
+ @namespace Audio
  */
 
 var TW = TW || {};
 
 (function(TW) {
 
-    TW.Sound = TW.Sound ||  {};
-    TW.Sound.Manager = Manager;
+    TW.Audio = TW.Audio ||  {};
+    TW.Audio.Manager = Manager;
 
     if (typeof window.define === "function" && window.define.amd) {
         define(['./Channel'], function() {
@@ -95,7 +95,7 @@ var TW = TW || {};
      **/
     Manager.prototype.add = function(src, max) {
         this.lastId++;
-        this.instances[this.lastId] = new TW.Sound.Channel(src, max, this.lastId);
+        this.instances[this.lastId] = new TW.Audio.Channel(src, max, this.lastId);
         this.length++;
         return this.lastId;
     };

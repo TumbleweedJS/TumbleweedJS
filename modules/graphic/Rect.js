@@ -12,16 +12,17 @@ var TW = TW || {};
 
     if (typeof window.define === "function" && window.define.amd) {
         define(['./Shape', '../utils/Inheritance'], function() {
+            TW.Utils.inherit(Rect, TW.Graphic.Shape);
             return Rect;
         });
+    } else {
+        TW.Utils.inherit(Rect, TW.Graphic.Shape);
     }
 		
     function Rect(param) {
         TW.Graphic.GraphicObject.call(this, param);
-	    TW.Graphic.Shape.call(this, param);
+        TW.Graphic.Shape.call(this, param);
     }
-
-    TW.Utils.inherit(Rect, TW.Graphic.Shape);
 
     Rect.prototype.draw = function(context) {
         if (context) {

@@ -1,6 +1,6 @@
 /**
  @module Gameloop
- @namespace GameStateStack
+ @namespace Gameloop
  */
 
 var TW = TW || {};
@@ -23,6 +23,7 @@ var TW = TW || {};
 	 * implements differents GameStates.
 	 * The default usage of this GameStateStack is to be added to a Gameloop which will call periodically the
 	 * GameStateStack's update and draw methods.
+     * @class GameStateStack
 	 * @constructor
 	 * @param {GaphicalContext} context canvas' context on which you should draw.
 	 */

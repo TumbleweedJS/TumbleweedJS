@@ -28,7 +28,8 @@ var TW = TW || {};
      *
      *  var mySpriteSheet = new SpriteSheet(image, config);
      *
-     *  config object represents the raw configuration of the spriteSheet. Please see below the synthax of a spriteSheet :
+     *  config object represents the raw configuration of the spriteSheet.
+     *  Please see below the synthax of a spriteSheet :
      *
      *  The SpriteSheet in tumbleweed work on JSON objects.
      *  Inside of these JSON objects, there is a description of all or just one animation.
@@ -279,56 +280,56 @@ var TW = TW || {};
      * @private
      */
     SpriteSheet.prototype.applyDefaultValuesToFrames = function(animation) {
-        if (!this.config.default) {
+        if (!this.config['default']) {
             return;
         }
-        if (this.config.default.framerate) {
+        if (this.config['default'].framerate) {
             if (!animation.framerate) {
-                animation.framerate = this.config.default.framerate;
+                animation.framerate = this.config['default'].framerate;
             }
         }
-        if (this.config.default.flip_x) {
+        if (this.config['default'].flip_x) {
             if (!animation.flip_x) {
-                animation.flip_x = this.config.default.flip_x;
+                animation.flip_x = this.config['default'].flip_x;
             }
         }
-        if (this.config.default.flip_y) {
+        if (this.config['default'].flip_y) {
             if (!animation.flip_y) {
-                animation.flip_y = this.config.default.flip_y;
+                animation.flip_y = this.config['default'].flip_y;
             }
         }
-        if (this.config.default.reverse) {
+        if (this.config['default'].reverse) {
             if (!animation.reverse) {
-                animation.reverse = this.config.default.reverse;
+                animation.reverse = this.config['default'].reverse;
             }
         }
         if (!animation.frames) {
             return;
         }
         for (var i = 0; i < animation.frames.length; i++) {
-            if (this.config.default.x) {
+            if (this.config['default'].x) {
                 if (!animation.frames[i].x) {
-                    animation.frames[i].x = this.config.default.x;
+                    animation.frames[i].x = this.config['default'].x;
                 }
             }
-            if (this.config.default.y) {
+            if (this.config['default'].y) {
                 if (!animation.frames[i].y) {
-                    animation.frames[i].y = this.config.default.y;
+                    animation.frames[i].y = this.config['default'].y;
                 }
             }
-            if (this.config.default.w) {
+            if (this.config['default'].w) {
                 if (!animation.frames[i].w) {
-                    animation.frames[i].w = this.config.default.w;
+                    animation.frames[i].w = this.config['default'].w;
                 }
             }
-            if (this.config.default.h) {
+            if (this.config['default'].h) {
                 if (!animation.frames[i].h) {
-                    animation.frames[i].h = this.config.default.h;
+                    animation.frames[i].h = this.config['default'].h;
                 }
             }
-            if (this.config.default.nb_frames) {
+            if (this.config['default'].nb_frames) {
                 if (!animation.frames[i].nb_frames) {
-                    animation.frames[i].nb_frames = this.config.default.nb_frames;
+                    animation.frames[i].nb_frames = this.config['default'].nb_frames;
                 }
             }
         }
@@ -337,7 +338,6 @@ var TW = TW || {};
 	/**
 	 * This function is private and have the aim to autoincrement each frame duplicated in order to generate animation.
 	 * @param {Object} frame frame which will be transformed
-	 * @param {Number} index index of the frame
 	 * @method _applyFrameIncrementation
 	 * @private
 	 */
