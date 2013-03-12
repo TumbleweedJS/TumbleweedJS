@@ -33,7 +33,7 @@ var TW = TW || {};
      * @constructor
      */
     function Sprite(params) {
-	    TW.Graphic.GraphicObject.call(this, param);
+	    TW.Graphic.GraphicObject.call(this, params);
 	    TW.Utils.copyParam(this, params, {
 		    image:      null,
 		    imageRect:  null
