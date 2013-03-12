@@ -9,6 +9,6 @@ define(['collision',
         'preload',
         'audio',
         'utils'
-	   ], function(a) {
+	   ], function() {
 		   return TW;
 	   });

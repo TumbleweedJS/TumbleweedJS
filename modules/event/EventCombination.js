@@ -73,7 +73,7 @@ var TW = TW || {};
      * @param {EventProvider}  input
      */
     EventCombination.prototype.addCombination = function(localEvent, remoteEvents) {
-        var i, n, len, states, values, oldValues;
+        var i, n, len, values, oldValues;
         i = this.states.indexOf(localEvent);
 
         if (i !== -1 || remoteEvents.length === 0) {

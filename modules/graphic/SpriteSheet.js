@@ -342,30 +342,30 @@ var TW = TW || {};
 		}
 		switch (frame.way) {
 			case "LEFT" :
-				frame.x = frame.x - frame.w;
+				frame.x -= frame.w;
 				if (frame.x  < 0) {
 					frame.x = this.image.width - frame.w;
-					frame.y = frame.y + frame.h;
+					frame.y += frame.h;
 				}
 				break;
 			case "RIGHT" :
-				frame.x = frame.x + frame.w;
+				frame.x += frame.w;
 				if (frame.x + frame.w > this.image.width) {
 					frame.x = 0;
-					frame.y = frame.y + frame.h;
+					frame.y += frame.h;
 				}
 				break;
 			case "UP" :
-				frame.y = frame.y - frame.h;
+				frame.y -= frame.h;
 				if (frame.y < 0) {
-					frame.x = frame.x + frame.w;
+					frame.x += frame.w;
 					frame.y = this.image.height - frame.h;
 				}
 				break;
 			case "DOWN" :
-				frame.y = frame.y + frame.h;
+				frame.y += frame.h;
 				if (frame.y + frame.h > this.image.height) {
-					frame.x = frame.x + frame.w;
+					frame.x += frame.w;
 					frame.y = 0;
 				}
 				break;

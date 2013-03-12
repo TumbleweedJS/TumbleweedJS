@@ -5,8 +5,6 @@
 
 var TW = TW || {};
 
-var TW = TW || {};
-
 (function(TW) {
 
 	TW.Gameloop = TW.Gameloop ||  {};

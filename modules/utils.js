@@ -14,7 +14,7 @@ var TW = TW || {};
 if (typeof window.define === "function" && window.define.amd) {
 
     define([
-        './utils/Inheritance',
+        './utils/Inheritance'
     ], function() {
         return TW.Utils;
     });
