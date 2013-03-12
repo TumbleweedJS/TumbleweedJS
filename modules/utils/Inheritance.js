@@ -24,23 +24,38 @@ var TW = TW || {};
      */
     TW.Utils.inherit  = function(child, parent) {
 
-        function F() {}
+        function Foo() {}
 
-        F.prototype = parent.prototype;
-        child.prototype = new F();
+        Foo.prototype = parent.prototype;
+        child.prototype = new Foo();
     };
 
-    TW.Utils.clone = function(srcInstance) {
-        if(typeof(srcInstance) !== 'object' || srcInstance === null)
-        {
-            return srcInstance;
+	/**
+	 * Copy an object and all its members recursively. Numbers and others non-objects values
+	 * are simply copied.
+	 *
+	 * Inherited members are also copied.
+	 *
+	 * *Warning:* if your object contains several references to the same object,
+	 * this object will be copied several times.<br />
+	 * In case of crossed references, this method will never terminate.
+	 *
+	 * @mathod clone
+	 * @param {*} src_instance
+	 * @returns {*} copy of src_instance.
+	 */
+    TW.Utils.clone = function(src_instance) {
+        if(typeof(src_instance) !== 'object' || src_instance === null) {
+            return src_instance;
         }
-        var newInstance = srcInstance.constructor();
-        for(var i in srcInstance)
+        var new_instance = src_instance.constructor();
+
+	    /* jshint forin: false */
+	    for(var i in src_instance)
         {
-            newInstance[i] = TW.Utils.clone(srcInstance[i]);
+	        new_instance[i] = TW.Utils.clone(src_instance[i]);
         }
-        return newInstance;
+        return new_instance;
     };
 
 }(TW));
