@@ -26,22 +26,22 @@ var TW = TW || {};
      * @class Layer
      * @extends GraphicObject
      * @constructor
-     * @param {Object} param All properties given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}}
+     * @param {Object} params All properties given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}}
      *   are available.
-     *   @param {Camera} [param.camera] camera used be the layer. if not set, a new Camera is created.
-     *   @param {SpatialContainer} [param.spatialContainer]
-     *   @param {CanvasRenderingContext2D} [param.localCanvas] you can set directly the canvas used by the layer.
+     *   @param {Camera} [params.camera] camera used be the layer. if not set, a new Camera is created.
+     *   @param {SpatialContainer} [params.spatialContainer]
+     *   @param {CanvasRenderingContext2D} [params.localCanvas] you can set directly the canvas used by the layer.
      */
-    function Layer(param) {
-        TW.Graphic.GraphicObject.call(this, param);
+    function Layer(params) {
+        TW.Graphic.GraphicObject.call(this, params);
 
-        this._camera =  param.camera ? param.camera : new TW.Graphic.Camera();
-        this._spatialContainer = param.spatialContainer ? param.spatialContainer :
+        this._camera =  params.camera ? params.camera : new TW.Graphic.Camera();
+        this._spatialContainer = params.spatialContainer ? params.spatialContainer :
             new TW.Graphic.SpatialContainer();
-        this._localCanvas = param.localCanvas ? param.localCanvas :
+        this._localCanvas = params.localCanvas ? params.localCanvas :
             document.createElement('canvas').getContext("2d");
-        this._localCanvas.canvas.width = param.width;
-        this._localCanvas.canvas.height = param.height;
+        this._localCanvas.canvas.width = params.width;
+        this._localCanvas.canvas.height = params.height;
         this._needToRedraw = true;
     }
 
@@ -79,7 +79,7 @@ var TW = TW || {};
         }
         context.save();
         context.translate(this.x, this.y);
-        this._matrix.transformContext(context);
+        this.matrix.transformContext(context);
 	    context.drawImage(this._localCanvas.canvas, -this.xCenterPoint, -this.yCenterPoint, this.width, this.height);
         //context.drawImage(this._localCanvas.canvas, 0, 0, this.width, this.height);
         context.restore();

@@ -32,10 +32,12 @@ var TW = TW || {};
      * @extends GraphicObject
      * @constructor
      */
-    function Sprite(param) {
-        this.image = param.image ? param.image : null;
-        this.imageRect = param.imageRect ? param.imageRect : null;
-        TW.Graphic.GraphicObject.call(this, param);
+    function Sprite(params) {
+	    TW.Graphic.GraphicObject.call(this, param);
+	    TW.Utils.copyParam(this, params, {
+		    image:      null,
+		    imageRect:  null
+	    });
     }
 
 
@@ -79,7 +81,7 @@ var TW = TW || {};
         if (context && this.image) {
             context.save();
             context.translate(this.x, this.y);
-            this._matrix.transformContext(context);
+            this.matrix.transformContext(context);
             context.translate(-this.xCenterPoint, -this.yCenterPoint);
             //TODO do transformation from the GraphicObject matrix.
             if (this.imageRect === null) {

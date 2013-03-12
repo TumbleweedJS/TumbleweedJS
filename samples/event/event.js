@@ -8,7 +8,7 @@ window.onload = function() {
 	var inputMapper = new TW.Event.InputMapper();
 
 	var window = new TW.Graphic.Window(canvas);
-	var rect = new TW.Graphic.Rect({zIndex: 1});
+	var rect = new TW.Graphic.Rect();
 
 	rect.setFillColor('#000000');
 

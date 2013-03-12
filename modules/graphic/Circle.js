@@ -47,7 +47,7 @@ var TW = TW || {};
             //TODO apply the matrix transformations on the context before drawing the circle
             context.save();
             context.translate(this.x, this.y);
-            this._matrix.transformContext(context);
+            this.matrix.transformContext(context);
             context.translate(-this.xCenterPoint, -this.yCenterPoint);
             context.beginPath();
             context.arc(0, 0, this.radius, Math.PI * 2, 0, true);

@@ -20,7 +20,6 @@ var TW = TW || {};
     }
 
     function Rect(param) {
-        TW.Graphic.GraphicObject.call(this, param);
         TW.Graphic.Shape.call(this, param);
     }
 
@@ -29,7 +28,7 @@ var TW = TW || {};
             //TODO apply the matrix transformations on the context before drawing the circle
             context.save();
             context.translate(this.x, this.y);
-            this._matrix.transformContext(context);
+            this.matrix.transformContext(context);
             context.translate(-this.xCenterPoint, -this.yCenterPoint);
             if (this.mode === "WIRED") {
                 context.strokeStyle = this.strokeColor;

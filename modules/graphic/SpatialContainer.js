@@ -43,7 +43,7 @@ var TW = TW || {};
     SpatialContainer.prototype.addElement = function(element) {
         this.containerList.push(element);
         this.containerList.sort(function(a, b) {
-            return (a._zIndex - b._zIndex);
+            return (a.zIndex - b.zIndex);
         });
     };
 

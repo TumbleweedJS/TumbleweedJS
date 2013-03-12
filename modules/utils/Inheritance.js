@@ -93,7 +93,8 @@ var TW = TW || {};
 	TW.Utils.copyParam = function(target, params, default_context) {
 		for (var i in default_context) {
 			if (default_context.hasOwnProperty(i)) {
-				if (params.hasOwnProperty(i)) {
+				if (params !== undefined && typeof params.hasOwnProperty === "function" &&
+				    params.hasOwnProperty(i)) {
 					target[i] = params[i];
 				} else if (default_context[i] !== undefined) {
 					target[i] = default_context[i];

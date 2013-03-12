@@ -62,7 +62,7 @@ function scaleCarot(carot) {
 		carot.growing = true;
 		carot.scale_factor = 1.0;
 	}
-	carot._matrix = TW.Math.Matrix2D.identity();
+	carot.matrix = TW.Math.Matrix2D.identity();
 	carot.scale(carot.scale_factor, carot.scale_factor);
 }
 
@@ -91,7 +91,7 @@ function skewCarot(carot) {
 		carot.skewing = true;
 		carot.skew_factor = 1.0;
 	}
-	carot._matrix = TW.Math.Matrix2D.identity();
+	carot.matrix = TW.Math.Matrix2D.identity();
 	carot.skew(0, carot.skew_factor);
 }
 

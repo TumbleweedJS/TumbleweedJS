@@ -232,7 +232,7 @@ var TW = TW || {};
         if (context && this.image) {
             context.save();
             context.translate(this.x, this.y);
-            this._matrix.transformContext(context);
+            this.matrix.transformContext(context);
 	        this._setCenterPointByHotPoint(current_anim);
             context.translate(-this.xCenterPoint, -this.yCenterPoint);
             if (current_anim.flip_x) {

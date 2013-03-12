@@ -11,7 +11,7 @@ var TW = TW || {};
     TW.Graphic.GraphicObject = GraphicObject;
 
     if (typeof window.define === "function" && window.define.amd) {
-        define(['../math/Matrix2D'], function() {
+        define(['../math/Matrix2D', '../utils/Inheritance'], function() {
             return GraphicObject;
         });
     }
@@ -35,7 +35,7 @@ var TW = TW || {};
      *
      *
      * @class GraphicObject
-     * @param {Object} param it is an object that represent the parameters of the graphicalObject to set.
+     * @param {Object} [param] it is an object that represent the parameters of the graphicalObject to set.
      *  @param {Number} [param.zIndex] define display order with other graphic elements. default to 0.
      *  @param {Matrix2D} [param.matrix] matrix to set to the object. default to identity matrix.
      *  @param {Number} [param.alpha] set the transparency, between 0 and 1. default to 1 (completely opaque).
@@ -49,16 +49,18 @@ var TW = TW || {};
      * @constructor
      */
     function GraphicObject(param) {
-        this._zIndex =  param.zIndex ? param.zIndex : 0;
-        this._matrix = param.matrix ? param.matrix : TW.Math.Matrix2D.identity();
-        this._alpha =  param.alpha ? param.alpha : 1.0;
-        this.width =  param.width ? param.width : 0;
-        this.height =  param.height ? param.height : 0;
-        this.x =  param.x ? param.x : 0;
-        this.y = param.y ? param.y : 0;
-        this.xCenterPoint = param.xCenterPoint ? param.xCenterPoint : 0;
-        this.yCenterPoint = param.yCenterPoint ? param.yCenterPoint : 0;
-        this.parent = param.parent ? param.parent : null;
+		TW.Utils.copyParam(this, param, {
+			width:          0,
+			height:         0,
+			x:              0,
+			y:              0,
+			xCenterPoint:   0,
+			yCenterPoint:   0,
+			zIndex:         0,
+			alpha:          1.0,
+			matrix:         TW.Math.Matrix2D.identity(),
+			parent:         null
+		});
     }
 
     /**
@@ -167,7 +169,7 @@ var TW = TW || {};
      * @return {Number}
      */
     GraphicObject.prototype.getZIndex = function() {
-        return this._zIndex;
+        return this.zIndex;
     };
 
     /**
@@ -177,7 +179,7 @@ var TW = TW || {};
      * @param {Number} value the value to affect to the zIndex of the GraphicalObject.
      */
     GraphicObject.prototype.setZIndex = function(value) {
-        this._zIndex = value;
+        this.zIndex = value;
         this.notifyParentChange();
     };
 
@@ -189,7 +191,7 @@ var TW = TW || {};
      * @return {Number} The alpha value of the GraphicObject.
      */
     GraphicObject.prototype.getAlpha = function() {
-        return this._alpha;
+        return this.alpha;
     };
 
     /**
@@ -200,7 +202,7 @@ var TW = TW || {};
      * @param {Number} alpha
      */
     GraphicObject.prototype.setAlpha = function(alpha) {
-        this._alpha = alpha;
+        this.alpha = alpha;
         this.notifyParentChange();
     };
 
@@ -214,7 +216,7 @@ var TW = TW || {};
      * @return {GraphicObject} this is the GraphicObject itself, it allows chainable calls of translate.
      */
     GraphicObject.prototype.translate = function(x, y) {
-        this._matrix.translate(x, y);
+        this.matrix.translate(x, y);
         this.notifyParentChange();
         return this;
     };
@@ -228,11 +230,11 @@ var TW = TW || {};
      * @param {Number} y this is the scalar of the y axis.
      */
     GraphicObject.prototype.setPosition = function(x, y) {
-        //this._matrix = this._matrix.identity();
+        //this.matrix = this.matrix.identity();
         this.x = x;
         this.y = y;
         this.notifyParentChange();
-        //this._matrix.translate(x, y);
+        //this.matrix.translate(x, y);
     };
 
     /**
@@ -244,7 +246,7 @@ var TW = TW || {};
      * @return {GraphicObject} return the object itself. Allow the chainable calls.
      */
     GraphicObject.prototype.rotate = function(angle) {
-        this._matrix.rotate(angle);
+        this.matrix.rotate(angle);
         this.notifyParentChange();
         return this;
     };
@@ -259,7 +261,7 @@ var TW = TW || {};
      * @return {GraphicObject} return the object itself. Allow chainable calls.
      */
     GraphicObject.prototype.scale = function(x, y) {
-        this._matrix.scale(x, y);
+        this.matrix.scale(x, y);
         this.notifyParentChange();
         return this;
     };
@@ -274,7 +276,7 @@ var TW = TW || {};
      * @param {Number} b the factor of skew on the x axis
      */
     GraphicObject.prototype.skew = function(a, b) {
-        this._matrix.skew(a, b);
+        this.matrix.skew(a, b);
         this.notifyParentChange();
         return this;
     };

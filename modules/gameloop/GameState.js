@@ -54,28 +54,25 @@ var TW = TW || {};
 	 *     this.getGameStateStack().goToState("state_name");
 	 *
      * @class GameState
-	 * @param {Object} param this object should contain severals members
-	 * @param {String} [param.name] which is the name of the State.
-	 * @param {Boolean} [param.sortLayerAsc] which is a boolean.
-     * It must be equal to true if you want to sort Layers by ascendant order.
-	 * Otherwise it must be equal to false. Default value equals true.
-	 * @param {Boolean} [param.sortCallbackAsc] which is a boolean. It must be equal to true if you
-	 * want to sort Callbacks by ascendant order. Otherwise it must be equal to false. default value equals true.
+	 * @param {Object} params this object should contain severals members
+	 *   @param {String} [params.name] which is the name of the State.
+	 *   @param {Boolean} [params.sortLayerAsc] which is a boolean.
+     *   It must be equal to true if you want to sort Layers by ascendant order.
+	 *   Otherwise it must be equal to false. Default value equals true.
+	 *   @param {Boolean} [params.sortCallbackAsc] which is a boolean. It must be equal to true if you
+	 *   want to sort Callbacks by ascendant order. Otherwise it must be equal to false. default value equals true.
 	 * @constructor
 	 */
-	function GameState(param) {
+	function GameState(params) {
 		this._gameStateStack = null;
 		this.layerList = [];
 		this.callbackList = [];
-		if (param) {
-		this.name = (param.name ? param.name : "");
-		this.sortLayerOrder = (param.sortLayerAsc ? param.sortLayerAsc : true);
-		this.sortCallbackOrder = (param.sortCallbackAsc ? param.sortCallbackAsc : true);
-		} else {
-			this.name = "";
-			this.sortLayerOrder = true;
-			this.sortCallbackOrder = true;
-		}
+
+		TW.Utils.copyParam(this, params, {
+			name:               "",
+			sortLayerAsc:       true,
+			sortCallbackAsc:    true
+		});
 	}
 
 	/**
@@ -87,7 +84,7 @@ var TW = TW || {};
 	 * Otherwise, your layers will be sorted by descendant order.
 	 */
 	GameState.prototype.setSortLayerOrder = function(asc) {
-		this.sortLayerOrder = asc;
+		this.sortLayerAsc = asc;
 	};
 
 	/**
@@ -98,7 +95,7 @@ var TW = TW || {};
 	 * Otherwise, your layers will be sorted by descendant order.
 	 */
 	GameState.prototype.setCallbackOrder = function(asc) {
-		this.sortCallbackOrder = asc;
+		this.sortCallbackAsc = asc;
 	};
 
 	/**
@@ -180,7 +177,7 @@ var TW = TW || {};
 	 * @method sortLayers
 	 */
 	GameState.prototype.sortLayers = function() {
-		if (this.sortLayerOrder === true) {
+		if (this.sortLayerAsc === true) {
 			this.layerList.sort(function(a, b) {return a.zIndex - b.zIndex;});
 		} else {
 			this.layerList.sort(function(a,b) {return b.zIndex - a.zIndex;});
@@ -192,7 +189,7 @@ var TW = TW || {};
 	 * @method sortCallbacks
 	 */
 	GameState.prototype.sortCallbacks = function() {
-		if (this.sortCallbackOrder === true) {
+		if (this.sortCallbackAsc === true) {
 			this.callbackList.sort(function(a, b){return a.priority - b.priority;});
 		}   else {
 			this.callbackList.sort(function(a,b){return b.priority - a.priority;});
