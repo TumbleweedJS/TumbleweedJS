@@ -28,10 +28,11 @@ var TW = TW || {};
      * @class Shape
      * @extends GraphicObject
      * @constructor
-     * @param {Object} [params] set of parameters for configure this objects. Passed to GraphicObject constructor.
-     *   @param [params.color] content color (in filled mode)
-     *   @param [params.strokeColor] stroke color (in wired mode)
-     *   @param {"WIRED"|"FILLED"} [params.mode] display mode for shape.
+     * @param {Object} [params] set of parameters for configure this objects.
+     *   *params* is given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} constructor.
+     *   @param [params.color="black"] content color (in filled mode)
+     *   @param [params.strokeColor="black"] stroke color (in wired mode)
+     *   @param {"WIRED"|"FILLED"} [params.mode="WIRED"] display mode for shape.
      */
     function Shape(params) {
         TW.Graphic.GraphicObject.call(this, params);

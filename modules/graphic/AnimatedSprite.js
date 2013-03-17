@@ -25,12 +25,14 @@ var TW = TW || {};
      * have to use.
      * @class AnimatedSprite
      * @constructor
-     * @param {SpriteSheet} param it is a SpriteSheet object which contains one or severals animation which can
-     * be used by the current AnimatedSprite object.
+     * @param {Object} params
+     *   *params* is given to {{#crossLink "Graphic.Sprite"}}{{/crossLink}} constructor.
+     *   @param {SpriteSheet} params.spriteSheet it is a SpriteSheet object which contains one or severals animation
+     *   which can be used by the current AnimatedSprite object.
      */
-    function AnimatedSprite(param) {
-        TW.Graphic.Sprite.call(this, param);
-        this.image = param.spriteSheet ? param.spriteSheet : null;
+    function AnimatedSprite(params) {
+        TW.Graphic.Sprite.call(this, params);
+        this.image = params.spriteSheet ? params.spriteSheet : null;
         this.currentAnim = "";
         this.currentFrame = 0;
         this.date = new Date();

@@ -27,10 +27,16 @@ var TW = TW || {};
      * @class Circle
      * @extends Shape
      * @constructor
+     * @param {Object} [params] set of properties given to Circle.
+     *   *params* is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.
+     *   @param {Number} [params.radius=50] radius of the circle.
      */
     function Circle(params) {
         TW.Graphic.Shape.call(this, params);
-        this.radius = params.radius ? params.radius : 50;
+	    TW.Graphic.GraphicObject.call(this, params);
+	    TW.Utils.copyParam(this, params, {
+		    radius:          50
+	    });
     }
 
 

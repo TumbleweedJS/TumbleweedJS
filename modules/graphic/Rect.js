@@ -19,8 +19,15 @@ var TW = TW || {};
         TW.Utils.inherit(Rect, TW.Graphic.Shape);
     }
 
-    function Rect(param) {
-        TW.Graphic.Shape.call(this, param);
+	/**
+	 * @class Rect
+	 * @extends Shape
+	 * @param {Object} [params]
+	 *   *params* is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.
+	 * @constructor
+	 */
+    function Rect(params) {
+        TW.Graphic.Shape.call(this, params);
     }
 
     Rect.prototype.draw = function(context) {

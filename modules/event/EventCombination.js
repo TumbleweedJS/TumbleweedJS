@@ -73,7 +73,7 @@ var TW = TW || {};
      * @param {EventProvider}  input
      */
     EventCombination.prototype.addCombination = function(localEvent, remoteEvents) {
-        var i, n, len, values, oldValues;
+        var i, n, len, values, old_values;
         i = this.states.indexOf(localEvent);
 
         if (i !== -1 || remoteEvents.length === 0) {
@@ -86,7 +86,7 @@ var TW = TW || {};
         }
 
         values = [];
-        oldValues = [];
+        old_values = [];
 
         for (i = 0, len = remoteEvents.length; i < len; ++i) {
 
@@ -100,11 +100,11 @@ var TW = TW || {};
                 this._eventsBind[n].push(localEvent);
             }
             values.push({event: remoteEvents[i], value: this.input.getState(remoteEvents[i])});
-            oldValues.push({event: remoteEvents[i], value: this.input.getOldState(remoteEvents[i])});
+            old_values.push({event: remoteEvents[i], value: this.input.getOldState(remoteEvents[i])});
         }
         this.states.push(localEvent);
         this.values.push(values);
-        this.oldValues.push(oldValues);
+        this.oldValues.push(old_values);
 
         return true;
     };
@@ -148,14 +148,14 @@ var TW = TW || {};
     /**
      * Callback function who bind a local event with remote event.
      *
-     * @method _bindEvent
+     * @method _combinationEvent
      * @param {String}   event
      * @param {Boolean|Object}   new_value
      * @param {EventProvider}   object
      * @private
      */
     EventCombination.prototype._combinationEvent = function(event, new_value, object) {
-        var i, j, n, len, leng,  localEvents, values, modified;
+        var i, j, n, len, leng,  local_events, values, modified;
 
         if (this.enable) {
             i = this._events.indexOf(event);
@@ -163,11 +163,11 @@ var TW = TW || {};
                 return;
             }
 
-            localEvents = this._eventsBind[i];
+            local_events = this._eventsBind[i];
 
-            for (i = 0, len = localEvents.length; i < len; ++i) {
+            for (i = 0, len = local_events.length; i < len; ++i) {
 
-                n = this.states.indexOf(localEvents[i]);
+                n = this.states.indexOf(local_events[i]);
                 values = this.values[n];
 
                 modified = false;
@@ -180,7 +180,7 @@ var TW = TW || {};
                         modified = true;
                     }
                 }
-                this.modifyState(localEvents[i], values);
+                this.modifyState(local_events[i], values);
             }
         }
     };

@@ -36,16 +36,16 @@ var TW = TW || {};
      *
      * @class GraphicObject
      * @param {Object} [param] it is an object that represent the parameters of the graphicalObject to set.
-     *  @param {Number} [param.zIndex] define display order with other graphic elements. default to 0.
+     *  @param {Number} [param.zIndex=0] define display order with other graphic elements. default to 0.
      *  @param {Matrix2D} [param.matrix] matrix to set to the object. default to identity matrix.
-     *  @param {Number} [param.alpha] set the transparency, between 0 and 1. default to 1 (completely opaque).
-     *  @param {Number} [param.width] width of the element.
-     *  @param {Number} [param.height] height of the element.
-     *  @param {Number} [param.x] position on X axis.
-     *  @param {Number} [param.y] position on Y axis.
-     *  @param {Number} [param.parent] parent of the element.
-     *  @param {Number} [param.xCenter] x position of the center in the current object
-     *  @param {Number} [param.yCenter] y position of the center in the current object
+     *  @param {Number} [param.alpha=1.0] set the transparency, between 0 and 1. default to 1 (completely opaque).
+     *  @param {Number} [param.width=0] width of the element.
+     *  @param {Number} [param.height=0] height of the element.
+     *  @param {Number} [param.x=0] position on X axis.
+     *  @param {Number} [param.y=0] position on Y axis.
+     *  @param {Number} [param.parent=null] parent of the element.
+     *  @param {Number} [param.xCenter=0] x position of the center in the current object
+     *  @param {Number} [param.yCenter=0] y position of the center in the current object
      * @constructor
      */
     function GraphicObject(param) {

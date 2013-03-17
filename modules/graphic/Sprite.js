@@ -30,6 +30,10 @@ var TW = TW || {};
      *
      * @class Sprite
      * @extends GraphicObject
+     * @param {Object} [params]
+     *  *params* is given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} constructor.
+     *  @param {Object} [params.image]
+     *  @param {Object} [params.imageRect]
      * @constructor
      */
     function Sprite(params) {
