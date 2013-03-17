@@ -99,7 +99,7 @@ We would be happy to discuss with you, on github, by mail, or [on our forum](htt
  * Arnaud Bonnet de Larbogne
  * Amine Aissati
  * Axel Gambert
- * Jeremy Grenier
+ * [Jeremy Grenier](https://github.com/Lyc0s)
  * Aymeric Chauvin
  * Fabrice Bascoulergue
  * Fabien Olousouzian
