@@ -95,7 +95,7 @@ We would be happy to discuss with you, on github, by mail, or [on our forum](htt
 ## Contributors
 
  * [Kevin Bernard-Allies](https://github.com/BAKFR)
- * Pierre Ruiz
+ * [Pierre Ruiz](https://github.com/RuizPierreC)
  * Arnaud Bonnet de Larbogne
  * Amine Aissati
  * Axel Gambert
