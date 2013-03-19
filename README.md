@@ -1,7 +1,7 @@
 
 # Tumbleweed.js
 
-Tumbleweed.js is a Javascript game framework, using last features from HTML5,
+Tumbleweed.js is a Javascript game framework using the lastest HTML5 features,
 destined to make interactive browser-based games.
 its architecture is divided into modules, so you can easily use only a part of the framework.
 
@@ -24,12 +24,12 @@ For a quick start, you can download the last version on [our website](http://www
 It provide a single minified file ready for use, containing all Tumbleweed.js components.
 
 All you have to do is to add it in your HTML file, and you can start coding.
-You should got to see [the demos](http://www.tumbleweed-studio.net/website/demo.php), all code are explained and result is displayed.
+You should go to see [the demos](http://www.tumbleweed-studio.net/website/demo.php), all code are explained and result is displayed.
 
 ### Start with require.js
 
-However, all games don't nedd all the features. For example, a chess game don't use the collision module.
-If you want to choose only the components that you use, you can use each one separatly with [require.js](http://requirejs.org).
+However, all games don't need all the features. For example, a chess game don't use the collision module.
+If you want to choose only the components that you use, you can use each one separately with [require.js](http://requirejs.org).
 
 For that, you need to clone the repository:
 
@@ -62,35 +62,35 @@ Now, you need to tell require.js where is the path to Tumbleweed, and you can us
 The advantages of this method are that only needed files are loaded. By using build tool like `r.js`, you can generate
 very small Tumbleweed file, making your games faster to load.
 
-You're now ready to code! You should got to see [the demos](http://www.tumbleweed-studio.net/website/demo.php), all code are explained and result is displayed.
+You're now ready to code! You should go to see [the demos](http://www.tumbleweed-studio.net/website/demo.php), all code are explained and result is displayed.
 
 ## Build TW.js
 
-*Note: build TW.js is note required for use it. This section is mainly usefull for contributing to Tumbleweed.*
+*Note: build TW.js is not required for use it. This section is mainly useful for contributing to Tumbleweed.*
 
-Tumbleweed use mainly `grunt` and `require.js` for building concatened file *TW.js*. So you need Node.js and `npm`.
+Tumbleweed use mainly `grunt` and `require.js` for building concatenated file *TW.js*. So you need Node.js and `npm`.
 
-    npm install -g grunt
+    npm install -g grunt@0.3
     npm install grunt-contrib
 	npm install phantomjs
 
 
-Grunt is a powerful command-line build system. With the grunt.js file, it provide theses following commands:
+Grunt is a powerful command-line build system. With the grunt.js file, it provides these following commands:
 
-- `grunt release` (or just `grunt`): generate minified files.
+- `grunt release` (or just `grunt`): generates minified files.
   Both `release` and `debug` produce a `build` folder, containing a `TW.js` file usable alone.
-- `grunt debug`: generate non minified files.
-- `grunt doc`: create the documentation. All documentation use [Yuidoc](https://github.com/yui/yuidoc) syntax.
-- `grunt lint`: apply jshint on all js files. it is configured for the project.
-- `grunt qunit`: launch tests. There are few, but i hope to fix this soon.
+- `grunt debug`: generates non minified files.
+- `grunt doc`: creates the documentation. All documentation use [Yuidoc](https://github.com/yui/yuidoc) syntax.
+- `grunt lint`: applies jshint on all js files. it is configured for the project.
+- `grunt qunit`: launches tests. There are few, but i hope fix this soon.
 
 
 ## Support / Contributing
 
 A bug to report ? Want participating ? You're welcome !<br />
-Feel free to report some issue, ask questions or send pull requests!
+Feel free to report some issues, ask questions or send pull requests!
 
-We would be happy to discuss with you, on github, by mail, or [on our forum](http://forum.tumbleweed-studio.net).
+We would be happy to discuss with you, on github, by email, or [on our forum](http://forum.tumbleweed-studio.net).
 
 ## Contributors
 
