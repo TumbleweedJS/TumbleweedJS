@@ -38,16 +38,19 @@ For that, you need to clone the repository:
 Now, you need to tell require.js where is the path to Tumbleweed, and you can use it:
 
 *in your require.js config:*
-	
+
+```javascript
 	require.config({
 	  baseUrl: 'scripts',
 	  paths: {
 	    TW: 'TW/modules'		// this is relative to baseUrl
 	  }
 	});
+```
 
 *game.js*
 
+```javascript
 	// each TW class is a AMD module. 
 	require(['TW/gameloop/Gameloop', 'TW/window/Window', 'TW/window/Rect'] , function(Gameloop, Window, Rect) {
 	  //This function will be your entry point.
@@ -69,7 +72,7 @@ Now, you need to tell require.js where is the path to Tumbleweed, and you can us
 
       // INSERT AWESOME GAME HERE
 	});
-
+```
 
 The advantages of this method are that only needed files are loaded. By using build tool like `r.js`, you can generate
 very small Tumbleweed file, making your games faster to load.
