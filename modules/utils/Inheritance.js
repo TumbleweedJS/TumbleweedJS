@@ -51,7 +51,7 @@ var TW = TW || {};
         if(typeof(src_instance) !== 'object' || src_instance === null) {
             return src_instance;
         }
-        var new_instance = src_instance.constructor();
+        var new_instance = new src_instance.constructor();
 
 	    /* jshint forin: false */
 	    for(var i in src_instance)
