@@ -33,7 +33,7 @@ If you want to choose only the components that you use, you can use each one sep
 
 For that, you need to clone the repository:
 
-    git clone https://github.com/Tumbleweed/tumbleweed.git myGame/scripts/TW
+    git clone https://github.com/TumbleweedJS/TumbleweedJS.git myGame/scripts/TW
 
 Now, you need to tell require.js where is the path to Tumbleweed, and you can use it:
 
