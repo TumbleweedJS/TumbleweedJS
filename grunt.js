@@ -55,11 +55,6 @@ module.exports = function(grunt) {
         qunit: {
             files: ['test/**/*.html']
         },
-        watch: {
-            files: '<config:lint.files>',
-            tasks: 'lint qunit'
-        },
-        uglify: {},
         requirejs: {
             // release options (default)
             options: {
@@ -68,8 +63,12 @@ module.exports = function(grunt) {
 
                 skipModuleInsertion: true,
                 logLevel: 1,
+                name: 'TW',
 
-                name: 'TW'
+				preserveLicenseComments: true,
+				wrap: {
+					start: '/*\n' + grunt.file.read('LICENSE') + '*/'
+				}
             },
             debug: {
                 options: { optimize: 'none' }
@@ -109,16 +108,4 @@ module.exports = function(grunt) {
     grunt.registerTask('doc', 'yuidoc');
 
     grunt.registerTask('default', 'release');
-
-
-    /**
-     * The following options are available:
-     *  - release (default)
-     *  - debug
-     *  - release-with-polyfill
-     *  - debug-with-polyfill
-     *  - doc
-     *  - lint
-	 *  - qunit
-     */
 };
