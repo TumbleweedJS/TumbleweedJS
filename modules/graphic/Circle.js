@@ -24,6 +24,11 @@ var TW = TW || {};
      * like `var myCircle = new TW.Graphic.Circle();`
      * the default radius of the object is 50pixels.
      *
+     * **Note:** the `[x, y]` coordinates corresponds to the top left corner of the square which includes the circle.
+     * If you want to draw to circle from its origin, you should consider moving its centerPoint:
+     *
+     *     circle.setCenterPoint(radius, radius);
+     *
      * @class Circle
      * @extends Shape
      * @constructor
@@ -55,7 +60,7 @@ var TW = TW || {};
             this.matrix.transformContext(context);
             context.translate(-this.xCenterPoint, -this.yCenterPoint);
             context.beginPath();
-            context.arc(0, 0, this.radius, Math.PI * 2, 0, true);
+            context.arc(this.radius, this.radius, this.radius, Math.PI * 2, 0, true);
             if (this.mode === "WIRED") {
                 context.strokeStyle = this.strokeColor;
                 context.stroke();
