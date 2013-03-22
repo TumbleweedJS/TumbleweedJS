@@ -20,8 +20,9 @@ var TW = TW || {};
     }
 
     /**
-     * This class extends the Shape class. When you create a Circle object
-     * like `var myCircle = new TW.Graphic.Circle();`
+     * This class extends the Shape class.
+     *
+     * When you create a Circle object like `var myCircle = new TW.Graphic.Circle();`
      * the default radius of the object is 50pixels.
      *
      * **Note:** the `[x, y]` coordinates corresponds to the top left corner of the square which includes the circle.
