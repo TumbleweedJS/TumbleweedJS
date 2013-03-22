@@ -90,6 +90,7 @@ var TW = TW || {};
     AnimatedSprite.prototype.play = function(name, loop, callback) {
         this.currentAnim = name;
         this.loop = loop;
+		this.currentFrame = 0;
         this.callback = callback;
         this.status = "play";
     };
