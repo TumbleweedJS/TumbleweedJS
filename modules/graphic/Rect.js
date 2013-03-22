@@ -20,16 +20,25 @@ var TW = TW || {};
     }
 
 	/**
+	 * a Rect defined by it's `x`, `y`, `width` and `height` properties.
+	 *
 	 * @class Rect
 	 * @extends Shape
-	 * @param {Object} [params]
-	 *   *params* is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.
 	 * @constructor
+	 * @param {Object} [params]
+	 *  `params` is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.
 	 */
     function Rect(params) {
         TW.Graphic.Shape.call(this, params);
     }
 
+	/**
+	 * This overridden draw method allow the Rect class to draw a rectangle on the context given in parameter.
+	 *
+	 * @method draw
+	 * @param context if the context object is not a valid object the method will returns false, otherwise it
+	 * will returns true.
+	 */
     Rect.prototype.draw = function(context) {
         if (context) {
             //TODO apply the matrix transformations on the context before drawing the circle

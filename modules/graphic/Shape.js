@@ -48,7 +48,16 @@ var TW = TW || {};
      *
      * @method setFillColor
      * @param {String} color this parameter represent the color to assign to the fill mode.
-     *  For example if you want to set it black, you should do `myShape.setFillColor("black");`
+     * @example
+     *
+     *      myShape.setFillColor("black");
+     *      myShape.setFillCOlor("#FF0000");           // hexadecimal notation
+     *      myShape.setFillCOlor("rgb(0, 255, 0)");    // decimal RGB notation
+     *
+     * It's possible to get more complex effets using CanvasGradient or CanvasPattern objects. For more details, see
+     * [the canvas 2D context specs](http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/#dom-context-2d-fillstyle).
+     *
+     *
      */
     Shape.prototype.setFillColor = function(color) {
         this.color = color;
@@ -59,7 +68,7 @@ var TW = TW || {};
      * Two modes are available "WIRED" and "FILLED".
      *
      * @method setMode
-     * @param {String} type this parameter represent the draw style. type can be set to "WIRED" or "FILLED".
+     * @param {"WIRED"|"FILLED"} type this parameter represent the draw style.
      */
     Shape.prototype.setMode = function(type) {
         if (type === "WIRED" || type === "FILLED") {
@@ -75,7 +84,15 @@ var TW = TW || {};
      *
      * @method setStrokeColor
      * @param {String} color this parameter represent the color to apply to the stroke mode.
-     *  For example to set the stroke color to black you should used `myShape.setStrokeColor("black");`
+     * @example
+     *
+     *      myShape.setStrokeColor("black");
+     *      myShape.setStrokeColor("#FF0000");           // hexadecimal notation
+     *      myShape.setStrokeColor("rgb(0, 255, 0)");    // decimal RGB notation
+     *
+     * It's possible to get more complex effets using CanvasGradient or CanvasPattern objects. For more details, see the
+     * [canvas 2D context specs](http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/#dom-context-2d-strokestyle).
+
      */
     Shape.prototype.setStrokeColor = function(color) {
         this.strokeColor = color;

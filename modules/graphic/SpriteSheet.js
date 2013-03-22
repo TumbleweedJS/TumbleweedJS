@@ -1,6 +1,6 @@
 /**
  @module Graphic
- @namespace SpriteSheet
+ @namespace Graphic
  */
 
 var TW = TW || {};
@@ -25,7 +25,7 @@ var TW = TW || {};
      * @param {Object} config represents the object which provides the description of each animation.
      *
      *
-     *      var mySpriteSheet = new SpriteSheet(image, config);
+     *     var mySpriteSheet = new SpriteSheet(image, config);
      *
      *  config object represents the raw configuration of the spriteSheet.
      *  Please see below the synthax of a spriteSheet :
@@ -37,74 +37,82 @@ var TW = TW || {};
      *
      *  First of all let's define the structure of our SpriteSheet object :
      *
-     *      {}
+     *     {}
      *
      *  As you can see it is only an empty JSON object.
      *  This object can handle some informations about the animation.
      *
-     *  **Setting default values.**
+     * ### Setting default values
      *
-     *      default : {}
+     *     default : {}
      *
      *  The default object can handle default values. It is useful to make some constants in the spriteSheet.
      *  For example if you want to define 5 constants (x = 10, y = 30, w = 50, h = 60, framerate = 25) You must
      *  proceed like this :
      *
-     *      default : {x : 10,
-     *             y : 30,
-     *             w : 50,
-     *             h : 60,
-     *             framerate : 25}
+     *     default : {
+     *          x : 10,
+     *          y : 30,
+     *          w : 50,
+     *          h : 60,
+     *          framerate : 25
+     *     }
      *
      *
-     *  **Setting animations.**
+     * ### Setting animations
+     *
      *  Each animation is composed by frames and can also define a framerate value which override the framerate
      *  from default values.
      *  Here is an important tip, in some animations you may don't want to use the default values. Then you just
      *  Have to redefine them inside of the animation.
      *  To create an animation named 'walk' which have framerate set to 12 you must proceed like this :
      *
-     *      walk : {
+     *     walk : {
      *          framerate: 12,
      *          frames : []
-     *          }
+     *     }
      *
      *  Note that there is an entry in you walk animation called frames. This entry must contain each frame of the
      *  walk animation.
      *
-     *  **Setting frames.**
+     * ### Setting frames
+     *
      *  Each animation contain some frames. It works like a flipbook, each frame are displayed one
      *  after another, tumbleweed will wait 1/framerate seconds to display the next frame.
      *  Let's imagine that your walk animation is made of three frames inside of your SpriteSheet.
-     *  The first one will have the coordinate : x = 0, y = 0, w = 50, h = 50
-     *  The second one will have the coordinate : x = 50, y = 0, w = 50, h = 50
-     *  And finally the third one will have the coordinate : x = 0, y = 50, w = 50, h = 50
+     *  The first one will have the coordinate : `x = 0, y = 0, w = 50, h = 50`
+     *  The second one will have the coordinate : `x = 50, y = 0, w = 50, h = 50`
+     *  And finally the third one will have the coordinate : `x = 0, y = 50, w = 50, h = 50`
      *
      *  Let's see below what will be the result of these frame inside of our walk animation object :
      *
-     *      walk : {
+     *     walk : {
      *          framerate: 12,
-     *          frames : [{x:0, y:0, w: 50, h: 50},
-     *                    {x:50, y:0, w:50, h:50},
-     *                   {x:0, y:50, w:50, h:50}]
-     *          }
+     *          frames : [
+     *              { x: 0, y: 0, w: 50, h: 50 },
+     *              { x: 50, y: 0, w: 50, h: 50 },
+     *              { x: 0, y: 50, w: 50, h: 50 }
+     *          ]
+     *     }
      *
      * Let's wrap it inside of our config object :
      *
      *     var config = {
-     *     default: {
-     *      x: 0,
-     *      y: 0,
-     *      w: 50,
-     *      h: 50,
-     *      framerate: 25
-     *     },
-     *     walk: {
-     *          framerate: 12,
-     *          frames: [{x:0, y:0, w: 50, h: 50},
-     *                    {x:50, y:0, w:50, h:50},
-     *                   {x:0, y:50, w:50, h:50}]
-     *     }
+     *          default: {
+     *              x: 0,
+     *              y: 0,
+     *              w: 50,
+     *              h: 50,
+     *              framerate: 25
+     *          },
+     *          walk: {
+     *              framerate: 12,
+     *              frames: [
+     *                  {x:0, y:0, w: 50, h: 50},
+     *                  {x:50, y:0, w:50, h:50},
+     *                  {x:0, y:50, w:50, h:50}
+     *              ]
+     *          }
      *     };
      *
      * Now you have a walk animation which contain 3 frames which will be displayed with a framerate of 12.
@@ -112,74 +120,83 @@ var TW = TW || {};
      * In the following parts i will describe how to make animation's reference and how you can do
      * transformations on them.
      *
-     * **Animation's reference**
-     * Sometimes you can need to specify another animation which is a copy of another animation but with some
-     * transformations on it, the typical case will be an animation of walking to right and another animation which
-     * is walking to left.
-     * Frames are the same except that they must be reverted horizontally.
-     * To make it we will introduce a new entity which is the flip flags.
-     * Flip flags allow you to flip images from an animation. You can either flip them by the x axis
-     * (horizontal flip) or by the y axis (vertical flip).
+     * ### Animation's reference
      *
-     * to illustrate it we will improve our config object which contain the walk animation.
-     * Now we want 2 walk animation (walk_left and walk_right).
-     * Initially we will consider that our previous definition of the walk animation was equivalent to the
-     * walk_left animation.
+     *  Sometimes you can need to specify another animation which is a copy of another animation but with some
+     *  transformations on it, the typical case will be an animation of walking to right and another animation which
+     *  is walking to left.
+     *  Frames are the same except that they must be reverted horizontally.
+     *  To make it we will introduce a new entity which is the flip flags.
+     *  Flip flags allow you to flip images from an animation. You can either flip them by the x axis
+     *  (horizontal flip) or by the y axis (vertical flip).
      *
-     * Now let's see now how looks like our config object :
+     *  To illustrate it we will improve our config object which contain the walk animation.
+     *  Now we want 2 walk animation (walk_left and walk_right).
+     *  Initially we will consider that our previous definition of the walk animation was equivalent to the
+     *  walk_left animation.
+     *
+     *  Now let's see now how looks like our config object :
      *
      *     var config = {
-     *     default: {
-     *     x: 0,
-     *     y: 0,
-     *     w: 50,
-     *     h: 50,
-     *     framerate: 25
-     *     },
-     *     walk_left: {
-     *          framerate: 12,
-     *          frames: [{x:0, y:0, w: 50, h: 50},
-     *                    {x:50, y:0, w:50, h:50},
-     *                   {x:0, y:50, w:50, h:50}]
-     *     },
-     *     walk_right: {                                  //This is our new animation entry : walk_right
-     *          framerate: 12,                          //The framerate is the same than walk_left
-     *          frames: [{x:0, y:0, w:50, h:50},        //The frames are also the same than walk_left
-     *                   {x:50, y:0, w:50, h:50},
-     *                   {x:0, y:50, w:50, h:50}],
-     *          flip_x: true,                           //Flip_x true indicate that all the frames must be
+     *          default: {
+     *              x: 0,
+     *              y: 0,
+     *              w: 50,
+     *              h: 50,
+     *              framerate: 25
+     *          },
+     *          walk_left: {
+     *              framerate: 12,
+     *              frames: [
+     *                  {x:0, y:0, w: 50, h: 50 },
+     *                  {x:50, y:0, w:50, h:50 },
+     *                  {x:0, y:50, w:50, h:50 }
+     *              ]
+     *          },
+     *          walk_right: {                           //This is our new animation entry : walk_right
+     *              framerate: 12,                      //The framerate is the same than walk_left
+     *              frames: [
+     *                  {x:0, y:0, w:50, h:50},         //The frames are also the same than walk_left
+     *                  {x:50, y:0, w:50, h:50},
+     *                  {x:0, y:50, w:50, h:50}
+     *              ],
+     *              flip_x: true,                       //Flip_x true indicate that all the frames must be
      *                                                  //horizontally flipped before being draw.
-     *     }
+     *          }
      *     };
      *
-     * There's one annoying thing in the previous definition, as you can see, the frames of the walk_left animation
-     * and the frames of the walk_right animation are duplicated. There's one way to solve this problem. the alias flag.
+     *  There's one annoying thing in the previous definition, as you can see, the frames of the walk_left animation
+     *  and the frames of the walk_right animation are duplicated. There's one way to solve this problem. the alias flag.
      *
-     * **alias flag.**
-     * Alias flag allows you to define an animation by referencing another, it's quite useful when an animation has
-     * the same frames than another. And we're actually in this case.
-     * Using the alias flag, this is what will be your config object :
+     * ### alias flag
+     *
+     *  Alias flag allows you to define an animation by referencing another, it's quite useful when an animation has
+     *  the same frames than another. And we're actually in this case.
+     *  Using the alias flag, this is what will be your config object :
      *
      *     var config = {
-     *     default: {
-     *       x: 0,
-     *       y: 0,
-     *       w: 50,
-     *       h: 50,
-     *       framerate: 25
-     *     },
-     *     walk_left: {
-     *          framerate: 12,
-     *          frames: [{x:0, y:0, w: 50, h: 50},
-     *                    {x:50, y:0, w:50, h:50},
-     *                   {x:0, y:50, w:50, h:50}]
-     *     },
-     *     walk_right: {              //This is our new animation entry : walk_right
-     *          framerate: 12,      //The framerate is the same than walk_left
-     *          alias: "walk_left", //by declaring walk_left as alias, walk_right will share it's frames with walk_left.
-     *          flip_x: true,       //Flip_x true indicate that all the frames must be
-     *                              //horizontally flipped before being draw.
-     *     }
+     *          default: {
+     *              x: 0,
+     *              y: 0,
+     *              w: 50,
+     *              h: 50,
+     *              framerate: 25
+     *          },
+     *          walk_left: {
+     *              framerate: 12,
+     *              frames: [
+     *                  {x:0, y:0, w: 50, h: 50 },
+     *                  {x:50, y:0, w:50, h:50 },
+     *                  {x:0, y:50, w:50, h:50 }
+     *              ]
+     *          },
+     *          walk_right: {               //This is our new animation entry : walk_right
+     *              framerate: 12,          //The framerate is the same than walk_left
+     *              alias: "walk_left",     //by declaring walk_left as alias,
+     *                                      // walk_right will share it's frames with walk_left.
+     *              flip_x: true,           //Flip_x true indicate that all the frames must be
+     *                                      //horizontally flipped before being draw.
+     *          }
      *     };
      *
      *  There's one new thing, now we want to add some frames which are a copy of the previous frame.
@@ -189,24 +206,26 @@ var TW = TW || {};
      *  frame of walk_left animation.
      *
      *     var config = {
-     *     default: {
-     *     x: 0,
-     *     y: 0,
-     *     w: 50,
-     *     h: 50,
-     *     framerate: 25
-     *     },
-     *     walk_left: {
-     *          framerate: 12,
-     *          frames: [{x:0, y:0, w: 50, h: 50},
-     *                    {x:50, y:0, w:50, h:50},
-     *                   {x:0, y:50, w:50, h:50, nb_frames: 5}] //Now our last frame will be duplicated 5 times.
-     *     },
-     *     walk_right: {
-     *          framerate: 12,
-     *          alias: "walk_left",
-     *          flip_x: true
-     *     }
+     *          default: {
+     *              x: 0,
+     *              y: 0,
+     *              w: 50,
+     *              h: 50,
+     *              framerate: 25
+     *          },
+     *          walk_left: {
+     *              framerate: 12,
+     *              frames: [
+     *                  {x:0, y:0, w: 50, h: 50 },
+     *                  {x:50, y:0, w:50, h:50 },
+     *                  {x:0, y:50, w:50, h:50, nb_frames: 5 }      //Now our last frame will be duplicated 5 times.
+     *              ]
+     *          },
+     *          walk_right: {
+     *              framerate: 12,
+     *              alias: "walk_left",
+     *              flip_x: true
+     *          }
      *     };
      *
      *  Now let me introduce you the last feature which allows you to reverse the frames order of an animation.
@@ -217,35 +236,37 @@ var TW = TW || {};
      *  to moonwalk_right and moonwalk_right the reverse flag which will reverse the frames that the animation contains.
      *
      *     var config = {
-     *     default: {
-     *     x: 0,
-     *     y: 0,
-     *     w: 50,
-     *     h: 50,
-     *     framerate: 25
-     *     },
-     *     walk_left: {
-     *          framerate: 12,
-     *          frames: [{x:0, y:0, w: 50, h: 50},
-     *                    {x:50, y:0, w:50, h:50},
-     *                   {x:0, y:50, w:50, h:50, nb_frames: 5}] //Now our last frame will be duplicated 5 times.
-     *     },
-     *     walk_right: {
-     *          framerate: 12,
-     *          alias: "walk_left",
-     *          flip_x: true
-     *     }
-     *     moonwalk_left: {
-     *          framerate: 12,
-     *          alias: "walk_right",
-     *          reverse: true           //We set our moonwalk_left animation to be reversed.
-     *     },
-     *     moonwalk_right: {
-     *          framerate: 12,
-     *          alias: "walk_left",
-     *          reverse: true           //We set out moonwalk_right animation to be reversed.
-     *    }
-     *    };
+     *          default: {
+     *              x: 0,
+     *              y: 0,
+     *              w: 50,
+     *              h: 50,
+     *              framerate: 25
+     *          },
+     *          walk_left: {
+     *              framerate: 12,
+     *              frames: [
+     *                  {x:0, y:0, w: 50, h: 50 },
+     *                  {x:50, y:0, w:50, h:50 },
+     *                  {x:0, y:50, w:50, h:50, nb_frames: 5 }      //Now our last frame will be duplicated 5 times.
+     *              ]
+     *          },
+     *          walk_right: {
+     *              framerate: 12,
+     *              alias: "walk_left",
+     *              flip_x: true
+     *          },
+     *          moonwalk_left: {
+     *              framerate: 12,
+     *              alias: "walk_right",
+     *              reverse: true           //We set our moonwalk_left animation to be reversed.
+     *          },
+     *          moonwalk_right: {
+     *              framerate: 12,
+     *              alias: "walk_left",
+     *              reverse: true           //We set out moonwalk_right animation to be reversed.
+     *          }
+     *     };
      *
      */
     function SpriteSheet(image, config) {

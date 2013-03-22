@@ -24,9 +24,9 @@ var TW = TW || {};
      * When you instanciate a new AnimatedSprite instance, you have to pass it the SpriteSheet which it will
      * have to use.
      * @class AnimatedSprite
+     * @extends Sprite
      * @constructor
-     * @param {Object} params
-     *   *params* is given to {{#crossLink "Graphic.Sprite"}}{{/crossLink}} constructor.
+     * @param {Object} params *params* is given to {{#crossLink "Graphic.Sprite"}}{{/crossLink}} constructor.
      *   @param {SpriteSheet} params.spriteSheet it is a SpriteSheet object which contains one or severals animation
      *   which can be used by the current AnimatedSprite object.
      */
