@@ -56,6 +56,8 @@ var TW = TW || {};
 			counter: 0
 		};
 	    this.object_to_suppress = [];
+
+
         /**
          The value that limits the maximum number of frames per second.
          Used only if requestAnimationFrame is not found
@@ -87,6 +89,7 @@ var TW = TW || {};
          * If a function does not exist, the gameloop will ignore it. update and draw functions are not mandatory.
          *
          * @property {Array} object
+         * @deprecated use `addObject` or `rmObject` instead.
          */
         this.object = [];
     }
@@ -199,6 +202,16 @@ var TW = TW || {};
             this._draw_handler = null;
         }
     };
+
+	/**
+	 * indicate if the loop is active or not.
+	 *
+	 * @method isRunning
+	 * @return {Boolean} `true` if loop is running; `false` if the loop is stopped or paused.
+	 */
+	Gameloop.prototype.isRunning = function() {
+		return (this._update_handler !== null);
+	};
 
 
     /**
