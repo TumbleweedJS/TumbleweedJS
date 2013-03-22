@@ -166,9 +166,10 @@ var TW = TW || {};
      *     };
      *
      *  There's one annoying thing in the previous definition, as you can see, the frames of the walk_left animation
-     *  and the frames of the walk_right animation are duplicated. There's one way to solve this problem. the alias flag.
+     *  and the frames of the walk_right animation are duplicated.
+     *  There's one way to solve this problem : the alias flag.
      *
-     * ### alias flag
+     * ### Alias flag
      *
      *  Alias flag allows you to define an animation by referencing another, it's quite useful when an animation has
      *  the same frames than another. And we're actually in this case.
