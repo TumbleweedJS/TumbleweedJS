@@ -55,7 +55,7 @@ var TW = TW || {};
 	 *
      * @class GameStateStack
 	 * @constructor
-	 * @param {Canvas} canvas the canvas on which the States will be drawn.
+	 * @param {HTMLCanvasElement} canvas the canvas on which the States will be drawn.
 	 */
 	function GameStateStack(canvas) {
 		this.viewStack = [];
@@ -105,17 +105,15 @@ var TW = TW || {};
 	 * Otherwise it will return false.
 	 */
 	GameStateStack.prototype.goToState = function(name) {
-		var i = this.viewStack.length > 0 ? this.viewStack.length - 1 : 0;
-		for (; i >= 0; i--) {
+		var length = this.viewStack.length;
+		for (var i = length - 1; i >= 0; i--) {
 			if (this.viewStack[i].getName() === name) {
-				var number_of_pop_needed = this.viewStack.length - i;
-				if (number_of_pop_needed > 0) {
-					number_of_pop_needed--;
+				this.viewStack[length - 1].onSleep();
+				for (var j = i + 1; j < length; j++) {
+					this.viewStack[j].onDelete();
 				}
-				while (number_of_pop_needed > 0) {
-					this.pop();
-					number_of_pop_needed--;
-				}
+				this.viewStack.splice(i + 1, length - i);
+				this.viewStack[i].onWakeUp();
 				return true;
 			}
 		}

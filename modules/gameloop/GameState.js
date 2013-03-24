@@ -27,12 +27,26 @@ var TW = TW || {};
 	 * - onSleep        this method is called when the GameState looses the focus.
 	 * - onWakeUp       this method is called when the GameState takes back the focus.
 	 *
-	 * The main aim of these methods is to be overrided by your own methods.
-	 * For example, if you want to override the onUpdate and onDraw method, you should do as follow :
+	 * There are two ways to define these methods:
 	 *
-	 *   var myGameState = new TW.Gameloop.GameState();
-	 *   myGameState.onUpdate = myOnUpdateFunc;
-	 *   myGameState.onDraw = myOnDrawFunc;
+	 * - If you have a lot of code for the state, you can inherit from `GameState` and override these methods.
+	 *   Or more simply directly redefine a method of an instance :
+	 *
+	 *         var myGameState = new TW.Gameloop.GameState();
+	 *         myGameState.onUpdate = myOnUpdateFunc;
+	 *         myGameState.onDraw = myOnDrawFunc;
+	 *
+	 * - For a little state, with just few code, methods can be passed in arguments:
+	 *
+	 *         new TW.Gameloop.GameState({
+	 *              onUpdate: function(elapsedTime) {
+	 *                  //before update
+	 *              },
+	 *              onDraw() {
+	 *                  //before draw
+	 *              }
+	 *         });
+	 *
 	 *
 	 * You can also insert Layers into the GameState. You can sort them by their z-index in asc or desc order.
 	 * Layers allows you to render something on the context of the GameStateStack.
@@ -49,6 +63,7 @@ var TW = TW || {};
 	 * - go to a special state in the stack
 	 *
 	 * Here is an example on which i show how you can push state, pop state and go to a special state :
+	 *
 	 *     this.getGameStateStack().push(newState);
 	 *     this.getGameStateStack().pop();
 	 *     this.getGameStateStack().goToState("state_name");
@@ -56,11 +71,18 @@ var TW = TW || {};
      * @class GameState
 	 * @param {Object} params this object should contain severals members
 	 *   @param {String} [params.name] which is the name of the State.
-	 *   @param {Boolean} [params.sortLayerAsc] which is a boolean.
+	 *   @param {Boolean} [params.sortLayerAsc=true] which is a boolean.
      *   It must be equal to true if you want to sort Layers by ascendant order.
 	 *   Otherwise it must be equal to false. Default value equals true.
-	 *   @param {Boolean} [params.sortCallbackAsc] which is a boolean. It must be equal to true if you
+	 *   @param {Boolean} [params.sortCallbackAsc=true] which is a boolean. It must be equal to true if you
 	 *   want to sort Callbacks by ascendant order. Otherwise it must be equal to false. default value equals true.
+	 *   @param {Function} [params.onUpdate] called when the GameState is updating.
+	 *   @param {Function} [params.onDraw] called when the GameState is drawing.
+	 *   @param {Function} [params.onCreation] called when the GameState is added to a GameStateStack.
+	 *   @param {Function} [params.onDelete] called when the GameState is removed from a GameStateStack.
+	 *   @param {Function} [params.onSleep] called when the GameState looses the focus.
+	 *   @param {Function} [params.onWakeUp] called when the GameState takes back the focus.
+	 *
 	 * @constructor
 	 */
 	function GameState(params) {
@@ -68,10 +90,62 @@ var TW = TW || {};
 		this.layerList = [];
 		this.callbackList = [];
 
+		//noinspection JSHint,JSHint
 		TW.Utils.copyParam(this, params, {
 			name:               "",
 			sortLayerAsc:       true,
-			sortCallbackAsc:    true
+			sortCallbackAsc:    true,
+
+			/**
+			 * method called before each update. Can be overridden or given as argument to the constructor.
+			 *
+			 * @method onUpdate0
+			 * @param {Number} elapsedTime represents the amount of milliseconds elapsed since the last update call.
+			 */
+			/* jshint:unused:false */
+			onUpdate:           function(elapsedTime) {},
+
+			/**
+			 * method called before each draw. Can be overridden or given as argument to the constructor.
+			 *
+			 * @method onDraw
+			 */
+			onDraw:             function() {},
+
+			/**
+			 * method called when the state is created and placed on the stack.
+			 * Can be overridden or given as argument to the constructor.
+			 *
+			 * @method onCreation
+			 */
+			onCreation:         function() {},
+
+			/**
+			 * method called when the state is removed from the stack.
+			 * Can be overridden or given as argument to the constructor.
+			 *
+			 * **Note:** The state object is not always really deleted, and can be reused later.
+			 * This method should put the GameState as if it has never been used.
+			 *
+			 * @method onDelete
+			 */
+			onDelete:           function() {},
+
+			/**
+			 * method called when the state becomes active.
+			 * Can be overridden or given as argument to the constructor.
+			 *
+			 * @method onWakeUp
+			 */
+			onWakeUp:           function() {},
+
+			/**
+			 * method called when the state is put to sleep (another state becomes active).
+			 * Can be overridden or given as argument to the constructor.
+			 *
+			 * @method onSleep
+			 */
+			onSleep:            function() {}
 		});
 	}
 
@@ -235,68 +309,13 @@ var TW = TW || {};
 	/**
 	 * This method is private, you do not have to use it, it is used internally by the GameStateStack class.
 	 * @method draw
-	 * @param {GraphicalContext} canvas_context graphicalContext on which graphical contents will be drawn.
+	 * @param {CanvasRenderingContext2D} canvas_context graphicalContext on which graphical contents will be drawn.
 	 */
 	GameState.prototype.draw = function(canvas_context) {
 		this.onDraw();
 		for (var i = 0; i < this.layerList.length; i++) {
 			this.layerList[i].draw(canvas_context);
 		}
-	};
-
-	/**
-	 * The main aim of this method is to be overrided by one of your functions. It allows you to make your own onUpdate
-	 * methods for the GameStates.
-	 * @method onUpdate
-	 * @param {Number} elapsedTime represents the amount of milliseconds elapsed since the last update call.
-	 */
-	GameState.prototype.onUpdate = function(elapsedTime) {
-
-	};
-
-	/**
-	 * The main aim of this method is to be overrided by one of your functions. It allows you to execute code
-	 * just before layers are drawn on the graphicalContext.
-	 * @method onDraw
-	 */
-	GameState.prototype.onDraw = function() {
-
-	};
-
-	/**
-	 * the main aim of this method is to be overrided by one of your functions. It allows you to make your own
-	 * onCreation method for the GameState.
-	 * @method onCreation
-	 */
-	GameState.prototype.onCreation = function() {
-
-	};
-
-	/**
-	 * The main aim of this method is to be overrided by one of your functions. It allows you to make your own onDelete
-	 * method for the GameState
-	 * @method onDelete
-	 */
-	GameState.prototype.onDelete = function() {
-
-	};
-
-	/**
-	 * The main aim of this method is to be overrided by one of your functions. It allows you to make your own onWakeUp
-	 * method for the GameState.
-	 * @method onWakeUp
-	 */
-	GameState.prototype.onWakeUp = function() {
-
-	};
-
-	/**
-	 * The main aim of this method is to be overrided by one of your functions. It allows you to make your own onSleep
-	 * method for the GameState.
-	 * @method onSleep
-	 */
-	GameState.prototype.onSleep = function() {
-
 	};
 
 }(TW));
