@@ -200,11 +200,27 @@ var TW = TW || {};
      *          }
      *     };
      *
-     *  There's one new thing, now we want to add some frames which are a copy of the previous frame.
-     *  It can be useful in some case. For example if you want to wait more than one cycle to go on the next frame.
-     *  In this case you have to use the nb_frames flag. It works like a duplicator, if nb_frames equal 5 then it
-     *  will create 5 frames from the current frame (including the current frame). Let's duplicate 5 times the last
-     *  frame of walk_left animation.
+     * ## define frames more quickly
+     *
+     *  It's possible to define many frames in one line, if these frames follow or if they are identical.
+     *
+     *  If all frames are on the same line, or the same collumn, we can just specify the number of frames we want,
+     *  and the direction of repetition. No direction means we want to copy and repeat the frame.
+     *
+     *  Repeat a frame can be useful in some case.
+     *  For example if you want to wait more than one cycle to go on the next frame.
+     *
+     *  - `nb_frames` is the number of frames we want
+     *  - `way` is the direction we want to move for the next frames. If not defined, it's a repetition.
+     *    It can take 4 values :
+     *
+     *     - "LEFT",
+     *     - "RIGHT"
+     *     - "UP"
+     *     - "DOWN"
+     *
+     * Example :
+     *
      *
      *     var config = {
      *          default: {
@@ -219,7 +235,8 @@ var TW = TW || {};
      *              frames: [
      *                  {x:0, y:0, w: 50, h: 50 },
      *                  {x:50, y:0, w:50, h:50 },
-     *                  {x:0, y:50, w:50, h:50, nb_frames: 5 }      //Now our last frame will be duplicated 5 times.
+     *                  {x:0, y:50, w:50, h:50, nb_frames: 5 }                  //This frame will be duplicated 5 times.
+     *                  {x:0, y:100, w:50, h:50, nb_frames: 5, way: "RIGHT" }   //We take 5 frames, moving on the right.
      *              ]
      *          },
      *          walk_right: {
@@ -249,7 +266,8 @@ var TW = TW || {};
      *              frames: [
      *                  {x:0, y:0, w: 50, h: 50 },
      *                  {x:50, y:0, w:50, h:50 },
-     *                  {x:0, y:50, w:50, h:50, nb_frames: 5 }      //Now our last frame will be duplicated 5 times.
+     *                  {x:0, y:50, w:50, h:50, nb_frames: 5 },                 //This frame will be duplicated 5 times.
+     *                  {x:0, y:100, w:50, h:50, nb_frames: 5, way: "RIGHT" }   //We take 5 frames, moving on the right.
      *              ]
      *          },
      *          walk_right: {
@@ -268,6 +286,41 @@ var TW = TW || {};
      *              reverse: true           //We set out moonwalk_right animation to be reversed.
      *          }
      *     };
+     *
+     * ## Hotpoint
+     *
+     * As it's possible to define frames of any size, two frames in an animation can be of differents sizes.
+     * However, this fact hides a problem : if the element must change size, how to enlarge the sprite ?
+     * by the right or the left ? Up or bottom ?
+     *
+     * Usually, we can use the `centerPoint`. If it's defined in the up-left corner,
+     * the sprite will grow toward bottom and right. If it's defined on the center, the sprite will grow from all sides.
+     *
+     * But it's not always the best choice. So, you can redefine the centerPoint for the transition
+     * with the `hotpoint` param. It can take these following values :
+     *
+     *  - `TOP-LEFT`
+     *  - `TOP-CENTER`
+     *  - `TOP-RIGHT`
+     *  - `CENTER-LEFT`
+     *  - `CENTER-CENTER`
+     *  - `CENTER-RIGHT`
+     *  - `BOTTOM-LEFT`
+     *  - `BOTTOM-CENTER`
+     *  - `BOTTOM-RIGHT`
+     *
+     *
+     * Example:
+     *
+     *     grow_up: {
+     *          framerate: 12,
+     *          frames: [
+     *              {x:0, y:0, w:50, h:50 },
+     *              {x:50, y:0, w:50, h:150, hotpoint: "BOTTOM-CENTER" }
+     *              //the height grow from 50 to 150
+     *              //but the center bottom point will not move.
+     *          ]
+     *     }
      *
      */
     function SpriteSheet(image, config) {
@@ -443,6 +496,7 @@ var TW = TW || {};
 	/**
 	 * The _applyHotPoint is private and set some parameters about the hot points.
 	 * @method _applyHotPoint
+	 * @param animation_entry
 	 * @param frames
 	 * @private
 	 */
@@ -512,8 +566,6 @@ var TW = TW || {};
      * @method addAnimation
      * @param {String} name it is the name of the animation
      * @param {Object} config it is an object which contains the description of the name animation.
-     * @return {Boolean} this method returns true if the animation have successfully been added to the SpriteSheet
-     * object otherwise it will returns false
      */
     SpriteSheet.prototype.addAnimation = function(name, config) {
         this.config[name] = TW.Utils.clone(config);
