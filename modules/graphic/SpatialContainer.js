@@ -11,7 +11,7 @@ var TW = TW || {};
     TW.Graphic.SpatialContainer = SpatialContainer;
 
     if (typeof window.define === "function" && window.define.amd) {
-        define([], function() {
+        define(['../math/Vector2D'], function() {
             return SpatialContainer;
         });
     }
@@ -103,7 +103,7 @@ var TW = TW || {};
         for (var i = 0; i < length; i++) {
 	        var target = this.containerList[i];
 
-	        var point = target.matrix.multiplyVector(new Vector2D(x - target.x, y - target.y));
+	        var point = target.matrix.inverse().multiplyVector(new Vector2D(x - target.x, y - target.y));
 	        point.add(new Vector2D(target.xCenterPoint, target.yCenterPoint));
 
 	        if (point.x >= 0 && point.x <= target.width &&
@@ -113,78 +113,23 @@ var TW = TW || {};
         }
     };
 
-
-	SpatialContainer.prototype._isInZone = function(target, pointsArray) {
-		var Vector2D = TW.Math.Vector2D;
-
-		var i, j, k, segment, tMin, tMax, t;
-		var points = [];    //local points
-		var nbPoints = pointsArray.length;
-		var targetPoints = [
-			{x: 0, y: 0},
-			{x: target.width, y: 0 },
-			{x: target.width, y: target.height },
-			{x: 0, y: target.height }
-		];
-
-		for (i = 0; i < nbPoints; i++) {
-			points[i] = new Vector2D(pointsArray[i].x - target.x, pointsArray[i].y - target.y);
-			points[i] = target.matrix.multiplyVector(points[i]);
-			points[i].add(new Vector2D(target.xCenterPoint, target.yCenterPoint));
-		}
-
-		for (i = 0; i < nbPoints; i++) {
-			j = (i === nbPoints - 1) ? 0 : i + 1;
-			segment = new Vector2D(pointsArray[j].x - pointsArray[i].x ,pointsArray[j].y - pointsArray[i].y);
-			tMin = null;
-			tMax = null;
-
-			for (k = 0; k < 4; k++) {
-
-				t = (pointsArray[i].y - targetPoints[k].y) * (pointsArray[i].y - pointsArray[j].y);
-				t -= (pointsArray[i].x - targetPoints[k].x) * (pointsArray[j].x - pointsArray[i].x);
-				t /= segment.dotProduct(segment);
-
-				tMin = (tMin === null || tMin > t) ? t : tMin;
-				tMax = (tMax === null || tMax < t) ? t : tMax;
-
-			}
-			if (tMin > 1 || tMax < 0) {
-				return false;
-			}
-		}
-
-		//we check only 2 sides for a rectangle
-		for (i = 0; i < 2; i++) {
-			segment = new Vector2D(targetPoints[i + 1].x - targetPoints[i].x,
-			                       targetPoints[i + 1].y - targetPoints[i].y);
-			tMin = null;
-			tMax = null;
-			for (j = 0; j < nbPoints; j++) {
-				t = (targetPoints[i].y - pointsArray[j].y) * (targetPoints[i].y - targetPoints[i + 1].y);
-				t -= (targetPoints[i].x - pointsArray[j].x) * (targetPoints[i + 1].x - targetPoints[i].x);
-				t /= segment.dotProduct(segment);
-
-				tMin = (tMin === null || tMin > t) ? t : tMin;
-				tMax = (tMax === null || tMax < t) ? t : tMax;
-			}
-			if (tMin > 1 || tMax < 0) {
-				return false;
-			}
-		}
-
-		return true;
-	};
-
     /**
      * This method allow you to apply a callback only on the object that are inside of the polygon
      * specified by the points.
-     * @TODO: doesn't work !!!
+     *
+     * The goal is to process optimization to apply callback only if necessary, for improve speed. Objects that are not
+     * in the zone can be used: somes optimizations can be aproximate.
+     *
+     *
+     * The default method use directly `applyAll` and no optimization is done. (selecting good and bas objects
+     * whithout tree structure take more time than display them)
      *
      * @method applyToZone
+     *
      * @param {Array} pointsArray array of points like `{{10,0},{0,10},{2,3}}
      *  *Note that the polygon MUST BE composed at least of 3 points,
      *  otherwise the method will not do anything and then it'll return false.*
+     *
      * @param {Function} callback function to be called on every GraphicObject that are inside of
      *  the polygon specified by pointsArray.
      * @return {Boolean} return true if the pointArray was a valid array of points, otherwise it will return false.
@@ -194,13 +139,7 @@ var TW = TW || {};
             return false;
         }
 
-	    var length = this.containerList.length;
-        for (var i = 0; i < length; i++) {
-	        var target = this.containerList[i];
-			if (this._isInZone(target, pointsArray)) {
-				callback(target);
-			}
-        }
+	    this.applyAll(callback);
     };
 
 }(TW));

@@ -71,7 +71,11 @@ var TW = TW || {};
             this._localCanvas.save();
             this._camera.prepare(this._localCanvas);
             //this._localCanvas.translate(-this.xCenterPoint, -this.yCenterPoint);
-            this._spatialContainer.applyAll(function(child) {
+            this._spatialContainer.applyToZone([
+	            {x: 0, y: 0},
+	            {x: 0, y: this.height},
+	            {x: this.width, y: this.height},
+	            {x: this.width, y: 0} ], function(child) {
                 child.draw(this._localCanvas);
             }.bind(this));
             this._localCanvas.restore();
