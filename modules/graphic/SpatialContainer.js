@@ -16,7 +16,7 @@ var TW = TW || {};
         });
     }
 
-    /**
+	/**
      * A spatial container is a data structure used for storage of spatial 2D objects
      * (generally {{#crossLink "Graphic.GraphicObject" }}{{/crossLink}}).
      * It propose many method for manipulate these objects using theirs coordinates.
@@ -90,7 +90,6 @@ var TW = TW || {};
 
     /**
      * This method allow you to apply a callback to the GraphicObject who are at the specified position.
-     * __TODO: not available__
      *
      * @method applyToPoint
      * @param {Number} x the x position where the GraphicObject must be to get the callback applied on them
@@ -98,29 +97,89 @@ var TW = TW || {};
      * @param {Function} callback to apply to every GraphicObject which position match the x, y parameters.
      */
     SpatialContainer.prototype.applyToPoint = function(x, y, callback) {
-        for (var i = 0; i < this.containerList.length; i++) {
-            if (this.containerList[i].x === x && this.containerList[i].y === y) {
-                callback(this.containerList[i]);
-            }
+	    var Vector2D = TW.Math.Vector2D;
+	    var length = this.containerList.length;
+
+        for (var i = 0; i < length; i++) {
+	        var target = this.containerList[i];
+
+	        var point = target.matrix.multiplyVector(new Vector2D(x - target.x, y - target.y));
+	        point.add(new Vector2D(target.xCenterPoint, target.yCenterPoint));
+
+	        if (point.x >= 0 && point.x <= target.width &&
+		        point.y >= 0 && point.y <= target.height) {
+		        callback(this.containerList[i]);
+	        }
         }
     };
 
-    /**
-     * It returns the det of two vectors, it is used internally by the applyToZone method.
-     *
-     * @method computeDet
-     * @param {Object} d represent a vector
-     * @param {Object} t represent a vector
-     * @return {Number} return the det of the vectors d and t.
-     * @private
-     */
-    SpatialContainer.prototype._computeDet = function(d, t) {
-        return ((d.x * t.y) - (d.y * t.x));
-    };
+
+	SpatialContainer.prototype._isInZone = function(target, pointsArray) {
+		var Vector2D = TW.Math.Vector2D;
+
+		var i, j, k, segment, tMin, tMax, t;
+		var points = [];    //local points
+		var nbPoints = pointsArray.length;
+		var targetPoints = [
+			{x: 0, y: 0},
+			{x: target.width, y: 0 },
+			{x: target.width, y: target.height },
+			{x: 0, y: target.height }
+		];
+
+		for (i = 0; i < nbPoints; i++) {
+			points[i] = new Vector2D(pointsArray[i].x - target.x, pointsArray[i].y - target.y);
+			points[i] = target.matrix.multiplyVector(points[i]);
+			points[i].add(new Vector2D(target.xCenterPoint, target.yCenterPoint));
+		}
+
+		for (i = 0; i < nbPoints; i++) {
+			j = (i === nbPoints - 1) ? 0 : i + 1;
+			segment = new Vector2D(pointsArray[j].x - pointsArray[i].x ,pointsArray[j].y - pointsArray[i].y);
+			tMin = null;
+			tMax = null;
+
+			for (k = 0; k < 4; k++) {
+
+				t = (pointsArray[i].y - targetPoints[k].y) * (pointsArray[i].y - pointsArray[j].y);
+				t -= (pointsArray[i].x - targetPoints[k].x) * (pointsArray[j].x - pointsArray[i].x);
+				t /= segment.dotProduct(segment);
+
+				tMin = (tMin === null || tMin > t) ? t : tMin;
+				tMax = (tMax === null || tMax < t) ? t : tMax;
+
+			}
+			if (tMin > 1 || tMax < 0) {
+				return false;
+			}
+		}
+
+		//we check only 2 sides for a rectangle
+		for (i = 0; i < 2; i++) {
+			segment = new Vector2D(targetPoints[i + 1].x - targetPoints[i].x,
+			                       targetPoints[i + 1].y - targetPoints[i].y);
+			tMin = null;
+			tMax = null;
+			for (j = 0; j < nbPoints; j++) {
+				t = (targetPoints[i].y - pointsArray[j].y) * (targetPoints[i].y - targetPoints[i + 1].y);
+				t -= (targetPoints[i].x - pointsArray[j].x) * (targetPoints[i + 1].x - targetPoints[i].x);
+				t /= segment.dotProduct(segment);
+
+				tMin = (tMin === null || tMin > t) ? t : tMin;
+				tMax = (tMax === null || tMax < t) ? t : tMax;
+			}
+			if (tMin > 1 || tMax < 0) {
+				return false;
+			}
+		}
+
+		return true;
+	};
 
     /**
      * This method allow you to apply a callback only on the object that are inside of the polygon
      * specified by the points.
+     * @TODO: doesn't work !!!
      *
      * @method applyToZone
      * @param {Array} pointsArray array of points like `{{10,0},{0,10},{2,3}}
@@ -131,26 +190,16 @@ var TW = TW || {};
      * @return {Boolean} return true if the pointArray was a valid array of points, otherwise it will return false.
      */
     SpatialContainer.prototype.applyToZone = function(pointsArray, callback) {
-
         if (!(pointsArray && pointsArray.length >= 3)) {
             return false;
         }
-        for (var j = 1; j < this.containerList.length; j++) {
-            var outside = false;
-            for (var i = 1; i < pointsArray.length; i++) {
-                var vector_polygon_edge = {x: (pointsArray[i].x - pointsArray[i - 1].x), y: (pointsArray[i].x -
-                    pointsArray[i - 1].x)};
-                var vector_to_point = {x: (this.containerList[j].x -
-                    pointsArray[i - 1].x), y: (this.containerList[j].y -
-                    pointsArray[i - 1].y)};
-                var det = this._computeDet(vector_polygon_edge, vector_to_point);
-                if (det > 0) {
-                }
-                outside = true;
-            }
-            if (outside === false) {
-                callback(this.containerList[j]);
-            }
+
+	    var length = this.containerList.length;
+        for (var i = 0; i < length; i++) {
+	        var target = this.containerList[i];
+			if (this._isInZone(target, pointsArray)) {
+				callback(target);
+			}
         }
     };
 
