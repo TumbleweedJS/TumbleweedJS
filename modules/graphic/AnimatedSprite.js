@@ -127,12 +127,13 @@ var TW = TW || {};
      */
     AnimatedSprite.prototype.stop = function() {
         this.status = "stop";
-        this.currentAnim = "";
+        //this.currentAnim = "";
         this.callback = null;
         this.currentFrame = 0;
         if (this.callback && typeof this.callback === "function") {
             this.callback({loop: this.loop, anim: this.currentAnim, sprite: this, status: "END:STOP"});
         }
+		this.notifyParentChange();
     };
 
     /**

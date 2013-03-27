@@ -62,7 +62,7 @@ var TW = TW || {};
      * @method draw
      */
     Window.prototype.draw = function() {
-        if (this._needToRedraw === true) {
+        //if (this._needToRedraw === true) {
             this._localCanvas.save();
             this._camera.prepare(this._localCanvas);
             this._spatialContainer.applyAll(function(child) {
@@ -70,7 +70,7 @@ var TW = TW || {};
             }.bind(this));
             this._localCanvas.restore();
             this._needToRedraw = false;
-        }
+       // }
     };
 
 }(TW));
