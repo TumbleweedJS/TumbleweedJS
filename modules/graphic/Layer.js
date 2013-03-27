@@ -3,20 +3,20 @@
  @namespace Graphic
  */
 
-var TW = TW || {};
+//var TW = TW || {};
 
-(function(TW) {
+//(function(TW) {
     TW.Graphic = TW.Graphic ||  {};
     TW.Graphic.Layer = Layer;
 
-    if (typeof window.define === "function" && window.define.amd) {
+//    if (typeof window.define === "function" && window.define.amd) {
         define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritance'], function() {
             TW.Utils.inherit(Layer, TW.Graphic.GraphicObject);
             return Layer;
         });
-    } else {
-        TW.Utils.inherit(Layer, TW.Graphic.GraphicObject);
-    }
+//    } else {
+//        TW.Utils.inherit(Layer, TW.Graphic.GraphicObject);
+//    }
 
     /**
      * The Layer class can hold several GraphicObjects and it provides some transformations methods to move or
@@ -243,4 +243,4 @@ var TW = TW || {};
         return this.notifyParentChange();
     };
 
-}(TW));
+//}(TW));

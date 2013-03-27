@@ -4,14 +4,11 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        lint: {
-            files: ['grunt.js', 'modules/!(hud|parallax)**/*.js'],
-			test: ['test/**/*.js']
-        },
         jshint: {
             options: {
 
 				/* coding style */
+
                 indent: 4,
                 maxlen: 120,
 				white: false,
@@ -22,24 +19,28 @@ module.exports = function(grunt) {
                 newcap: true,
 
 				/* env */
+
                 browser: true,		//allow to use the window object
                 //debug: true,		//instruction `debugger`
                 //es5: true,		//allow you to use EcmaScript 5 features
                 //strict:true,		//Force the strict mode in each functions
 
 				/* correctness */
+
                 //eqnull: true,		//Warning about `==` and `===` for null only.
                 noarg: true,        //Forbidden use to argument.caller and argument.callee
                 bitwise: true,
                 eqeqeq: true,
                 //latedef:true,
                 nonew: true,
-                undef: true
+                undef: true,
+
+				globals: {
+					TW: true,
+					define: false
+				}
             },
-			globals: {
-				TW: true,
-				define: false
-			},
+			tumbleweed: ['grunt.js', 'modules/!(hud|parallax)**/*.js'],
 			test: {
 				globals: {
 					TW: true,
@@ -49,38 +50,36 @@ module.exports = function(grunt) {
 					ok: false,
 					equal: false,
 					deepEqual: false
-				}
+				},
+				files: ['test/**/*.js']
 			}
         },
         qunit: {
             files: ['test/**/*.html']
         },
         requirejs: {
-            // release options (default)
             options: {
-                dir:	'build',
                 baseUrl: 'modules',
-
+				almond: true,
                 skipModuleInsertion: true,
-                logLevel: 1,
-                name: 'TW',
+				include: ['TW'],
 
 				preserveLicenseComments: true,
 				wrap: {
-					start: '/*\n' + grunt.file.read('LICENSE') + '*/'
+					startFile: 'start.frag',
+					endFile: 'end.frag'
 				}
             },
+			release: {
+				options: {
+					out : 'build/TW.min.js'
+				}
+			},
             debug: {
-                options: { optimize: 'none' }
-            },
-            'release-with-polyfills': {
-                options: { deps: [ 'TW/utils/Polyfills'] }
-            },
-            'debug-with-polyfills': {
                 options: {
-                    optimize: 'none',
-                    deps: [ 'TW/utils/Polyfills']
-                }
+					optimize: 'none',
+					out: 'build/TW.js'
+				}
             }
         },
         yuidoc: {
@@ -98,14 +97,14 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib');
-    grunt.registerTask('check-server', 'lint release qunit');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-yuidoc');
+	grunt.loadNpmTasks('grunt-contrib-qunit');
+	grunt.loadNpmTasks('grunt-requirejs');
 
-    grunt.registerTask('release', 'requirejs:options');
+    grunt.registerTask('check-server', ['jshint', 'release', 'qunit']);
+    grunt.registerTask('release', 'requirejs:release');
     grunt.registerTask('debug', 'requirejs:debug');
-    grunt.registerTask('release-with-polyfills', 'requirejs:release-with-polyfills');
-    grunt.registerTask('debug-with-polyfills', 'requirejs:debug-with-polyfills');
     grunt.registerTask('doc', 'yuidoc');
-
     grunt.registerTask('default', 'release');
 };
