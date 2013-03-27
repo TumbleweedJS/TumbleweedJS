@@ -296,6 +296,38 @@ var TW = TW || {};
         return true;
     };
 
+
+	Matrix2D.prototype.inverse = function() {
+		var result = new Matrix2D();
+		var m = this.data;
+
+		result.data[0][0] = m[2][2] * m[1][1] - m[1][2] * m[2][1];
+		result.data[0][1] = m[0][2] * m[2][1] - m[2][2] * m[0][1];
+		result.data[0][2] = m[1][2] * m[0][1] - m[0][2] * m[1][1];
+		result.data[1][0] = m[1][2] * m[2][0] - m[2][2] * m[1][0];
+		result.data[1][1] = m[2][2] * m[0][0] - m[0][2] * m[2][0];
+		result.data[1][2] = m[0][2] * m[1][0] - m[1][2] * m[0][0];
+		result.data[2][0] = m[2][1] * m[1][0] - m[1][1] * m[2][0];
+		result.data[2][1] = m[0][1] * m[2][0] - m[2][1] * m[0][0];
+		result.data[2][2] = m[1][1] * m[0][0] - m[0][1] * m[1][0];
+
+		var det = (m[0][0] * (m[2][2] * m[1][1] - m[1][2] * m[2][1])) -
+		          (m[0][1] * (m[2][2] * m[1][0] - m[1][2] * m[2][0])) -
+		          (m[0][2] * (m[2][1] * m[1][0] - m[1][1] * m[2][0]));
+
+		if (det === 0) {
+			return null;
+		}
+
+		for (var i = 0; i < 3; i++) {
+			for (var j = 0; j < 3; j++) {
+				result.data[i][j] *= 1 / det;
+
+			}
+		}
+		return result;
+	};
+
     /**
      give a data representation of Matrix
 
@@ -309,7 +341,7 @@ var TW = TW || {};
         while (i < this.height) {
             j = 0;
             while (j < this.width) {
-                chain_to_display += this.data[i][j] + " ";
+                chain_to_display += this.data[j][i] + " ";
                 j++;
             }
             chain_to_display += "\n";

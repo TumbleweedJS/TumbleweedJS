@@ -20,20 +20,25 @@ var TW = TW || {};
     }
 
     /**
-     * This class extends the Shape class. When you create a Circle object
-     * like `var myCircle = new TW.Graphic.Circle();`
+     * This class extends the Shape class.
+     *
+     * When you create a Circle object like `var myCircle = new TW.Graphic.Circle();`
      * the default radius of the object is 50pixels.
+     *
+     * **Note:** the `[x, y]` coordinates corresponds to the top left corner of the square which includes the circle.
+     * If you want to draw to circle from its origin, you should consider moving its centerPoint:
+     *
+     *     circle.setCenterPoint(radius, radius);
      *
      * @class Circle
      * @extends Shape
      * @constructor
      * @param {Object} [params] set of properties given to Circle.
-     *   *params* is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.
+     *   `params` is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.
      *   @param {Number} [params.radius=50] radius of the circle.
      */
     function Circle(params) {
         TW.Graphic.Shape.call(this, params);
-	    TW.Graphic.GraphicObject.call(this, params);
 	    TW.Utils.copyParam(this, params, {
 		    radius:          50
 	    });
@@ -56,7 +61,7 @@ var TW = TW || {};
             this.matrix.transformContext(context);
             context.translate(-this.xCenterPoint, -this.yCenterPoint);
             context.beginPath();
-            context.arc(0, 0, this.radius, Math.PI * 2, 0, true);
+            context.arc(this.radius, this.radius, this.radius, Math.PI * 2, 0, true);
             if (this.mode === "WIRED") {
                 context.strokeStyle = this.strokeColor;
                 context.stroke();

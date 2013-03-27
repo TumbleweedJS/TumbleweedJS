@@ -24,9 +24,9 @@ var TW = TW || {};
      * When you instanciate a new AnimatedSprite instance, you have to pass it the SpriteSheet which it will
      * have to use.
      * @class AnimatedSprite
+     * @extends Sprite
      * @constructor
-     * @param {Object} params
-     *   *params* is given to {{#crossLink "Graphic.Sprite"}}{{/crossLink}} constructor.
+     * @param {Object} params *params* is given to {{#crossLink "Graphic.Sprite"}}{{/crossLink}} constructor.
      *   @param {SpriteSheet} params.spriteSheet it is a SpriteSheet object which contains one or severals animation
      *   which can be used by the current AnimatedSprite object.
      */
@@ -83,9 +83,6 @@ var TW = TW || {};
      * - `"END:STOP"` the AnimatedSprite is now stopped,
      * - `"PAUSE"` the AnimatedSprite is now paused
      * - `"RESUME"` the animated sprite is now resumed
-     *
-     * @return {Boolean} if the animation have been finded and will be played the return value will be true,
-     * otherwise it will be false.
      */
     AnimatedSprite.prototype.play = function(name, loop, callback) {
         this.currentAnim = name;
@@ -98,8 +95,6 @@ var TW = TW || {};
     /**
      * The pause method allows you to pause the current animation until the resume method is called.
      * @method pause
-     * @return {Boolean} if the pause method has been successfully called, then the return value will be true,
-     * otherwise it will be false.
      */
     AnimatedSprite.prototype.pause = function() {
         this.status = "pause";
@@ -111,7 +106,6 @@ var TW = TW || {};
     /**
      * The resume method allows you to resume the current animation if it has been pause before.
      * @method resume
-     * @return {Boolean} return true if the resume method has been successfully called, otherwise it returns false.
      */
     AnimatedSprite.prototype.resume = function() {
         this.status = "play";
@@ -123,7 +117,6 @@ var TW = TW || {};
     /**
      * The stop method allows you to stop and then rewind the current animation.
      * @method stop
-     * @return {Boolean} returns true if the stop method has been successfully called. Otherwise false is returned.
      */
     AnimatedSprite.prototype.stop = function() {
         this.status = "stop";
@@ -143,11 +136,7 @@ var TW = TW || {};
      * otherwise it returns false.
      */
     AnimatedSprite.prototype.isPlaying = function() {
-        if (this.status === "play") {
-            return true;
-        } else {
-            return false;
-        }
+        return this.status === "play";
     };
 
     /**
