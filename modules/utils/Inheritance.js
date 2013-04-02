@@ -1,37 +1,38 @@
 /**
- @module Utils
- @namespace Utils
+ * @module Utils
+ * @namespace Utils
  */
 
-var TW = TW || {};
 
-(function(TW) {
 
-    TW.Utils = TW.Utils ||  {};
 
-    if (typeof window.define === "function" && window.define.amd) {
-        define([], function() {
-            return TW.Utils;
-        });
-    }
 
-    /**
-     * Provide an useful way to use inheritance
-     *
-     * @param child
-     * @param parent
-     * @class inherit
-     */
-    TW.Utils.inherit  = function(child, parent) {
+define([], function() {
+	var TW = TW || {};
+	TW.Utils = TW.Utils || {};
 
-        function Foo() {}
+
+	/**
+	 * Provide an useful way to use inheritance
+	 *
+	 * @class inherit
+	 * @constructor
+	 *
+	 * @param child
+	 * @param parent
+	 */
+	TW.Utils.inherit = function(child, parent) {
+
+		function Foo() {}
+
+		//TODO: must be deleted after require.js clean
 		var tmp = {};
 
-        Foo.prototype = parent.prototype;
+		Foo.prototype = parent.prototype;
 		TW.Utils.copyParam(tmp, {}, child.prototype);
-        child.prototype = new Foo();
+		child.prototype = new Foo();
 		TW.Utils.copyParam(child.prototype, {}, tmp);
-    };
+	};
 
 	/**
 	 * Copy an object and all its members recursively. Numbers and others non-objects values
@@ -43,23 +44,24 @@ var TW = TW || {};
 	 * this object will be copied several times.<br />
 	 * In case of crossed references, this method will never terminate.
 	 *
-	 * @mathod clone
-	 * @param {*} src_instance
-	 * @returns {*} copy of src_instance.
+	 * @class clone
+	 * @constructor
+	 *
+	 * @param {*} srcInstance
+	 * @return {*} copy of `srcInstance`.
 	 */
-    TW.Utils.clone = function(src_instance) {
-        if(typeof(src_instance) !== 'object' || src_instance === null) {
-            return src_instance;
-        }
-        var new_instance = new src_instance.constructor();
+	TW.Utils.clone = function(srcInstance) {
+		if (typeof(srcInstance) !== 'object' || srcInstance === null) {
+			return srcInstance;
+		}
+		var newInstance = new srcInstance.constructor();
 
-	    /* jshint forin: false */
-	    for(var i in src_instance)
-        {
-	        new_instance[i] = TW.Utils.clone(src_instance[i]);
-        }
-        return new_instance;
-    };
+		/* jshint forin: false */
+		for (var i in srcInstance) {
+			newInstance[i] = TW.Utils.clone(srcInstance[i]);
+		}
+		return newInstance;
+	};
 
 	/**
 	 * copy all allowed variables from `params` to `target`, using `defaultContext` for set default values.
@@ -75,37 +77,37 @@ var TW = TW || {};
 	 * @examples:
 	 *
 	 *      var target = {};
-	 *      var default_context = {
+	 *      var defaultContext = {
 	 *          foo:    "default value",
 	 *          bar:    33,
 	 *          baz:    undefined           // baz is allowed, but has not default value.
 	 *      };
 	 *
-	 *      Utils.copyParam(target, { foo: "some value", unknown: 3 }, default_context);
+	 *      Utils.copyParam(target, { foo: "some value", unknown: 3 }, defaultContext);
 	 *      console.log(target);
 	 *      // Object {foo: "some value", bar: 33}
 	 *      //unknown is not copied because not allowed.
 	 *
-	 * @method copyParam
-	 *
+	 * @class copyParam
+	 * @constructor
 	 *
 	 * @param {Object} target
 	 * @param {Object} params
-	 * @param {Object} default_context
+	 * @param {Object} defaultContext
 	 */
-	TW.Utils.copyParam = function(target, params, default_context) {
-		for (var i in default_context) {
-			if (default_context.hasOwnProperty(i)) {
-				if (params !== undefined && typeof params.hasOwnProperty === "function" &&
+	TW.Utils.copyParam = function(target, params, defaultContext) {
+		for (var i in defaultContext) {
+			if (defaultContext.hasOwnProperty(i)) {
+				if (typeof params !== "undefined" && typeof params.hasOwnProperty === "function" &&
 				    params.hasOwnProperty(i)) {
 					target[i] = params[i];
-				} else if (default_context[i] !== undefined) {
-					target[i] = default_context[i];
+				} else if (defaultContext[i] !== undefined) {
+					target[i] = defaultContext[i];
 				}
 			}
 		}
 	};
 
-
-}(TW));
+	return TW.Utils.inherit;
+});
 

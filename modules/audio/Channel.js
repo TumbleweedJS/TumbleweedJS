@@ -1,207 +1,199 @@
 /**
- @module Audio
- @namespace Audio
+ * @module Audio
+ * @namespace Audio
  */
 
-var TW = TW || {};
 
-(function(TW) {
+define(['./Sound'], function(Sound) {
+	var TW = TW || {};
+	TW.Audio = TW.Audio || {};
 
-    TW.Audio = TW.Audio ||  {};
-    TW.Audio.Channel = Channel;
 
-    if (typeof window.define === "function" && window.define.amd) {
-        define(['./Sound'], function() {
-            return Channel;
-        });
-    }
+	/**
+	 * Channel class is utility for manage multiple sound with same source.
+	 *
+	 * @class Channel
+	 * @constructor
+	 * @param {String} src The source of channel separated with '|' for multi-format.
+	 * @param {Number} max The number of sound allocated in this channel.
+	 * @param {Number} id The identifier of the channel.
+	 */
+	function Channel(src, max, id) {
 
-    /**
-     Channel class is utility for manage multiple sound with same source.
+		/**
+		 * Array of Sound.
+		 *
+		 * @property {Sound[]} _sounds
+		 * @default []
+		 */
+		this._sounds = [];
 
-     @class Channel
-     @constructor
-     @param {String} src The source of channel separated with '|' for multi-format.
-     @param {Number} max The number of sound allocated in this channel.
-     @param {Number} id The identifier of the channel.
-     */
-    function Channel(src, max, id) {
+		/**
+		 * Callback function when all sound is ready to play in this channel.
+		 *
+		 * @property {Function} allSoundsReady
+		 * @default null
+		 */
+		this.allSoundsReady = null;
 
-        /**
-         Array of Sound.
+		/**
+		 * Source sound for this channel.
+		 *
+		 * @property {String} _src
+		 * @private
+		 */
+		this._src = src;
 
-         @property sounds
-         @type Object
-         @default empty
-         **/
-        this.sounds = [];
+		/**
+		 * Channel id.
+		 *
+		 * @property {Number} id
+		 * @default id
+		 * @readonly
+		 */
+		this.id = id;
 
-        /**
-         Volume of all sound in this channel.
+		this.add(max);
+	}
 
-         @property volume
-         @type Number
-         @default 1
-         **/
-        this.volume = 1;
+	/**
+	 * Add max sound instance with sources in channel.
+	 *
+	 * @method add
+	 * @param {Number} max The number of sound allocated in this channel.
+	 */
+	Channel.prototype.add = function(max) {
 
-        /**
-         Callback function when all sound is ready to play in this channel.
+		while (this._sounds.length < max) {
+			this._sounds.push(new Sound(this._src));
+		}
+	};
 
-         @property allSoundsReady
-         @type Function
-         @default null
-         **/
-        this.allSoundsReady = null;
+	/**
+	 * Load all sound.
+	 *
+	 * @method load
+	 */
+	Channel.prototype.load = function() {
+		var handleAllSoundsReady = function() {
+			if (this.allSoundsReady !== null) {
+				this.allSoundsReady(this);
+			}
+		}.bind(this);
 
-        this.allSoundsReadyHandler = this.handleAllSoundsReady.bind(this);
+		for (var i = 0; i < this._sounds.length; ++i) {
+			var sound = this._sounds[i];
+			if (i === 0) {
+				sound.onReady = handleAllSoundsReady;
+			}
+			sound.load(0, 0, 1);
+		}
+	};
 
-        /**
-         Source sound for this channel.
+	/**
+	 * Get a playable sound.
+	 *
+	 * @method getPlayableSound
+	 * @return {Object} A playable sound.
+	 */
+	Channel.prototype.getPlayableSound = function() {
+		for (var i = 0; i < this._sounds.length; ++i) {
+			var sound = this._sounds[i];
+			if (sound.playState !== TW.Audio.AUDIO_PLAYED) {
+				return sound;
+			}
+		}
+		this._sounds[0].stop();
+		return this._sounds[0];
+	};
 
-         @property src
-         @type String
-         @default src
-         **/
-        this.src = src;
+	/**
+	 * Applies the command to all sounds.
+	 *
+	 * @method _tellAllSounds
+	 * @param {String} command commands availables:
+	 *
+	 *  - `"pause"`
+	 *  - `"resume"`
+	 *  - `"setVolume"`
+	 *  - `"mute"`
+	 *  - `"stop"`
+	 *
+	 * @param {*} [value] argument
+	 * @private
+	 */
+	Channel.prototype._tellAllSounds = function(command, value) {
 
-        /**
-         Channel id.
+		for (var i = this._sounds.length - 1; i >= 0; --i) {
+			var sound = this._sounds[i];
+			switch (command) {
+				case "pause":
+					sound.pause();
+					break;
+				case "resume":
+					sound.resume();
+					break;
+				case "setVolume":
+					sound.setVolume(value);
+					break;
+				case "mute":
+					sound.mute(value);
+					break;
+				case "stop":
+					sound.stop();
+					break;
+				default:
+			}
+		}
+	};
 
-         @property id
-         @type Number
-         @default id
-         **/
-        this.id = id;
+	/**
+	 * Mute or Unmute all sound in this channel.
+	 *
+	 * @method setMute
+	 * @param {Boolean} isMuted True for mute or false for unmute.
+	 */
+	Channel.prototype.setMute = function(isMuted) {
+		this._tellAllSounds("mute", isMuted);
+	};
 
-        this.add(max);
-    }
+	/**
+	 * Pause all sound in this channel.
+	 *
+	 * @method pause
+	 */
+	Channel.prototype.pause = function() {
+		this._tellAllSounds("pause", null);
+	};
 
-    /**
-     Add max sound instance with sources in channel.
+	/**
+	 * Resume all sound in this channel.
+	 *
+	 * @method resume
+	 */
+	Channel.prototype.resume = function() {
+		this._tellAllSounds("resume", null);
+	};
 
-     @method add
-     @param {Number} max The number of sound allocated in this channel.
-     **/
-    Channel.prototype.add = function(max) {
+	/**
+	 * Stop all sound in this channel.
+	 *
+	 * @method stop
+	 */
+	Channel.prototype.stop = function() {
+		this._tellAllSounds("stop", null);
+	};
 
-        while (this.sounds.length < max) {
-            this.sounds.push(new TW.Audio.Sound(this.src));
-        }
-    };
+	/**
+	 * Set a volume for all sound in this channel.
+	 *
+	 * @method setMasterVolume
+	 * @param {Number} value The value of volume needed. min: 0.0 -> max: 1.0
+	 */
+	Channel.prototype.setMasterVolume = function(value) {
+		this._tellAllSounds("setVolume", value);
+	};
 
-    /**
-     Load all sound.
-
-     @method load
-     **/
-    Channel.prototype.load = function() {
-
-        for (var i = 0; i < this.sounds.length; ++i) {
-            var sound = this.sounds[i];
-            if (i === 0) {
-                sound.onReady = this.allSoundsReadyHandler;
-            }
-            sound.load(0, 0, 1);
-        }
-    };
-
-    /**
-     Get a playable sound.
-
-     @method getPlayableSound
-     @return {Object} A playable sound.
-     **/
-    Channel.prototype.getPlayableSound = function() {
-        var i = 0;
-        var sound;
-
-        for (i = 0; i < this.sounds.length; ++i) {
-            sound = this.sounds[i];
-            if (sound.playState !==  TW.Audio.AUDIO_PLAYED) {
-                return this.sounds[i];
-            }
-        }
-        this.sounds[0].stop();
-        return this.sounds[0];
-    };
-
-    Channel.prototype.handleAllSoundsReady = function(sound) {
-        if (this.allSoundsReady !== null) {
-            this.allSoundsReady(this);
-        }
-    };
-
-    Channel.prototype.tellAllSounds = function(command, value) {
-
-        for (var i = this.sounds.length - 1; i >= 0; --i) {
-            var sound = this.sounds[i];
-            switch (command) {
-                case "pause":
-                    sound.pause();
-                    break;
-                case "resume":
-                    sound.resume();
-                    break;
-                case "setVolume":
-                    sound.setVolume(value);
-                    break;
-                case "mute":
-                    sound.mute(value);
-                    break;
-                case "stop":
-                    sound.stop();
-                    break;
-                default:
-            }
-        }
-    };
-
-    /**
-     Mute or Unmute all sound in this channel.
-
-     @method setMute
-     @param {Boolean} isMuted True for mute or false for unmute.
-     **/
-    Channel.prototype.setMute = function(isMuted) {
-        this.tellAllSounds("mute", isMuted);
-    };
-
-    /**
-     Pause all sound in this channel.
-
-     @method pause
-     **/
-    Channel.prototype.pause = function() {
-        this.tellAllSounds("pause", null);
-    };
-
-    /**
-     Resume all sound in this channel.
-
-     @method resume
-     **/
-    Channel.prototype.resume = function() {
-        this.tellAllSounds("resume", null);
-    };
-
-    /**
-     Stop all sound in this channel.
-
-     @method stop
-     **/
-    Channel.prototype.stop = function() {
-        this.tellAllSounds("stop", null);
-    };
-
-    /**
-     Set a volume for all sound in this channel.
-
-     @method setMasterVolume
-     @param {Number} value The value of volume needed. min: 0.0 -> max: 1.0
-     **/
-    Channel.prototype.setMasterVolume = function(value) {
-        this.tellAllSounds("setVolume", value);
-    };
-
-}(TW));
+	TW.Audio.Channel = Channel;
+	return Channel;
+});

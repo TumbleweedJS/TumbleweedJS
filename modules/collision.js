@@ -14,14 +14,11 @@
 
 var TW = TW || {};
 
-if (typeof window.define === "function" && window.define.amd) {
+define([
+	       './collision/CollisionBox',
+	       './collision/CollisionCircle',
+	       './collision/CollisionSegment'
+       ], function() {
+	return TW.Collision;
+});
 
-    define([
-        './collision/CollisionBox',
-        './collision/CollisionCircle',
-        './collision/CollisionSegment'
-    ], function() {
-        return TW.Collision;
-    });
-
-}

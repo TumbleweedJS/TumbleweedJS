@@ -1,246 +1,193 @@
 /**
- @module Graphic
- @namespace Graphic
+ * @module Graphic
+ * @namespace Graphic
  */
 
-//var TW = TW || {};
-
-//(function(TW) {
-    TW.Graphic = TW.Graphic ||  {};
-    TW.Graphic.Layer = Layer;
-
-//    if (typeof window.define === "function" && window.define.amd) {
-        define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritance'], function() {
-            TW.Utils.inherit(Layer, TW.Graphic.GraphicObject);
-            return Layer;
-        });
-//    } else {
-//        TW.Utils.inherit(Layer, TW.Graphic.GraphicObject);
-//    }
-
-    /**
-     * The Layer class can hold several GraphicObjects and it provides some transformations methods to move or
-     * scale all the GraphicalObjects that it contains. This is helpful when you want for example apply
-     * the same plane transformation to some GraphicalObjects.
-     *
-     * @class Layer
-     * @extends GraphicObject
-     * @constructor
-     * @param {Object} params All properties given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}}
-     *   are available.
-     *   @param {Camera} [params.camera] camera used be the layer. if not set, a new Camera is created.
-     *   @param {SpatialContainer} [params.spatialContainer]
-     *   @param {CanvasRenderingContext2D} [params.localCanvas] you can set directly the canvas used by the layer.
-     */
-    function Layer(params) {
-        TW.Graphic.GraphicObject.call(this, params);
-
-        this._camera =  params.camera ? params.camera : new TW.Graphic.Camera();
-        this._spatialContainer = params.spatialContainer ? params.spatialContainer :
-            new TW.Graphic.SpatialContainer();
-        this._localCanvas = params.localCanvas ? params.localCanvas :
-            document.createElement('canvas').getContext("2d");
-        this._localCanvas.canvas.width = params.width;
-        this._localCanvas.canvas.height = params.height;
-        this._needToRedraw = true;
-    }
-
-    /**
-     * This method allow the user to get the current camera used into the Layer.
-     * @method getCamera
-     * @return {TW.Graphic.Camera}
-     */
-
-    Layer.prototype.getCamera = function() {
-        return this._camera;
-    };
+define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritance'],
+       function(GraphicObject, SpatialContainer, Camera, inherit) {
+	       var TW = TW || {};
+	       TW.Graphic = TW.Graphic || {};
 
 
+	       /**
+	        * The Layer class can hold several GraphicObjects and it provides some transformations methods to move or
+	        * scale all the GraphicalObjects that it contains. This is helpful when you want for example apply
+	        * the same plane transformation to some GraphicalObjects.
+	        *
+	        * @class Layer
+	        * @extends GraphicObject
+	        * @constructor
+	        * @param {Object} params All properties given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}}
+	        *   are available.
+	        *   @param {Camera} [params.camera] camera used be the layer. if not set, a new `Camera` is created.
+	        *   @param {SpatialContainer} [params.spatialContainer]
+	        *   @param {CanvasRenderingContext2D} [params.localCanvas]
+	        *    you can set directly the canvas used by the layer.
+	        */
+	       function Layer(params) {
+		       GraphicObject.call(this, params);
+		       params = params || {};
+
+		       /**
+		        * camera of the layer.
+		        *
+		        * **Note: this property should be modified only with `setAttr`.**
+		        *
+		        * @property {Camera} camera
+		        */
+		       this.camera = params.camera || new Camera();
+
+		       /**
+		        * **Note: this property should be modified only with `setAttr`.**
+		        * @property {SpatialContainer} spatialContainer
+		        */
+		       this.spatialContainer = params.spatialContainer || new SpatialContainer();
+
+		       /**
+		        * All layers use a local 2D context canvas for rendering object.
+		        * It is used as a cache layer, and redrawn only when needed.
+		        *
+		        * Directly set the cache context can be usefull for debug.
+		        *
+		        * **Note: this property should be modified only with `setAttr`.**
+		        *
+		        * @property {CanvasRenderingContext2D} localCanvas
+		        */
+		       this.localCanvas = params.localCanvas || document.createElement('canvas').getContext("2d");
+
+		       this.localCanvas.canvas.width = this.width;
+		       this.localCanvas.canvas.height = this.height;
+
+		       /**
+		        * indicate when the cache must be updated.
+		        *
+		        * @property {Boolean} _needToRedraw
+		        * @private
+		        */
+		       this._needToRedraw = true;
+	       }
+
+	       inherit(Layer, GraphicObject);
 
 
-    /**
-     * This method allow the user to draw on the canvas's context.
-     * If nothing has changed in the childs of the layer, then a buffered layer is printed on the canvas.
-     * Otherwise all the canvas is redraw.
-     *
-     * @method draw
-     * @param {CanvasRenderingContext2D} context
-     */
-    Layer.prototype.draw = function(context) {
-        if (this._needToRedraw === true) {
-            this._localCanvas.save();
-            this._camera.prepare(this._localCanvas);
-            //this._localCanvas.translate(-this.xCenterPoint, -this.yCenterPoint);
-            this._spatialContainer.applyToZone([
-	            {x: 0, y: 0},
-	            {x: 0, y: this.height},
-	            {x: this.width, y: this.height},
-	            {x: this.width, y: 0} ], function(child) {
-                child.draw(this._localCanvas);
-            }.bind(this));
-            this._localCanvas.restore();
-            this._needToRedraw = false;
-        }
-        context.save();
-        context.translate(this.x, this.y);
-        this.matrix.transformContext(context);
-	    context.drawImage(this._localCanvas.canvas, -this.xCenterPoint, -this.yCenterPoint, this.width, this.height);
-        //context.drawImage(this._localCanvas.canvas, 0, 0, this.width, this.height);
-        context.restore();
-    };
+	       /**
+	        * Setter availlable for updating attibuts and correctly clear the caches.
+	        * You can set all attributes supported by this instance
+	        * (see the GraphicObject constructor for common available properties)
+	        *
+	        * @example
+	        *
+	        *      object.setAttr({
+			*          width: 20,
+	        *          height: 20
+	        *      });
+	        *
+	        *      object.setAttr({
+	        *          pos: {
+	        *              x: 0,
+	        *              y: 0
+	        *          }
+	        *      });
+	        *
+	        * @method setAttr
+	        * @param {Object} attrs Layer attributs. See the constructor for more details.
+	        * @chainable
+	        */
+	       Layer.prototype.setAttr = function(attrs) {
+		       GraphicObject.setAttr(attrs);
+		       this.localCanvas.canvas.width = this.width;
+		       this.localCanvas.canvas.height = this.height;
+	       };
 
-    /**
-     * This method allow you to set the dimensions of the layer.
-     *
-     * @method setDimensions
-     * @param {Object} obj this object must contains the width and the height of the object like this:
-     * `{obj.width, obj.height}`
-     * @return {Boolean} this method returns false if the obj parameter isn't a valid object, otherwise this method
-     * returns true.
-     */
-    Layer.prototype.setDimensions = function(obj) {
-        if (obj && obj.width && obj.height && obj.width > 0 && obj.height > 0) {
-            this.width = obj.width;
-            this.height = obj.height;
-            this._localCanvas.width = obj.width;
-            this._localCanvas.height = obj.height;
-            this.notifyParentChange();
-            return true;
-        } else {
-            return false;
-        }
-    };
+	       /**
+	        * This method allow the user to draw on the canvas's context.
+	        * If nothing has changed in the childs of the layer, then a buffered layer is printed on the canvas.
+	        * Otherwise all the canvas is redraw.
+	        *
+	        * @method draw
+	        * @param {CanvasRenderingContext2D} context
+	        */
+	       Layer.prototype.draw = function(context) {
+		       if (this._needToRedraw === true) {
+			       this.localCanvas.save();
+			       this.camera.prepare(this.localCanvas);
+			       this.spatialContainer.applyToZone([
+				                                         {x: 0, y: 0},
+				                                         {x: 0, y: this.height},
+				                                         {x: this.width, y: this.height},
+				                                         {x: this.width, y: 0}
+			                                         ], function(child) {
+				       child.draw(this.localCanvas);
+			       }.bind(this));
+			       this.localCanvas.restore();
+			       this._needToRedraw = false;
+		       }
+		       context.save();
+		       context.translate(this.x, this.y);
+		       this.matrix.transformContext(context);
+		       context.drawImage(this.localCanvas.canvas, -this.centerPoint.x, -this.centerPoint.y, this.width,
+		                         this.height);
+		       context.restore();
+	       };
 
-    /**
-     * This method allow you to set the camera object of the layer.
-     *
-     * @method setCamera
-     * @param {Camera} camera this object is the camera object to affect to the Layer.
-     */
-    Layer.prototype.setCamera = function(camera) {
-        this.notifyParentChange();
-        this._camera = camera;
-    };
+	       /**
+	        * This method will allow you to add a child to the current Layer.
+	        *
+	        * @method addChild
+	        * @param {GraphicObject} graphicObject this parameter must be a valid GraphicObject, otherwise the method
+	        * will have an undefined behavior.
+	        */
+	       Layer.prototype.addChild = function(graphicObject) {
+		       if (!(graphicObject instanceof GraphicObject)) {
+			       throw new Error("bad param");
+		       }
+		       this.spatialContainer.addElement(graphicObject);
+		       graphicObject.parent = this;
+		       this.onChange(graphicObject);
+	       };
 
-    /**
-     * This method allow you yo get the spatial container of the Layer.
-     *
-     * @method getSpatialContainer
-     * @return {TW.Graphic.SpatialContainer} this function returns the spatial container of the layer. If no spatial
-     * container was assigned to the Layer object. Then this method will returns null
-     */
-    Layer.prototype.getSpatialContainer = function() {
-        return this._spatialContainer;
-    };
+	       /**
+	        * This method will allow you to remove a child from the current Layer.
+	        *
+	        * @method rmChild
+	        * @param {GraphicObject} graphicObject this parameter is the GraphicObject that the method will try
+	        * to find inside the child of the current layer.
+	        * @return {Boolean} if the graphicObject was found in the childs of the current layer then the method
+	        * will returns true, otherwise the method will returns true.
+	        */
+	       Layer.prototype.rmChild = function(graphicObject) {
+		       this.spatialContainer.removeElement(graphicObject);
+		       this.onChange(null);
+	       };
 
-    /**
-     * This method allow you to set the spatial container of the Layer.
-     *
-     * @method setSpatialContainer
-     * @param spatialContainer this parameter must be a valid spatialContainer, otherwise the method will have an
-     * undefined behavior.
-     * @return {Boolean} this method will returns true if the spatialContainer is a valid object,
-     * otherwise it will return false.
-     */
-    Layer.prototype.setSpatialContainer = function(spatialContainer) {
-        if (spatialContainer) {
-            this.notifyParentChange();
-            this._spatialContainer = spatialContainer;
-            return true;
-        } else {
-            return false;
-        }
-    };
+	       /**
+	        * This method will allow you to update the layer and all the childs within the layer.
+	        *
+	        * @method update
+	        */
+	       Layer.prototype.update = function(elapsedTime) {
+		       this.spatialContainer.applyAll(function(child) {
+			       if (child.update) {
+				       child.update(elapsedTime);
+			       }
+		       });
+	       };
 
-    /**
-     * This method will allow you to add a child to the current Layer.
-     *
-     * @method addChild
-     * @param {GraphicObject} graphicObject this parameter must be a valid GraphicObject, otherwise the method
-     * will have an undefined behavior.
-     * @return {Boolean} this method will return false if the graphicObject parameter is a valid object.
-     * Otherwise it will returns true.
-     */
-    Layer.prototype.addChild = function(graphicObject) {
-        if (graphicObject) {
-            this._spatialContainer.addElement(graphicObject);
-            graphicObject.setParent(this);
-            this.onChange(graphicObject);
-            return true;
-        } else {
-            return false;
-        }
-    };
+	       /**
+	        * This method will be called when a child is changed.
+	        * By using this method it will notice the current Layer to redraw the local canvas.
+	        *
+	        * This method is called automatically when a child object change.
+	        * You can call this method for clear internal cache.
+	        *
+	        * @method onChange
+	        * @param {GraphicObject} [child] this object represent the child who has been changed.
+	        */
+	       Layer.prototype.onChange = function(child) {
+		       this._needToRedraw = true;
+		       return this.notifyParentChange();
+	       };
 
-    /**
-     * This method will allow you to remove a child from the current Layer.
-     *
-     * @method rmChild
-     * @param {GraphicObject} graphicObject this parameter is the GraphicObject that the method will try
-     * to find inside the child of the current layer.
-     * @return {Boolean} if the graphicObject was found in the childs of the current layer then the method
-     * will returns true, otherwise the method will returns true.
-     */
-    Layer.prototype.rmChild = function(graphicObject) {
-        this._spatialContainer.removeElement(graphicObject);
-        this.onChange(null);
-    };
-
-
-    /**
-     * This method will allow you to update the layer and all the childs within the layer.
-     *
-     * @method update
-     */
-    Layer.prototype.update = function() {
-        this._spatialContainer.applyAll(function(child) {
-            if (child.update) {
-                child.update();
-            }
-        });
-    };
-
-    /**
-     * This method will allow you to remove a child from the current Layer.
-     *
-     * @method rmChild
-     * @param {GraphicObject} graphicObject this parameter is the GraphicObject that the method will try
-     * to find inside the child of the current layer.
-     * @return {Boolean} if the graphicObject was found in the childs of the current layer then the method
-     * will returns true, otherwise the method will returns true.
-     */
-    Layer.prototype.rmChild = function(graphicObject) {
-        this._spatialContainer.removeElement(graphicObject);
-        this.onChange(null);
-    };
-
-
-    /**
-     * This method will allow you to update the layer and all the childs within the layer.
-     *
-     * @method update
-     */
-    Layer.prototype.update = function(elapsed_time) {
-        this._spatialContainer.applyAll(function(child) {
-            if (child.update) {
-                child.update(elapsed_time);
-            }
-        });
-    };
-
-    /**
-     * This method will be called when a child is changed.
-     * By using this method it will notice the current Layer to redraw the local canvas.
-     *
-     * This method is called automatically when a child object change.
-     * You can call this method for clear internal cache.
-     *
-     * @method onChange
-     * @param {GraphicObject} [child] this object represent the child who has been changed.
-     */
-    Layer.prototype.onChange = function(child) {
-        this._needToRedraw = true;
-        return this.notifyParentChange();
-    };
-
-//}(TW));
+	       TW.Graphic.Layer = Layer;
+	       return Layer;
+       });

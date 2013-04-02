@@ -1,401 +1,376 @@
 /**
- @module Audio
- @namespace Audio
+ * @module Audio
+ * @namespace Audio
  */
 
-var TW = TW || {};
-
-(function(TW) {
-
-    TW.Audio = TW.Audio ||  {};
-    TW.Audio.Sound = Sound;
-
-    if (typeof window.define === "function" && window.define.amd) {
-        define([], function() {
-            return Sound;
-        });
-    }
-
-
-
-    TW.Audio.PLAY_SUCCEEDED = "playSucceeded";
-    TW.Audio.PLAY_FINISHED = "playFinished";
-    TW.Audio.PLAY_FAILED = "playFailed";
-
-    TW.Audio.AUDIO_READY = "canplaythrough";
-    TW.Audio.AUDIO_ENDED = "ended";
-    TW.Audio.AUDIO_PLAYED = "play";
-
-    /**
-     Sound class is object represent html5 sound tag.
-
-     @class Sound
-     @constructor
-     @param {String} src The source of channel separated with '|' for multi-format.
-     */
-    function Sound(src) {
-
-        /**
-         Audio play state.
-
-         @property playState
-         @type Enum
-         @default null
-         **/
-        this.playState = null;
-
-        /**
-         Audio loaded state.
-
-         @property loaded
-         @type Boolean
-         @default false
-         **/
-        this.loaded = false;
-
-        /**
-         Audio offset.
-
-         @property offset
-         @type Number
-         @default 0
-         **/
-        this.offset = 0;
-
-        /**
-         Audio volume.
-
-         @property volume
-         @type Number
-         @default 1
-         **/
-        this.volume = 1;
-
-        /**
-         Number of loop already played.
-
-         @property remainingLoops
-         @type Number
-         @default 0
-         **/
-        this.remainingLoops = 0;
-
-        /**
-         Mute state.
-
-         @property muted
-         @type Boolean
-         @default false
-         **/
-        this.muted = false;
-
-        /**
-         Pause state.
-
-         @property paused
-         @type Boolean
-         @default false
-         **/
-        this.paused = false;
-
-        /**
-         Callback function when sound play is complete.
-
-         @property onComplete
-         @type Function
-         @default null
-         **/
-        this.onComplete = null;
-
-        /**
-         Callback function when sound play restart loop.
-
-         @property onLoop
-         @type Function
-         @default null
-         **/
-        this.onLoop = null;
-
-        /**
-         Callback function when sound is ready to play.
-
-         @property onReady
-         @type Function
-         @default null
-         **/
-        this.onReady = null;
-
-        /**
-         Html5 tag audio.
-
-         @property audio
-         @type Object
-         @default <audio>
-         **/
-        this.audio = document.createElement("audio");
-
-        /**
-         Html5 tag audio capabilities.
-
-         @property audio
-         @type Array
-         **/
-        this.capabilities = {
-            mp3: ( this.audio.canPlayType("audio/mp3") !== "no" && this.audio.canPlayType("audio/mp3") !== "" ),
-            ogg: ( this.audio.canPlayType("audio/ogg") !== "no" && this.audio.canPlayType("audio/ogg") !== "" ),
-            wav: ( this.audio.canPlayType("audio/wav") !== "no" && this.audio.canPlayType("audio/wav") !== "" )
-        };
-
-        /**
-         Audio source.
-
-         @property src
-         @type String
-         **/
-        this.src = this._parsePath(src);
-
-        this.audio.src = this.src;
-        this.endedHandler = this.handleSoundComplete.bind(this);
-        this.readyHandler = this.handleSoundReady.bind(this);
-    }
-
-    Sound.prototype._parsePath = function(value) {
-        var sounds = value.split("|");
-        var found = false;
-        var c = this.capabilities;
-        var i, l;
-
-        for (i = 0, l = sounds.length; i < l; i++) {
-            var sound = sounds[i];
-            var point = sound.lastIndexOf(".");
-            var ext = sound.substr(point + 1).toLowerCase();
-            switch (ext) {
-                case "mp3":
-                    if (c.mp3) {
-                        found = true;
-                    }
-                    break;
-                case "ogg":
-                    if (c.ogg) {
-                        found = true;
-                    }
-                    break;
-                case "wav":
-                    if (c.wav) {
-                        found = true;
-                    }
-                    break;
-                default:
-                    found = false;
-            }
-
-            if (found) {
-                return sound;
-            }
-        }
-        return null;
-    };
-
-    Sound.prototype._cleanUp = function() {
-        this.audio.pause();
-        try {
-            this.audio.currentTime = 0;
-        } catch (error) {
-        }
-        this.audio.removeEventListener(TW.Audio.AUDIO_ENDED, this.endedHandler, false);
-        this.audio.removeEventListener(TW.Audio.AUDIO_READY, this.readyHandler, false);
-        this.audio = null;
-    };
-
-    Sound.prototype._playFailed = function() {
-        this.playState = TW.Audio.PLAY_FAILED;
-        this._cleanUp();
-    };
-
-    /**
-     Load sound and call onReady callback when load finish.
-
-     @method load
-     @param {Number} offset The offset where sound start.
-     @param {Number} loop The number of loop where sound played.
-     @param {Number} volume The volume of sound.
-     @return {Boolean} True if sound begin the loading or false if the sound loading is impossible.
-     **/
-    Sound.prototype.load = function(offset, loop, volume) {
-
-        if (this.audio === null) {
-            this._playFailed();
-            return false;
-        }
-
-        this.audio.addEventListener(TW.Audio.AUDIO_ENDED, this.endedHandler, false);
-
-        this.offset = offset;
-        this.volume = volume;
-        this._updateVolume();
-        this.remainingLoops = loop;
-
-        if (this.audio.readyState !== 4) {
-            this.audio.addEventListener(TW.Audio.AUDIO_READY, this.readyHandler, false);
-            this.audio.load();
-        } else {
-            this.handleSoundReady();
-        }
-
-        return true;
-    };
-
-    Sound.prototype.handleSoundReady = function() {
-        this.playState = TW.Audio.PLAY_SUCCEEDED;
-        this.paused = false;
-        this.audio.removeEventListener(TW.Audio.AUDIO_READY, this.readyHandler, false);
-
-        if (this.offset >= this.getDuration()) {
-            this._playFailed();
-            return;
-        }
-
-        this.audio.currentTime = this.offset;
-
-        if (this.onReady !== null) {
-            this.onReady(this);
-        }
-    };
-
-    Sound.prototype.handleSoundComplete = function() {
-        if (this.remainingLoops !== 0) {
-            this.remainingLoops--;
-            try {
-                this.audio.currentTime = 0;
-            } catch (error) {
-            }
-            this.audio.play();
-            if (this.onLoop !== null) {
-                this.onLoop(this);
-            }
-            return;
-        }
-        this.playState = TW.Audio.PLAY_FINISHED;
-
-        if (this.onComplete !== null) {
-            this.onComplete(this);
-        }
-    };
-
-    /**
-     Start play sound.
-
-     @method play
-     **/
-    Sound.prototype.play = function() {
-        this.audio.play();
-        this.playState = TW.Audio.AUDIO_PLAYED;
-    };
-
-    /**
-     Pause sound.
-
-     @method pause
-     **/
-    Sound.prototype.pause = function() {
-        this.paused = true;
-        this.audio.pause();
-    };
-
-    /**
-     Resume sound.
-
-     @method resume
-     **/
-    Sound.prototype.resume = function() {
-        this.paused = false;
-        this.audio.play();
-    };
-
-    /**
-     Stop sound.
-
-     @method stop
-     **/
-    Sound.prototype.stop = function() {
-        this.pause();
-        this.playState = TW.Audio.PLAY_FINISHED;
-        try {
-            this.audio.currentTime = 0;
-        } catch (error) {
-        }
-    };
-
-    /**
-     Set current sound volume.
-
-     @method mute
-     @param {Number} value The sound volume.
-     **/
-    Sound.prototype.setVolume = function(value) {
-        value = (value > 1.0) ? 1.0 : value;
-        value = (value < 0.0) ? 0.0 : value;
-        this.volume = value;
-        this._updateVolume();
-    };
-
-
-    Sound.prototype._updateVolume = function() {
-        this.audio.volume = this.muted ? 0 : this.volume;
-    };
-
-    /**
-     Get current sound volume.
-
-     @method getVolume
-     @return {Number} A current sound volume.
-     **/
-    Sound.prototype.getVolume = function() {
-        return this.volume;
-    };
-
-    /**
-     Mute or Unmute all sound in this channel.
-
-     @method mute
-     @param {Boolean} isMuted True for mute or false for unmute.
-     **/
-    Sound.prototype.mute = function(isMuted) {
-        this.muted = isMuted;
-        this._updateVolume();
-    };
-
-    /**
-     Get current sound offset.
-
-     @method getPosition
-     @return {Number} A current sound offset.
-     **/
-    Sound.prototype.getPosition = function() {
-        return this.audio.currentTime;
-    };
-
-    /**
-     Set current sound offset.
-
-     @method setPosition
-     @param {Number} value The value of offset.
-     **/
-    Sound.prototype.setPosition = function(value) {
-        try {
-            this.audio.currentTime = value;
-        } catch (error) {
-        }
-    };
-
-    /**
-     Get current sound duration.
-
-     @method getDuration
-     @return {Number} A current sound duration.
-     **/
-    Sound.prototype.getDuration = function() {
-        return this.audio.duration;
-    };
-
-}(TW));
+
+define([], function() {
+	var TW = TW || {};
+	TW.Audio = TW.Audio || {};
+
+
+	TW.Audio.PLAY_SUCCEEDED = "playSucceeded";
+	TW.Audio.PLAY_FINISHED = "playFinished";
+	TW.Audio.PLAY_FAILED = "playFailed";
+
+	TW.Audio.AUDIO_READY = "canplaythrough";
+	TW.Audio.AUDIO_ENDED = "ended";
+	TW.Audio.AUDIO_PLAYED = "play";
+
+	/**
+	 * Sound class is object represent html5 sound tag.
+	 *
+	 * @class Sound
+	 * @constructor
+	 * @param {String|String[]} src The sound source url. If an array is passed, the first supported source is used,
+	 *  so provide the same sound in many formats is recommended.
+	 */
+	function Sound(src) {
+
+		/**
+		 * Audio play state.
+		 *
+		 * @property {String} playState
+		 * @readonly
+		 * @default null
+		 */
+		this.playState = null;
+
+
+		/**
+		 * Audio offset.
+		 *
+		 * @property {Number} offset
+		 * @default 0
+		 * @private
+		 */
+		this._offset = 0;
+
+		/**
+		 * Audio volume, between 0.0 and 1.0
+		 *
+		 * @property {Number} _volume
+		 * @default 1.0
+		 * @private
+		 */
+		this._volume = 1;
+
+		/**
+		 * Number of loop remaining to play.
+		 *
+		 * @property {Number} remainingLoops
+		 * @default 0
+		 */
+		this.remainingLoops = 0;
+
+		/**
+		 * Mute state.
+		 *
+		 * @property {Boolean} _muted
+		 * @default false
+		 * @private
+		 */
+		this._muted = false;
+
+		/**
+		 * Pause state.
+		 *
+		 * @property {Boolean} paused
+		 * @readonly
+		 * @default false
+		 */
+		this.paused = false;
+
+		/**
+		 * Callback function when sound play is complete.
+		 *
+		 * @property {Function} onComplete
+		 * @default null
+		 */
+		this.onComplete = null;
+
+		/**
+		 * Callback called when sound play restart loop.
+		 *
+		 * @property {Function} onLoop
+		 * @default null
+		 */
+		this.onLoop = null;
+
+		/**
+		 * Callback called when sound is ready to play.
+		 *
+		 * @property {Function} onReady
+		 * @default null
+		 */
+		this.onReady = null;
+
+		/**
+		 * Html5 tag audio.
+		 *
+		 * @property {Audio} audio
+		 * @type Object
+		 */
+		this.audio = document.createElement("audio");
+
+		/**
+		 * Html5 tag audio capabilities.
+		 * Indicates for each format if it is supported by the navigator.
+		 *
+		 * Supported format are mp3, ogg and wav.
+		 *
+		 * @property {Object} audio
+		 * @readonly
+		 * @example
+		 *
+		 *     { mp3: true, ogg: false, wav: true }
+		 *
+		 */
+		this.capabilities = {
+			mp3: ( this.audio.canPlayType("audio/mp3") !== "no" && this.audio.canPlayType("audio/mp3") !== "" ),
+			ogg: ( this.audio.canPlayType("audio/ogg") !== "no" && this.audio.canPlayType("audio/ogg") !== "" ),
+			wav: ( this.audio.canPlayType("audio/wav") !== "no" && this.audio.canPlayType("audio/wav") !== "" )
+		};
+
+		/**
+		 * Audio source file, used by the audio element.
+		 *
+		 * Even if many paths are passed to constructor, `src` contain only that which is currently used.
+		 *
+		 * @property {String} src
+		 * @readonly
+		 */
+		this.src = this._choosePath(src);
+		if (src === null) {
+			throw new Error("Unable to load sound: no supported sources.");
+		}
+
+		this.audio.src = this.src;
+		this.endedHandler = this.handleSoundComplete.bind(this);
+		this.readyHandler = this.handleSoundReady.bind(this);
+	}
+
+	/**
+	 * choose a compatible source for audio tag.
+	 *
+	 * @method _choosePath
+	 * @param {String|String[]} sources url or array of urls for source audio file.
+	 * @return {String} the first copmpatible url if any; `null` otherwise.
+	 * @private
+	 */
+	Sound.prototype._choosePath = function(sources) {
+		if (!(sources instanceof Array)) {
+			sources = [sources];
+		}
+
+		var length = sources.length;
+		for (var i = 0; i < length; i++) {
+			var point = sources[i].lastIndexOf(".");
+			var ext = sources[i].substr(point + 1).toLowerCase();
+			if (this.capabilities[ext] === true) {
+				return sources[i];
+			}
+		}
+		return null;
+	};
+
+	/**
+	 * Called when an error occurs for cleaning audio tag.
+	 *
+	 * @method _playFailed
+	 * @private
+	 */
+	Sound.prototype._playFailed = function() {
+		this.playState = TW.Audio.PLAY_FAILED;
+		this.audio.pause();
+		this.audio.currentTime = 0;
+		this.audio.removeEventListener(TW.Audio.AUDIO_ENDED, this.endedHandler, false);
+		this.audio.removeEventListener(TW.Audio.AUDIO_READY, this.readyHandler, false);
+		this.audio = null;
+	};
+
+	/**
+	 * Load sound and call `onReady` callback when load finish.
+	 *
+	 * @method load
+	 * @param {Number} offset The offset where sound start.
+	 * @param {Number} loop The number of loop where sound played.
+	 * @param {Number} volume The volume of sound.
+	 * @return {Boolean} true if sound begin the loading or false if the sound loading is impossible.
+	 */
+	Sound.prototype.load = function(offset, loop, volume) {
+
+		if (this.audio === null) {
+			this._playFailed();
+			return false;
+		}
+
+		this.audio.addEventListener(TW.Audio.AUDIO_ENDED, this.endedHandler, false);
+
+		this._offset = offset;
+		this._volume = volume;
+		this._updateVolume();
+		this.remainingLoops = loop;
+
+		if (this.audio.readyState !== 4) {
+			this.audio.addEventListener(TW.Audio.AUDIO_READY, this.readyHandler, false);
+			this.audio.load();
+		} else {
+			this.handleSoundReady();
+		}
+
+		return true;
+	};
+
+	Sound.prototype.handleSoundReady = function() {
+		this.playState = TW.Audio.PLAY_SUCCEEDED;
+		this.paused = false;
+		this.audio.removeEventListener(TW.Audio.AUDIO_READY, this.readyHandler, false);
+
+		if (this._offset >= this.getDuration()) {
+			this._playFailed();
+			return;
+		}
+
+		this.audio.currentTime = this._offset;
+
+		if (this.onReady !== null) {
+			this.onReady(this);
+		}
+	};
+
+	Sound.prototype.handleSoundComplete = function() {
+		if (this.remainingLoops !== 0) {
+			this.remainingLoops--;
+			this.audio.currentTime = 0;
+			this.audio.play();
+			if (this.onLoop !== null) {
+				this.onLoop(this);
+			}
+			return;
+		}
+		this.playState = TW.Audio.PLAY_FINISHED;
+
+		if (this.onComplete !== null) {
+			this.onComplete(this);
+		}
+	};
+
+	/**
+	 * Start play sound.
+	 *
+	 * @method play
+	 */
+	Sound.prototype.play = function() {
+		this.audio.play();
+		this.playState = TW.Audio.AUDIO_PLAYED;
+	};
+
+	/**
+	 * Pause sound.
+	 *
+	 * @method pause
+	 */
+	Sound.prototype.pause = function() {
+		this.paused = true;
+		this.audio.pause();
+	};
+
+	/**
+	 * Resume sound.
+	 *
+	 * @method resume
+	 */
+	Sound.prototype.resume = function() {
+		this.paused = false;
+		this.audio.play();
+	};
+
+	/**
+	 * Stop sound.
+	 *
+	 * @method stop
+	 */
+	Sound.prototype.stop = function() {
+		this.pause();
+		this.playState = TW.Audio.PLAY_FINISHED;
+		this.audio.currentTime = 0;
+	};
+
+	/**
+	 * Set current sound volume.
+	 *
+	 * @method mute
+	 * @param {Number} value sound volume, between 0.0 and 1.0.
+	 */
+	Sound.prototype.setVolume = function(value) {
+		value = (value > 1.0) ? 1.0 : value;
+		value = (value < 0.0) ? 0.0 : value;
+		this._volume = value;
+		this._updateVolume();
+	};
+
+	/**
+	 * Applies all volume modifications.
+	 *
+	 * @method _updateVolume
+	 * @private
+	 */
+	Sound.prototype._updateVolume = function() {
+		this.audio.volume = this._muted ? 0 : this._volume;
+	};
+
+	/**
+	 * Get current sound volume.
+	 *
+	 * @method getVolume
+	 * @return {Number} A current sound volume.
+	 */
+	Sound.prototype.getVolume = function() {
+		return this._volume;
+	};
+
+	/**
+	 * Mute or Unmute all sound in this channel.
+	 *
+	 * @method mute
+	 * @param {Boolean} isMuted True for mute or false for unmute.
+	 */
+	Sound.prototype.mute = function(isMuted) {
+		this._muted = isMuted;
+		this._updateVolume();
+	};
+
+	/**
+	 * Get current sound offset.
+	 *
+	 * @method getPosition
+	 * @return {Number} A current sound offset.
+	 */
+	Sound.prototype.getPosition = function() {
+		return this.audio.currentTime;
+	};
+
+	/**
+	 * Set current sound offset.
+	 *
+	 * @method setPosition
+	 * @param {Number} value The value of offset.
+	 */
+	Sound.prototype.setPosition = function(value) {
+		this.audio.currentTime = value;
+	};
+
+	/**
+	 * Get current sound duration.
+	 *
+	 * @method getDuration
+	 * @return {Number} A current sound duration.
+	 */
+	Sound.prototype.getDuration = function() {
+		return this.audio.duration;
+	};
+
+	TW.Audio.Sound = Sound;
+	return Sound;
+});

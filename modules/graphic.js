@@ -45,22 +45,21 @@
 
 var TW = TW || {};
 
-if (typeof window.define === "function" && window.define.amd) {
 
-    define([
-        './graphic/Camera',
-        './graphic/Circle',
-        './graphic/GraphicObject',
-        './graphic/Layer',
-        './graphic/Rect',
-        './graphic/Shape',
-        './graphic/SpatialContainer',
-        './graphic/Sprite',
-        './graphic/Window',
-        './graphic/SpriteSheet',
-        './graphic/AnimatedSprite'
-    ], function() {
-        return TW.Graphic;
-    });
-}
+define([
+	       './graphic/Camera',
+	       './graphic/Circle',
+	       './graphic/GraphicObject',
+	       './graphic/Layer',
+	       './graphic/Rect',
+	       './graphic/Shape',
+	       './graphic/SpatialContainer',
+	       './graphic/Sprite',
+	       './graphic/Window',
+	       './graphic/SpriteSheet',
+	       './graphic/AnimatedSprite'
+       ], function() {
+	return TW.Graphic;
+});
+
 

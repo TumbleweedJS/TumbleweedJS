@@ -1,44 +1,38 @@
 /**
- @module Utils
- @namespace Utils
+ * @module Utils
+ * @namespace Utils
  */
 
-var TW = TW || {};
 
-//TODO: how to document this ?
+	//TODO: how to document this ?
 
-(function(TW) {
 
-    TW.Utils = TW.Utils ||  {};
+define([], function() {
 
-    if (typeof window.define === "function" && window.define.amd) {
-        define([], function() {
-            return true;
-        });
-    }
 
-    // see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind
-    if (!Function.prototype.bind) {
-        Function.prototype.bind = function(this_context) {
-            var Func = function() {};
-            var args, f2bind, f_bound;
+	// see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind
+	if (!Function.prototype.bind) {
+		Function.prototype.bind = function(context) {
+			var Func = function() {};
+			var args, f2bind, fBound;
 
-            if (typeof this !== "function") {
-                throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-            }
+			if (typeof this !== "function") {
+				throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+			}
 
-            args = Array.prototype.slice.call(arguments, 1);
-            f2bind = this;
-            f_bound = function() {
-                return f2bind.apply(this instanceof Func && this_context ? this : this_context,
-                    args.concat(Array.prototype.slice.call(arguments)));
-            };
+			args = Array.prototype.slice.call(arguments, 1);
+			f2bind = this;
+			fBound = function() {
+				return f2bind.apply(this instanceof Func && context ? this : context,
+				                    args.concat(Array.prototype.slice.call(arguments)));
+			};
 
-            Func.prototype = this.prototype;
-            f_bound.prototype = new Func();
+			Func.prototype = this.prototype;
+			fBound.prototype = new Func();
 
-            return f_bound;
-        };
-    }
+			return fBound;
+		};
+	}
 
-}(TW));
+	return true;
+});

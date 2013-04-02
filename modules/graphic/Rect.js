@@ -1,23 +1,13 @@
 /**
- @module Graphic
- @namespace Graphic
+ * @module Graphic
+ * @namespace Graphic
  */
 
-var TW = TW || {};
 
-(function(TW) {
+define(['./Shape', '../utils/Inheritance'], function(Shape, inherit) {
+	var TW = TW || {};
+	TW.Graphic = TW.Graphic || {};
 
-    TW.Graphic = TW.Graphic ||  {};
-    TW.Graphic.Rect = Rect;
-
-    if (typeof window.define === "function" && window.define.amd) {
-        define(['./Shape', '../utils/Inheritance'], function() {
-            TW.Utils.inherit(Rect, TW.Graphic.Shape);
-            return Rect;
-        });
-    } else {
-        TW.Utils.inherit(Rect, TW.Graphic.Shape);
-    }
 
 	/**
 	 * a Rect defined by it's `x`, `y`, `width` and `height` properties.
@@ -28,36 +18,38 @@ var TW = TW || {};
 	 * @param {Object} [params]
 	 *  `params` is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.
 	 */
-    function Rect(params) {
-        TW.Graphic.Shape.call(this, params);
-    }
+	function Rect(params) {
+		Shape.call(this, params);
+	}
+
+	inherit(Rect, Shape);
 
 	/**
 	 * This overridden draw method allow the Rect class to draw a rectangle on the context given in parameter.
 	 *
 	 * @method draw
-	 * @param context if the context object is not a valid object the method will returns false, otherwise it
-	 * will returns true.
+	 * @param {CanvasRenderingContext2D} context
 	 */
-    Rect.prototype.draw = function(context) {
-        if (context) {
-            //TODO apply the matrix transformations on the context before drawing the circle
-            context.save();
-            context.translate(this.x, this.y);
-            this.matrix.transformContext(context);
-            context.translate(-this.xCenterPoint, -this.yCenterPoint);
-            if (this.mode === "WIRED") {
-                context.strokeStyle = this.strokeColor;
-                context.strokeRect(0, 0, this.width, this.height);
-            } else {
-                context.fillStyle = this.color;
-                context.fillRect(0, 0, this.width, this.height);
-            }
-            context.restore();
-            return true;
-        } else {
-            return false;
-        }
-    };
+	Rect.prototype.draw = function(context) {
+		/* global CanvasRenderingContext2D */
+		if (!(context instanceof CanvasRenderingContext2D)) {
+			throw new Error("Bad argument: context");
+		}
+		//TODO apply the matrix transformations on the context before drawing the circle
+		context.save();
+		context.translate(this.x, this.y);
+		this.matrix.transformContext(context);
+		context.translate(-this.centerPoint.x, -this.centerPoint.y);
+		if (this.mode === "WIRED") {
+			context.strokeStyle = this.strokeColor;
+			context.strokeRect(0, 0, this.width, this.height);
+		} else {
+			context.fillStyle = this.color;
+			context.fillRect(0, 0, this.width, this.height);
+		}
+		context.restore();
+	};
 
-})(TW);
+	TW.Graphic.Rect = Rect;
+	return Rect;
+});

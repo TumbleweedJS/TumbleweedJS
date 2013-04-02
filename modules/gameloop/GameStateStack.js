@@ -1,20 +1,12 @@
 /**
- @module Gameloop
- @namespace Gameloop
+ * @module Gameloop
+ * @namespace Gameloop
  */
 
-var TW = TW || {};
+define(['./Gameloop', '../graphic/Window', '../utils/Inheritance'], function() {
+	var TW = TW || {};
+	TW.Gameloop = TW.Gameloop || {};
 
-(function(TW) {
-
-	TW.Gameloop = TW.Gameloop ||  {};
-	TW.Gameloop.GameStateStack = GameStateStack;
-
-	if (typeof window.define === "function" && window.define.amd) {
-		define(['./Gameloop', './GameState', '../graphic/Window', '../utils/Inheritance'], function() {
-			return GameStateStack;
-		});
-	}
 
 	/**
 	 * This class allows you to manipulate some GameStates. It is quite useful and widely used in Game Programming
@@ -53,7 +45,7 @@ var TW = TW || {};
 	 * have been added to the GameState is updated.
 	 * That's why all other states are paused. Because they are no more updated.
 	 *
-     * @class GameStateStack
+	 * @class GameStateStack
 	 * @constructor
 	 * @param {HTMLCanvasElement} canvas the canvas on which the States will be drawn.
 	 */
@@ -69,6 +61,7 @@ var TW = TW || {};
 	/**
 	 * This method allows you to add a State to the GameStateStack. Notice that when you push a GameState other states
 	 * will be paused, It means that only the State that you've add to the GameStatePattern will be updated.
+	 *
 	 * @method push
 	 * @param {GameState} gameState The gameState which will be the current GameState to be active.
 	 */
@@ -84,13 +77,14 @@ var TW = TW || {};
 	/**
 	 * This method allows you to destroy the current GameState. Notice that when you pop a GameState it will be
 	 * destroyed and the previous state will be resume.
+	 *
 	 * @method pop
 	 */
 	GameStateStack.prototype.pop = function() {
 		if (this.viewStack.length > 0) {
-			var index_to_pop = this.viewStack.length - 1;
-			this.viewStack[index_to_pop].onDelete();
-			this.viewStack.splice(index_to_pop, 1);
+			var index = this.viewStack.length - 1;
+			this.viewStack[index].onDelete();
+			this.viewStack.splice(index, 1);
 		}
 		if (this.viewStack.length > 0) {
 			this.viewStack[this.viewStack.length - 1].onWakeUp();
@@ -100,6 +94,7 @@ var TW = TW || {};
 	/**
 	 * This method try to find a State in the stack which has a specific name.
 	 * It allows you to jump from a state to another.
+	 *
 	 * @param {String} name this parameter specify the name of the state to find in the stack.
 	 * @return {Boolean} returns true if a state with the specified name has been finded and set active on the stack.
 	 * Otherwise it will return false.
@@ -107,7 +102,7 @@ var TW = TW || {};
 	GameStateStack.prototype.goToState = function(name) {
 		var length = this.viewStack.length;
 		for (var i = length - 1; i >= 0; i--) {
-			if (this.viewStack[i].getName() === name) {
+			if (this.viewStack[i].name === name) {
 				this.viewStack[length - 1].onSleep();
 				for (var j = i + 1; j < length; j++) {
 					this.viewStack[j].onDelete();
@@ -122,6 +117,7 @@ var TW = TW || {};
 
 	/**
 	 * This method allows you to update the GameStateStack, notice that only the last GameState will be updated.
+	 *
 	 * @method update
 	 * @param elapsedTime
 	 */
@@ -134,6 +130,7 @@ var TW = TW || {};
 	/**
 	 * This method allows you to draw the GameStateStack, notice that all the GameState will be drawn. From the last
 	 * GameState to the first.
+	 *
 	 * @method draw
 	 */
 	GameStateStack.prototype.draw = function() {
@@ -145,4 +142,6 @@ var TW = TW || {};
 		}
 	};
 
-}(TW));
+	TW.Gameloop.GameStateStack = GameStateStack;
+	return GameStateStack;
+});

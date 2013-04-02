@@ -7,13 +7,12 @@
 
 var TW = TW || {};
 
-if (typeof window.define === "function" && window.define.amd) {
 
-    define([
-        './preload/Preload',
-        './preload/XMLHttpRequestLoader'
-    ], function() {
-        return TW.Preload;
-    });
+define([
+	       './preload/Preload',
+	       './preload/XHRLoader'
+       ], function() {
+	return TW.Preload;
+});
 
-}
+

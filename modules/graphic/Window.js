@@ -1,76 +1,59 @@
 /**
- @module Graphic
- @namespace Graphic
+ * @module Graphic
+ * @namespace Graphic
  */
 
-var TW = TW || {};
 
-(function(TW) {
+define(['./Layer', '../utils/Inheritance'], function(Layer, inherit) {
+	var TW = TW || {};
+	TW.Graphic = TW.Graphic || {};
 
-    TW.Graphic = TW.Graphic ||  {};
-    TW.Graphic.Window = Window;
 
-    if (typeof window.define === "function" && window.define.amd) {
-        define(['./Layer', '../utils/Inheritance'], function() {
-            TW.Utils.inherit(Window, TW.Graphic.Layer);
-            return Window;
-        });
-    } else {
-        TW.Utils.inherit(Window, TW.Graphic.Layer);
-    }
+	/**
+	 * This class represent a window associated to a canvas element.
+	 * It's the first class used in Graphic module, wrapping all graphic objects.
+	 *
+	 * @class Window
+	 * @extends Layer
+	 * @constructor
+	 * @param {HTMLCanvasElement} [canvas] main canvas for the window. by default, a new canvas is created.
+	 */
+	function Window(canvas) {
+		/**
+		 * The HTML canvas element.
+		 *
+		 * By default, a new canvas is created (and can be displayed to screen).
+		 *
+		 * @type {HTMLCanvasElement} canvas
+		 * @readonly
+		 */
+		this.canvas = canvas || document.createElement('canvas');
+		Layer.call(this, {
+			localCanvas: this.canvas.getContext("2d"),
+			width:       canvas.width,
+			height:      canvas.height
+		});
+	}
 
-    /**
-     * This class represent a window associated to a canvas element.
-     * It's the first class used in Graphic module, wrapping all graphic objects.
-     *
-     * @class Window
-     * @extends Layer
-     * @constructor
-     * @param {HTMLCanvasElement} [canvas] main canvas for the window
-     */
-    function Window(canvas) {
-        this._realCanvas = (canvas === undefined ? document.createElement('canvas') : canvas);
-        TW.Graphic.Layer.call(this, {
-            localCanvas: this._realCanvas.getContext("2d"),
-            width:	canvas.width,
-            height: canvas.height
-        });
-    }
+	inherit(Window, Layer);
 
-    /**
-     * @method getCanvas
-     * @return {HTMLCanvasElement} associated canvas to the window, that can be added in DOM.
-     */
-    Window.prototype.getCanvas = function() {
-        return this._realCanvas;
-    };
+	/**
+	 * Draw all graphic elements on the associated canvas.
+	 *
+	 * @method draw
+	 */
+	Window.prototype.draw = function() {
+		if (this._needToRedraw === true) {
+			this.localCanvas.save();
+			this.camera.prepare(this.localCanvas);
+			this.spatialContainer.applyAll(function(child) {
+				child.draw(this.localCanvas);
+			}.bind(this));
+			this.localCanvas.restore();
+			this._needToRedraw = false;
+		}
+	};
 
-    /**
-     * @method setCanvas
-     * @param {HTMLCanvasElement} canvas a HTML canvas to associate to the window.
-     */
-    Window.prototype.setCanvas = function(canvas) {
-        this._realCanvas = canvas;
-        this.width = canvas.width;
-        this.height = canvas.height;
-        this.notifyParentChange();
-    };
-
-    /**
-     * Draw all graphic elements on the associated canvas.
-     *
-     * @method draw
-     */
-    Window.prototype.draw = function() {
-        if (this._needToRedraw === true) {
-            this._localCanvas.save();
-            this._camera.prepare(this._localCanvas);
-            this._spatialContainer.applyAll(function(child) {
-                child.draw(this._localCanvas);
-            }.bind(this));
-            this._localCanvas.restore();
-            this._needToRedraw = false;
-        }
-    };
-
-}(TW));
+	TW.Graphic.Window = Window;
+	return Window;
+});

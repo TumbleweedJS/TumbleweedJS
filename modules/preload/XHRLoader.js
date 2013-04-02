@@ -1,27 +1,20 @@
 /**
- @module Preload
- @namespace Preload
+ * @module Preload
+ * @namespace Preload
  */
 
-var TW = TW || {};
 
-(function(TW) {
+define(['./Preload', '../utils/Polyfills'], function() {
+	var TW = TW || {};
+	TW.Preload = TW.Preload || {};
 
-    TW.Preload = TW.Preload ||  {};
-    TW.Preload.XMLHttpRequestLoader = XMLHttpRequestLoader;
-
-    if (typeof window.define === "function" && window.define.amd) {
-        define(['./Preload'], function() {
-            return XMLHttpRequestLoader;
-        });
-    }
 
 	/**
-	 * @class XMLHttpRequestLoader
+	 * @class XHRLoader
 	 * @param file
 	 * @constructor
 	 */
-	function XMLHttpRequestLoader(file) {
+	function XHRLoader(file) {
 		/**
 		 * Determine if this loader has completed already.
 		 * @property loaded
@@ -86,7 +79,7 @@ var TW = TW || {};
 	 * Begin the load.
 	 * @method load
 	 */
-	XMLHttpRequestLoader.prototype.load = function() {
+	XHRLoader.prototype.load = function() {
 		if (this._request === null) {
 			this.handleError();
 			return;
@@ -114,16 +107,22 @@ var TW = TW || {};
 			this._sendError({source: error});
 		}
 	};
+
 	/**
 	 * Get a reference to the manifest item that is loaded by this loader.
+	 *
 	 * @method getItem
 	 * @return {Object} The manifest item
 	 */
-	XMLHttpRequestLoader.prototype.getItem = function() {
+	XHRLoader.prototype.getItem = function() {
 		return this._item;
 	};
 
-	XMLHttpRequestLoader.prototype.getResult = function() {
+	/**
+	 * @method getResult
+	 * @returns {*}
+	 */
+	XHRLoader.prototype.getResult = function() {
 		//[SB] When loading XML IE9 does not return .response, instead it returns responseXML.xml
 		try {
 			return this._request.responseText;
@@ -134,11 +133,12 @@ var TW = TW || {};
 
 	/**
 	 * Determine if a specific type should be loaded as a binary file
+	 *
 	 * @method isBinary
 	 * @param type The type to check
 	 * @private
 	 */
-	XMLHttpRequestLoader.prototype.isBinary = function(type) {
+	XHRLoader.prototype.isBinary = function(type) {
 		switch (type) {
 			case this.IMAGE:
 			case this.SOUND:
@@ -148,35 +148,35 @@ var TW = TW || {};
 		}
 	};
 
-	XMLHttpRequestLoader.prototype.handleProgress = function(event) {
+	XHRLoader.prototype.handleProgress = function(event) {
 		if (event.loaded > 0 && event.total === 0) {
 			return; // Sometimes we get no "total", so just ignore the progress event.
 		}
 		this._sendProgress({loaded: event.loaded, total: event.total});
 	};
 
-	XMLHttpRequestLoader.prototype.handleLoadStart = function() {
+	XHRLoader.prototype.handleLoadStart = function() {
 		clearTimeout(this._loadTimeOutTimeout);
 		this._sendLoadStart();
 	};
 
-	XMLHttpRequestLoader.prototype.handleAbort = function() {
+	XHRLoader.prototype.handleAbort = function() {
 		this._clean();
 		this._sendError();
 	};
 
-	XMLHttpRequestLoader.prototype.handleError = function() {
+	XHRLoader.prototype.handleError = function() {
 		this._clean();
 		this._sendError();
 	};
 
-	XMLHttpRequestLoader.prototype.handleReadyStateChange = function() {
+	XHRLoader.prototype.handleReadyStateChange = function() {
 		if (this._request.readyState === 4) {
 			this.handleLoad();
 		}
 	};
 
-	XMLHttpRequestLoader.prototype._checkError = function() {
+	XHRLoader.prototype._checkError = function() {
 		//LM: Probably need additional handlers here.
 		var status = parseInt(this._request.status, 10);
 
@@ -193,11 +193,11 @@ var TW = TW || {};
 	/*
 	 * Validate the response (we need to try/catch some of these, nicer to break them into functions.
 	 */
-	XMLHttpRequestLoader.prototype._hasResponse = function() {
+	XHRLoader.prototype._hasResponse = function() {
 		return this._request.response !== null;
 	};
 
-	XMLHttpRequestLoader.prototype._hasTextResponse = function() {
+	XHRLoader.prototype._hasTextResponse = function() {
 		try {
 			return this._request.responseText !== null;
 		} catch (e) {
@@ -205,7 +205,7 @@ var TW = TW || {};
 		}
 	};
 
-	XMLHttpRequestLoader.prototype._hasXMLResponse = function() {
+	XHRLoader.prototype._hasXMLResponse = function() {
 		try {
 			return this._request.responseXML !== null;
 		} catch (e) {
@@ -213,7 +213,7 @@ var TW = TW || {};
 		}
 	};
 
-	XMLHttpRequestLoader.prototype.handleLoad = function(event) {
+	XHRLoader.prototype.handleLoad = function() {
 		if (this.loaded) {
 			return;
 		}
@@ -228,12 +228,12 @@ var TW = TW || {};
 		this._sendComplete();
 	};
 
-	XMLHttpRequestLoader.prototype.handleTimeout = function() {
+	XHRLoader.prototype.handleTimeout = function() {
 		this._clean();
 		this._sendError();
 	};
 
-	XMLHttpRequestLoader.prototype._createXHR = function(item) {
+	XHRLoader.prototype._createXHR = function(item) {
 		this._xhrLevel = 1;
 
 		if (window.ArrayBuffer) {
@@ -245,8 +245,8 @@ var TW = TW || {};
 			this._request = new XMLHttpRequest();
 		} else {
 			try {
-                /*global ActiveXObject */
-				this._request = new ActiveXObject("MSXML2.XMLHTTXMLHttpRequestLoader.prototype.3.0");
+				/*global ActiveXObject */
+				this._request = new ActiveXObject("MSXML2.XMLHTTP.3.0");
 			} catch (ex) {
 				return null;
 			}
@@ -265,7 +265,7 @@ var TW = TW || {};
 		return true;
 	};
 
-	XMLHttpRequestLoader.prototype._clean = function() {
+	XHRLoader.prototype._clean = function() {
 		clearTimeout(this._loadTimeOutTimeout);
 
 		var req = this._request;
@@ -282,13 +282,13 @@ var TW = TW || {};
 	};
 
 	//Callback proxies
-	XMLHttpRequestLoader.prototype._sendLoadStart = function(value) {
+	XHRLoader.prototype._sendLoadStart = function() {
 		if (this.onLoadStart) {
 			this.onLoadStart({target: this});
 		}
 	};
 
-	XMLHttpRequestLoader.prototype._sendProgress = function(value) {
+	XHRLoader.prototype._sendProgress = function(value) {
 		var event;
 		if (value instanceof Number) {
 			this.progress = value;
@@ -306,27 +306,27 @@ var TW = TW || {};
 		}
 	};
 
-	XMLHttpRequestLoader.prototype._sendFileProgress = function(event) {
+	XHRLoader.prototype._sendFileProgress = function(event) {
 		if (this.onFileProgress) {
 			event.target = this;
 			this.onFileProgress(event);
 		}
 	};
 
-	XMLHttpRequestLoader.prototype._sendComplete = function() {
+	XHRLoader.prototype._sendComplete = function() {
 		if (this.onComplete) {
 			this.onComplete({target: this});
 		}
 	};
 
-	XMLHttpRequestLoader.prototype._sendFileComplete = function(event) {
+	XHRLoader.prototype._sendFileComplete = function(event) {
 		if (this.onFileLoad) {
 			event.target = this;
 			this.onFileLoad(event);
 		}
 	};
 
-	XMLHttpRequestLoader.prototype._sendError = function(event) {
+	XHRLoader.prototype._sendError = function(event) {
 		if (this.onError) {
 			if (event === null) {
 				event = {};
@@ -336,4 +336,6 @@ var TW = TW || {};
 		}
 	};
 
-}(TW));
+	TW.Preload.XHRLoader = XHRLoader;
+	return XHRLoader;
+});

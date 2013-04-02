@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 
 				/* coding style */
 
-                indent: 4,
+
                 maxlen: 120,
 				white: false,
                 multistr: true,
@@ -42,16 +42,18 @@ module.exports = function(grunt) {
             },
 			tumbleweed: ['grunt.js', 'modules/!(hud|parallax)**/*.js'],
 			test: {
-				globals: {
-					TW: true,
-					QUnit: false,
-					module: false,
-					test: false,
-					ok: false,
-					equal: false,
-					deepEqual: false
+				options: {
+					globals: {
+						TW: true,
+						QUnit: false,
+						module: false,
+						test: false,
+						ok: false,
+						equal: false,
+						deepEqual: false
+					}
 				},
-				files: ['test/**/*.js']
+				src: 'test/**/*.js'
 			}
         },
         qunit: {
