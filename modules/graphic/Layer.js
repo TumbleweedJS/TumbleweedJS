@@ -3,7 +3,7 @@
  * @namespace Graphic
  */
 
-define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritance'],
+define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritance', '../utils/Polyfills'],
        function(GraphicObject, SpatialContainer, Camera, inherit) {
 	       var TW = TW || {};
 	       TW.Graphic = TW.Graphic || {};
@@ -152,8 +152,6 @@ define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritan
 	        * @method rmChild
 	        * @param {GraphicObject} graphicObject this parameter is the GraphicObject that the method will try
 	        * to find inside the child of the current layer.
-	        * @return {Boolean} if the graphicObject was found in the childs of the current layer then the method
-	        * will returns true, otherwise the method will returns true.
 	        */
 	       Layer.prototype.rmChild = function(graphicObject) {
 		       this.spatialContainer.removeElement(graphicObject);

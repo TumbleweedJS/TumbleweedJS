@@ -4,7 +4,7 @@
  */
 
 
-define(['./EventProvider', '../utils/Inheritance'], function(EventProvider, inherit) {
+define(['./EventProvider', '../utils/Inheritance', '../utils/Polyfills'], function(EventProvider, inherit) {
 	var TW = TW || {};
 	TW.Event = TW.Event || {};
 

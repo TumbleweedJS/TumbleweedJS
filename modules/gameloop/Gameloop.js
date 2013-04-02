@@ -5,7 +5,7 @@
 
 
 
-define([], function() {
+define(['../utils/Polyfills'], function() {
 	var TW = TW || {};
 	TW.Gameloop = TW.Gameloop || {};
 

@@ -4,7 +4,7 @@
  */
 
 
-define(['./Channel'], function(Channel) {
+define(['./Channel', '../utils/Polyfills'], function(Channel) {
 	var TW = TW || {};
 	TW.Audio = TW.Audio || {};
 

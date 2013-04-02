@@ -125,7 +125,7 @@ define(['../math/Vector2D'], function(Vector2D) {
 	 */
 	SpatialContainer.prototype.applyToZone = function(pointsArray, callback) {
 		if (!(pointsArray && pointsArray.length >= 3)) {
-			return false;
+			throw new Error("Bad params");
 		}
 
 		this.applyAll(callback);

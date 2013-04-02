@@ -4,7 +4,7 @@
  */
 
 
-define(['./Sound'], function(Sound) {
+define(['./Sound', '../utils/Polyfills'], function(Sound) {
 	var TW = TW || {};
 	TW.Audio = TW.Audio || {};
 
