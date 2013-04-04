@@ -3,14 +3,32 @@
  * @namespace Utils
  */
 
-
-	//TODO: how to document this ?
-
-
 define([], function() {
 
 
-	// see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind
+	/**
+	 * This module only contains polyfills; it's not a class.
+	 *
+	 * It's a way to use some polyfills if some features are not available for all browser.
+	 * Actually, it contain only one polyfill:
+	 *
+	 *  - `Function.bind`
+	 *
+	 *    Mozilla implementation of the bind function.
+	 *    See the documentation
+	 *    [on the MDN](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind).
+	 *
+	 * **Usage example:**
+	 *
+	 *     define(['TW/utils/Polyfills'], function() {
+	 *         //Now i'm sure that `bind()` exist.
+	 *         setTimeout(myFunc.bind(), 100);
+	 *     });
+	 *
+	 * **Note: the module don't return anything.**
+	 *
+	 * @class Polyfill
+	 */
 	if (!Function.prototype.bind) {
 		Function.prototype.bind = function(context) {
 			var Func = function() {};
@@ -34,5 +52,4 @@ define([], function() {
 		};
 	}
 
-	return true;
 });

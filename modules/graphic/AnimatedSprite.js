@@ -4,7 +4,7 @@
  */
 
 
-define(['./Sprite', '../utils/Inheritance'], function(Sprite, inherit) {
+define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inherit) {
 	var TW = TW || {};
 	TW.Graphic = TW.Graphic || {};
 
@@ -14,15 +14,22 @@ define(['./Sprite', '../utils/Inheritance'], function(Sprite, inherit) {
 	 * When you instanciate a new AnimatedSprite instance, you have to pass it the SpriteSheet which it will
 	 * have to use.
 	 * @class AnimatedSprite
-	 * @extends Sprite
+	 * @extends Graphic.GraphicObject
 	 * @constructor
-	 * @param {Object} params *params* is given to {{#crossLink "Graphic.Sprite"}}{{/crossLink}} constructor.
+	 * @param {Object} params *params* is given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} constructor.
 	 *   @param {SpriteSheet} params.spriteSheet it is a SpriteSheet object which contains one or severals animation
 	 *   which can be used by the current AnimatedSprite object.
 	 */
 	function AnimatedSprite(params) {
-		Sprite.call(this, params);
-		this.image = params.spriteSheet || null;
+		GraphicObject.call(this, params);
+
+		/**
+		 * a SpriteSheet object which contains one or severals animation
+		 * which can be used by the current AnimatedSprite object.
+		 *
+		 * @property {SpriteSheet} spriteSheet
+		 */
+		this.spriteSheet = params.spriteSheet || null;
 		this._currentAnim = "";
 		this._currentFrame = 0;
 		this._loop = false;
@@ -31,27 +38,7 @@ define(['./Sprite', '../utils/Inheritance'], function(Sprite, inherit) {
 		this._sigmaElapsedTime = 0;
 	}
 
-	inherit(AnimatedSprite, Sprite);
-
-	/**
-	 * The setSpriteSheet method allows you to set the current spriteSheet to use.
-	 * @method setSpriteSheet
-	 * @param {SpriteSheet} spriteSheet It represents the spriteSheet instance which will be attached on the current
-	 * AnimatedSprite object.
-	 */
-	AnimatedSprite.prototype.setSpriteSheet = function(spriteSheet) {
-		this.image = spriteSheet;
-	};
-
-	/**
-	 * The getSpriteSheet method allows you to get the current spriteSheet object which is currently
-	 * attached to the AnimatedSprite.
-	 * @method getSpriteSheet
-	 * @return {SpriteSheet} the getSpriteSheet method returns the current SpriteSheet in use otherwise it returns null.
-	 */
-	AnimatedSprite.prototype.getSpriteSheet = function() {
-		return this.image;
-	};
+	inherit(AnimatedSprite, GraphicObject);
 
 	/**
 	 * the play method allows you to start an animation (note that this animation must be defined inside of the
@@ -137,10 +124,8 @@ define(['./Sprite', '../utils/Inheritance'], function(Sprite, inherit) {
 	 * getCurrentAnim method will returns null.
 	 */
 	AnimatedSprite.prototype.getCurrentAnim = function() {
-		if (this.image && this.image !== null) {
-			if (this._currentAnim !== "") {
-				return this.image.getAnimation(this._currentAnim);
-			}
+		if (this.spriteSheet && this._currentAnim !== "") {
+			return this.spriteSheet.getAnimation(this._currentAnim);
 		}
 		return null;
 	};
@@ -153,10 +138,10 @@ define(['./Sprite', '../utils/Inheritance'], function(Sprite, inherit) {
 	 */
 	AnimatedSprite.prototype.update = function(deltaTime) {
 		this._sigmaElapsedTime += deltaTime;
-		if (this.image === null || this._currentAnim === "") {
+		if (this.spriteSheet === null || this._currentAnim === "") {
 			return false;
 		}
-		var currentAnim = this.image.getAnimation(this._currentAnim);
+		var currentAnim = this.spriteSheet.getAnimation(this._currentAnim);
 		if (!currentAnim.frames || !currentAnim.framerate) {
 			return false;
 		}
@@ -205,38 +190,35 @@ define(['./Sprite', '../utils/Inheritance'], function(Sprite, inherit) {
 	 * image is also a validSpriteSheet.
 	 */
 	AnimatedSprite.prototype.draw = function(context) {
-		if (this.image === null || this._currentAnim === "") {
+		if (!this.spriteSheet || this._currentAnim === "" || !context) {
 			return false;
 		}
-		var currentAnim = this.image.getAnimation(this._currentAnim);
+		var currentAnim = this.spriteSheet.getAnimation(this._currentAnim);
 		if (!currentAnim.frames || !currentAnim.framerate) {
 			return false;
 		}
-		if (context && this.image) {
-			context.save();
-			context.translate(this.x, this.y);
-			this.matrix.transformContext(context);
-			this._setCenterPointByHotPoint(currentAnim);
-			context.translate(-this.centerPoint.x, -this.centerPoint.y);
-			if (currentAnim.flip_x) {
-				context.scale(-1, 1);
-				context.translate(-this.width, 0);
-			}
-			if (currentAnim.flip_y) {
-				context.scale(1, -1);
-				context.translate(0, -this.height);
-			}
-			context.drawImage(this.image.image,
-			                  currentAnim.frames[this._currentFrame].x,
-			                  currentAnim.frames[this._currentFrame].y,
-			                  currentAnim.frames[this._currentFrame].w,
-			                  currentAnim.frames[this._currentFrame].h,
-			                  0, 0, this.width, this.height);
-			context.restore();
-			return true;
-		} else {
-			return false;
+
+		context.save();
+		context.translate(this.x, this.y);
+		this.matrix.transformContext(context);
+		this._setCenterPointByHotPoint(currentAnim);
+		context.translate(-this.centerPoint.x, -this.centerPoint.y);
+		if (currentAnim.flip_x) {
+			context.scale(-1, 1);
+			context.translate(-this.width, 0);
 		}
+		if (currentAnim.flip_y) {
+			context.scale(1, -1);
+			context.translate(0, -this.height);
+		}
+		context.drawImage(this.spriteSheet.image,
+		                  currentAnim.frames[this._currentFrame].x,
+		                  currentAnim.frames[this._currentFrame].y,
+		                  currentAnim.frames[this._currentFrame].w,
+		                  currentAnim.frames[this._currentFrame].h,
+		                  0, 0, this.width, this.height);
+		context.restore();
+		return true;
 	};
 
 	TW.Graphic.AnimatedSprite = AnimatedSprite;

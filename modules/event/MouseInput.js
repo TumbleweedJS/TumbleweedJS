@@ -31,7 +31,7 @@ define(['./EventProvider', '../utils/Inheritance', '../utils/Polyfills'], functi
 	 *
 	 *
 	 * @class MouseInput
-	 * @extends EventProvider
+	 * @extends Event.EventProvider
 	 * @constructor
 	 * @param {HTMLElement} [target] element listened. Only mouse events on target are considered.
 	 *   default to window.document.

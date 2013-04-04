@@ -28,7 +28,7 @@ define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inhe
 	 * [the canvas 2D context specs](http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/#dom-context-2d-fillstyle).
 	 *
 	 * @class Shape
-	 * @extends GraphicObject
+	 * @extends Graphic.GraphicObject
 	 * @constructor
 	 * @param {Object} [params] set of parameters for configure this objects.
 	 *   *params* is given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} constructor.

@@ -29,9 +29,9 @@ define(['./Layer', '../utils/Inheritance', '../utils/Polyfills'], function(Layer
 		 */
 		this.canvas = canvas || document.createElement('canvas');
 		Layer.call(this, {
-			localCanvas: this.canvas.getContext("2d"),
-			width:       canvas.width,
-			height:      canvas.height
+			localContext: this.canvas.getContext("2d"),
+			width:       this.canvas.width,
+			height:      this.canvas.height
 		});
 	}
 
@@ -44,12 +44,12 @@ define(['./Layer', '../utils/Inheritance', '../utils/Polyfills'], function(Layer
 	 */
 	Window.prototype.draw = function() {
 		if (this._needToRedraw === true) {
-			this.localCanvas.save();
-			this.camera.prepare(this.localCanvas);
+			this.localContext.save();
+			this.camera.prepare(this.localContext);
 			this.spatialContainer.applyAll(function(child) {
-				child.draw(this.localCanvas);
+				child.draw(this.localContext);
 			}.bind(this));
-			this.localCanvas.restore();
+			this.localContext.restore();
 			this._needToRedraw = false;
 		}
 	};

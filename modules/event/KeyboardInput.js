@@ -118,7 +118,7 @@ define(['./EventProvider', '../utils/Inheritance', '../utils/Polyfills'], functi
      *      });
 	 *
 	 * @class KeyboardInput
-	 * @extends EventProvider
+	 * @extends Event.EventProvider
 	 * @param {HTMLElement} [target]      element to listen keypressed and keyup. default to `window.document`
 	 * @constructor
 	 */

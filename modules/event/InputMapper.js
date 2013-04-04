@@ -29,7 +29,7 @@ define(['./EventProvider', '../utils/Inheritance', '../utils/Polyfills'], functi
      *      });
 	 *
 	 * @class InputMapper
-	 * @extends EventProvider
+	 * @extends Event.EventProvider
 	 * @constructor
 	 */
 	function InputMapper() {

@@ -19,7 +19,7 @@ define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inhe
 	 *      mySprite.draw(canvasContext);
 	 *
 	 * @class Sprite
-	 * @extends GraphicObject
+	 * @extends Graphic.GraphicObject
 	 * @param {Object} [params]
 	 *  *params* is given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} constructor.
 	 *  @param {Image} [params.image]

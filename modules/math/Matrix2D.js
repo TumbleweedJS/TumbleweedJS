@@ -113,17 +113,17 @@ define(['./Vector2D'], function(Vector2D) {
 	Matrix2D.prototype.transform = function(a, b, c, d, e, f) {
 		var matrix = new Matrix2D();
 		matrix.setTransform(a, b, c, d, e, f);
-		var result = this.multiplyMatrix(matrix);
-		this.copyMatrix(result);
+		this.multiplyMatrix(matrix);
 		return this;
 	};
 
 	/**
-	 * Get the current state of the matrix by a 2d array of floats.
+	 * Get a copy of the current state of the matrix by a 2d array of floats.
+	 *
+	 * **Note: if you want to modify the matrix, you can access directly to `matrix.data`**
 	 *
 	 * @method getData
 	 * @return {Array} data return the internal data array of the matrix (In column-major order).
-	 *  **Note**: It is just a copy, we do not allow the user to access original data's of the matrix.
 	 */
 	Matrix2D.prototype.getData = function() {
 		return [
@@ -140,8 +140,7 @@ define(['./Vector2D'], function(Vector2D) {
 	 * @chainable
 	 */
 	Matrix2D.prototype.identity = function() {
-		var tmpMatrix = Matrix2D.identity();
-		this.copyMatrix(tmpMatrix);
+		this.setTransform(1, 0, 0, 1, 0, 0);
 		return this;
 	};
 
@@ -156,8 +155,8 @@ define(['./Vector2D'], function(Vector2D) {
 	Matrix2D.prototype.scale = function(x, y) {
 		var tmpMatrix = new Matrix2D();
 		tmpMatrix.setTransform(x, 0, 0, y, 0, 0);
-		var result = tmpMatrix.multiplyMatrix(this);
-		this.copyMatrix(result);
+		tmpMatrix.multiplyMatrix(this);
+		this.data = tmpMatrix.data;
 		return this;
 	};
 
@@ -174,8 +173,8 @@ define(['./Vector2D'], function(Vector2D) {
 		tmpMatrix.setTransform(Math.cos(radAngle), Math.sin(radAngle),
 		                        -Math.sin(radAngle), Math.cos(radAngle),
 		                        0, 0);
-		var result = tmpMatrix.multiplyMatrix(this);
-		this.copyMatrix(result);
+		tmpMatrix.multiplyMatrix(this);
+		this.data = tmpMatrix.data;
 		return this;
 	};
 
@@ -190,8 +189,8 @@ define(['./Vector2D'], function(Vector2D) {
 	Matrix2D.prototype.translate = function(x, y) {
 		var tmpMatrix = new Matrix2D();
 		tmpMatrix.setTransform(1, 0, 0, 1, x, y);
-		var result = tmpMatrix.multiplyMatrix(this);
-		this.copyMatrix(result);
+		tmpMatrix.multiplyMatrix(this);
+		this.data = tmpMatrix.data;
 		return this;
 	};
 
@@ -207,27 +206,26 @@ define(['./Vector2D'], function(Vector2D) {
 	Matrix2D.prototype.skew = function(a, b) {
 		var tmpMatrix = new Matrix2D();
 		tmpMatrix.setTransform(1, a, b, 1, 0, 0);
-		var result = tmpMatrix.multiplyMatrix(this);
-		this.copyMatrix(result);
+		tmpMatrix.multiplyMatrix(this);
+		this.data = tmpMatrix.data;
 		return this;
 	};
 
 
 	/**
-	 * Set the current matrix data to the matrix given in parameter.
+	 * create a copy of the matrix.
 	 *
 	 * @method copyMatrix
-	 * @param {Matrix2D} matrix
+	 * @return {Matrix2D} the new matrix
 	 */
-	Matrix2D.prototype.copyMatrix = function(matrix) {
-		if (!(matrix instanceof Matrix2D)) {
-			throw new Error("bad type argument: matrix");
-		}
+	Matrix2D.prototype.copy = function() {
+		var matrix = new Matrix2D();
 		for (var i = 0; i < 3; i++) {
 			for (var j = 0; j < 3; j++) {
 				this.data[i][j] = matrix.data[i][j];
 			}
 		}
+		return matrix;
 	};
 
 	/**
@@ -235,7 +233,7 @@ define(['./Vector2D'], function(Vector2D) {
 	 *
 	 * @method multiply
 	 * @param {Matrix2D} matrix the matrix to multiplies
-	 * @return {Matrix2D} the matrix resulting
+	 * @chainable
 	 */
 	Matrix2D.prototype.multiplyMatrix = function(matrix) {
 		if (!(matrix instanceof Matrix2D)) {
@@ -250,7 +248,8 @@ define(['./Vector2D'], function(Vector2D) {
 				                         this.data[i][2] * matrix.data[2][j];
 			}
 		}
-		return tmpMatrix;
+		this.data = tmpMatrix.data;
+		return this;
 	};
 
 	/**

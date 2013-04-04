@@ -13,7 +13,7 @@ define(['./Shape', '../utils/Inheritance'], function(Shape, inherit) {
 	 * a Rect defined by it's `x`, `y`, `width` and `height` properties.
 	 *
 	 * @class Rect
-	 * @extends Shape
+	 * @extends Graphic.Shape
 	 * @constructor
 	 * @param {Object} [params]
 	 *  `params` is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.

@@ -37,6 +37,7 @@ module.exports = function(grunt) {
 
 				globals: {
 					TW: true,
+					TW_DEBUG: false,
 					define: false
 				}
             },
@@ -74,7 +75,15 @@ module.exports = function(grunt) {
             },
 			release: {
 				options: {
-					out : 'build/TW.min.js'
+					optimize: 'uglify2',
+					out : 'build/TW.min.js',
+					uglify2: {
+						compress: {
+							global_defs: {
+								TW_DEBUG: false
+							}
+						}
+					}
 				}
 			},
             debug: {

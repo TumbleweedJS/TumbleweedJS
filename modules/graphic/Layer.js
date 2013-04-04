@@ -21,8 +21,8 @@ define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritan
 	        *   are available.
 	        *   @param {Camera} [params.camera] camera used be the layer. if not set, a new `Camera` is created.
 	        *   @param {SpatialContainer} [params.spatialContainer]
-	        *   @param {CanvasRenderingContext2D} [params.localCanvas]
-	        *    you can set directly the canvas used by the layer.
+	        *   @param {CanvasRenderingContext2D} [params.localContext] you can set directly
+	        *   the graphic canvascontext used by the layer.
 	        */
 	       function Layer(params) {
 		       GraphicObject.call(this, params);
@@ -51,12 +51,12 @@ define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritan
 		        *
 		        * **Note: this property should be modified only with `setAttr`.**
 		        *
-		        * @property {CanvasRenderingContext2D} localCanvas
+		        * @property {CanvasRenderingContext2D} localContext
 		        */
-		       this.localCanvas = params.localCanvas || document.createElement('canvas').getContext("2d");
+		       this.localContext = params.localContext || document.createElement('canvas').getContext("2d");
 
-		       this.localCanvas.canvas.width = this.width;
-		       this.localCanvas.canvas.height = this.height;
+		       this.localContext.canvas.width = this.width;
+		       this.localContext.canvas.height = this.height;
 
 		       /**
 		        * indicate when the cache must be updated.
@@ -95,8 +95,8 @@ define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritan
 	        */
 	       Layer.prototype.setAttr = function(attrs) {
 		       GraphicObject.setAttr(attrs);
-		       this.localCanvas.canvas.width = this.width;
-		       this.localCanvas.canvas.height = this.height;
+		       this.localContext.canvas.width = this.width;
+		       this.localContext.canvas.height = this.height;
 	       };
 
 	       /**
@@ -109,23 +109,23 @@ define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritan
 	        */
 	       Layer.prototype.draw = function(context) {
 		       if (this._needToRedraw === true) {
-			       this.localCanvas.save();
-			       this.camera.prepare(this.localCanvas);
+			       this.localContext.save();
+			       this.camera.prepare(this.localContext);
 			       this.spatialContainer.applyToZone([
 				                                         {x: 0, y: 0},
 				                                         {x: 0, y: this.height},
 				                                         {x: this.width, y: this.height},
 				                                         {x: this.width, y: 0}
 			                                         ], function(child) {
-				       child.draw(this.localCanvas);
+				       child.draw(this.localContext);
 			       }.bind(this));
-			       this.localCanvas.restore();
+			       this.localContext.restore();
 			       this._needToRedraw = false;
 		       }
 		       context.save();
 		       context.translate(this.x, this.y);
 		       this.matrix.transformContext(context);
-		       context.drawImage(this.localCanvas.canvas, -this.centerPoint.x, -this.centerPoint.y, this.width,
+		       context.drawImage(this.localContext.canvas, -this.centerPoint.x, -this.centerPoint.y, this.width,
 		                         this.height);
 		       context.restore();
 	       };

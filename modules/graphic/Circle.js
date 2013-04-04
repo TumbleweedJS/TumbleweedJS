@@ -26,7 +26,7 @@ define(['./Shape', '../utils/Inheritance'], function(Shape, inherit) {
 	 *      });
 	 *
 	 * @class Circle
-	 * @extends Shape
+	 * @extends Graphic.Shape
 	 * @constructor
 	 * @param {Object} [params] set of properties given to Circle.
 	 *   `params` is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.
