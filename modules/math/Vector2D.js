@@ -11,6 +11,15 @@ define([], function() {
 	/**
 	 * The Vector2D class allow you to create a vector2D object
 	 *
+	 * For a more simplier use, most of methods which take `Vector2D` in parameter
+	 * can also take a basic object instead:
+	 *
+	 *     vector.add({ x: 20, y: 20 });
+	 *     vector.dotProduct({ x: 10, y: 10 });
+	 *
+	 * This inclues `add`, `sub`, `dotProduct` and `crossProduct`.
+	 * Warning: `getAngleBetween` need a full `Vector2D` object.
+	 * 
 	 * @class Vector2D
 	 * @constructor
 	 * @param {Number} x the x coordinate of the Vector2D
@@ -32,47 +41,55 @@ define([], function() {
 	}
 
 	/**
-	 * The add method allow you to add two vectors and return the sum of them.
+	 * The add method allow you to add two vectors.
 	 *
 	 * @method add
 	 * @param {Vector2D} vector the Vector2D to add with the current Vector2D object.
-	 * @return {Vector2D} return the sum of the two Vector2D
+	 * @chainable
 	 */
 	Vector2D.prototype.add = function(vector) {
-		return new Vector2D(this.x + vector.x, this.y + vector.y);
+		this.x += vector.x;
+		this.y += vector.y;
+		return this;
 	};
 
 	/**
-	 * The sub method allow you to sub two vectors and return the subtraction of them.
+	 * The sub method allow you to sub two vectors.
 	 *
 	 * @method sub
 	 * @param {Vector2D} vector the Vector2D to subtract to the current Vector2D object.
-	 * @return {Vector2D} returns the subtraction of this and vector object.
+	 * @chainable
 	 */
 	Vector2D.prototype.sub = function(vector) {
-		return new Vector2D(this.x - vector.x, this.y - vector.y);
+		this.x -= vector.x;
+		this.y -= vector.y;
+		return this;
 	};
 
 	/**
-	 * The mult method allow you to mult the current Vector2D by a scalar and return the result.
+	 * The mult method allow you to mult the current Vector2D by a scalar.
 	 *
 	 * @method mult
 	 * @param {Number} scalar the scalar who multiply the current Vector2D
-	 * @return {Vector2D} returns the current Vector2D multiplied by scalar.
+	 * @chainable
 	 */
 	Vector2D.prototype.mult = function(scalar) {
-		return new Vector2D(this.x * scalar, this.y * scalar);
+		this.x *= scalar;
+		this.y *= scalar;
+		return this;
 	};
 
 	/**
-	 * The div method allow you to div the current Vector2D by a scalar and return the result
+	 * The div method allow you to div the current Vector2D by a scalar.
 	 *
 	 * @method div
 	 * @param {Number} scalar
-	 * @return {Vector2D} returns the current Vector2D divided by scalar
+	 * @chainable
 	 */
 	Vector2D.prototype.div = function(scalar) {
-		return new Vector2D(this.x / scalar, this.y / scalar);
+		this.x /= scalar;
+		this.y /= scalar;
+		return this;
 	};
 
 	/**
@@ -160,6 +177,7 @@ define([], function() {
 	 *
 	 * @method getAngleBetween
 	 * @param {Vector2D} vector2 the second vector to compute the angle between.
+	 *  **Note that `vector2` must be a full `Vector2D` object.**
 	 * @return {Number} returns the angle between the current Vector2D and vector2 (expressed in degree).
 	 */
 	Vector2D.prototype.getAngleBetween = function(vector2) {
@@ -177,19 +195,6 @@ define([], function() {
 	 */
 	Vector2D.prototype.crossProduct = function(vector2) {
 		return ((this.x * vector2.y) - (this.y * vector2.x));
-	};
-
-	/**
-	 * get the det of the current Vector2D and vector
-	 *
-	 * @method getDet
-	 * @param {Vector2D} vector the second Vector2D to use to compute the det of the two vectors
-	 * @return {Number} returns the det of the current Vector2D and vector,
-	 *  if the return value > 0 then vector is at left of this, if the return value is < 0 then vector is at right
-	 *  of this, if the return value is equal to 0 then vector is on this.
-	 */
-	Vector2D.prototype.getDet = function(vector) {
-		return this.crossProduct(vector);
 	};
 
 	/**

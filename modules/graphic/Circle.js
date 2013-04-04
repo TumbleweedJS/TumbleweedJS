@@ -58,7 +58,6 @@ define(['./Shape', '../utils/Inheritance'], function(Shape, inherit) {
 		if (!(context instanceof CanvasRenderingContext2D)) {
 			throw new Error("Bad argument: context");
 		}
-		//TODO apply the matrix transformations on the context before drawing the circle
 		context.save();
 		context.translate(this.x, this.y);
 		this.matrix.transformContext(context);

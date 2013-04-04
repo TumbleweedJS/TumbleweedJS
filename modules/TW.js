@@ -3,7 +3,7 @@ var TW = TW || {};
 define([
 	       'collision',
 	       'event',
-	       'gameloop',
+	       'gamelogic',
 	       'graphic',
 	       'math',
 	       'preload',

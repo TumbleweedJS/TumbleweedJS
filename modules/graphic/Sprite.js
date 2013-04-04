@@ -71,21 +71,27 @@ define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inhe
 	 *  otherwise the behavior of the draw method is unspecified.
 	 */
 	Sprite.prototype.draw = function(context) {
-		if (context && this.image) {
-			context.save();
-			context.translate(this.x, this.y);
-			this.matrix.transformContext(context);
-			context.translate(-this.centerPoint.x, -this.centerPoint.x);
-			//TODO do transformation from the GraphicObject matrix.
-			if (this.imageRect === null) {
-				context.drawImage(this.image, 0, 0, this.width, this.height);
-			} else {
-				context.drawImage(this.image, this.imageRect.x, this.imageRect.y,
-				                  this.imageRect.w, this.imageRect.h, 0, 0,
-				                  this.width, this.height);
-			}
-			context.restore();
+		/* global CanvasRenderingContext2D */
+		if (!(context instanceof CanvasRenderingContext2D)) {
+			throw new Error("Bad argument: context");
 		}
+		if (!this.image) {
+			throw new Error("no image to draw");
+		}
+
+		context.save();
+		context.translate(this.x, this.y);
+		this.matrix.transformContext(context);
+		context.translate(-this.centerPoint.x, -this.centerPoint.x);
+		if (this.imageRect === null) {
+			context.drawImage(this.image, 0, 0, this.width, this.height);
+		} else {
+			context.drawImage(this.image, this.imageRect.x, this.imageRect.y,
+			                  this.imageRect.w, this.imageRect.h, 0, 0,
+			                  this.width, this.height);
+		}
+		context.restore();
+
 	};
 
 	TW.Graphic.Sprite = Sprite;

@@ -93,7 +93,7 @@ define(['../math/Vector2D'], function(Vector2D) {
 			var target = this._containerList[i];
 
 			var point = target.matrix.inverse().multiplyVector(new Vector2D(x - target.x, y - target.y));
-			point.add(new Vector2D(target.centerPoint.x, target.centerPoint.y));
+			point.add(target.centerPoint);
 
 			if (point.x >= 0 && point.x <= target.width &&
 			    point.y >= 0 && point.y <= target.height) {

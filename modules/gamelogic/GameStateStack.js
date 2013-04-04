@@ -1,11 +1,11 @@
 /**
- * @module Gameloop
- * @namespace Gameloop
+ * @module GameLogic
+ * @namespace GameLogic
  */
 
-define(['./Gameloop', '../graphic/Window', '../utils/Inheritance'], function() {
+define([], function() {
 	var TW = TW || {};
-	TW.Gameloop = TW.Gameloop || {};
+	TW.GameLogic = TW.GameLogic || {};
 
 
 	/**
@@ -142,6 +142,6 @@ define(['./Gameloop', '../graphic/Window', '../utils/Inheritance'], function() {
 		}
 	};
 
-	TW.Gameloop.GameStateStack = GameStateStack;
+	TW.GameLogic.GameStateStack = GameStateStack;
 	return GameStateStack;
 });

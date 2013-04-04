@@ -1,27 +1,27 @@
 /**
- * @module Gameloop
- * @namespace Gameloop
+ * @module GameLogic
+ * @namespace GameLogic
  */
 
 
 
 define(['../utils/Polyfills'], function() {
 	var TW = TW || {};
-	TW.Gameloop = TW.Gameloop || {};
+	TW.GameLogic = TW.GameLogic || {};
 
 
 	var animFrame = window.requestAnimationFrame ||
-	                 window.webkitRequestAnimationFrame ||
-	                 window.mozRequestAnimationFrame ||
-	                 window.oRequestAnimationFrame ||
-	                 window.msRequestAnimationFrame ||
-	                 null;
+	                window.webkitRequestAnimationFrame ||
+	                window.mozRequestAnimationFrame ||
+	                window.oRequestAnimationFrame ||
+	                window.msRequestAnimationFrame ||
+	                null;
 	var cancelAnimFrame = window.cancelAnimationFrame ||
-	                        window.webkitCancelAnimationFrame ||
-	                        window.mozCancelAnimationFrame ||
-	                        window.oCancelAnimationFrame ||
-	                        window.msCancelAnimationFrame ||
-	                        null;
+	                      window.webkitCancelAnimationFrame ||
+	                      window.mozCancelAnimationFrame ||
+	                      window.oCancelAnimationFrame ||
+	                      window.msCancelAnimationFrame ||
+	                      null;
 
 	/**
 	 * A class to manage the game logic and time.
@@ -270,6 +270,6 @@ define(['../utils/Polyfills'], function() {
 		}
 	};
 
-	TW.Gameloop.Gameloop = Gameloop;
+	TW.GameLogic.Gameloop = Gameloop;
 	return Gameloop;
 });

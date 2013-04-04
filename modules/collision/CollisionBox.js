@@ -49,8 +49,6 @@ define([], function() {
 		 * @property {Number} height
 		 */
 		this.height = h;
-
-		this._debugMode = false;
 	}
 
 
@@ -189,37 +187,6 @@ define([], function() {
 		return this.y <= box.y + box.height;
 
 	};
-
-	/**
-	 * The setDebug method allow you to switch the mode of the CollisionBox between debug and release.
-	 *
-	 * @method setDebug
-	 * @param {Number} debug the parameter to define which type of mode choose
-	 * (true means debug mode, false means release)
-	 */
-	CollisionBox.prototype.setDebug = function(debug) {
-		this._debugMode = debug;
-	};
-
-	/**
-	 * The draw method allow you to draw the CollisionBox only if `setDebug(true)` was called before.
-	 * 
-	 * @method draw
-	 * @param {CanvasRenderingContext2D} context the context 2d on which draw the CollisionBox.
-	 */
-	CollisionBox.prototype.draw = function(context) {
-		if (context && this._debugMode) {
-			//Permet de sauvegarder le context
-			context.save();
-			//Set a l'identity la matrice de transformation
-			context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
-			context.fillStyle = "rgb(" + 0 + ", " + 0 + ", " + 0 + ")";
-			context.strokeRect(this.x, this.y, this.width, this.height);
-			//Permet de restorer le context
-			context.restore();
-		}
-	};
-
 
 	TW.Collision.CollisionBox = CollisionBox;
 	return CollisionBox;

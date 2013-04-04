@@ -226,7 +226,6 @@ define(['./Sprite', '../utils/Inheritance'], function(Sprite, inherit) {
 				context.scale(1, -1);
 				context.translate(0, -this.height);
 			}
-			//TODO do transformation from the GraphicObject matrix.
 			context.drawImage(this.image.image,
 			                  currentAnim.frames[this._currentFrame].x,
 			                  currentAnim.frames[this._currentFrame].y,

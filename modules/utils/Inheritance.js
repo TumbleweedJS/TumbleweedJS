@@ -25,13 +25,8 @@ define([], function() {
 
 		function Foo() {}
 
-		//TODO: must be deleted after require.js clean
-		var tmp = {};
-
 		Foo.prototype = parent.prototype;
-		TW.Utils.copyParam(tmp, {}, child.prototype);
 		child.prototype = new Foo();
-		TW.Utils.copyParam(child.prototype, {}, tmp);
 	};
 
 	/**

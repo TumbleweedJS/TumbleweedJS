@@ -43,8 +43,6 @@ define([], function() {
 		 * @property {Number} radius
 		 */
 		this.radius = radius;
-
-		this._debugMode = false;
 	}
 
 
@@ -182,40 +180,6 @@ define([], function() {
 			return true;
 		}
 		return false;
-	};
-
-	/**
-	 * the setDebug method allow you to set the debug mode of the current CollisionCircle object.
-	 * @method setDebug
-	 * @param {Boolean} debug the boolean value to determine if the current CollisionCircle object must
-	 *  switch into debug mode (true) or release mode (false)
-	 */
-	CollisionCircle.prototype.setDebug = function(debug) {
-		this._debugMode = debug;
-	};
-
-	/**
-	 * the draw method allow you to draw the circle of the current CollisionCircle on the context only
-	 * if the current CollisionCircle object is in debug mode (that mean you must call `setDebug(true);`
-	 * before draw something on the context).
-	 *
-	 * @method draw
-	 * @param {CanvasRenderingContext2D} context the context to draw on.
-	 */
-	CollisionCircle.prototype.draw = function(context) {
-		if (context && this._debugMode) {
-			//Permet de sauvegarder le context
-			context.save();
-			//Set a l'identity la matrice de transformation
-			context.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
-			context.fillStyle = "rgb(" + 0 + ", " + 0 + ", " + 0 + ")";
-			context.beginPath();
-			context.arc(this.x, this.y, this.radius, 0, Math.PI * 2.0, true);
-			context.closePath();
-			context.stroke();
-			//Permet de restorer le context
-			context.restore();
-		}
 	};
 
 	TW.Collision.CollisionCircle = CollisionCircle;

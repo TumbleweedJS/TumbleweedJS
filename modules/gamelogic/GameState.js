@@ -1,12 +1,12 @@
 /**
- * @module Gameloop
- * @namespace Gameloop
+ * @module GameLogic
+ * @namespace GameLogic
  */
 
 
-define(['./Gameloop', '../utils/Inheritance'], function() {
+define([], function() {
 	var TW = TW || {};
-	TW.Gameloop = TW.Gameloop || {};
+	TW.GameLogic = TW.GameLogic || {};
 
 
 	/**
@@ -25,13 +25,13 @@ define(['./Gameloop', '../utils/Inheritance'], function() {
 	 * - If you have a lot of code for the state, you can inherit from `GameState` and override these methods.
 	 *   Or more simply directly redefine a method of an instance :
 	 *
-	 *         var myGameState = new TW.Gameloop.GameState();
+	 *         var myGameState = new GameState();
 	 *         myGameState.onUpdate = myOnUpdateFunc;
 	 *         myGameState.onDraw = myOnDrawFunc;
 	 *
 	 * - For a little state, with just few code, methods can be passed in arguments:
 	 *
-	 *         new TW.Gameloop.GameState({
+	 *         new GameState({
 	 *              onUpdate: function(elapsedTime) {
 	 *                  //before update
 	 *              },
@@ -326,6 +326,6 @@ define(['./Gameloop', '../utils/Inheritance'], function() {
 		}
 	};
 
-	TW.Gameloop.GameState = GameState;
+	TW.GameLogic.GameState = GameState;
 	return GameState;
 });

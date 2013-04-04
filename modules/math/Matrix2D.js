@@ -267,8 +267,7 @@ define(['./Vector2D'], function(Vector2D) {
 		result.x = this.data[0][0] * vector.x + this.data[1][0] * vector.y + this.data[2][0];
 		result.y = this.data[0][1] * vector.x + this.data[1][1] * vector.y + this.data[2][1];
 		vectorW = this.data[0][2] * vector.x + this.data[1][2] * vector.y + this.data[2][2];
-		result.x /= vectorW;
-		result.y /= vectorW;
+		result.div(vectorW);
 		return result;
 	};
 
