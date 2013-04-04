@@ -95,6 +95,7 @@ define([], function() {
 	 * This method try to find a State in the stack which has a specific name.
 	 * It allows you to jump from a state to another.
 	 *
+	 * @method goToState
 	 * @param {String} name this parameter specify the name of the state to find in the stack.
 	 * @return {Boolean} returns true if a state with the specified name has been finded and set active on the stack.
 	 * Otherwise it will return false.

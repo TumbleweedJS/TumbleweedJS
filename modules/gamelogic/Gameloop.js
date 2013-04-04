@@ -53,7 +53,7 @@ define(['../utils/Polyfills'], function() {
 		 * a Date object which represents the instant when you called
 		 * the start method of the gameloop. `null` if not started.
 		 *
-		 * @propertyv {Date} startDate
+		 * @property {Date} startDate
 		 * @readonly
 		 */
 		this.startDate = null;

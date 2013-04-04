@@ -66,7 +66,7 @@ define([], function() {
 	 * If you want to allow some properties, but not to set default value,
 	 * you can create the property and set it to undefined.
 	 *
-	 * @examples:
+	 * @example:
 	 *
 	 *      var target = {};
 	 *      var defaultContext = {

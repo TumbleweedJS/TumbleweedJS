@@ -288,6 +288,7 @@ define(['./Vector2D'], function(Vector2D) {
 	/**
 	 * Compute the inverse matrix of this.
 	 *
+	 * @method inverse
 	 * @return {Matrix2D} inverse of this matrix if it exist; Otherwise `null`
 	 */
 	Matrix2D.prototype.inverse = function() {

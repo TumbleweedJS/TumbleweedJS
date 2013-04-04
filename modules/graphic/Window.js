@@ -24,7 +24,7 @@ define(['./Layer', '../utils/Inheritance', '../utils/Polyfills'], function(Layer
 		 *
 		 * By default, a new canvas is created (and can be displayed to screen).
 		 *
-		 * @type {HTMLCanvasElement} canvas
+		 * @property {HTMLCanvasElement} canvas
 		 * @readonly
 		 */
 		this.canvas = canvas || document.createElement('canvas');

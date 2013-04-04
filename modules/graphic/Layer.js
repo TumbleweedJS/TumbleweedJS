@@ -17,8 +17,8 @@ define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritan
 	        * @class Layer
 	        * @extends GraphicObject
 	        * @constructor
-	        * @param {Object} params All properties given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}}
-	        *   are available.
+	        * @param {Object} params All properties given to
+	        *   {{#crossLink "Graphic.GraphicObject"}}GraphicObject{{/crossLink}} are available.
 	        *   @param {Camera} [params.camera] camera used be the layer. if not set, a new `Camera` is created.
 	        *   @param {SpatialContainer} [params.spatialContainer]
 	        *   @param {CanvasRenderingContext2D} [params.localContext] you can set directly

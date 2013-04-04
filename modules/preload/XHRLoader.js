@@ -120,7 +120,7 @@ define(['./Preload', '../utils/Polyfills'], function() {
 
 	/**
 	 * @method getResult
-	 * @returns {*}
+	 * @return {*}
 	 */
 	XHRLoader.prototype.getResult = function() {
 		//[SB] When loading XML IE9 does not return .response, instead it returns responseXML.xml

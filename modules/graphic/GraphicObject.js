@@ -113,7 +113,6 @@ define(['../math/Matrix2D', '../utils/Inheritance'], function(Matrix2D) {
 			 * parent containing this object.
 			 *
 			 * @property {Layer} parent
-			 * @memberOf {GraphicObject}
 			 */
 			parent:       null
 		});

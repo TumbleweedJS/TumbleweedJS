@@ -201,7 +201,7 @@ define([], function() {
 	 * get the squared length of this vector
 	 *
 	 * @method getSquaredLength
-	 * @returns {Number} squared length
+	 * @return {Number} squared length
 	 */
 	Vector2D.prototype.getSquaredLength = function() {
 		return this.x * this.x + this.y * this.y;
