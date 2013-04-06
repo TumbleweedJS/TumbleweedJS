@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="../vendor/qunit.css" >
+	<title>TumbleweedJS test -- Math module</title>
+    <script type="text/javascript" src="../vendor/qunit.js"></script>
+    <script type="text/javascript" src="../vendor/require.js"></script>
+	<script>
+	  QUnit.config.autostart = false;
+	  requirejs.config({
+	    paths: {
+	      TW: '../../modules'
+	    }
+	  });
+	  require(['./Matrix2D'], function() {
+	    QUnit.start();
+	  });
+	</script>
+  </head>
+  <body>
+	<div id="qunit" ></div>
+    <div id="qunit-fixture"></div>
+  </body>
+</html>
