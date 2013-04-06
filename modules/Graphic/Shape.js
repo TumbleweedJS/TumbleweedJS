@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['./GraphicObject', '../Utils/Inheritance'], function(GraphicObject, inherit) {
+define(['./GraphicObject', '../Utils/inherit', '../Utils/copyParam'], function(GraphicObject, inherit, copyParam) {
 
 	TW.Graphic = TW.Graphic || {};
 
@@ -38,7 +38,7 @@ define(['./GraphicObject', '../Utils/Inheritance'], function(GraphicObject, inhe
 	 */
 	function Shape(params) {
 		GraphicObject.call(this, params);
-		TW.Utils.copyParam(this, params, {
+		copyParam(this, params, {
 			/**
 			 * fill color to draw this object.
 			 *

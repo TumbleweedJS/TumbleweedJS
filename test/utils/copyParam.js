@@ -1,7 +1,7 @@
 
-define(['TW/utils/Inheritance'], function() {
+define(['TW/utils/copyParam'], function(copyParam) {
 
-	module("Inheritance");
+	module("copyParam");
 
 	test("copyParam helper", function() {
 		var target = {};
@@ -11,7 +11,7 @@ define(['TW/utils/Inheritance'], function() {
 			baz:    undefined           // baz is allowed, but has not default value.
 		};
 
-		TW.Utils.copyParam(target, { foo: "some value", unknown: 3 }, default_context);
+		copyParam(target, { foo: "some value", unknown: 3 }, default_context);
 
 		deepEqual(target,  {
 			foo:    "some value",

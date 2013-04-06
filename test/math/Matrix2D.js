@@ -23,5 +23,5 @@ define(['TW/math/Matrix2D'], function(Matrix2D) {
 		matrix.setTransform(1, 1, 1, 1, 1, 1);
 		equal(matrix.isIdentity(), false);
 	});
-	
+
 });

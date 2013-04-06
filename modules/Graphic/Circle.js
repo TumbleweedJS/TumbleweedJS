@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['./Shape', '../Utils/Inheritance'], function(Shape, inherit) {
+define(['./Shape', '../Utils/inherit', '../Utils/copyParam'], function(Shape, inherit, copyParam) {
 
 	TW.Graphic = TW.Graphic || {};
 
@@ -34,7 +34,7 @@ define(['./Shape', '../Utils/Inheritance'], function(Shape, inherit) {
 	 */
 	function Circle(params) {
 		Shape.call(this, params);
-		TW.Utils.copyParam(this, params, {
+		copyParam(this, params, {
 			/**
 			 *
 			 * **Note: this property should be modified only with `setAttr`**

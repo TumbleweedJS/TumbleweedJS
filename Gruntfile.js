@@ -46,6 +46,7 @@ module.exports = function(grunt) {
 				options: {
 					globals: {
 						TW: true,
+						define: false,
 						QUnit: false,
 						module: false,
 						test: false,
@@ -54,7 +55,7 @@ module.exports = function(grunt) {
 						deepEqual: false
 					}
 				},
-				src: 'test/**/*.js'
+				src: 'test/!(vendor)**/*.js'
 			}
         },
         qunit: {

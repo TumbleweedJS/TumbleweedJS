@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['../Utils/Inheritance'], function() {
+define(['../Utils/clone'], function(clone) {
 
 	TW.Graphic = TW.Graphic || {};
 
@@ -153,7 +153,7 @@ define(['../Utils/Inheritance'], function() {
      *                  {x:50, y:0, w:50, h:50},
      *                  {x:0, y:50, w:50, h:50}
      *              ],
-     *              flip_x: true,                       //Flip_x true indicate that all the frames must be
+     *              flipX: true,                       //Flip_x true indicate that all the frames must be
      *                                                  //horizontally flipped before being draw.
      *          }
      *     };
@@ -188,7 +188,7 @@ define(['../Utils/Inheritance'], function() {
      *              framerate: 12,          //The framerate is the same than walk_left
      *              alias: "walk_left",     //by declaring walk_left as alias,
      *                                      // walk_right will share it's frames with walk_left.
-     *              flip_x: true,           //Flip_x true indicate that all the frames must be
+     *              flipX: true,           //Flip_x true indicate that all the frames must be
      *                                      //horizontally flipped before being draw.
      *          }
      *     };
@@ -203,7 +203,7 @@ define(['../Utils/Inheritance'], function() {
 	 *  Repeat a frame can be useful in some case.
 	 *  For example if you want to wait more than one cycle to go on the next frame.
 	 *
-	 *  - `nb_frames` is the number of frames we want
+	 *  - `nbFrames` is the number of frames we want
 	 *  - `way` is the direction we want to move for the next frames. If not defined, it's a repetition.
 	 *    It can take 4 values :
 	 *
@@ -228,14 +228,14 @@ define(['../Utils/Inheritance'], function() {
      *              frames: [
      *                  {x:0, y:0, w: 50, h: 50 },
      *                  {x:50, y:0, w:50, h:50 },
-     *                  {x:0, y:50, w:50, h:50, nb_frames: 5 }                  //This frame will be duplicated 5 times.
-     *                  {x:0, y:100, w:50, h:50, nb_frames: 5, way: "RIGHT" }   //We take 5 frames, moving on the right.
+     *                  {x:0, y:50, w:50, h:50, nbFrames: 5 }                  //This frame will be duplicated 5 times.
+     *                  {x:0, y:100, w:50, h:50, nbFrames: 5, way: "RIGHT" }   //We take 5 frames, moving on the right.
      *              ]
      *          },
      *          walk_right: {
      *              framerate: 12,
      *              alias: "walk_left",
-     *              flip_x: true
+     *              flipX: true
      *          }
      *     };
 	 *
@@ -259,14 +259,14 @@ define(['../Utils/Inheritance'], function() {
      *              frames: [
      *                  {x:0, y:0, w: 50, h: 50 },
      *                  {x:50, y:0, w:50, h:50 },
-     *                  {x:0, y:50, w:50, h:50, nb_frames: 5 },                 //This frame will be duplicated 5 times.
-     *                  {x:0, y:100, w:50, h:50, nb_frames: 5, way: "RIGHT" }   //We take 5 frames, moving on the right.
+     *                  {x:0, y:50, w:50, h:50, nbFrames: 5 },                 //This frame will be duplicated 5 times.
+     *                  {x:0, y:100, w:50, h:50, nbFrames: 5, way: "RIGHT" }   //We take 5 frames, moving on the right.
      *              ]
      *          },
      *          walk_right: {
      *              framerate: 12,
      *              alias: "walk_left",
-     *              flip_x: true
+     *              flipX: true
      *          },
      *          moonwalk_left: {
      *              framerate: 12,
@@ -329,13 +329,13 @@ define(['../Utils/Inheritance'], function() {
 
 
 
-		this.config = TW.Utils.clone(config);
+		this.config = clone(config);
 
 		for (var a in this.config) {
 			if (a !== "default") {
 				if (this.config[a].alias) {
 					if (this.listAnimation[this.config[a].alias]) {
-						this.config[a].frames = TW.Utils.clone(this.listAnimation[this.config[a].alias].frames);
+						this.config[a].frames = clone(this.listAnimation[this.config[a].alias].frames);
 					}
 				}
 				this.developAnimationFrames(this.config[a]);
@@ -362,14 +362,14 @@ define(['../Utils/Inheritance'], function() {
 				animation.framerate = this.config['default'].framerate;
 			}
 		}
-		if (this.config['default'].flip_x) {
-			if (!animation.flip_x) {
-				animation.flip_x = this.config['default'].flip_x;
+		if (this.config['default'].flipX) {
+			if (!animation.flipX) {
+				animation.flipX = this.config['default'].flipX;
 			}
 		}
-		if (this.config['default'].flip_y) {
-			if (!animation.flip_y) {
-				animation.flip_y = this.config['default'].flip_y;
+		if (this.config['default'].flipY) {
+			if (!animation.flipY) {
+				animation.flipY = this.config['default'].flipY;
 			}
 		}
 		if (this.config['default'].reverse) {
@@ -401,9 +401,9 @@ define(['../Utils/Inheritance'], function() {
 					animation.frames[i].h = this.config['default'].h;
 				}
 			}
-			if (this.config['default'].nb_frames) {
-				if (!animation.frames[i].nb_frames) {
-					animation.frames[i].nb_frames = this.config['default'].nb_frames;
+			if (this.config['default'].nbFrames) {
+				if (!animation.frames[i].nbFrames) {
+					animation.frames[i].nbFrames = this.config['default'].nbFrames;
 				}
 			}
 		}
@@ -543,22 +543,22 @@ define(['../Utils/Inheritance'], function() {
 			return;
 		}
 		for (var i = 0; i < animationEntry.frames.length; i++) {
-			if (animationEntry.frames[i].nb_frames && animationEntry.frames[i].nb_frames >= 1) {
-				for (var j = 0; j < animationEntry.frames[i].nb_frames; j++) {
+			if (animationEntry.frames[i].nbFrames && animationEntry.frames[i].nbFrames >= 1) {
+				for (var j = 0; j < animationEntry.frames[i].nbFrames; j++) {
 					if (j === 0) {
-						frameClone = TW.Utils.clone(animationEntry.frames[i]);
+						frameClone = clone(animationEntry.frames[i]);
 					} else {
-						frameClone = TW.Utils.clone(newFrames[offset - 1]);
+						frameClone = clone(newFrames[offset - 1]);
 					}
 					if (j > 0) {
 						this._applyFrameIncrementation(frameClone);
 					}
 					newFrames.push(frameClone);
-					delete newFrames[offset].nb_frames;
+					delete newFrames[offset].nbFrames;
 					offset++;
 				}
 			} else {
-				newFrames.push(TW.Utils.clone(animationEntry.frames[i]));
+				newFrames.push(clone(animationEntry.frames[i]));
 			}
 		}
 		this._applyHotPoint(animationEntry, newFrames);
@@ -574,10 +574,10 @@ define(['../Utils/Inheritance'], function() {
 	 * @param {Object} config it is an object which contains the description of the name animation.
 	 */
 	SpriteSheet.prototype.addAnimation = function(name, config) {
-		this.config[name] = TW.Utils.clone(config);
+		this.config[name] = clone(config);
 		if (this.config[name].alias) {
 			if (this.listAnimation[this.config[name].alias]) {
-				this.config[name].frames = TW.Utils.clone(this.listAnimation[this.config[name].alias].frames);
+				this.config[name].frames = clone(this.listAnimation[this.config[name].alias].frames);
 			}
 		}
 		this.developAnimationFrames(this.config[name]);
@@ -612,7 +612,7 @@ define(['../Utils/Inheritance'], function() {
 	 */
 	SpriteSheet.prototype.getAnimation = function(name) {
 		if (this.config[name]) {
-			return TW.Utils.clone(this.config[name]);
+			return clone(this.config[name]);
 		} else {
 			return null;
 		}

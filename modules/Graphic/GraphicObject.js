@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['../Math/Matrix2D', '../Utils/Inheritance'], function(Matrix2D) {
+define(['../Math/Matrix2D', '../Utils/copyParam'], function(Matrix2D, copyParam) {
 
 	TW.Graphic = TW.Graphic || {};
 
@@ -49,7 +49,7 @@ define(['../Math/Matrix2D', '../Utils/Inheritance'], function(Matrix2D) {
 	 * @constructor
 	 */
 	function GraphicObject(params) {
-		TW.Utils.copyParam(this, params, {
+		copyParam(this, params, {
 			/**
 			 * position on X axis
 			 *
@@ -143,7 +143,7 @@ define(['../Math/Matrix2D', '../Utils/Inheritance'], function(Matrix2D) {
 	 * @chainable
 	 */
 	GraphicObject.prototype.setAttr = function(attrs) {
-		TW.Utils.copyParam(this, attrs, this);
+		copyParam(this, attrs, this);
 		this.notifyParentChange();
 		return this;
 	};

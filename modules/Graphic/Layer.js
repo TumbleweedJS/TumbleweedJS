@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['./GraphicObject', './SpatialContainer', './Camera', '../Utils/Inheritance', '../Utils/Polyfills'],
+define(['./GraphicObject', './SpatialContainer', './Camera', '../Utils/inherit', '../Utils/Polyfills'],
        function(GraphicObject, SpatialContainer, Camera, inherit) {
 
 	       TW.Graphic = TW.Graphic || {};

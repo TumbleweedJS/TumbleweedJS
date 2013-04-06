@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['./GraphicObject', '../Utils/Inheritance'], function(GraphicObject, inherit) {
+define(['./GraphicObject', '../Utils/inherit', '../Utils/copyParam'], function(GraphicObject, inherit, copyParam) {
 
 	TW.Graphic = TW.Graphic || {};
 
@@ -32,7 +32,7 @@ define(['./GraphicObject', '../Utils/Inheritance'], function(GraphicObject, inhe
 	 */
 	function Sprite(params) {
 		GraphicObject.call(this, params);
-		TW.Utils.copyParam(this, params, {
+		copyParam(this, params, {
 
 			/**
 			 * image to display.

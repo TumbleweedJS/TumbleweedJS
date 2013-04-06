@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define([], function() {
+define(['../Utils/copyParam'], function(copyParam) {
 
 	TW.GameLogic = TW.GameLogic || {};
 
@@ -82,7 +82,7 @@ define([], function() {
 		this._layerList = [];
 		this._callbackList = [];
 
-		TW.Utils.copyParam(this, params, {
+		copyParam(this, params, {
 
 			/**
 			 * the name which is associated to the current GameState

@@ -19,7 +19,9 @@
 var TW = TW || {};
 
 define([
-	       './Utils/Inheritance'
+	       './Utils/inherit',
+	       './Utils/clone',
+	       './Utils/copyParam'
        ], function() {
 	return TW.Utils;
 });

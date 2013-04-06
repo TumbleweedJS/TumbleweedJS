@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['./Layer', '../Utils/Inheritance', '../Utils/Polyfills'], function(Layer, inherit) {
+define(['./Layer', '../Utils/inherit', '../Utils/Polyfills'], function(Layer, inherit) {
 
 	TW.Graphic = TW.Graphic || {};
 

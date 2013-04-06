@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['./Shape', '../Utils/Inheritance'], function(Shape, inherit) {
+define(['./Shape', '../Utils/inherit'], function(Shape, inherit) {
 
 	TW.Graphic = TW.Graphic || {};
 

@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['./GraphicObject', '../Utils/Inheritance'], function(GraphicObject, inherit) {
+define(['./GraphicObject', '../Utils/inherit'], function(GraphicObject, inherit) {
 
 	TW.Graphic = TW.Graphic || {};
 
@@ -205,11 +205,11 @@ define(['./GraphicObject', '../Utils/Inheritance'], function(GraphicObject, inhe
 		this.matrix.transformContext(context);
 		this._setCenterPointByHotPoint(currentAnim);
 		context.translate(-this.centerPoint.x, -this.centerPoint.y);
-		if (currentAnim.flip_x) {
+		if (currentAnim.flipX) {
 			context.scale(-1, 1);
 			context.translate(-this.width, 0);
 		}
-		if (currentAnim.flip_y) {
+		if (currentAnim.flipY) {
 			context.scale(1, -1);
 			context.translate(0, -this.height);
 		}
