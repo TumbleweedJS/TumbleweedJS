@@ -1,14 +1,14 @@
 var TW = TW || {};
 
 define([
-	       'collision',
-	       'event',
-	       'gamelogic',
-	       'graphic',
-	       'math',
-	       'preload',
-	       'audio',
-	       'utils'
+	       './Collision',
+	       './Event',
+	       './Gamelogic',
+	       './Graphic',
+	       './Math',
+	       './Preload',
+	       './Audio',
+	       './Utils'
        ], function() {
 	return TW;
 });
