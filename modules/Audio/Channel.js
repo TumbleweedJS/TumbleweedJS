@@ -14,7 +14,8 @@ define(['./Sound', '../Utils/Polyfills'], function(Sound) {
 	 *
 	 * @class Channel
 	 * @constructor
-	 * @param {String} src The source of channel separated with '|' for multi-format.
+	 * @param {String|String[]} src The source(s) of channel.
+	 *   If many values are passed, the first compatible are used.
 	 * @param {Number} max The number of sound allocated in this channel.
 	 * @param {Number} id The identifier of the channel.
 	 */
@@ -38,8 +39,9 @@ define(['./Sound', '../Utils/Polyfills'], function(Sound) {
 
 		/**
 		 * Source sound for this channel.
+		 * Can contains many values (first compatible are used).
 		 *
-		 * @property {String} _src
+		 * @property {String|String[]} _src
 		 * @private
 		 */
 		this._src = src;

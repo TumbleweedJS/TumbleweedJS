@@ -85,7 +85,7 @@ define(['./Channel', '../Utils/Polyfills'], function(Channel) {
 	 * Create new channel with src and max sound instance.
 	 *
 	 * @method add
-	 * @param {String} src The source of channel separated with '|' for multiformat.
+	 * @param {String|String[]} src The source(s) of channel. If many values are passed, the first compatibel are used.
 	 * @param {Number} max The number of sound allocated in this channel.
 	 * @return {Number} The id of the channel.
 	 */
