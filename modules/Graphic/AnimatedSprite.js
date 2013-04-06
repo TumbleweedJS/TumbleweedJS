@@ -10,9 +10,26 @@ define(['./GraphicObject', '../Utils/inherit'], function(GraphicObject, inherit)
 
 
 	/**
-	 * The AnimatedSprite allows you to create an object which can be animated using a SpriteSheet.
+	 * The AnimatedSprite allows you to create an object which can be animated using a
+	 * {{#crossLink "Graphic.SpriteSheet"}}SpriteSheet{{/crossLink}}.
+	 *
 	 * When you instanciate a new AnimatedSprite instance, you have to pass it the SpriteSheet which it will
 	 * have to use.
+	 *
+	 * The spritesheet represent the configuration of all animations and how to play them.
+	 * An `AnimatedSprite` instance is an object which can be displayed, and can play animations.
+	 * several AnimatedSprite with the same animation should use the same shared SpriteSheet.
+	 *
+	 * An animation can be started with `play()` and stopped with `stop()`. For managing animations,
+	 * you can assign a callback when an animation is ended:
+	 *
+	 *     sprite.play("running", false, function(loop, anim, sprite, status) {
+	 *         if (status == "END:STOP") {
+	 *              console.log("Stop running, i'll walk.");
+	 *              sprite.play("walking", true);
+	 *         }
+	 *     });
+	 *
 	 * @class AnimatedSprite
 	 * @extends Graphic.GraphicObject
 	 * @constructor

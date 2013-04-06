@@ -21,6 +21,9 @@
  * The {{#crossLink "Event.InputMapper"}}InputMapper{{/crossLink}} class provide an easy way to hide real used event,
  * allowing you to easily change an event (like specific keyboard key) for an action given.
  *
+ * {{#crossLink "Event.EventCombination"}}EventCombination{{/crossLink}} can group severals events,
+ * for create new composed event (like a 'CTRL + X' shortcut, for example)
+ *
  * @module Event
  * @main
  */

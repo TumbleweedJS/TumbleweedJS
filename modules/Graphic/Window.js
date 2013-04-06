@@ -13,6 +13,16 @@ define(['./Layer', '../Utils/inherit', '../Utils/Polyfills'], function(Layer, in
 	 * This class represent a window associated to a canvas element.
 	 * It's the first class used in Graphic module, wrapping all graphic objects.
 	 *
+	 *
+	 *     //From an existing canvas
+	 *     var win = new Window(document.getElementById('myCanvas'));
+	 *     win.draw();
+	 *
+	 *     //Creating a new canvas tag
+	 *     var win = new Window();
+	 *     document.body.appendChild(win.canvas);
+	 *     win.draw();
+	 *
 	 * @class Window
 	 * @extends Graphic.Layer
 	 * @constructor

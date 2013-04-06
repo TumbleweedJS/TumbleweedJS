@@ -26,7 +26,43 @@ define(['../Utils/Polyfills'], function() {
 	/**
 	 * A class to manage the game logic and time.
 	 * Provide the simplest way to use a regular loop, splitting draw and update.
-	 * All elements added in `object` are updated or draw when te loop is started.
+	 * All elements added in `object` are updated and draw when te loop is started.
+	 *
+	 *
+	 * Elements can be added with {{#crossLink "GameLogic.Gameloop/addObject"}}{{/crossLink}} and
+	 * {{#crossLink "GameLogic.Gameloop/rmObject"}}{{/crossLink}}. All kind of elements are supported:
+	 * if it's a function, it will be called during the update phase.
+	 * If it's an object, the gameloop search `update` and `draw` method for call them.
+	 *
+	 * Note that you can safety call {{#crossLink "GameLogic.Gameloop/rmObject"}}{{/crossLink}}
+	 * during an update or draw phase:
+	 * the element will be deleted at the end of phase.
+	 *
+	 *     var gl = new Gameloop();
+	 *     var win = new Window(canvasContext);
+	 *
+	 *     gl.add(win);
+	 *
+	 *     var nextRectTime = 5000;
+	 *     gl.add(function(elapsedTime) {
+	 *          nextRectTime -= elapsedTime;
+	 *
+	 *          //All 5sec, a rect is added.
+	 *          if (nextRectTime < 0) {
+	 *              var rect = new Rect({
+	 *                  x: Math.random() * 200
+	 *                  y: Math.random() * 200
+	 *              });
+	 *
+	 *              //no need to add the rect to gl: gl will draw the window, which will draw the rects.
+	 *              win.addChild(rect);
+	 *              nextRectTime = 5000;
+	 *          }
+	 *     });
+	 *
+	 * Gameloop also provides some interesting method for measure performances with
+	 * {{#crossLink "GameLogic.Gameloop/getRealFPS"}}{{/crossLink}} and
+	 * {{#crossLink "GameLogic.Gameloop/getRealTPS"}}{{/crossLink}}.
 	 *
 	 * @class Gameloop
 	 *

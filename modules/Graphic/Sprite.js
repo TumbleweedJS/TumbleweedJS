@@ -13,16 +13,23 @@ define(['./GraphicObject', '../Utils/inherit', '../Utils/copyParam'], function(G
 	 * The Sprite class provide methods to draw sprites on a context. the aim of the sprites object is to be added
 	 * to a Layer or to be use directly with a graphical context by invoking the draw method of the Sprite.
 	 *
-	 * @example
+	 * If many sprites with same image are added to te scene, they should use only one (shared) Image instance.
 	 *
-	 *      var mySprite = new TW.Graphic.Sprite();
+	 *
+	 * A good way to reduce number of files, and so loading time, is to put many sprite images in one file.
+	 * The `imageRect` property is a good way to display only a part of the image.
+	 *
+	 *
+	 *      var mySprite = new TW.Graphic.Sprite({
+	 *          image: myImage
+	 *      });
 	 *      mySprite.draw(canvasContext);
 	 *
 	 * @class Sprite
 	 * @extends Graphic.GraphicObject
 	 * @param {Object} [params]
 	 *  *params* is given to {{#crossLink "Graphic.GraphicObject"}}GraphicObject{{/crossLink}} constructor.
-	 *  @param {Image} [params.image]
+	 *  @param {Image} [params.image] image source displayed
 	 *  @param {Object} [params.imageRect]
 	 *   @param {Number} [params.imageRect.x]
 	 *   @param {Number} [params.imageRect.y]
