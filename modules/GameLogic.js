@@ -17,9 +17,9 @@
 var TW = TW || {};
 
 define([
-	       './Gamelogic/Gameloop',
-	       './Gamelogic/GameStateStack',
-	       './Gamelogic/GameState'
+	       './GameLogic/Gameloop',
+	       './GameLogic/GameStateStack',
+	       './GameLogic/GameState'
        ], function() {
 	return TW.Gameloop;
 });

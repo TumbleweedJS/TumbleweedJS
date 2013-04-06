@@ -3,7 +3,7 @@ var TW = TW || {};
 define([
 	       './Collision',
 	       './Event',
-	       './Gamelogic',
+	       './GameLogic',
 	       './Graphic',
 	       './Math',
 	       './Preload',
