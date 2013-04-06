@@ -106,6 +106,7 @@ define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inhe
 		if (typeof tmp === "function") {
 			tmp({loop: this._loop, anim: anim, sprite: this, status: "END:STOP"});
 		}
+		this.notifyParentChange();
 	};
 
 	/**

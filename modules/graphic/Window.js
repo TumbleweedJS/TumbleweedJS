@@ -43,15 +43,13 @@ define(['./Layer', '../utils/Inheritance', '../utils/Polyfills'], function(Layer
 	 * @method draw
 	 */
 	Window.prototype.draw = function() {
-		if (this._needToRedraw === true) {
-			this.localContext.save();
-			this.camera.prepare(this.localContext);
-			this.spatialContainer.applyAll(function(child) {
-				child.draw(this.localContext);
-			}.bind(this));
-			this.localContext.restore();
-			this._needToRedraw = false;
-		}
+		this.localContext.save();
+		this.camera.prepare(this.localContext);
+		this.spatialContainer.applyAll(function(child) {
+			child.draw(this.localContext);
+		}.bind(this));
+		this.localContext.restore();
+		this._needToRedraw = false;
 	};
 
 	TW.Graphic.Window = Window;
