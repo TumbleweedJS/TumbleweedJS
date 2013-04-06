@@ -1,5 +1,5 @@
 
-define(['TW/utils/copyParam'], function(copyParam) {
+define(['TW/Utils/copyParam'], function(copyParam) {
 
 	module("copyParam");
 

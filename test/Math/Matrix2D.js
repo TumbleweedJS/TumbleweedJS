@@ -1,5 +1,5 @@
 
-define(['TW/math/Matrix2D'], function(Matrix2D) {
+define(['TW/Math/Matrix2D'], function(Matrix2D) {
 
 	module("Matrix2D");
 

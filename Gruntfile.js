@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 					define: false
 				}
             },
-			tumbleweed: ['grunt.js', 'modules/!(hud|parallax)**/*.js'],
+			tumbleweed: ['grunt.js', 'modules/**/*.js'],
 			test: {
 				options: {
 					globals: {
