@@ -3,9 +3,9 @@
  * @namespace Graphic
  */
 
-
+var TW = TW || {};
 define(['./Layer', '../utils/Inheritance', '../utils/Polyfills'], function(Layer, inherit) {
-	var TW = TW || {};
+
 	TW.Graphic = TW.Graphic || {};
 
 
@@ -14,7 +14,7 @@ define(['./Layer', '../utils/Inheritance', '../utils/Polyfills'], function(Layer
 	 * It's the first class used in Graphic module, wrapping all graphic objects.
 	 *
 	 * @class Window
-	 * @extends Layer
+	 * @extends Graphic.Layer
 	 * @constructor
 	 * @param {HTMLCanvasElement} [canvas] main canvas for the window. by default, a new canvas is created.
 	 */

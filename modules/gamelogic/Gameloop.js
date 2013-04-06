@@ -4,9 +4,9 @@
  */
 
 
-
+var TW = TW || {};
 define(['../utils/Polyfills'], function() {
-	var TW = TW || {};
+
 	TW.GameLogic = TW.GameLogic || {};
 
 

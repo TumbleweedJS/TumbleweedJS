@@ -3,9 +3,9 @@
  * @namespace Graphic
  */
 
-
+var TW = TW || {};
 define(['./Shape', '../utils/Inheritance'], function(Shape, inherit) {
-	var TW = TW || {};
+
 	TW.Graphic = TW.Graphic || {};
 
 
@@ -16,7 +16,7 @@ define(['./Shape', '../utils/Inheritance'], function(Shape, inherit) {
 	 * @extends Graphic.Shape
 	 * @constructor
 	 * @param {Object} [params]
-	 *  `params` is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.
+	 *  `params` is given to {{#crossLink "Graphic.Shape"}}Shape{{/crossLink}} constructor.
 	 */
 	function Rect(params) {
 		Shape.call(this, params);

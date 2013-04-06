@@ -3,9 +3,9 @@
  * @namespace Event
  */
 
-
+var TW = TW || {};
 define(['./EventProvider', '../utils/Inheritance', '../utils/Polyfills'], function(EventProvider, inherit) {
-	var TW = TW || {};
+
 	TW.Event = TW.Event || {};
 
 	/**

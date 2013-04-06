@@ -3,9 +3,9 @@
  * @namespace Event
  */
 
-
+var TW = TW || {};
 define([], function() {
-	var TW = TW || {};
+
 	TW.Event = TW.Event || {};
 
 
@@ -131,7 +131,7 @@ define([], function() {
 	 *      @param {*}              callback.value      new value
 	 *      @param {EventProvider}  callback.provider   instance of provider
 	 * @return {Number} listener id (used for remove it
-	 * with {{#crossLink "Event.EventProvider/rmListener"}}{{/crossLink}})
+	 * with {{#crossLink "Event.EventProvider/rmListener"}}rmListener{{/crossLink}})
 	 *
 	 * @example
 	 *

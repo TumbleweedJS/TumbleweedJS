@@ -3,9 +3,10 @@
  * @namespace Graphic
  */
 
+var TW = TW || {};
 define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritance', '../utils/Polyfills'],
        function(GraphicObject, SpatialContainer, Camera, inherit) {
-	       var TW = TW || {};
+
 	       TW.Graphic = TW.Graphic || {};
 
 
@@ -15,7 +16,7 @@ define(['./GraphicObject', './SpatialContainer', './Camera', '../utils/Inheritan
 	        * the same plane transformation to some GraphicalObjects.
 	        *
 	        * @class Layer
-	        * @extends GraphicObject
+	        * @extends Graphic.GraphicObject
 	        * @constructor
 	        * @param {Object} params All properties given to
 	        *   {{#crossLink "Graphic.GraphicObject"}}GraphicObject{{/crossLink}} are available.

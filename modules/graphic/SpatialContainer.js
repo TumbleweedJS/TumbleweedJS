@@ -3,14 +3,14 @@
  * @namespace Graphic
  */
 
-
+var TW = TW || {};
 define(['../math/Vector2D'], function(Vector2D) {
-	var TW = TW || {};
+
 	TW.Graphic = TW.Graphic || {};
 
 	/**
 	 * A spatial container is a data structure used for storage of spatial 2D objects
-	 * (generally {{#crossLink "Graphic.GraphicObject" }}{{/crossLink}}).
+	 * (generally {{#crossLink "Graphic.GraphicObject" }}GraphicObject{{/crossLink}}).
 	 * It propose many method for manipulate these objects using theirs coordinates.
 	 *
 	 * This class provide a basic implementation of all methods,
@@ -117,11 +117,10 @@ define(['../math/Vector2D'], function(Vector2D) {
 	 *
 	 * @param {Array} pointsArray array of points like `{{10,0},{0,10},{2,3}}
 	 *  *Note that the polygon MUST BE composed at least of 3 points,
-	 *  otherwise the method will not do anything and then it'll return false.*
+	 *  otherwise the method will throw an error.*
 	 *
 	 * @param {Function} callback function to be called on every GraphicObject that are inside of
 	 *  the polygon specified by pointsArray.
-	 * @return {Boolean} return `true` if the pointArray was a valid array of points, otherwise it will return `false`.
 	 */
 	SpatialContainer.prototype.applyToZone = function(pointsArray, callback) {
 		if (!(pointsArray && pointsArray.length >= 3)) {

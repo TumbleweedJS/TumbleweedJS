@@ -3,9 +3,9 @@
  * @namespace Graphic
  */
 
-
+var TW = TW || {};
 define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inherit) {
-	var TW = TW || {};
+
 	TW.Graphic = TW.Graphic || {};
 
 
@@ -31,7 +31,7 @@ define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inhe
 	 * @extends Graphic.GraphicObject
 	 * @constructor
 	 * @param {Object} [params] set of parameters for configure this objects.
-	 *   *params* is given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} constructor.
+	 *   *params* is given to {{#crossLink "Graphic.GraphicObject"}}GraphicObject{{/crossLink}} constructor.
 	 *   @param [params.color="black"] content color (in filled mode)
 	 *   @param [params.strokeColor="black"] stroke color (in wired mode)
 	 *   @param {"WIRED"|"FILLED"} [params.mode="WIRED"] display mode for shape.

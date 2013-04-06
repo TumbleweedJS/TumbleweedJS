@@ -3,8 +3,9 @@
  * @namespace Math
  */
 
+var TW = TW || {};
 define(['./Vector2D'], function(Vector2D) {
-	var TW = TW || {};
+
 	TW.Math = TW.Math || {};
 
 

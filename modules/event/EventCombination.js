@@ -3,32 +3,15 @@
  * @namespace Event
  */
 
-
+var TW = TW || {};
 define(['./EventProvider', '../utils/Inheritance', '../utils/Polyfills'], function(EventProvider, inherit) {
-	var TW = TW || {};
+
 	TW.Event = TW.Event || {};
 
 
 	/**
-	 * InputMapper is a virtual event provider used to redirect event under an other event.
 	 *
-	 * It allow to create custom events (user-defined), following others eventProviders.
-	 * Its role is to act as an interface, hiding real event which can be changed without the user noticing.
-	 *
-	 * A typical utilisation is the remapping is to let the choice of controls keyboard to the player.
-	 *
-	 * @example
-	 *
-	 *      var keyboardEvents = new KeyboardInput();
-	 *      var inputMapper = new InputMapper();
-	 *
-	 *      inputMapper.addEvent("ATTACK");
-	 *      inputMapper.bind("ATTACK", "KEY_Q", keyboardEvents);
-	 *
-	 *      inputMapper.addListener("ATTACK", KeyboardInput.KEY_PRESSED, function(event, value, provider) {
-     *      });
-	 *
-	 * @class InputMapper
+	 * @class EventCombination
 	 * @extends Event.EventProvider
 	 * @constructor
 	 */

@@ -3,9 +3,9 @@
  * @namespace Preload
  */
 
-
+var TW = TW || {};
 define(['./Preload', '../utils/Polyfills'], function() {
-	var TW = TW || {};
+
 	TW.Preload = TW.Preload || {};
 
 

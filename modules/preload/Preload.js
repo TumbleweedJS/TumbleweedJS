@@ -4,9 +4,9 @@
  */
 
 
-
+var TW = TW || {};
 define(['./XHRLoader', '../utils/Polyfills'], function(XHRLoader) {
-	var TW = TW || {};
+
 	TW.Preload = TW.Preload || {};
 
 

@@ -3,9 +3,9 @@
  * @namespace Graphic
  */
 
-
+var TW = TW || {};
 define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inherit) {
-	var TW = TW || {};
+
 	TW.Graphic = TW.Graphic || {};
 
 
@@ -21,7 +21,7 @@ define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inhe
 	 * @class Sprite
 	 * @extends Graphic.GraphicObject
 	 * @param {Object} [params]
-	 *  *params* is given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} constructor.
+	 *  *params* is given to {{#crossLink "Graphic.GraphicObject"}}GraphicObject{{/crossLink}} constructor.
 	 *  @param {Image} [params.image]
 	 *  @param {Object} [params.imageRect]
 	 *   @param {Number} [params.imageRect.x]

@@ -3,9 +3,9 @@
  * @namespace Graphic
  */
 
-
+var TW = TW || {};
 define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inherit) {
-	var TW = TW || {};
+
 	TW.Graphic = TW.Graphic || {};
 
 
@@ -16,7 +16,8 @@ define(['./GraphicObject', '../utils/Inheritance'], function(GraphicObject, inhe
 	 * @class AnimatedSprite
 	 * @extends Graphic.GraphicObject
 	 * @constructor
-	 * @param {Object} params *params* is given to {{#crossLink "Graphic.GraphicObject"}}{{/crossLink}} constructor.
+	 * @param {Object} params *params* is given to {{#crossLink "Graphic.GraphicObject"}}GraphicObject{{/crossLink}}
+	 *   constructor.
 	 *   @param {SpriteSheet} params.spriteSheet it is a SpriteSheet object which contains one or severals animation
 	 *   which can be used by the current AnimatedSprite object.
 	 */

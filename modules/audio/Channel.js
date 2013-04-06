@@ -3,9 +3,9 @@
  * @namespace Audio
  */
 
-
+var TW = TW || {};
 define(['./Sound', '../utils/Polyfills'], function(Sound) {
-	var TW = TW || {};
+
 	TW.Audio = TW.Audio || {};
 
 

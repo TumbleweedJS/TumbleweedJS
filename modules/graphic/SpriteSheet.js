@@ -3,9 +3,9 @@
  * @namespace Graphic
  */
 
-
+var TW = TW || {};
 define(['../utils/Inheritance'], function() {
-	var TW = TW || {};
+
 	TW.Graphic = TW.Graphic || {};
 
 

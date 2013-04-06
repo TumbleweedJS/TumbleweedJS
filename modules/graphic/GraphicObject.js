@@ -3,9 +3,9 @@
  * @namespace Graphic
  */
 
-
+var TW = TW || {};
 define(['../math/Matrix2D', '../utils/Inheritance'], function(Matrix2D) {
-	var TW = TW || {};
+
 	TW.Graphic = TW.Graphic || {};
 
 
@@ -26,10 +26,11 @@ define(['../math/Matrix2D', '../utils/Inheritance'], function(Matrix2D) {
 	 * ## extend this class
 	 *
 	 * All 2D graphical objects should inherit from this class.
-	 * All inherited class should implement the {{#crossLink "Graphic.GraphicObject/draw"}}{{/crossLink}} method,
+	 * All inherited class should implement the {{#crossLink "Graphic.GraphicObject/draw"}}draw(){{/crossLink}} method,
 	 * not implemented by default.<br />
 	 * Inherited class must also inform the parent (if any) after each modification that influence the graphical
-	 * render, by calling protected method {{#crossLink "Graphic.GraphicObject/notifyParentChange"}}{{/crossLink}}
+	 * render, by calling protected method
+	 * {{#crossLink "Graphic.GraphicObject/notifyParentChange"}}notifyParentChange(){{/crossLink}}
 	 *
 	 *
 	 * @class GraphicObject

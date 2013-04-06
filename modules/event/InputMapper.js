@@ -3,9 +3,9 @@
  * @namespace Event
  */
 
-
+var TW = TW || {};
 define(['./EventProvider', '../utils/Inheritance', '../utils/Polyfills'], function(EventProvider, inherit) {
-	var TW = TW || {};
+
 	TW.Event = TW.Event || {};
 
 
@@ -16,8 +16,6 @@ define(['./EventProvider', '../utils/Inheritance', '../utils/Polyfills'], functi
 	 * Its role is to act as an interface, hiding real event which can be changed without the user noticing.
 	 *
 	 * A typical utilisation is the remapping is to let the choice of controls keyboard to the player.
-	 *
-	 * @example
 	 *
 	 *      var keyboardEvents = new KeyboardInput();
 	 *      var inputMapper = new InputMapper();

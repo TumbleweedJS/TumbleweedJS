@@ -3,16 +3,16 @@
  * @namespace Graphic
  */
 
-
+var TW = TW || {};
 define(['../math/Matrix2D'], function(Matrix2D) {
-	var TW = TW || {};
+
 	TW.Graphic = TW.Graphic || {};
 
 
 	/**
 	 * The Camera class allow you to create a camera who has the purpose to simulate a camera on some layers.
-	 * Each {{#crossLink "Graphic.Layer" }}{{/crossLink}} or {{#crossLink "Graphic.Window" }}{{/crossLink}} contain
-	 * a camera for moving te point of view displayed.
+	 * Each {{#crossLink "Graphic.Layer" }}Layer{{/crossLink}} or {{#crossLink "Graphic.Window" }}Window{{/crossLink}}
+	 * contain a camera for moving te point of view displayed.
 	 *
 	 * ### Manipulate the camera
 	 *

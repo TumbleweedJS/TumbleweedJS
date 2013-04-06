@@ -3,9 +3,9 @@
  @namespace Collision
  */
 
-
+var TW = TW || {};
 define(['../math/Vector2D'], function(Vector2D) {
-	var TW = TW || {};
+
 	TW.Collision = TW.Collision || {};
 
 

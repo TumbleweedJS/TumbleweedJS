@@ -3,9 +3,9 @@
  @namespace Collision
  */
 
-
+var TW = TW || {};
 define([], function() {
-	var TW = TW || {};
+
 	TW.Collision = TW.Collision || {};
 
 

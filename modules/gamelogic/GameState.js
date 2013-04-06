@@ -3,9 +3,9 @@
  * @namespace GameLogic
  */
 
-
+var TW = TW || {};
 define([], function() {
-	var TW = TW || {};
+
 	TW.GameLogic = TW.GameLogic || {};
 
 

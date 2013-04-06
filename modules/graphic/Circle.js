@@ -3,9 +3,9 @@
  * @namespace Graphic
  */
 
-
+var TW = TW || {};
 define(['./Shape', '../utils/Inheritance'], function(Shape, inherit) {
-	var TW = TW || {};
+
 	TW.Graphic = TW.Graphic || {};
 
 
@@ -29,7 +29,7 @@ define(['./Shape', '../utils/Inheritance'], function(Shape, inherit) {
 	 * @extends Graphic.Shape
 	 * @constructor
 	 * @param {Object} [params] set of properties given to Circle.
-	 *   `params` is given to {{#crossLink "Graphic.Shape"}}{{/crossLink}} constructor.
+	 *   `params` is given to {{#crossLink "Graphic.Shape"}}Shape{{/crossLink}} constructor.
 	 *   @param {Number} [params.radius=50] radius of the circle.
 	 */
 	function Circle(params) {
