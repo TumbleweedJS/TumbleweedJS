@@ -150,7 +150,7 @@ define(['../Math/Matrix2D'], function(Matrix2D) {
 	 */
 	Camera.prototype._updateMatrix = function() {
 		this.matrix.identity()
-			.translate(this._translation.x, this._translation.y)
+			.translate(- this._translation.x, - this._translation.y)
 			.rotate(this._rotation)
 			.skew(this._skew.a, this._skew.b)
 			.scale(this._scale.x, this._scale.y);

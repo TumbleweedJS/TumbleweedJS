@@ -58,6 +58,7 @@ define([
 	       './Graphic/Shape',
 	       './Graphic/SpatialContainer',
 	       './Graphic/Sprite',
+	       './Graphic/TrackingCamera',
 	       './Graphic/Window',
 	       './Graphic/SpriteSheet',
 	       './Graphic/AnimatedSprite'

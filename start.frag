@@ -10,7 +10,3 @@
     root.TW = factory();
   }
 }(this, function() {
-
-  //TODO: remove after clean.
-  window.define = function() {};
-  window.define.amd = true;

@@ -236,6 +236,7 @@ define([], function() {
 						}
 					}
 				}
+				return;
 			}
 		}
 		throw new Error('EventProvider: Unknow state: ' + event);
