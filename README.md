@@ -52,7 +52,7 @@ Now, you need to tell require.js where is the path to Tumbleweed, and you can us
 
 ```javascript
 	// each TW class is a AMD module. 
-	require(['TW/gameloop/Gameloop', 'TW/window/Window', 'TW/window/Rect'] , function(Gameloop, Window, Rect) {
+	define(['TW/gameloop/Gameloop', 'TW/window/Window', 'TW/window/Rect'] , function(Gameloop, Window, Rect) {
 	  //This function will be your entry point.
 	  
 	  var gl = new Gameloop();
