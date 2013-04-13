@@ -52,7 +52,9 @@ module.exports = function(grunt) {
 						test: false,
 						ok: false,
 						equal: false,
-						deepEqual: false
+						deepEqual: false,
+						strictEqual: false,
+						expect: false
 					}
 				},
 				src: 'test/!(vendor)**/*.js'
