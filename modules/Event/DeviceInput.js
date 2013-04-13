@@ -10,11 +10,29 @@ define(['./EventProvider', '../Utils/inherit'], function(EventProvider, inherit)
 
 
 	/**
-	 * Abstract class representing an event provider.
-	 * The class contains a list of variables with a certain state.
-	 * When a variable change, all listeners are called.
+	 * Abstract class representing a device, like a keyboard or a mouse.
+	 * The class contains a list of state variables representing the state of the device.
+	 *
+	 * When a variable change, an event with the same name is emitted.
 	 *
 	 * All inputs can be represented by a list of states (ex: mouse position, each key (pressed or released)).
+	 *
+	 * **Example:**
+	 *
+	 * The A key is pressed. The state value of the key, named `KEY_A` changes from `RELEASED` to `PRESSED`.
+	 * An event named `KEY_A` is fired, like this:
+	 *
+	 *     device.emit('KEY_A', KEY_PRESSED);
+	 *
+	 * **State variables**
+	 *
+	 * All state variables availlables are listed in `states`.
+	 *
+	 * For getting the value of a state variable you can use `get` at any time:
+	 *
+	 *     keyboard.get('KEY_A') //KEY_PRESSED
+	 *     mouse.get('MOUSE_POSITION') // { x: 100, y: 100 }
+	 *
 	 *
 	 * @class DeviceInput
 	 * @extends Event.EventProvider
@@ -25,16 +43,17 @@ define(['./EventProvider', '../Utils/inherit'], function(EventProvider, inherit)
 		EventProvider.call(this);
 
 		/**
-		 * List of all event variables name.
+		 * List of all states variables.
+		 * This array contain only the names, the values can be accessed by using `get()`.
 		 *
-		 * @property {String[]} _states []
-		 * @protected
+		 * @property {String[]} states
+		 * @readonly
 		 */
-		this._states = [];
+		this.states = [];
 
 		/**
 		 * List of values for state variables.
-		 * `this._states` and `this._values` share the same array index.
+		 * `this.states` and `this._values` share the same array index.
 		 *
 		 * @property {Array} _values
 		 * @protected
@@ -42,55 +61,29 @@ define(['./EventProvider', '../Utils/inherit'], function(EventProvider, inherit)
 		this._values = [];
 
 		/**
-		 * List of previous values for state variables.
-		 * `this._states` and `this._oldValues` share the same array index.
+		 * Enable (or disable) the device.
+		 * When the device is disabled, all call to `emit` is ignored.
 		 *
-		 * @property {Array}    _oldValues
-		 * @protected
+		 * @property {Boolean} enabled
+		 * @default true
 		 */
-		this._oldValues = [];
-
+		this.enabled = true;
 	}
 
 	inherit(DeviceInput, EventProvider);
 
 	/**
-	 * return a const string representing the type of provider.
-	 * All providers of the same type must return the same result.
+	 *  Search the value of a state variable
 	 *
-	 * **Note:** All child class MUST implement this method.
-	 *
-	 * @method getType
-	 * @return {String} name of Provider type.
+	 * @method get
+	 * @param {String} name
+	 * @return value of corresponding variable
 	 */
-	DeviceInput.prototype.getType = function() {
-		return null;
-	};
-
-	/**
-	 * List all variables accessible by this provider
-	 * Each variable can accept listeners.
-	 *
-	 * **Note:** return value is a reference. you should make a copy if you need to modify it.
-	 * @method getStateList
-	 * @return {String[]}   [] list of name variables.
-	 */
-	DeviceInput.prototype.getStateList = function() {
-		return this._states;
-	};
-
-	/**
-	 *  Search the state of a state variable
-	 *
-	 * @method getState
-	 * @param {String}  name
-	 * @return {*}    value of corresponding variable
-	 */
-	DeviceInput.prototype.getState = function(name) {
+	DeviceInput.prototype.get = function(name) {
 		var i, len;
 
-		for (i = 0, len = this._states.length; i < len; ++i) {
-			if (this._states[i] === name) {
+		for (i = 0, len = this.states.length; i < len; ++i) {
+			if (this.states[i] === name) {
 				return this._values[i];
 			}
 		}
@@ -98,103 +91,32 @@ define(['./EventProvider', '../Utils/inherit'], function(EventProvider, inherit)
 	};
 
 	/**
-	 *  Search the previous state of a state variable.
-	 *  The provider keep always one old state for each variable.
-	 *  It's useful for compare the difference.
+	 * Emit an event and call all subscibers to this event.
 	 *
-	 * @method getOldState
-	 * @param {String}  name
-	 * @return {*}    value of corresponding variable
+	 * This method overload `EventProvider.emit`, for update the values of state variables.
+	 *
+	 * **This method should not be used directly by the user.**
+	 *
+	 * @method emit
+	 * @param {String} event event name
+	 * @param [data=null] event data. Can be anything.
+	 * @chainable
 	 */
-	DeviceInput.prototype.getOldState = function(name) {
-		var i, len;
+	DeviceInput.prototype.emit = function(event, data) {
+		if (!this.enabled) {
+			return this;
+		}
 
-		for (i = 0, len = this._states.length; i < len; ++i) {
-			if (this._states[i] === name) {
-				return this._oldValues[i];
+		var len = this.states.length;
+		for (var i = 0; i < len; ++i) {
+			if (this.states[i] === event) {
+				this._values[i] = data;
 			}
 		}
-		throw new Error('DeviceInput: Unknow state: ' + name);
+
+		return EventProvider.prototype.emit.call(this, event, data);
 	};
 
-	/**
-	 * add a listener.
-	 *
-	 * it can listen all events or only one event variable.
-	 * The listener can choose to be called for all events associated to a variable,
-	 * or only when the variable is in a certain state.
-	 *
-	 * @method addListener
-	 * @param {String}   [event]    name of event variable. y default, all events are caught.
-	 * @param {*}        [value]    value expected for call the callback. By default, any value call the callback.
-	 * @param {Function} callback   callback function called with 3 parameters:
-	 *      @param {String}         callback.event      event name
-	 *      @param {*}              callback.value      new value
-	 *      @param {DeviceInput}  callback.provider   instance of provider
-	 * @return {Number} listener id (used for remove it
-	 * with {{#crossLink "Event.DeviceInput/rmListener"}}rmListener{{/crossLink}})
-	 *
-	 * @example
-	 *
-	 *      //myCallback will be called for each events.
-	 *      provider.addListener(myCallback);
-	 *
-	 *      //mySecondCallback will be called only when the "A" variable obtain the state KEY_PRESSED.
-	 *      provider.addListener("A", provider.KEY_PRESSED, mySecondCallback);
-	 */
-	DeviceInput.prototype.addListener = function(event, value, callback) {
-		if (callback === undefined) {
-			callback = value;
-			value = undefined;
-		}
-		if (callback === undefined) {
-			callback = event;
-			event = undefined;
-		}
-
-		if (value !== undefined) {
-			this.on(event, callback, function(evnt, data) {
-				return (JSON.stringify(data) === JSON.stringify(value));
-			});
-		} else {
-			this.on(event || null, callback);
-		}
-
-	};
-
-	/**
-	 * Remove a listener.
-	 *
-	 * @method rmListener
-	 */
-	DeviceInput.prototype.rmListener = function(event, callback) {
-
-
-		this.off(event, callback);
-	};
-
-	/**
-	 * Apply a modification to an internal state variable
-	 * and call listeners.
-	 *
-	 * @method _modifyState
-	 * @param {String}  event       event name
-	 * @param {*}       newValue   the new value.
-	 * @protected
-	 */
-	DeviceInput.prototype._modifyState = function(event, newValue) {
-		var i, len;
-
-		for (i = 0, len = this._states.length; i < len; ++i) {
-			if (this._states[i] === event) {
-				this._oldValues[i] = this._values[i];
-				this._values[i] = newValue;
-				this.emit(event, newValue);
-				return;
-			}
-		}
-		throw new Error('DeviceInput: Unknow state: ' + event);
-	};
 
 	TW.Event.DeviceInput = DeviceInput;
 	return DeviceInput;

@@ -171,17 +171,20 @@ define([], function() {
 	 *
 	 * @method emit
 	 * @param {String} event event name
-	 * @param [data=null] event data. Can be anything.
+	 * @param {*} [data=null] event data. Can be anything.
 	 * @chainable
 	 */
 	EventProvider.prototype.emit = function(event, data) {
 		var length = this._listeners.length;
+
+		data = data === undefined ? null : data;
+
 		for (var i = 0; i < length; i++) {
 			if ((this._listeners[i].event === null ||
 			     this._listeners[i].event === event) &&
 			    (this._listeners[i].predicate === null ||
-			     this._listeners[i].predicate(event, data || null, this))) {
-				this._listeners[i].callback(event, data || null, this);
+			     this._listeners[i].predicate(event, data, this))) {
+				this._listeners[i].callback(event, data, this);
 				if (this._listeners[i].once) {
 					this._listeners.splice(i, 1);
 					i--;
