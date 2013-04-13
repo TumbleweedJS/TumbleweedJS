@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(EventProvider, inherit) {
+define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(DeviceInput, inherit) {
 
 	TW.Event = TW.Event || {};
 
@@ -27,12 +27,12 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
      *      });
 	 *
 	 * @class InputMapper
-	 * @extends Event.EventProvider
+	 * @extends Event.DeviceInput
 	 * @constructor
 	 */
 	function InputMapper() {
 
-		EventProvider.call(this);
+		DeviceInput.call(this);
 
 		/**
 		 * enable or disable this object.
@@ -44,10 +44,10 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 		this._binds = [];
 	}
 
-	inherit(InputMapper, EventProvider);
+	inherit(InputMapper, DeviceInput);
 
 	/**
-	 * return the EventProvider type.
+	 * return the DeviceInput type.
 	 *
 	 * @method getType
 	 * @return {String}     "MAPPER"
@@ -142,7 +142,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 	 * @method bindEvent
 	 * @param {String}  localEvent
 	 * @param {String}  remoteEvent
-	 * @param {EventProvider}  input
+	 * @param {DeviceInput}  input
 	 */
 	InputMapper.prototype.bindEvent = function(localEvent, remoteEvent, input) {
 		var i, id;
@@ -167,7 +167,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 	 *
 	 * @method bindListen
 	 * @param {String}  localEvent
-	 * @param {EventProvider}  input
+	 * @param {DeviceInput}  input
 	 * @param {Function} callback
 	 */
 	InputMapper.prototype.bindListen = function(localEvent, input, callback) {
@@ -213,7 +213,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 	 * @method _bindEvent
 	 * @param {String}   event
 	 * @param {Boolean|Object}   newValue
-	 * @param {EventProvider}   object
+	 * @param {DeviceInput}   object
 	 * @private
 	 */
 	InputMapper.prototype._bindEvent = function(event, newValue, object) {
@@ -234,7 +234,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 	 * @method _bindListenEvent
 	 * @param {String}   event
 	 * @param {Boolean|Object}   newValue
-	 * @param {EventProvider}   object
+	 * @param {DeviceInput}   object
 	 * @private
 	 */
 	InputMapper.prototype._bindListenEvent = function(event, newValue, object) {

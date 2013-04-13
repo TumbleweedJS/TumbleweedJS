@@ -4,12 +4,12 @@
  */
 
 var TW = TW || {};
-define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(EventProvider, inherit) {
+define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(DeviceInput, inherit) {
 
 	TW.Event = TW.Event || {};
 
 	/**
-	 * EventProvider using the mouse.
+	 * DeviceInput using the mouse.
 	 *
 	 * Four events are provided:
 	 *
@@ -31,7 +31,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 	 *
 	 *
 	 * @class MouseInput
-	 * @extends Event.EventProvider
+	 * @extends Event.DeviceInput
 	 * @constructor
 	 * @param {HTMLElement} [target] element listened. Only mouse events on target are considered.
 	 *   default to window.document.
@@ -39,7 +39,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 	function MouseInput(target) {
 		var i, len;
 
-		EventProvider.call(this);
+		DeviceInput.call(this);
 
 
 		if (target === undefined) {
@@ -75,7 +75,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 		target.addEventListener("contextmenu", this._showContextMenu.bind(this), false);
 	}
 
-	inherit(MouseInput, EventProvider);
+	inherit(MouseInput, DeviceInput);
 
 	/**
 	 * Represent a button pressed state
@@ -95,7 +95,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 
 
 	/**
-	 * return the EventProvider type.
+	 * return the DeviceInput type.
 	 *
 	 * @method getType
 	 * @return {String}     "MOUSE"

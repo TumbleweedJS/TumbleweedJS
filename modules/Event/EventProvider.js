@@ -10,236 +10,186 @@ define([], function() {
 
 
 	/**
-	 * Abstract class representing an event provider.
-	 * The class contains a list of variables with a certain state.
-	 * When a variable change, all listeners are called.
+	 * An EventProvider is a object that can dispatch events (or message) using an Observer pattern.
 	 *
-	 * All inputs can be represented by a list of states (ex: mouse position, each key (pressed or released)).
+	 * It provides methods to subscribe or unsubscribe to events, and to emit events.
+	 *
+	 *     var bus = new EventProvider();
+	 *
+	 *     bus.on('start', function(event, data, provider) {
+	 *         console.log('Start callback : ' + data.msg);
+	 *     });
+	 *
+	 *     bus.once('start', function(event, data, provider) {
+	 *         console.log('This function will be called only one time.');
+	 *     });
+	 *
+	 *     bus.any(function(event, data, provider) {
+	 *         console.log('an event occurs: ' + event);
+	 *     });
+	 *
+	 *     bus.emit('start', { msg: 'A new start' });
 	 *
 	 * @class EventProvider
 	 * @constructor
 	 */
 	function EventProvider() {
-		/**
-		 * List of all event variables name.
-		 *
-		 * @property {String[]} _states []
-		 * @protected
-		 */
-		this._states = [];
 
 		/**
-		 * List of values for state variables.
-		 * `this._states` and `this._values` share the same array index.
+		 * List of all listeners.
 		 *
-		 * @property {Array} _values
+		 * @property {Array} _listeners
+		 *   @param {Boolean} [_listeners.once] if defined and true, callback will be deleted after be called.
+		 *   @param {String} _listeners.event=null event expected to call the callback.
+		 *     If null, any event are accepted.
+		 *   @param {Function} _listeners.callback callback to call when event is fired.
+		 *
+		 *    - *{String}* **callback.event** event name.
+		 *    - **callback.data** data passed to `emit`.
+		 *    - *{EventProvider}* **callback.provider** emitter of the event.
+		 *
+		 *   @param {Function} _listeners.predicate=null predicate to determine if callback should be called.
+		 *
+		 *    - *{String}* **predicate.event** event name.
+		 *    - **predicate.data** data passed to `emit`.
+		 *    - *{EventProvider}* **predicate.provider** emitter of the event.
+		 *
 		 * @protected
 		 */
-		this._values = [];
-
-		/**
-		 * List of previous values for state variables.
-		 * `this._states` and `this._oldValues` share the same array index.
-		 *
-		 * @property {Array}    _oldValues
-		 * @protected
-		 */
-		this._oldValues = [];
-
-		this._globalCallbacks = [];
-		this._stateCallbacks = [];
-
-		/* used for giving a unique id */
-		this._nextId = 1;
+		this._listeners = [];
 	}
 
 	/**
-	 * return a const string representing the type of provider.
-	 * All providers of the same type must return the same result.
+	 * Add a subscriber to an event.
+	 * The callback will be called each time the event is fired.
 	 *
-	 * **Note:** All child class MUST implement this method.
-	 *
-	 * @method getType
-	 * @return {String} name of Provider type.
+	 * @method on
+	 * @param {String} event event name
+	 * @param {Function} callback callback to call when an event is fired.
+	 *   @param {String} callback.event event name.
+	 *   @param callback.data data passed to `emit`.
+	 *   @param {EventProvider} callback.provider emitter of the event.
+	 * @param {Function} [predicate] predicate used to determine if the callback should be called.
+	 *   Must return a boolean.
+	 *   @param {String} predicate.event .
+	 *   @param predicate.data data passed to `emit`.
+	 *   @param {EventProvider} predicate.provider emitter of the event.
+	 * @chainable
 	 */
-	EventProvider.prototype.getType = function() {
-		return null;
+	EventProvider.prototype.on = function(event, callback, predicate) {
+		this._listeners.push({
+			event: event,
+			callback: callback,
+			predicate: predicate || null
+		});
+		return this;
 	};
 
 	/**
-	 * List all variables accessible by this provider
-	 * Each variable can accept listeners.
+	 * Add a subscriber to an event.
+	 * The callback will be called once, next time the event is fired.
+	 * After been called, the callback will automatically unsubscribed.
 	 *
-	 * **Note:** return value is a reference. you should make a copy if you need to modify it.
-	 * @method getStateList
-	 * @return {String[]}   [] list of name variables.
+	 * @method once
+	 * @param {String} event event name
+	 * @param {Function} callback callback to call when an event is fired.
+	 *   @param {String} callback.event event name.
+	 *   @param callback.data data passed to `emit`.
+	 *   @param {EventProvider} callback.provider emitter of the event.
+	 * @param {Function} [predicate] predicate used to determine if the callback should be called.
+	 *   Must return a boolean.
+	 *   @param {String} predicate.event .
+	 *   @param predicate.data data passed to `emit`.
+	 *   @param {EventProvider} predicate.provider emitter of the event.
+	 * @chainable
 	 */
-	EventProvider.prototype.getStateList = function() {
-		return this._states;
+	EventProvider.prototype.once = function(event, callback, predicate) {
+		this._listeners.push({
+			once: true,
+			event: event,
+			callback: callback,
+			predicate: predicate || null
+        });
+		return this;
 	};
 
 	/**
-	 *  Search the state of a state variable
+	 * Add a global callback, called when an event is fired.
 	 *
-	 * @method getState
-	 * @param {String}  name
-	 * @return {*}    value of corresponding variable
+	 * Alias of for `on(null, callback, predicate)`.
+	 *
+	 * @method any
+	 * @param {Function} callback callback to call when an event is fired.
+	 *   @param {String} callback.event event name.
+	 *   @param callback.data data passed to `emit`.
+	 *   @param {EventProvider} callback.provider emitter of the event.
+	 * @param {Function} [predicate] predicate used to determine if the callback should be called.
+	 *   Must return a boolean.
+	 *   @param {String} predicate.event .
+	 *   @param predicate.data data passed to `emit`.
+	 *   @param {EventProvider} predicate.provider emitter of the event.
+	 * @chainable
 	 */
-	EventProvider.prototype.getState = function(name) {
-		var i, len;
+	EventProvider.prototype.any = function(callback, predicate) {
+		return this.on(null, callback, predicate);
+	};
 
-		for (i = 0, len = this._states.length; i < len; ++i) {
-			if (this._states[i] === name) {
-				return this._values[i];
+	/**
+	 * removes the first occurrence of a subscriber from the list.
+	 * If no occurrence is found, nothing will happen.
+	 *
+	 * @method off
+	 * @param {String} event event name. If null, global callbacks added by `any` are removed.
+	 * @param {Function} callback Callback to remove.
+	 * @chainable
+	 */
+	EventProvider.prototype.off = function(event, callback) {
+		var length = this._listeners.length;
+		for (var i = 0; i < length; i++) {
+			if (this._listeners[i].event === event &&
+			    this._listeners[i].callback === callback) {
+				this._listeners.splice(i, 1);
+				return this;
 			}
 		}
-		throw new Error('EventProvider: Unknow state: ' + name);
+		return this;
 	};
 
 	/**
-	 *  Search the previous state of a state variable.
-	 *  The provider keep always one old state for each variable.
-	 *  It's useful for compare the difference.
+	 * removes all listeners.
 	 *
-	 * @method getOldState
-	 * @param {String}  name
-	 * @return {*}    value of corresponding variable
+	 * @method removeAll
+	 * @chainable
 	 */
-	EventProvider.prototype.getOldState = function(name) {
-		var i, len;
-
-		for (i = 0, len = this._states.length; i < len; ++i) {
-			if (this._states[i] === name) {
-				return this._oldValues[i];
-			}
-		}
-		throw new Error('EventProvider: Unknow state: ' + name);
+	EventProvider.prototype.removeAll = function() {
+		this._listeners = [];
+		return this;
 	};
 
 	/**
-	 * add a listener.
+	 * Emit an event and call all subscibers to this event.
 	 *
-	 * it can listen all events or only one event variable.
-	 * The listener can choose to be called for all events associated to a variable,
-	 * or only when the variable is in a certain state.
-	 *
-	 * @method addListener
-	 * @param {String}   [event]    name of event variable. y default, all events are caught.
-	 * @param {*}        [value]    value expected for call the callback. By default, any value call the callback.
-	 * @param {Function} callback   callback function called with 3 parameters:
-	 *      @param {String}         callback.event      event name
-	 *      @param {*}              callback.value      new value
-	 *      @param {EventProvider}  callback.provider   instance of provider
-	 * @return {Number} listener id (used for remove it
-	 * with {{#crossLink "Event.EventProvider/rmListener"}}rmListener{{/crossLink}})
-	 *
-	 * @example
-	 *
-	 *      //myCallback will be called for each events.
-	 *      provider.addListener(myCallback);
-	 *
-	 *      //mySecondCallback will be called only when the "A" variable obtain the state KEY_PRESSED.
-	 *      provider.addListener("A", provider.KEY_PRESSED, mySecondCallback);
+	 * @method emit
+	 * @param {String} event event name
+	 * @param data event data. Can be anything.
+	 * @chainable
 	 */
-	EventProvider.prototype.addListener = function(event, value, callback) {
-		var i, len, id;
-
-		if (callback === undefined) {
-			callback = value;
-			value = undefined;
-		}
-		if (callback === undefined) {
-			callback = event;
-			event = undefined;
-		}
-
-		id = this._nextId;
-		this._nextId++;
-
-		if (event === undefined) {
-			this._globalCallbacks.push({
-				                           id:       id,
-				                           callback: callback
-			                           });
-			return id;
-		} else {
-			for (i = 0, len = this._states.length; i < len; ++i) {
-				if (this._states[i] === event) {
-					if (this._stateCallbacks[i] === undefined) {
-						this._stateCallbacks[i] = [];
-					}
-					this._stateCallbacks[i].push({
-						                             id:       id,
-						                             filter:   value,
-						                             callback: callback
-					                             });
-					return id;
-				}
-			}
-			throw new Error('EventProvider: Unknow state: ' + event);
-		}
-	};
-
-	/**
-	 * Remove a listener.
-	 *
-	 * @method rmListener
-	 * @param {Number} id id of the listener.
-	 */
-	EventProvider.prototype.rmListener = function(id) {
-		var i, j, len, len2;
-
-		for (i = 0, len = this._globalCallbacks.length; i < len; ++i) {
-			if (this._globalCallbacks[i].id === id) {
-				this._globalCallbacks.splice(i, 1);
-				return;
-			}
-		}
-
-		for (i = 0, len = this._stateCallbacks.length; i < len; ++i) {
-			if (this._stateCallbacks[i] !== undefined) {
-				for (j = 0, len2 = this._stateCallbacks[i].length; j < len2; ++j) {
-					if (this._stateCallbacks[i][j].id === id) {
-						this._stateCallbacks[i].splice(j, 1);
-						return;
-					}
+	EventProvider.prototype.emit = function(event, data) {
+		var length = this._listeners.length;
+		for (var i = 0; i < length; i++) {
+			if ((this._listeners[i].event === null ||
+			     this._listeners[i].event === event) &&
+			    (this._listeners[i].predicate === null ||
+			     this._listeners[i].predicate(event, data, this))) {
+				this._listeners[i].callback(event, data, this);
+				if (this._listeners[i].once) {
+					this._listeners.splice(i, 1);
+					i--;
+					length--;
 				}
 			}
 		}
-	};
-
-	/**
-	 * Apply a modification to an internal state variable
-	 * and call listeners.
-	 *
-	 * @method _modifyState
-	 * @param {String}  event       event name
-	 * @param {*}       newValue   the new value.
-	 * @protected
-	 */
-	EventProvider.prototype._modifyState = function(event, newValue) {
-		var i, j, len, len2;
-
-		for (i = 0, len = this._states.length; i < len; ++i) {
-			if (this._states[i] === event) {
-				this._oldValues[i] = this._values[i];
-				this._values[i] = newValue;
-
-				for (j = 0, len2 = this._globalCallbacks.length; j < len2; ++j) {
-					this._globalCallbacks[j].callback(event, newValue, this);
-				}
-				if (this._stateCallbacks[i] !== undefined) {
-					for (j = 0, len2 = this._stateCallbacks[i].length; j < len2; ++j) {
-						if (this._stateCallbacks[i][j].filter === undefined ||
-						    JSON.stringify(newValue) === JSON.stringify(this._stateCallbacks[i][j].filter)) {
-							this._stateCallbacks[i][j].callback(event, newValue, this);
-						}
-					}
-				}
-				return;
-			}
-		}
-		throw new Error('EventProvider: Unknow state: ' + event);
+		return this;
 	};
 
 	TW.Event.EventProvider = EventProvider;

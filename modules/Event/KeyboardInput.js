@@ -4,13 +4,13 @@
  */
 
 var TW = TW || {};
-define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(EventProvider, inherit) {
+define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(DeviceInput, inherit) {
 
 	TW.Event = TW.Event || {};
 
 
 	/**
-	 * EventProvider using the keyboard.
+	 * DeviceInput using the keyboard.
 	 *
 	 *
 	 * Each event represent a key. each key has two _states: `KEY_PRESSED` or `KEY_RELEASED`
@@ -118,14 +118,14 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
      *      });
 	 *
 	 * @class KeyboardInput
-	 * @extends Event.EventProvider
+	 * @extends Event.DeviceInput
 	 * @param {HTMLElement} [target]      element to listen keypressed and keyup. default to `window.document`
 	 * @constructor
 	 */
 	function KeyboardInput(target) {
 		var i, len;
 
-		EventProvider.call(this);
+		DeviceInput.call(this);
 
 
 		if (target === undefined) {
@@ -178,7 +178,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 		target.addEventListener("keyup", this._onKeyUp.bind(this), false);
 	}
 
-	inherit(KeyboardInput, EventProvider);
+	inherit(KeyboardInput, DeviceInput);
 
 	/**
 	 * Represent a key pressed state
@@ -198,7 +198,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 
 
 	/**
-	 * return the EventProvider type.
+	 * return the DeviceInput type.
 	 *
 	 * @method getType
 	 * @return {String}     "KEYBOARD"

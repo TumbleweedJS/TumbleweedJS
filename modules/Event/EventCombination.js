@@ -4,7 +4,7 @@
  */
 
 var TW = TW || {};
-define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(EventProvider, inherit) {
+define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(DeviceInput, inherit) {
 
 	TW.Event = TW.Event || {};
 
@@ -12,12 +12,12 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 	/**
 	 *
 	 * @class EventCombination
-	 * @extends Event.EventProvider
+	 * @extends Event.DeviceInput
 	 * @constructor
 	 */
 	function EventCombination(input) {
 
-		EventProvider.call(this);
+		DeviceInput.call(this);
 
 		this._events = [];
 		this._eventsBind = [];
@@ -30,7 +30,7 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 		this.enable = true;
 
 		/**
-		 * @property {EventProvider} _input
+		 * @property {DeviceInput} _input
 		 * @private
 		 */
 		this._input = input;
@@ -38,10 +38,10 @@ define(['./EventProvider', '../Utils/inherit', '../Utils/Polyfills'], function(E
 		this._input.addListener(this._combinationEvent.bind(this));
 	}
 
-	inherit(EventCombination, EventProvider);
+	inherit(EventCombination, DeviceInput);
 
 	/**
-	 * return the EventProvider type.
+	 * return the DeviceInput type.
 	 *
 	 * @method getType
 	 * @return {String}     "COMBINATION"
