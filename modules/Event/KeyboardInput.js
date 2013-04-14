@@ -13,59 +13,14 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 * DeviceInput using the keyboard.
 	 *
 	 *
-	 * Each event represent a key. each key has two _states: `KEY_PRESSED` or `KEY_RELEASED`
+	 * Each event represent a key. each key has two states: `KEY_PRESSED` or `KEY_RELEASED`
 	 *
 	 *
 	 * ## List of keys:
 	 *
-	 * - KEY_A
-	 * - KEY_B
-	 * - KEY_C
-	 * - KEY_D
-	 * - KEY_E
-	 * - KEY_F
-	 * - KEY_G
-	 * - KEY_H
-	 * - KEY_I
-	 * - KEY_J
-	 * - KEY_K
-	 * - KEY_L
-	 * - KEY_M
-	 * - KEY_N
-	 * - KEY_O
-	 * - KEY_P
-	 * - KEY_Q
-	 * - KEY_R
-	 * - KEY_S
-	 * - KEY_T
-	 * - KEY_U
-	 * - KEY_V
-	 * - KEY_W
-	 * - KEY_X
-	 * - KEY_Y
-	 * - KEY_Z
-	 * - KEY_0
-	 * - KEY_1
-	 * - KEY_2
-	 * - KEY_3
-	 * - KEY_4
-	 * - KEY_5
-	 * - KEY_6
-	 * - KEY_7
-	 * - KEY_8
-	 * - KEY_9
-	 * - KEY_F1
-	 * - KEY_F2
-	 * - KEY_F3
-	 * - KEY_F4
-	 * - KEY_F5
-	 * - KEY_F6
-	 * - KEY_F7
-	 * - KEY_F8
-	 * - KEY_F9
-	 * - KEY_F10
-	 * - KEY_F11
-	 * - KEY_F12
+	 * - All letters from `KEY_A` to `KEY_Z`
+	 * - All digits from `KEY_0` to `KEY_9`
+	 * - Functions Keys, from `KEY_F1` to `KEY_F12`
 	 * - KEY_BACKSPACE
 	 * - KEY_TAB
 	 * - KEY_ENTER
@@ -127,51 +82,256 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 
 		DeviceInput.call(this);
 
-
 		if (target === undefined) {
 			target = window.document;
 		}
 
-		this._states = [];
+		/**
+		 * @event {Boolean} KEY_A
+		 */
+		/**
+		 * @event {Boolean} KEY_B
+		 */
+		/**
+		 * @event {Boolean} KEY_C
+		 */
+		/**
+		 * @event {Boolean} KEY_D
+		 */
+		/**
+		 * @event {Boolean} KEY_E
+		 */
+		/**
+		 * @event {Boolean} KEY_F
+		 */
+		/**
+		 * @event {Boolean} KEY_G
+		 */
+		/**
+		 * @event {Boolean} KEY_H
+		 */
+		/**
+		 * @event {Boolean} KEY_I
+		 */
+		/**
+		 * @event {Boolean} KEY_J
+		 */
+		/**
+		 * @event {Boolean} KEY_K
+		 */
+		/**
+		 * @event {Boolean} KEY_L
+		 */
+		/**
+		 * @event {Boolean} KEY_M
+		 */
+		/**
+		 * @event {Boolean} KEY_N
+		 */
+		/**
+		 * @event {Boolean} KEY_O
+		 */
+		/**
+		 * @event {Boolean} KEY_P
+		 */
+		/**
+		 * @event {Boolean} KEY_Q
+		 */
+		/**
+		 * @event {Boolean} KEY_R
+		 */
+		/**
+		 * @event {Boolean} KEY_S
+		 */
+		/**
+		 * @event {Boolean} KEY_T
+		 */
+		/**
+		 * @event {Boolean} KEY_U
+		 */
+		/**
+		 * @event {Boolean} KEY_V
+		 */
+		/**
+		 * @event {Boolean} KEY_W
+		 */
+		/**
+		 * @event {Boolean} KEY_X
+		 */
+		/**
+		 * @event {Boolean} KEY_Y
+		 */
+		/**
+		 * @event {Boolean} KEY_Z
+		 */
+		/**
+		 * @event {Boolean} KEY_1
+		 */
+		/**
+		 * @event {Boolean} KEY_2
+		 */
+		/**
+		 * @event {Boolean} KEY_3
+		 */
+		/**
+		 * @event {Boolean} KEY_4
+		 */
+		/**
+		 * @event {Boolean} KEY_5
+		 */
+		/**
+		 * @event {Boolean} KEY_5
+		 */
+		/**
+		 * @event {Boolean} KEY_6
+		 */
+		/**
+		 * @event {Boolean} KEY_7
+		 */
+		/**
+		 * @event {Boolean} KEY_8
+		 */
+		/**
+		 * @event {Boolean} KEY_9
+		 */
+		/**
+		 * @event {Boolean} KEY_0
+		 */
+
+		/**
+		 * @event {Boolean} KEY_F1
+		 */
+		/**
+		 * @event {Boolean} KEY_F2
+		 */
+		/**
+		 * @event {Boolean} KEY_F3
+		 */
+		/**
+		 * @event {Boolean} KEY_F4
+		 */
+		/**
+		 * @event {Boolean} KEY_F5
+		 */
+		/**
+		 * @event {Boolean} KEY_F6
+		 */
+		/**
+		 * @event {Boolean} KEY_F7
+		 */
+		/**
+		 * @event {Boolean} KEY_F8
+		 */
+		/**
+		 * @event {Boolean} KEY_F9
+		 */
+		/**
+		 * @event {Boolean} KEY_F10
+		 */
+		/**
+		 * @event {Boolean} KEY_F11
+		 */
+		/**
+		 * @event {Boolean} KEY_F12
+		 */
+		/**
+		 * @event {Boolean} KEY_BACKSPACE
+		 */
+		/**
+		 * @event {Boolean} KEY_TAB
+		 */
+		/**
+		 * @event {Boolean} KEY_ENTER
+		 */
+		/**
+		 * @event {Boolean} KEY_SHIFT
+		 */
+		/**
+		 * @event {Boolean} KEY_ALT
+		 */
+		/**
+		 * @event {Boolean} KEY_PAUSE
+		 */
+		/**
+		 * @event {Boolean} KEY_CAPSLOCK
+		 */
+		/**
+		 * @event {Boolean} KEY_ESC
+		 */
+		/**
+		 * @event {Boolean} KEY_SPACE
+		 */
+		/**
+		 * @event {Boolean} KEY_PAGE_UP
+		 */
+		/**
+		 * @event {Boolean} KEY_PAGE_DOWN
+		 */
+		/**
+		 * @event {Boolean} KEY_END
+		 */
+		/**
+		 * @event {Boolean} KEY_HOME
+		 */
+		/**
+		 * @event {Boolean} KEY_UP
+		 */
+		/**
+		 * @event {Boolean} KEY_DOWN
+		 */
+		/**
+		 * @event {Boolean} KEY_RIGHT
+		 */
+		/**
+		 * @event {Boolean} KEY_LEFT
+		 */
+		/**
+		 * @event {Boolean} KEY_INSERT
+		 */
+		/**
+		 * @event {Boolean} KEY_DELETE
+		 */
+		/**
+		 * @event {Boolean} KEY_NUMLOCK
+		 */
 
 		//from KEY_A to KEY_Z
 		for (i = 0; i < 26; i++) {
-			this._states.push('KEY_' + String.fromCharCode('A'.charCodeAt(0) + i));      // charCode MAJ
+			this.states.push('KEY_' + String.fromCharCode('A'.charCodeAt(0) + i));      // charCode MAJ
 		}
 		//from KEY_F1 to KEY_F12
 		for (i = 0; i < 12; i++) {
-			this._states.push('KEY_F' + String.fromCharCode('1'.charCodeAt(0) + i)); //      112
+			this.states.push('KEY_F' + String.fromCharCode('1'.charCodeAt(0) + i)); //      112
 		}
 		// KEY_0 to KEY_9
 		for (i = 0; i < 10; i++) {
-			this._states.push('KEY_' + String.fromCharCode('0'.charCodeAt(0) + i));  //      48
+			this.states.push('KEY_' + String.fromCharCode('0'.charCodeAt(0) + i));  //      48
 		}
 
-		this._states.push('KEY_BACKSPACE', 8);
-		this._states.push('KEY_TAB', 9);
-		this._states.push('KEY_ENTER', 13);
-		this._states.push('KEY_SHIFT', 16);
-		this._states.push('KEY_CTRL', 17);
-		this._states.push('KEY_ALT', 18);
-		this._states.push('KEY_PAUSE', 19);
-		this._states.push('KEY_CAPSLOCK', 20);
-		this._states.push('KEY_ESC', 27);
-		this._states.push('KEY_SPACE', 32);
-		this._states.push('KEY_PAGE_UP', 33);
-		this._states.push('KEY_PAGE_DOWN', 34);
-		this._states.push('KEY_END', 35);
-		this._states.push('KEY_HOME', 36);
-		this._states.push('KEY_LEFT', 37);
-		this._states.push('KEY_UP', 38);
-		this._states.push('KEY_RIGHT', 39);
-		this._states.push('KEY_DOWN', 40);
-		this._states.push('KEY_INSERT', 45);
-		this._states.push('KEY_DELETE', 46);
-		this._states.push('KEY_NUMLOCK', 144);
+		this.states.push('KEY_BACKSPACE');
+		this.states.push('KEY_TAB');
+		this.states.push('KEY_ENTER');
+		this.states.push('KEY_SHIFT');
+		this.states.push('KEY_CTRL');
+		this.states.push('KEY_ALT');
+		this.states.push('KEY_PAUSE');
+		this.states.push('KEY_CAPSLOCK');
+		this.states.push('KEY_ESC');
+		this.states.push('KEY_SPACE');
+		this.states.push('KEY_PAGE_UP');
+		this.states.push('KEY_PAGE_DOWN');
+		this.states.push('KEY_END');
+		this.states.push('KEY_HOME');
+		this.states.push('KEY_LEFT');
+		this.states.push('KEY_UP');
+		this.states.push('KEY_RIGHT');
+		this.states.push('KEY_DOWN');
+		this.states.push('KEY_INSERT');
+		this.states.push('KEY_DELETE');
+		this.states.push('KEY_NUMLOCK');
 
-		for (i = 0, len = this._states.length; i < len; i++) {
+		for (i = 0, len = this.states.length; i < len; i++) {
 			this._values[i] = KeyboardInput.KEY_RELEASED;
-			this._oldValues[i] = KeyboardInput.KEY_RELEASED;
 		}
 
 		target.addEventListener("keydown", this._onKeyDown.bind(this), false);
@@ -198,16 +358,6 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 
 
 	/**
-	 * return the DeviceInput type.
-	 *
-	 * @method getType
-	 * @return {String}     "KEYBOARD"
-	 */
-	KeyboardInput.prototype.getType = function() {
-		return "KEYBOARD";
-	};
-
-	/**
 	 * Called when a key is pressed.
 	 *
 	 * @method _onKeyDown
@@ -215,7 +365,7 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 * @private
 	 */
 	KeyboardInput.prototype._onKeyDown = function(event) {
-		this._modifyState(this._getAssociatedEvent(event), KeyboardInput.KEY_PRESSED);
+		this.emit(this._getAssociatedEvent(event), KeyboardInput.KEY_PRESSED);
 	};
 
 	/**
@@ -226,7 +376,7 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 * @private
 	 */
 	KeyboardInput.prototype._onKeyUp = function(event) {
-		this._modifyState(this._getAssociatedEvent(event), KeyboardInput.KEY_RELEASED);
+		this.emit(this._getAssociatedEvent(event), KeyboardInput.KEY_RELEASED);
 	};
 
 	/**
@@ -294,6 +444,28 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 			default:
 				return null;
 		}
+	};
+
+	/**
+	 * Predicate wich can be used for testing if a key is pressed.
+	 *
+	 * @method isPressed
+	 * @static
+	 * @return {Boolean} return `true` if the key is pressed.
+	 */
+	KeyboardInput.isPressed = function(event, value) {
+		return value;
+	};
+
+	/**
+	 * Predicate wich can be used for testing if a key is released.
+	 *
+	 * @method isReleased
+	 * @static
+	 * @return {Boolean} return `true` if the key is released.
+	 */
+	KeyboardInput.isReleased = function(event, value) {
+		return !value;
 	};
 
 	TW.Event.KeyboardInput = KeyboardInput;

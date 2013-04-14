@@ -11,7 +11,7 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	/**
 	 * DeviceInput using the mouse.
 	 *
-	 * Four events are provided:
+	 * Four state variables are provided:
 	 *
 	 *  - `MOUSE_MOVE` (object containing `x` and `y` properties)
 	 *  - `MOUSE_BUTTON_LEFT` (type boolean)
@@ -19,15 +19,18 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 *  - `MOUSE_BUTTON_MIDDLE` (type boolean)
 	 *
 	 * Each button is either `MOUSE_PRESSED` or `MOUSE_RELEASED` following the mouse state.<br />
-	 * The `MOUSE_MOVE` state contain directly and object representing the position of the object.
+	 * The `MOUSE_MOVE` state contain directly an object representing the position of the object.
 	 * At each mouse movement, a new event is created, updating the values.
+	 *
 	 *
 	 *
 	 * @example
 	 *
-	 *      var mouse = new MouseInput();
-	 *      mouse.addListener("MOUSE_BUTTON_LEFT", MouseInput.BUTTON_PRESSED, function(event, value, provider) {
-     *      });
+	 *     var mouse = new MouseInput();
+	 *          mouse.on("MOUSE_BUTTON_LEFT", function(event, value, provider) {
+	 *
+	 *          }, MouseInput.isPressed);
+     *     });
 	 *
 	 *
 	 * @class MouseInput
@@ -40,6 +43,21 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 		var i, len;
 
 		DeviceInput.call(this);
+
+		/**
+		 * @event {Object} MOUSE_MOVE
+		 * @param {Number} MOUSE_MOVE.x
+		 * @param {Number} MOUSE_MOVE.y
+		 */
+		/**
+		 * @event {Boolean} MOUSE_BUTTON_LEFT
+		 */
+		/**
+		 * @event {Boolean} MOUSE_BUTTON_MIDDLE
+		 */
+		/**
+		 * @event {Boolean} MOUSE_BUTTON_RIGHT
+		 */
 
 
 		if (target === undefined) {
@@ -54,18 +72,16 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 		 */
 		this.contextMenuActive = true;
 
-		this._states.push('MOUSE_MOVE');
-		this._states.push('MOUSE_BUTTON_LEFT');
-		this._states.push('MOUSE_BUTTON_MIDDLE');
-		this._states.push('MOUSE_BUTTON_RIGHT');
+		this.states.push('MOUSE_MOVE');
+		this.states.push('MOUSE_BUTTON_LEFT');
+		this.states.push('MOUSE_BUTTON_MIDDLE');
+		this.states.push('MOUSE_BUTTON_RIGHT');
 
-		for (i = 0, len = this._states.length; i < len; i++) {
-			if (this._states[i] === 'MOUSE_MOVE') {
-				this._values[i] = {x: undefined, y: undefined};
-				this._oldValues[i] = {x: undefined, y: undefined};
+		for (i = 0, len = this.states.length; i < len; i++) {
+			if (this.states[i] === 'MOUSE_MOVE') {
+				this._values[i] = {x: 0, y: 0};
 			} else {
 				this._values[i] = MouseInput.BUTTON_RELEASED;
-				this._oldValues[i] = MouseInput.BUTTON_RELEASED;
 			}
 		}
 
@@ -93,17 +109,6 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 */
 	MouseInput.BUTTON_RELEASED = false;
 
-
-	/**
-	 * return the DeviceInput type.
-	 *
-	 * @method getType
-	 * @return {String}     "MOUSE"
-	 */
-	MouseInput.prototype.getType = function() {
-		return "MOUSE";
-	};
-
 	/**
 	 * Called when a mouse is moved.
 	 *
@@ -112,7 +117,7 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 * @private
 	 */
 	MouseInput.prototype._onMouseMove = function(event) {
-		this._modifyState('MOUSE_MOVE', {
+		this.emit('MOUSE_MOVE', {
 			x: event.clientX - event.target.getBoundingClientRect().left,
 			y: event.clientY - event.target.getBoundingClientRect().top
 		});
@@ -126,7 +131,7 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 * @private
 	 */
 	MouseInput.prototype._onMouseUp = function(event) {
-		this._modifyState(this._getAssociatedEvent(event), MouseInput.BUTTON_RELEASED);
+		this.emit(this._getAssociatedEvent(event), MouseInput.BUTTON_RELEASED);
 	};
 
 	/**
@@ -137,7 +142,7 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 * @private
 	 */
 	MouseInput.prototype._onMouseDown = function(event) {
-		this._modifyState(this._getAssociatedEvent(event), MouseInput.BUTTON_PRESSED);
+		this.emit(this._getAssociatedEvent(event), MouseInput.BUTTON_PRESSED);
 	};
 
 	/**
@@ -174,6 +179,28 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 		if (this.contextMenuActive === false) {
 			event.preventDefault();
 		}
+	};
+
+	/**
+	 * Predicate wich can be used for testing if a mouse button is pressed.
+	 *
+	 * @method isPressed
+	 * @static
+	 * @return {Boolean} return `true` if the button is pressed.
+	 */
+	MouseInput.isPressed = function(event, value) {
+		return value;
+	};
+
+	/**
+	 * Predicate wich can be used for testing if a mouse button is released.
+	 *
+	 * @method isReleased
+	 * @static
+	 * @return {Boolean} return `true` if the button is released.
+	 */
+	MouseInput.isReleased = function(event, value) {
+		return !value;
 	};
 
 	TW.Event.MouseInput = MouseInput;
