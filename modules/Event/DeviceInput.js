@@ -95,7 +95,8 @@ define(['./EventProvider', '../Utils/inherit'], function(EventProvider, inherit)
 	 *
 	 * This method overload `EventProvider.emit`, for update the values of state variables.
 	 *
-	 * **This method should not be used directly by the user.**
+	 * For all devices, `emit` should not be used for submitting events.
+	 * A call to `emit` should only be used to simulate a device a device change of state of the device.
 	 *
 	 * @method emit
 	 * @param {String} event event name

@@ -173,12 +173,33 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 * @method bindListen
 	 * @param {String}  localEvent event to bind
 	 * @param {DeviceInput}  input input from which we wait an event.
-	 * @param {Function} [onBound] if set, callback called when a remote event is bound.
+	 * @param {Function} [onBound=null] if set, callback called when a remote event is bound.
 	 * @param {String} [onBound.localEvent] local event bound.
 	 * @param {String} [onBound.remoteEvent] remote event bound.
+	 * @param {Function} [predicate] predicate used to accept an event or not.
+	 *   Only the first accepted event will be linked. Should return `true` or `false`.
+	 * @param {Function} [predicate.event] predicate used to accept an event or not.
+	 * @param {Function} [predicate.data] predicate used to accept an event or not.
+	 * @param {Function} [predicate.emitter] predicate used to accept an event or not.
+	 *
+	 * @example
+	 *
+	 * The predicate argument can be useful for allowing only a subset of events to be mapped:
+	 *
+	 *
+	 *     BindListen('ACTION', keyboard, null, function(event, value, provider) {
+	 *          //Only letters are accepted
+	 *          Return /KEY_[A-Z]/.test(value);
+	 *     });
+	 *
+	 *     BindListen('ACTION', mouse, null, function(event, value, provider) {
+	 *          //This predicates assures that only a button action will be mapped (and not a mouse move)
+     *          Return typeof value == 'boolean';
+     *     });
+	 *
 	 * @chainable
 	 */
-	InputMapper.prototype.bindListen = function(localEvent, input, onBound) {
+	InputMapper.prototype.bindListen = function(localEvent, input, onBound, predicate) {
 		var i = this.states.indexOf(localEvent);
 
 		if (i === -1) {
@@ -186,19 +207,25 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 			i = this.states.length - 1;
 		}
 
-		if (!this.allowMultiInput && this._binds[i].length < 1) {
+		if (!this.allowMultiInput && this._binds[i].length > 0) {
 			this._binds[i][0].input.off(this._binds[i][0].event, this._binds[i][0].callback);
 			this._binds[i].splice(i, 1);
 		}
 
 		this.stopBindListen();
 
-		var callback = function(bindIndex, event) {
-			this.bindEvent(localEvent, event, input);
-			if (typeof onBound === "function") {
-				onBound(localEvent, event);
+		var callback = function(bindIndex, event, data, provider) {
+			if (predicate === undefined || predicate(event, data, provider)) {
+				this.bindEvent(localEvent, event, input);
+
+				if (typeof onBound === "function") {
+					onBound(localEvent, event);
+				}
+				if (this.allowMultiInput) {
+					this._binds[i].splice(bindIndex, 1);
+					input.off(null, callback);
+				}
 			}
-			this._binds[i].splice(bindIndex, 1);
 		}.bind(this, this._binds[i].length);
 		this._binds[i].push({
             event: null,
@@ -206,7 +233,7 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
             callback: callback,
 			listen: true
         });
-		input.once(null, callback);
+		input.any(callback);
 		return this;
 	};
 

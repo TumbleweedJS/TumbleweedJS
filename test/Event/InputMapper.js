@@ -165,4 +165,72 @@ define(['TW/Event/DeviceInput', 'TW/Event/InputMapper'], function(DeviceInput, I
 		input.emit('4');
 
 	});
+
+	test("use of bindListen()", function() {
+		var mapper = new InputMapper();
+		var input = new DeviceInput();
+		input.states = ['1', '2', '3'];
+
+		mapper.addEvent('A');
+
+		mapper.on('A', function(event, data) {
+			equal(data, "ok");
+		});
+
+		expect(8);
+
+		input.emit('1', "no");
+		mapper.bindListen('A', input);
+		input.emit('1', "bind");
+		input.emit('2', "no");
+		input.emit('1', "ok");
+
+		mapper.bindListen('A', input);
+		input.emit('2', "bind");
+		input.emit('2', "ok");
+		input.emit('2', "ok");
+		input.emit('1', "no");
+
+		mapper.bindListen('A', input, function(localEvent, remoteEvent) {
+			equal(localEvent, "A", "onBound callback");
+			equal(remoteEvent, "3", "onBound callback");
+		});
+		input.emit('3', "bind");
+
+		mapper.bindListen('A', input, function(localEvent, remoteEvent) {
+			equal(remoteEvent, "3", "onBound callback");
+		}, function(event, data) {
+			equal(data, "bind");
+			return  (event !== "1");
+		});
+
+		//Not allowed by predicate
+		input.emit('1', "bind");
+
+		//allowed. onBound will be called.
+		input.emit('3', "bind");
+
+
+	});
+
+	test("bindListen() and stopBindListen()", function() {
+		var mapper = new InputMapper();
+		var input = new DeviceInput();
+		input.states = ['1', '2', '3'];
+
+		mapper.addEvent('A');
+
+		mapper.on('A', function() {
+			ok(false, "this method should not be called: bindListen should be stopped.");
+		});
+
+		expect(1);
+		input.emit('1', "no");
+		mapper.bindListen('A', input);
+		mapper.stopBindListen();
+		input.emit('1', "bind");
+		input.emit('1', "no");
+
+		ok(true);
+	});
 });
