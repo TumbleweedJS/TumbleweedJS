@@ -334,6 +334,14 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 			this._values[i] = KeyboardInput.KEY_RELEASED;
 		}
 
+		/**
+		 * enable or not the key repeat.
+		 *
+		 * @property {Boolean} enableKeyRepeat
+		 * @defualt false
+		 */
+		this.enableKeyRepeat = false;
+
 		target.addEventListener("keydown", this._onKeyDown.bind(this), false);
 		target.addEventListener("keyup", this._onKeyUp.bind(this), false);
 	}
@@ -365,7 +373,10 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 * @private
 	 */
 	KeyboardInput.prototype._onKeyDown = function(event) {
-		this.emit(this._getAssociatedEvent(event), KeyboardInput.KEY_PRESSED);
+		var name = this._getAssociatedEvent(event);
+		if (this.enableKeyRepeat || this.get(name) !== KeyboardInput.KEY_PRESSED) {
+			this.emit(name, KeyboardInput.KEY_PRESSED);
+		}
 	};
 
 	/**
@@ -376,7 +387,10 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 * @private
 	 */
 	KeyboardInput.prototype._onKeyUp = function(event) {
-		this.emit(this._getAssociatedEvent(event), KeyboardInput.KEY_RELEASED);
+		var name = this._getAssociatedEvent(event);
+		if (this.enableKeyRepeat || this.get(name) !== KeyboardInput.KEY_RELEASED) {
+			this.emit(name, KeyboardInput.KEY_RELEASED);
+		}
 	};
 
 	/**
