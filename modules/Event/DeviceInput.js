@@ -60,11 +60,14 @@ define(['./EventProvider', '../Utils/inherit'], function(EventProvider, inherit)
 		 */
 		this._values = [];
 
+		this._waitValues = [];
+
 		/**
 		 * Enable (or disable) the device.
-		 * When the device is disabled, all call to `emit` is ignored.
+		 * When the device is disabled, all call to `emit` are ignored.
 		 *
 		 * @property {Boolean} enabled
+		 * @readonly
 		 * @default true
 		 */
 		this.enabled = true;
@@ -91,6 +94,39 @@ define(['./EventProvider', '../Utils/inherit'], function(EventProvider, inherit)
 	};
 
 	/**
+	 * Enable or disable the device.
+	 *
+	 * When the device is disabled, all call to `emit` are ignored.
+	 * When it is re enabled, all real values are setted, and event are emitted if the state has changed.
+	 * So, the device will be always in a stable state
+	 * (for a keyboard, each pressed key are released before to be pressed again).
+	 * If a event change and takes again its original value when it's disabled, no event is emitted.
+	 *
+	 * @method enable
+	 * @param {Boolean} enable `true` to enable ths device, `false` to disable it.
+	 */
+	DeviceInput.prototype.enable = function(enable) {
+		var i;
+
+		if (enable !== this.enabled) {
+			this.enabled = enable;
+
+			if (enable === true) {
+				for (i = 0; i < this.states.length; i++) {
+					if (this._values[i] !== this._waitValues[i]) {
+						this._values[i] = this._waitValues[i];
+						this.emit(this.states[i], this._values[i]);
+					}
+				}
+			} else {
+				for (i = 0; i < this.states.length; i++) {
+					this._waitValues[i] = this._values[i];
+				}
+			}
+		}
+	};
+
+	/**
 	 * Emit an event and call all subscibers to this event.
 	 *
 	 * This method overload `EventProvider.emit`, for update the values of state variables.
@@ -104,18 +140,21 @@ define(['./EventProvider', '../Utils/inherit'], function(EventProvider, inherit)
 	 * @chainable
 	 */
 	DeviceInput.prototype.emit = function(event, data) {
-		if (!this.enabled) {
-			return this;
-		}
-
 		var len = this.states.length;
 		for (var i = 0; i < len; ++i) {
 			if (this.states[i] === event) {
-				this._values[i] = data;
+				if (this.enabled) {
+					this._values[i] = data;
+				} else {
+					this._waitValues[i] = data;
+				}
 			}
 		}
 
-		return EventProvider.prototype.emit.call(this, event, data);
+		if (this.enabled) {
+			EventProvider.prototype.emit.call(this, event, data);
+		}
+		return this;
 	};
 
 
