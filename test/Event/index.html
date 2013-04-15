@@ -7,11 +7,12 @@
 	<script>
 	  QUnit.config.autostart = false;
 	  requirejs.config({
+        urlArgs: "bust=" + (new Date()).getTime(),
 		paths: {
 		  TW: '../../modules'
 		}
 	  });
-	  require(['./EventProvider', './DeviceInput'], function() {
+	  require(['./EventProvider', './DeviceInput', './InputMapper'], function() {
 	    QUnit.start();
 	  });
 	</script>
