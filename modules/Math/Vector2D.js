@@ -129,6 +129,8 @@ define([], function() {
 	/**
 	 * get the angle of the current Vector2D
 	 *
+	 * Result value are in range `] -180; +180 ]`
+	 *
 	 * @method getAngle
 	 * @return {Number} returns the angle of the current Vector2D (expressed in degree).
 	 */
@@ -146,12 +148,12 @@ define([], function() {
 		}
 		var tmpX = this.x / this.getLength();
 		var tmpY = this.y / this.getLength();
-		return Math.atan(tmpY / tmpX) * 180.0 / Math.PI + ( tmpX < 0 ? 180 : 0);
+		return Math.atan(tmpY / tmpX) * 180.0 / Math.PI + ( tmpX < 0 ? (tmpY < 0 ? -180 : 180) : 0);
 	};
 
 
 	/**
-	 * set the angle of the current Vector2D
+	 * set the angle of the current Vector2D.
 	 *
 	 * @method setAngle
 	 * @param {Number} angle the angle to apply to the current Vector2D (angle is expressed in degree)
