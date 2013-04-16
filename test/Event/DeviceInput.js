@@ -25,7 +25,7 @@ define(['TW/Event/DeviceInput'], function(DeviceInput) {
 		strictEqual(device.get('state1'), null);
 	});
 
-	test("enable and disable", function() {
+	test("enable and disable simple test", function() {
 		var device = new DeviceInput();
 		device.states = [
 			"state1"
@@ -44,12 +44,36 @@ define(['TW/Event/DeviceInput'], function(DeviceInput) {
 		strictEqual(device.enabled, true);
 		device.emit('state1', 2);
 		strictEqual(device.get('state1'), 2);
-		device.enabled = false;
+		device.enable(false);
 		device.emit('state1', 5);
 		strictEqual(device.get('state1'), 2);
-		device.enabled = true;
+		device.emit('state1', 2);
+		device.enable(true);
 		device.emit('state1', 5);
 		strictEqual(device.get('state1'), 5);
 
+	});
+
+	test("correcting events with enable/disable.", function() {
+		var device = new DeviceInput();
+		device.states = [
+			"state1"
+		];
+
+		device.on('state1', function(eevnt, data) {
+			ok(data === "OK 1" || data  === "OK 2" || data === "OK 3");
+		});
+
+		expect(3);
+		device.emit('state1', "OK 1");
+		device.enable(false);
+		device.emit('state1', "Not OK");
+		//should not be called because disabled.
+		device.emit('state1', "OK 1");
+		device.enable(true);
+		device.emit('state1', "OK 2");
+		device.enable(false);
+		device.emit('state1', "OK 3");
+		device.enable(true);
 	});
 });

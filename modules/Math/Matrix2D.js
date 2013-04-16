@@ -68,20 +68,20 @@ define(['./Vector2D'], function(Vector2D) {
 	 * Set the current matrix to the specified scalars (a, b, c, d, e, f).
 	 * **Note that the parameters are given in column major order.**
 	 *
-	 * @method setTransform
-	 * @param a represent the top-left scalar in the matrix
-	 * @param b represent the middle-left scalar in the matrix
-	 * @param c represent the top-center scalar in the matrix
-	 * @param d represent the middle-middle scalar in the matrix
-	 * @param e represent the top-left scalar in the matrix
-	 * @param f represent the middle-right scalar in the matrix
-	 * @chainable
-	 *
 	 * After a `setTransform` call, your matrix will look like :
 	 *
-	 *     [a c e]
-	 *     [b d f]
-	 *     [0 0 1]
+	 *     [a b 0]
+	 *     [c d 0]
+	 *     [e f 1]
+	 *
+	 * @method setTransform
+	 * @param a represent the top-left scalar in the matrix
+	 * @param b represent the top-center scalar in the matrix
+	 * @param c represent the middle-left scalar in the matrix
+	 * @param d represent the middle-center scalar in the matrix
+	 * @param e represent the bottom-left scalar in the matrix
+	 * @param f represent the bottom-center scalar in the matrix
+	 * @chainable
 	 */
 	Matrix2D.prototype.setTransform = function(a, b, c, d, e, f) {
 		this.data[0][0] = a;
@@ -128,9 +128,9 @@ define(['./Vector2D'], function(Vector2D) {
 	 */
 	Matrix2D.prototype.getData = function() {
 		return [
-			[this.data[0][0], this.data[0][1]],
-			[this.data[1][0], this.data[1][1]],
-			[this.data[2][0], this.data[2][1]]
+			[this.data[0][0], this.data[0][1], this.data[0][2]],
+			[this.data[1][0], this.data[1][1], this.data[1][2]],
+			[this.data[2][0], this.data[2][1], this.data[2][2]]
 		];
 	};
 
@@ -216,7 +216,7 @@ define(['./Vector2D'], function(Vector2D) {
 	/**
 	 * create a copy of the matrix.
 	 *
-	 * @method copyMatrix
+	 * @method copy
 	 * @return {Matrix2D} the new matrix
 	 */
 	Matrix2D.prototype.copy = function() {
@@ -232,7 +232,7 @@ define(['./Vector2D'], function(Vector2D) {
 	/**
 	 * Compute the product of two matrix
 	 *
-	 * @method multiply
+	 * @method multiplyMatrix
 	 * @param {Matrix2D} matrix the matrix to multiplies
 	 * @chainable
 	 */
