@@ -12,6 +12,8 @@ define(['./Channel', '../Utils/Polyfills'], function(Channel) {
 	/**
 	 * Manager class is utility for manage all sound in channel.
 	 *
+	 * It's an efficient way to apply some globals operations like changing the volume or mute all sounds.
+	 *
 	 * @class Manager
 	 * @constructor
 	 */

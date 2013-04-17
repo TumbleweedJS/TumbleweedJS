@@ -20,6 +20,12 @@ define(['../Utils/Polyfills'], function() {
 	/**
 	 * Sound class is object represent html5 sound tag.
 	 *
+	 * A sound can be played and paused. It has a volume and can be muted.
+	 *
+	 * When a sound is ready to play or completed, it informs the program with some callbacks (
+	 * {{#crossLink "Audio.Sound/onReady:property"}}{{/crossLink}},
+	 * {{#crossLink "Audio.Sound/onComplete:property"}}{{/crossLink}}).
+	 *
 	 * @class Sound
 	 * @constructor
 	 * @param {String|String[]} src The sound source url. If an array is passed, the first supported source is used,

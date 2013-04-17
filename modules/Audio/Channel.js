@@ -10,7 +10,12 @@ define(['./Sound', '../Utils/Polyfills'], function(Sound) {
 
 
 	/**
-	 * Channel class is utility for manage multiple sound with same source.
+	 * Channel class is an utility for manage multiple sounds with a same source.
+	 *
+	 * By default, a sound object can't be played twice simulaneously.
+	 * The correct way to do this is to use the Channel class.
+	 *
+	 * A Channel is a group of many Sound objets using the same source (so the same music).
 	 *
 	 * @class Channel
 	 * @constructor
