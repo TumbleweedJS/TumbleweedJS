@@ -66,6 +66,9 @@ define(['./GraphicObject', '../Utils/inherit', '../Utils/copyParam'], function(G
 			 */
 			imageRect: null
 		});
+		if (this.image && !this.image.complete) {
+			this.image.addEventListener('load', this.notifyParentChange.bind(this));
+		}
 	}
 
 	inherit(Sprite, GraphicObject);

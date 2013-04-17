@@ -54,6 +54,10 @@ define(['./GraphicObject', '../Utils/inherit'], function(GraphicObject, inherit)
 		this._callback = null;
 		this._status = "stop";
 		this._sigmaElapsedTime = 0;
+
+		if (this.spriteSheet.image && !this.spriteSheet.image.complete) {
+			this.spriteSheet.image.addEventListener('load', this.notifyParentChange.bind(this));
+		}
 	}
 
 	inherit(AnimatedSprite, GraphicObject);
