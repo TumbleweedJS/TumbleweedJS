@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 					define: false
 				}
             },
-			tumbleweed: ['grunt.js', 'modules/**/*.js'],
+			tumbleweed: ['grunt.js', 'modules/**/!(Polyfills)*.js'],
 			test: {
 				options: {
 					globals: {
