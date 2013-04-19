@@ -19,7 +19,8 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 	 */
 	TW.Preload.IMAGE = "image";
 
-	/* The preload type for SVG files.
+	/**
+	 * The preload type for SVG files.
 	 * @property SVG
 	 * @type String
 	 * @default svg
@@ -171,12 +172,6 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 		this.onError = null;
 	}
 
-	//Callback proxies
-	Preload.prototype._sendLoadStart = function() {
-		if (this.onLoadStart) {
-			this.onLoadStart({target: this});
-		}
-	};
 
 	Preload.prototype._sendProgress = function(value) {
 		var event;
@@ -190,39 +185,32 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 				this.progress = 0;
 			}
 		}
-		event.target = this;
 		if (this.onProgress) {
-			this.onProgress(event);
+			this.onProgress(event, this);
 		}
 	};
 
 	Preload.prototype._sendFileProgress = function(event) {
 		if (this.onFileProgress) {
-			event.target = this;
-			this.onFileProgress(event);
+			this.onFileProgress(event, this);
 		}
 	};
 
 	Preload.prototype._sendComplete = function() {
 		if (this.onComplete) {
-			this.onComplete({target: this});
+			this.onComplete(this);
 		}
 	};
 
 	Preload.prototype._sendFileComplete = function(event) {
 		if (this.onFileLoad) {
-			event.target = this;
-			this.onFileLoad(event);
+			this.onFileLoad(event, this);
 		}
 	};
 
 	Preload.prototype._sendError = function(event) {
 		if (this.onError) {
-			if (event === null) {
-				event = {};
-			}
-			event.target = this;
-			this.onError(event);
+			this.onError(event, this);
 		}
 	};
 
@@ -320,7 +308,7 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 		}
 
 		for (var i = 0, l = data.length; i < l; i++) {
-			this._addItem(data[i], false);
+			this._addItem(data[i]);
 		}
 
 		if (loadNow !== false) {
@@ -416,7 +404,9 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 		}
 
 		if (!this._loadStartWasDispatched) {
-			this._sendLoadStart();
+			if (this.onLoadStart) {
+				this.onLoadStart({ target: this });
+			}
 			this._loadStartWasDispatched = true;
 		}
 
@@ -445,19 +435,15 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 		item.load();
 	};
 
-	Preload.prototype._handleFileError = function(event) {
-		var loader = event.target;
-
+	Preload.prototype._handleFileError = function(event, loader) {
 		var resultData = this._createResultData(loader.getItem());
 		this._numItemsLoaded++;
 		this._updateProgress();
 
 		this._sendError(resultData);
 
-		if (!this.stopOnError) {
-			this._removeLoadItem(loader);
-			this._loadNext();
-		}
+		this._removeLoadItem(loader);
+		this._loadNext();
 	};
 
 	Preload.prototype._createResultData = function(item) {
@@ -467,8 +453,7 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 		return resultData;
 	};
 
-	Preload.prototype._handleFileComplete = function(event) {
-		var loader = event.target;
+	Preload.prototype._handleFileComplete = function(loader) {
 		var item = loader.getItem();
 		var resultData = this._createResultData(item);
 
@@ -501,8 +486,8 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 	Preload.prototype._handleFileTagComplete = function(item, resultData) {
 		this._numItemsLoaded++;
 
-		if (item.completeHandler) {
-			item.completeHandler(resultData);
+		if (item._sendFileComplete) {
+			item._sendFileComplete(resultData);
 		}
 
 		this._updateProgress();
@@ -522,41 +507,34 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 	};
 
 	Preload.prototype._createResult = function(item, data) {
-		var tag = null;
-		var resultData;
+		var result = null;
+
 		switch (item.type) {
 			case TW.Preload.IMAGE:
-				tag = this._createImage();
+				result = this._createImage();
+				result.src = item.src;
 				break;
 			case TW.Preload.SOUND:
-				tag = item.tag || this._createAudio();
+				result = item.tag || this._createAudio();
+				result.src = item.src;
 				break;
 			case TW.Preload.CSS:
-				tag = this._createLink();
+				result = this._createLink();
+				result.href = item.src;
 				break;
 			case TW.Preload.SVG:
-				tag = this._createSVG();
-				tag.appendChild(this._createXML(data, "image/svg+xml"));
+				result = this._createSVG();
+				result.appendChild(this._createXML(data, "image/svg+xml"));
 				break;
 			case TW.Preload.XML:
-				resultData = this._createXML(data, "text/xml");
+				result = this._createXML(data, "text/xml");
 				break;
 			case TW.Preload.JSON:
 			case TW.Preload.TEXT:
-				resultData = data;
+				result = data;
 		}
 
-		//LM: Might not need to do this with Audio.
-		if (tag) {
-			if (item.type === this.CSS) {
-				tag.href = item.src;
-			} else if (item.type !== this.SVG) {
-				tag.src = item.src;
-			}
-			return tag;
-		} else {
-			return resultData;
-		}
+		return result;
 	};
 
 	Preload.prototype._createXML = function(data, type) {
@@ -579,8 +557,7 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 	};
 
 	// This is item progress!
-	Preload.prototype._handleProgress = function(event) {
-		var loader = event.target;
+	Preload.prototype._handleProgress = function(event, loader) {
 		var resultData = this._createResultData(loader.getItem());
 		resultData.progress = loader.progress;
 		this._sendFileProgress(resultData);
@@ -690,9 +667,7 @@ define(['./XHRLoader', '../Utils/Polyfills'], function(XHRLoader) {
 
 	Preload.prototype._getNameAfter = function(path, token) {
 		var dotIndex = path.lastIndexOf(token);
-		var lastPiece = path.substr(dotIndex + 1);
-		var endIndex = lastPiece.lastIndexOf(/[\b|\?|#|\s]/);
-		return (endIndex === -1) ? lastPiece : lastPiece.substr(0, endIndex);
+		return path.substr(dotIndex + 1);
 	};
 
 	Preload.prototype._createImage = function() {

@@ -48,18 +48,6 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 		this.onLoadStart = null;
 
 		/**
-		 * The callback to fire when a file completes.
-		 * @event onFileLoad
-		 */
-		this.onFileLoad = null;
-
-		/**
-		 * The callback to fire when a file progress changes.
-		 * @event onFileProgress
-		 */
-		this.onFileProgress = null;
-
-		/**
 		 * The callback to fire when all loading is complete.
 		 * @event onComplete
 		 */
@@ -104,7 +92,7 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 		try { // Sometimes we get back 404s immediately, particularly when there is a cross origin request.
 			this._request.send();
 		} catch (error) {
-			this._sendError({source: error});
+			this._sendError(error);
 		}
 	};
 
@@ -134,11 +122,11 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 	/**
 	 * Determine if a specific type should be loaded as a binary file
 	 *
-	 * @method isBinary
+	 * @method _isBinary
 	 * @param type The type to check
 	 * @private
 	 */
-	XHRLoader.prototype.isBinary = function(type) {
+	XHRLoader.prototype._isBinary = function(type) {
 		switch (type) {
 			case this.IMAGE:
 			case this.SOUND:
@@ -162,12 +150,12 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 
 	XHRLoader.prototype.handleAbort = function() {
 		this._clean();
-		this._sendError();
+		this._sendError(null);
 	};
 
 	XHRLoader.prototype.handleError = function() {
 		this._clean();
-		this._sendError();
+		this._sendError(null);
 	};
 
 	XHRLoader.prototype.handleReadyStateChange = function() {
@@ -230,7 +218,7 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 
 	XHRLoader.prototype.handleTimeout = function() {
 		this._clean();
-		this._sendError();
+		this._sendError(null);
 	};
 
 	XHRLoader.prototype._createXHR = function(item) {
@@ -259,7 +247,7 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 
 		this._request.open('GET', item.src, true);
 
-		if (this.isBinary(item.type)) {
+		if (this._isBinary(item.type)) {
 			this._request.responseType = 'arraybuffer';
 		}
 		return true;
@@ -277,14 +265,12 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 		req.ontimeout = null;
 		req.onloadend = null;
 		req.onreadystatechange = null;
-
-		clearInterval(this._checkLoadInterval);
 	};
 
 	//Callback proxies
 	XHRLoader.prototype._sendLoadStart = function() {
 		if (this.onLoadStart) {
-			this.onLoadStart({target: this});
+			this.onLoadStart(this);
 		}
 	};
 
@@ -300,39 +286,20 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 				this.progress = 0;
 			}
 		}
-		event.target = this;
 		if (this.onProgress) {
-			this.onProgress(event);
-		}
-	};
-
-	XHRLoader.prototype._sendFileProgress = function(event) {
-		if (this.onFileProgress) {
-			event.target = this;
-			this.onFileProgress(event);
+			this.onProgress(event, this);
 		}
 	};
 
 	XHRLoader.prototype._sendComplete = function() {
 		if (this.onComplete) {
-			this.onComplete({target: this});
-		}
-	};
-
-	XHRLoader.prototype._sendFileComplete = function(event) {
-		if (this.onFileLoad) {
-			event.target = this;
-			this.onFileLoad(event);
+			this.onComplete(this);
 		}
 	};
 
 	XHRLoader.prototype._sendError = function(event) {
 		if (this.onError) {
-			if (event === null) {
-				event = {};
-			}
-			event.target = this;
-			this.onError(event);
+			this.onError(event, this);
 		}
 	};
 
