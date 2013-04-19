@@ -199,14 +199,13 @@ define(['./Vector2D'], function(Vector2D) {
 	 *Transform the current matrix to apply a skew.
 	 *
 	 * @method skew
-	 * @param a the x skew factor
-	 * @param b the y skew factor
+	 * @param a the x skew angle (in degrees)
+	 * @param b the y skew angle (in degrees)
 	 * @return {Matrix2D} return the current matrix that have been transformed by the skew.
 	 * @chainable
 	 */
 	Matrix2D.prototype.skew = function(a, b) {
-		var tmpMatrix = new Matrix2D();
-		tmpMatrix.setTransform(1, a, b, 1, 0, 0);
+		var tmpMatrix = Matrix2D.skew(a, b);
 		tmpMatrix.multiplyMatrix(this);
 		this.data = tmpMatrix.data;
 		return this;
@@ -407,13 +406,13 @@ define(['./Vector2D'], function(Vector2D) {
 	 *
 	 * @method skew
 	 * @static
-	 * @param a the factor of skew on the y axis
-	 * @param b the factor of skew on the x axis
+	 * @param a the angle of skew on the y axis (in degrees)
+	 * @param b the angle of skew on the x axis (in degrees)
 	 * @return {Matrix2D}
 	 */
 	Matrix2D.skew = function(a, b) {
 		var tmp = new Matrix2D();
-		tmp.setTransform(1, a, b, 1, 0, 0);
+		tmp.setTransform(1, Math.tan(a / 180 * Math.PI), Math.tan(b / 180 * Math.PI), 1, 0, 0);
 		return tmp;
 	};
 

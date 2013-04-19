@@ -59,6 +59,11 @@ define(['TW/Math/Matrix2D'], function(Matrix2D) {
 		matrix = Matrix2D.rotation(66).scale(2, 2);
 		deepEqual(matrix.inverse(), Matrix2D.rotation(-66).scale(0.5, 0.5));
 
+		matrix = Matrix2D.skew(0, 180);
+		deepEqual(matrix.inverse(), Matrix2D.skew(0, -180));
+		matrix = Matrix2D.skew(0, 30);
+		deepEqual(matrix.inverse(), Matrix2D.skew(0, -30));
+
 		ok(Matrix2D.identity().inverse().isIdentity());
 	});
 
