@@ -4,17 +4,45 @@
  */
 
 var TW = TW || {};
-define(['./Preload', '../Utils/Polyfills'], function() {
+define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], function(inherit, EventProvider) {
 
 	TW.Preload = TW.Preload || {};
 
-
 	/**
+	 * A XMLHttpRequest wrapper for a greater ease of use.
+	 *
+	 * XHRLoader hides differences between browsers and assures a better support of XHR2 features.
+	 * XHRLoader will call an ajax request for loading a ressource, and keep you informed of the progress of loading,
+	 * by using events.
+	 *
+	 * For each request, yuo are assured than a `complete` or `error` event is called, only one time.
+	 * `start` and `progress` events gives you ore details during the process.
+	 *
+	 *
+	 * XHRLoader support many objects types:
+	 *
+	 *  - `"text"`
+	 *  Basic text format. It's the default format
+	 *  - `"xml"`
+	 *  An XML DOM object is returned.
+	 *  - `"script"`
+	 *  A HTML script element is returned, and can be added to the DOM.
+	 *  It is called immediatly after being added to the DOM.
+	 *  - `"css"`
+	 *  A link tag is created and returned. Its effects act when you add it to the DOM.
+	 *  - `"html"`
+	 *  return a div html element contaings all HTML code loaded from XHR request.
+	 *  If you don't want your elements to be wrapped in a div tag, you can use the `firstChild` property.
+	 *
 	 * @class XHRLoader
-	 * @param file
+	 * @param path Url to the remote file
+	 * @param {String} [type="text"] type of the ressource.
 	 * @constructor
 	 */
-	function XHRLoader(file) {
+	function XHRLoader(path, type) {
+
+		EventProvider.call(this);
+
 		/**
 		 * Determine if this loader has completed already.
 		 * @property loaded
@@ -31,204 +59,274 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 		 */
 		this.progress = 0;
 
-		// The manifest item we are loading
-		this._item = file;
-
-		//Callbacks
 		/**
-		 * The callback to fire when progress changes.
-		 * @event onProgress
+		 * Time (in ms) before we wait the download start.
+		 * Throw an error event when time is expired.
+		 *
+		 * @property {Number} timeout
 		 */
-		this.onProgress = null;
+		this.timeout = 8000;
 
 		/**
-		 * The callback to fire when a load starts.
-		 * @event onLoadStart
+		 * Type given to constructor.
+		 *
+		 * @property {String} type
 		 */
-		this.onLoadStart = null;
+		this.type = type;
 
 		/**
-		 * The callback to fire when all loading is complete.
-		 * @event onComplete
+		 *
+		 * @property _result
+		 * @private
 		 */
-		this.onComplete = null;
+		this._result = null;
 
 		/**
-		 * The callback to fire when the loader encounters an error. If the error was encountered
-		 * by a file, the event will contain the required file data, but the target will be the loader.
-		 * @event onError
+		 * Handler from `setTimeout` for timeout failback event.
+		 *
+		 * @property _timeoutHandler
 		 */
-		this.onError = null;
+		this._timeoutHandler = null;
 
-		this._createXHR(file);
+		/**
+		 * Event called when the loading start.
+		 * This event is not always called (depending of the capabilities of the browser).
+		 *
+		 * @event start
+		 */
+
+		/**
+		 * Event called regularly when the download progress.
+		 * This event is not always called (depending of the capabilities of the browser).
+		 *
+		 * @event progress
+		 * @param TODO
+		 */
+
+		/**
+		 * Event called when the loading is fully done.
+		 *
+		 * @event complete
+		 * @param {*} result the object resulting
+		 */
+
+		/**
+		 * Event called when an error occurs. It can be an network error, a bad HTTP status or a timeout.
+		 *
+		 * The download is stopped after error.
+		 *
+		 * @event error
+		 * @param {*} error object describling the error. It's generally an Error or an Event object.
+		 */
+
+		this._createXHR(path, type || "text");
 	}
+
+	inherit(XHRLoader, EventProvider);
 
 	/**
 	 * Begin the load.
+	 *
 	 * @method load
 	 */
 	XHRLoader.prototype.load = function() {
 		if (this._request === null) {
-			this.handleError();
+			this._handleError(new Error('XMLHttpRequest is not supported by the browser'));
 			return;
 		}
 
-		//Setup timeout if we're not using XHR2
-		if (this._xhrLevel === 1) {
-			this._loadTimeOutTimeout = setTimeout(this.handleTimeout.bind(this), TW.Preload.TIMEOUT_TIME);
+		if (this.ontimeout === undefined) {
+			this._timeoutHandler = setTimeout(this._handleError.bind(this, new Error("Timeout")), this.timeout);
+		} else {
+			this._request.timeout = this.timeout;
+			this._request.ontimeout = this._handleError.bind(this);
 		}
 
 		//Events
-		this._request.onloadstart = this.handleLoadStart.bind(this);
-		this._request.onprogress = this.handleProgress.bind(this);
-		this._request.onabort = this.handleAbort.bind(this);
-		this._request.onerror = this.handleError.bind(this);
-		this._request.ontimeout = this.handleTimeout.bind(this);
+		this._request.onloadstart = this._handleLoadStart.bind(this);
+		this._request.onprogress = this._handleProgress.bind(this);
+		this._request.onabort = this._handleError.bind(this);
 
-		//LM: Firefox does not get onload. Chrome gets both. Might need onload for other things.
-		this._request.onload = this.handleLoad.bind(this);
-		this._request.onreadystatechange = this.handleReadyStateChange.bind(this);
 
-		try { // Sometimes we get back 404s immediately, particularly when there is a cross origin request.
+		if (this._request.onload !== undefined) {
+			this._request.onload = this._handleLoad.bind(this);
+		} else {
+			this._request.onreadystatechange = function() {
+				if (this._request.readyState === 4) {
+					this._handleLoad();
+				}
+			}.bind(this);
+		}
+
+		//XHR.send() can throw an Error. Sometimes we have an error event, or a exception, or both
+		//errorDelayed assures the XHRLoader error event will be called only once.
+		var errorDelayed = null;
+		this._request.onerror = function(error) {
+			errorDelayed = error || true;
+		};
+		try {
 			this._request.send();
 		} catch (error) {
-			this._sendError(error);
+			errorDelayed = error;
 		}
+		if (errorDelayed !== null) {
+			this._handleError(errorDelayed);
+		}
+
+		this._request.onerror = this._handleError.bind(this);
 	};
 
 	/**
-	 * Get a reference to the manifest item that is loaded by this loader.
+	 * Return the result.
+	 * The format depends on the type indicated.
 	 *
-	 * @method getItem
-	 * @return {Object} The manifest item
-	 */
-	XHRLoader.prototype.getItem = function() {
-		return this._item;
-	};
-
-	/**
 	 * @method getResult
-	 * @return {*}
 	 */
 	XHRLoader.prototype.getResult = function() {
-		//[SB] When loading XML IE9 does not return .response, instead it returns responseXML.xml
-		try {
-			return this._request.responseText;
-		} catch (error) {
-		}
-		return this._request.response;
+		return this._result;
 	};
 
 	/**
-	 * Determine if a specific type should be loaded as a binary file
+	 * Transform the data received from the XHR object,
+	 * into appropriate result.
 	 *
-	 * @method _isBinary
-	 * @param type The type to check
+	 * @method _getResult
+	 * @return {*} result
+	 */
+	XHRLoader.prototype._getResult = function() {
+		var result = null;
+
+		if (this._isXML(this.type)) {
+			if (this._request.responseXML !== null) {
+				result = this._request.responseXML;
+			} else if(typeof DOMParser !== "undefined") {
+				result = (new DOMParser()).parseFromString(this._request.responseText, 'text/xml');
+			} else {
+				this._handleError(new Error('XML format not supported by this browser'));
+				return null;
+			}
+		}
+
+		if (result === null) {
+			result = this._request.responseText;
+		}
+
+		var tag;
+		switch(this.type) {
+			case 'xml':
+				return result;
+			case 'image':
+			case 'svg':
+			case 'sound':
+			case 'binary':
+			case 'json':
+				//TODO: implement later.
+				return null;
+			case 'css':
+				tag = document.createElement("link");
+				tag.rel = "stylesheet";
+				tag.type = "text/css";
+				tag.text = result;
+				return tag;
+			case 'script':
+				tag = document.createElement("script");
+				tag.type = 'text/javascript';
+				tag.text = result;
+				return tag;
+			case 'html':
+				tag = document.createElement("div");
+				tag.innerHTML = result;
+				return tag;
+			default:
+				return result;
+		}
+	};
+
+
+	/**
+	 * Called when a progress event is fired.
+	 *
+	 * @param event
+	 */
+	XHRLoader.prototype._handleProgress = function(event) {
+
+		if (event instanceof Number) {
+			this.progress = event;
+			event = {
+				loaded: this.progress,
+				total: 1
+			};
+		} else {
+			if (event.lengthComputable && event.total !== 0) {
+				this.progress = event.loaded / event.total;
+				if (this.progress > 1) {
+					this.progress = 1;
+				}
+			}
+			if (isNaN(this.progress) || this.progress === Infinity) {
+				this.progress = 0;
+			}
+		}
+		this.emit('progress', event);
+	};
+
+	/**
+	 * Called when a startLoad event is fired
+	 *
+	 * @param event
+	 */
+	XHRLoader.prototype._handleLoadStart = function(event) {
+		clearTimeout(this._timeoutHandler);
+		this._timeoutHandler = null;
+		this.emit('start', event);
+	};
+
+	/**
+	 * Catch an error, abort or timeout.
+	 *
+	 * @param event
 	 * @private
 	 */
-	XHRLoader.prototype._isBinary = function(type) {
-		switch (type) {
-			case this.IMAGE:
-			case this.SOUND:
-				return true;
-			default:
-				return false;
-		}
-	};
-
-	XHRLoader.prototype.handleProgress = function(event) {
-		if (event.loaded > 0 && event.total === 0) {
-			return; // Sometimes we get no "total", so just ignore the progress event.
-		}
-		this._sendProgress({loaded: event.loaded, total: event.total});
-	};
-
-	XHRLoader.prototype.handleLoadStart = function() {
-		clearTimeout(this._loadTimeOutTimeout);
-		this._sendLoadStart();
-	};
-
-	XHRLoader.prototype.handleAbort = function() {
+	XHRLoader.prototype._handleError = function(event) {
 		this._clean();
-		this._sendError(null);
+		this.emit('error', event);
 	};
 
-	XHRLoader.prototype.handleError = function() {
-		this._clean();
-		this._sendError(null);
-	};
-
-	XHRLoader.prototype.handleReadyStateChange = function() {
-		if (this._request.readyState === 4) {
-			this.handleLoad();
-		}
-	};
-
-	XHRLoader.prototype._checkError = function() {
-		//LM: Probably need additional handlers here.
-		var status = parseInt(this._request.status, 10);
-
-		switch (status) {
-			case 404:   // Not Found
-			case 0:     // Not Loaded
-				return false;
-		}
-
-		//wdg:: added check for this._hasTextResponse() ... Android  2.2 uses it.
-		return this._hasResponse() || this._hasTextResponse() || this._hasXMLResponse();
-	};
-
-	/*
-	 * Validate the response (we need to try/catch some of these, nicer to break them into functions.
+	/**
+	 * Called when the load is done.
+	 *
+	 * @method _handleLoad
 	 */
-	XHRLoader.prototype._hasResponse = function() {
-		return this._request.response !== null;
-	};
-
-	XHRLoader.prototype._hasTextResponse = function() {
-		try {
-			return this._request.responseText !== null;
-		} catch (e) {
-			return false;
-		}
-	};
-
-	XHRLoader.prototype._hasXMLResponse = function() {
-		try {
-			return this._request.responseXML !== null;
-		} catch (e) {
-			return false;
-		}
-	};
-
-	XHRLoader.prototype.handleLoad = function() {
+	XHRLoader.prototype._handleLoad = function() {
 		if (this.loaded) {
 			return;
 		}
-		this.loaded = true;
 
-		if (!this._checkError()) {
-			this.handleError();
+		var status = parseInt(this._request.status, 10);
+
+		if (status !== 200 && status !== 0) {
+			this._handleError(new Error("Bad Status"));
 			return;
 		}
 
-		this._clean();
-		this._sendComplete();
-	};
-
-	XHRLoader.prototype.handleTimeout = function() {
-		this._clean();
-		this._sendError(null);
-	};
-
-	XHRLoader.prototype._createXHR = function(item) {
-		this._xhrLevel = 1;
-
-		if (window.ArrayBuffer) {
-			this._xhrLevel = 2;
+		this.loaded = true;
+		this._result = this._getResult();
+		if (this._result !== null) {
+			this._clean();
+			this.emit('complete', this._result);
 		}
+	};
 
-		// Old IE versions use a different approach
+
+	/**
+	 * Create a new XMLHttpRequest and configure it.
+	 *
+	 * @param {String} path url of the remote file
+	 * @param {String} type file type.
+	 * @private
+	 */
+	XHRLoader.prototype._createXHR = function(path, type) {
+
 		if (window.XMLHttpRequest) {
 			this._request = new XMLHttpRequest();
 		} else {
@@ -236,25 +334,98 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 				/*global ActiveXObject */
 				this._request = new ActiveXObject("MSXML2.XMLHTTP.3.0");
 			} catch (ex) {
-				return null;
+				return;
 			}
 		}
 
-		//IE9 doesn't support .overrideMimeType(), so we need to check for it.
-		if (item.type === TW.Preload.TEXT && this._request.overrideMimeType) {
-			this._request.overrideMimeType('text/plain; charset=x-user-defined');
-		}
+		this._request.open('GET', path, true);
 
-		this._request.open('GET', item.src, true);
-
-		if (this._isBinary(item.type)) {
-			this._request.responseType = 'arraybuffer';
+		if (this._isBinary(type)) {
+			this._setBinaryMode();
 		}
-		return true;
+		if (this._isXML(type)) {
+			this._setXMLMode();
+		}
 	};
 
+
+	/**
+	 * Determine if a specific type should be loaded as a binary file
+	 *
+	 * @method _isBinary
+	 * @param {String} type The type to check
+	 * @return {Boolean} `true` if binary; otherwise `false`
+	 * @private
+	 */
+	XHRLoader.prototype._isBinary = function(type) {
+		switch (type) {
+			case "image":
+			case "sound":
+			case "binary":
+				return true;
+			default:
+				return false;
+		}
+	};
+
+	/**
+	 * Set the XHR object to accept binary mode if possible.
+	 *
+	 * @method _setBinaryMode
+	 * @private
+	 */
+	XHRLoader.prototype._setBinaryMode = function() {
+		if (this._request.responseType !== undefined) {
+			this._request.responseType = 'arraybuffer';
+		} else if (this._request.overrideMimeType) { //IE9
+			this._request.overrideMimeType('text/plain; charset=x-user-defined');
+		} else {
+			//TODO ?
+		}
+	};
+
+	/**
+	 * Determine if a specific type should be loaded as a XML file.
+	 *
+	 * @method _isXML
+	 * @param {String} type The type to check
+	 * @return {Boolean} `true` if xml; otherwise `false`
+	 * @private
+	 */
+	XHRLoader.prototype._isXML = function(type) {
+		switch (type) {
+			case "xml":
+			case "svg":
+				return true;
+			default:
+				return false;
+		}
+	};
+
+	/**
+	 * Set the XHR object to accept XML content.
+	 *
+	 * @method _setXMLMode
+	 * @private
+	 */
+	XHRLoader.prototype._setXMLMode = function() {
+		if (this._request.overrideMimeType) {
+			if (this.type === "svg") {
+				this._request.overrideMimeType('application/svg+xml');
+			} else {
+				this._request.overrideMimeType('application/xml');
+			}
+		}
+	};
+
+	/**
+	 * Clean the XHR object by removing all callbacks.
+	 *
+	 * @method _clean
+	 * @private
+	 */
 	XHRLoader.prototype._clean = function() {
-		clearTimeout(this._loadTimeOutTimeout);
+		clearTimeout(this._timeoutHandler);
 
 		var req = this._request;
 		req.onloadstart = null;
@@ -265,42 +436,6 @@ define(['./Preload', '../Utils/Polyfills'], function() {
 		req.ontimeout = null;
 		req.onloadend = null;
 		req.onreadystatechange = null;
-	};
-
-	//Callback proxies
-	XHRLoader.prototype._sendLoadStart = function() {
-		if (this.onLoadStart) {
-			this.onLoadStart(this);
-		}
-	};
-
-	XHRLoader.prototype._sendProgress = function(value) {
-		var event;
-		if (value instanceof Number) {
-			this.progress = value;
-			event = {loaded: this.progress, total: 1};
-		} else {
-			event = value;
-			this.progress = value.loaded / value.total;
-			if (isNaN(this.progress) || this.progress === Infinity) {
-				this.progress = 0;
-			}
-		}
-		if (this.onProgress) {
-			this.onProgress(event, this);
-		}
-	};
-
-	XHRLoader.prototype._sendComplete = function() {
-		if (this.onComplete) {
-			this.onComplete(this);
-		}
-	};
-
-	XHRLoader.prototype._sendError = function(event) {
-		if (this.onError) {
-			this.onError(event, this);
-		}
 	};
 
 	TW.Preload.XHRLoader = XHRLoader;

@@ -55,14 +55,16 @@ module.exports = function(grunt) {
 						deepEqual: false,
 						strictEqual: false,
 						notStrictEqual: false,
-						expect: false
+						expect: false,
+						start: false,
+						stop: false
 					}
 				},
 				src: 'test/!(vendor)**/*.js'
 			}
         },
         qunit: {
-            files: ['test/**/*.html']
+            files: ['test/**/index.html']
         },
         requirejs: {
             options: {
