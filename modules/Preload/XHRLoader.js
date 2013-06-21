@@ -100,7 +100,9 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 		 * This event is not always called (depending of the capabilities of the browser).
 		 *
 		 * @event progress
-		 * @param TODO
+		 * @param {Object} progress
+		 * @param {Number} progress.loaded size already loaded
+		 * @param {Number} progress.total total size
 		 */
 
 		/**
