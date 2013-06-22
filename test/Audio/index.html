@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="../vendor/qunit.css" >
+	<title>TumbleweedJS test -- Audio module</title>
+    <script type="text/javascript" src="../vendor/qunit.js"></script>
+    <script type="text/javascript" src="../vendor/require.js"></script>
+	<script>
+	  QUnit.config.autostart = false;
+	  requirejs.config({
+        urlArgs: "bust=" + (new Date()).getTime(),
+		paths: {
+		  TW: '../../modules'
+		}
+	  });
+	  require(['./AudioInstance', './Sound', './JukeBox', './Manager'], function() {
+	    QUnit.start();
+	  });
+	</script>
+  </head>
+  <body>
+	<div id="qunit" ></div>
+    <div id="qunit-fixture"></div>
+  </body>
+</html>
