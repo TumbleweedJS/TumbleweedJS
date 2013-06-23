@@ -54,6 +54,7 @@ module.exports = function(grunt) {
 						equal: false,
 						deepEqual: false,
 						strictEqual: false,
+						notEqual: false,
 						notStrictEqual: false,
 						expect: false,
 						start: false,
