@@ -37,6 +37,7 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 	 * @class XHRLoader
 	 * @param path Url to the remote file
 	 * @param {String} [type="text"] type of the ressource.
+	 * @extends Event.EventProvider
 	 * @constructor
 	 */
 	function XHRLoader(path, type) {
