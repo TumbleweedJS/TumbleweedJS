@@ -139,7 +139,7 @@ define(['TW/Preload/Loader'], function(Loader) {
 		//With only one connexion, all files should be loaded separately.
 		loader.maxConnexions = 1;
 		loader.loadManyFiles([{id: 'test', src: "file.xml" , type: "xml"},
-		                      {id: '2', src: "file.xml", type: "xml"},
+		                      {id: '2', src: "blank.png", type: "image"},
 		                      {src: "file.xml", type: "xml"}]);
 
 		loader.on('error', function() {

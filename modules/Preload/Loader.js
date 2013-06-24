@@ -5,14 +5,52 @@
 
 
 var TW = TW || {};
-define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', '../Utils/Polyfills'],
-       function(inherit, EventProvider, XHRLoader) {
+define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoader', '../Utils/Polyfills'],
+       function(inherit, EventProvider, XHRLoader, TagLoader) {
 
 	TW.Preload = TW.Preload || {};
 
 
 	/**
-	 * TODO: to complete documentation later
+	 *
+	 * The `Loader` class can load many files and follow the progress of all loads.
+	 * It provides a large set of events for getting all informations on the download progression, for all usages.
+	 *
+	 * 2 methods can be used for add files to load, one by one (`addFile`) or several the same time (`addManyFiles`).
+	 * Each of these methods can be added more than one time.
+	 *
+	 * ## general events
+	 *
+	 * 4 global events are availlable : `start`, `progress`, 'complete' and 'error'.
+	 * It concerns indicates the general progression:
+	 *
+	 * - The `start` event is always called, at the beggining of the first download.
+	 * - The `progress` event is called regularly, with informations of the progression.
+	 * - The `complete` event tells that all files are downloaded.
+	 * - The `error` event is called when a file can't be loaded.
+	 *
+	 * Note that event if a file has an error (and is not downloaded), the `complete` event will be called.
+	 *
+	 * ## file events
+	 *
+	 * The same 4 events can be used for a file only, with the smae signification.
+	 * They are `fileStart`, `fileProgress`, `fileComplete` and `fileError`.
+	 *
+	 * Each of theses events are sent with a reference to the concerned item.
+	 * `fileStart` are always called, when the start of the file begins.
+	 *
+	 * So, you can keep a view on each file separately.
+	 *
+	 * ## group events
+	 *
+	 * Each file can be associated to a group, when added to the list.
+	 * Like the general progress, it's possible to follow progressions from a group, with the group events.
+	 * Each group event (`groupStart`, `groupProgress`, 'groupComplete` and `groupError`) is sent with a group object.
+	 * This object contains usefull informations, like the number of file already loaded in the group.	 *
+	 *
+	 *
+	 * Internally, `Loader` use {{#crossLink "Preload.XHRLoader"}}XHRLoader{{/crossLink}} and
+	 * {{#crossLink "Preload.TagLoader"}}TagLoader{{/crossLink}} classes.
 	 *
 	 * @class Loader
 	 * @constructor
@@ -346,7 +384,18 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', '../Utils/P
 	Loader.prototype._startLoadItem = function() {
 		var item = this._items[this._next];
 		var group = this.getGroup(item.group);
-		var loader = new XHRLoader(item.src, item.type);
+		var loader;
+
+		switch(item.type) {
+			case "image":
+			case "sound":
+			case 'svg':
+				loader = new TagLoader(item.src, item.type);
+				item.result = loader.getResult();
+				break;
+			default:
+				loader = new XHRLoader(item.src, item.type);
+		}
 
 		loader.on('start', this._emitStartEvent.bind(this, item));
 
