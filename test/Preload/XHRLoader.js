@@ -109,4 +109,27 @@ define(['TW/Preload/XHRLoader'], function(XHRLoader) {
 		loader.load();
 	});
 
+	test("check order of events", function() {
+		var loader  = new XHRLoader("file.html", "html");
+		stop();
+
+		loader.on('error', function() {
+			ok(false, 'error event');
+			start();
+		});
+
+		var isLoaded = false;
+		loader.on('complete', function(_, result) {
+			isLoaded = true;
+			ok(true, 'complete event');
+			start();
+		});
+
+		loader.on('progress', function() {
+			ok(!isLoaded, 'progress event should be emited before complete event');
+		});
+
+		loader.load();
+	});
+
 });

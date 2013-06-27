@@ -222,9 +222,10 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 			case 'svg':
 			case 'sound':
 			case 'binary':
-			case 'json':
-				//TODO: implement later.
+				//TODO: implement later
 				return null;
+			case 'json':
+				return JSON.parse(result);
 			case 'css':
 				tag = document.createElement("link");
 				tag.rel = "stylesheet";
@@ -261,9 +262,9 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 			};
 		} else {
 			if (event.lengthComputable && event.total !== 0) {
-				this.progress = event.loaded / event.total;
-				if (this.progress > 1) {
-					this.progress = 1;
+				this.progress = 100 * event.loaded / event.total;
+				if (this.progress > 100) {
+					this.progress = 100;
 				}
 			}
 			if (isNaN(this.progress) || this.progress === Infinity) {
@@ -308,7 +309,7 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 		var status = parseInt(this._request.status, 10);
 
 		if (status !== 200 && status !== 0) {
-			this._handleError(new Error("Bad Status"));
+			this._handleError(new Error("HTTP Error " + this._request.status + '(' + this._request.statusText + ')'));
 			return;
 		}
 

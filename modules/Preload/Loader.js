@@ -108,10 +108,10 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 		/**
 		 * status, used to know which event has already been sent.
 		 *
-		 * @property {String} _status
-		 * @private
+		 * @property {String} status
+		 * @private-
 		 */
-		this._status = "waiting";
+		this.status = "waiting";
 
 		/**
 		 * The current load progress (percentage) for this item.
@@ -311,6 +311,17 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 				});
 			}
 		}
+
+		switch(item.type) {
+			case "image":
+			case "sound":
+			case 'svg':
+				item.loader = new TagLoader(item.src, item.type);
+				item.result = item.loader.getResult();
+				break;
+			default:
+				item.loader = new XHRLoader(item.src, item.type);
+		}
 	};
 
 	/**
@@ -384,18 +395,7 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 	Loader.prototype._startLoadItem = function() {
 		var item = this._items[this._next];
 		var group = this.getGroup(item.group);
-		var loader;
-
-		switch(item.type) {
-			case "image":
-			case "sound":
-			case 'svg':
-				loader = new TagLoader(item.src, item.type);
-				item.result = loader.getResult();
-				break;
-			default:
-				loader = new XHRLoader(item.src, item.type);
-		}
+		var loader = item.loader;
 
 		loader.on('start', this._emitStartEvent.bind(this, item));
 
@@ -427,6 +427,7 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 
 			this._nbConnexions--;
 			if (this._nbConnexions === 0 && this._next === this._items.length) {
+				this.status = "completed";
 				this.emit('complete');
 			}
 			if (this._nbConnexions < this.maxConnexions && this._next < this._items.length) {
@@ -452,13 +453,14 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 			}
 
 			this._nbConnexions--;
+			this.progress = this._computeProgress(this._items);
+			this.emit('progress', this.progress);
 			if (this._nbConnexions === 0 && this._next === this._items.length) {
+				this.status = "completed";
 				this.emit('complete');
 			}
 
 			if (this._nbConnexions < this.maxConnexions && this._next < this._items.length) {
-				this.progress = this._computeProgress(this._items);
-				this.emit('progress', this.progress);
 				this._startLoadItem();
 			}
 		}.bind(this));
@@ -563,8 +565,8 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 	 * @private
 	 */
 	Loader.prototype._emitStartEvent = function(item) {
-		if (this._status === "waiting") {
-			this._status = "started";
+		if (this.status === "waiting") {
+			this.status = "started";
 			this.emit('start');
 		}
 		if (item.status === "waiting") {

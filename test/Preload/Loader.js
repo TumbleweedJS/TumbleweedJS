@@ -216,9 +216,8 @@ define(['TW/Preload/Loader'], function(Loader) {
 		                     'groupB');
 		loader.loadFile('file.html', 'groupA');
 
-		notEqual(loader.getGroup('groupA'), null, 'getGroup can return group A');
+		notStrictEqual(loader.getGroup('groupA') !== null, 'getGroup can return group A');
 		equal(loader.getGroup('groupC'), null, 'getGroup can\'t return group C wich doesn\'t exist');
-
 		loader.on('error', function() {
 			ok(false, 'error event');
 		});
