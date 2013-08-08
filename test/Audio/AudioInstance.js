@@ -4,7 +4,45 @@ define(['TW/Audio/AudioInstance'], function(AudioInstance) {
 	module("AudioInstance");
 
 	test("Usage of play/pause/stop", function() {
-		ok(true);
+        src = ['http://www.ilovewhat.co.uk/posts/to%20sort/Ini%20Kamoze%20-%20Here%20Comes%20The%20Hotstepper.mp3'];
+        var audio = new AudioInstance(src);
+
+        ok(audio.status == TW.Audio.Instance_NOT_READY, "Instance should not be ready for the moment");
+
+        audio.play();
+        ok(audio.status == TW.Audio.Instance_LOADING, "Instance should be loading");
+
+        stop();
+
+        audio.on("play", function() {
+            start();
+            ok(audio.status == TW.Audio.Instance_PLAYING, "Play event received, instance should be playing");
+
+            stop();
+
+            setTimeout(function() {
+                start();
+
+                var pos = audio.getPosition();
+                audio.pause();
+                ok(audio.status == TW.Audio.Instance_PAUSED, "Instance shoud be paused")
+
+                ok(pos != 0, "Position should be different than 0: pos = " + pos)
+                ok(audio.getPosition() - pos < 0.01, "Position should be the same before and after pause")
+
+                audio.play();
+                ok(audio.status == TW.Audio.Instance_PLAYING, "Instance should be playing again, no play event: OK")
+
+                audio.stop();
+            }, 1500);
+        });
+
+        audio.on("stop", function() {
+            ok(audio.status == TW.Audio.Instance_STOPPED, "Stop event received, instance should be stopped")
+
+            ok(audio.getPosition() == 0, "Position should be 0")
+        });
+
 		/*
 		This test should use:
 
@@ -22,6 +60,9 @@ define(['TW/Audio/AudioInstance'], function(AudioInstance) {
 	});
 
 	test("play a corrumpted file", function() {
+
+
+
 		ok(true);
 		/*
 		We need a corrumpted file.
@@ -45,7 +86,7 @@ define(['TW/Audio/AudioInstance'], function(AudioInstance) {
 	});
 
 	test("mute and unmute", function() {
-		var audio = new AudioInstance();
+		var audio = new AudioInstance('http://www.ilovewhat.co.uk/posts/to%20sort/Ini%20Kamoze%20-%20Here%20Comes%20The%20Hotstepper.mp3');
 
 		ok(!audio.isMuted(), "instance should be unmuted by default");
 		audio.mute(false);
@@ -66,14 +107,14 @@ define(['TW/Audio/AudioInstance'], function(AudioInstance) {
 	});
 
 	test("volume change test", function() {
-		var audio = new AudioInstance();
+        var audio = new AudioInstance('http://www.ilovewhat.co.uk/posts/to%20sort/Ini%20Kamoze%20-%20Here%20Comes%20The%20Hotstepper.mp3');
 
 		equal(audio.getVolume(), 100, "Default volume should be 100 -- TODO à définir");
 		audio.setVolume(0);
-		equal(audio.setVolume(), 0, "volume set to 0");
+		equal(audio.getVolume(), 0, "volume set to 0");
 
 		audio.setVolume(56);
-		equal(audio.getVolume(), 0, "volume set to 0");
+		equal(audio.getVolume(), 56, "volume set to 56");
 
 		audio.setVolume(120);
 		equal(audio.getVolume(), 100, "volume should not be more than 100");
