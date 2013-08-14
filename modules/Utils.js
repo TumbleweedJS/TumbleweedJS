@@ -21,7 +21,8 @@ var TW = TW || {};
 define([
 	       './Utils/inherit',
 	       './Utils/clone',
-	       './Utils/copyParam'
+	       './Utils/copyParam',
+           './Utils/mixin'
        ], function() {
 	return TW.Utils;
 });
