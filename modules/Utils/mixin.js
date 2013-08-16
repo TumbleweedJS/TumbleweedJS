@@ -53,6 +53,7 @@ define([], function() {
 	 * @constructor
 	 * @param {Object} dest
 	 * @param {Object} source
+	 * @chainable
 	 */
 	TW.Utils.mixin = function(dest, source) {
 		for (var i in source) {
@@ -60,6 +61,7 @@ define([], function() {
 				dest[i] = source[i];
 			}
 		}
+		return dest;
 	};
 
 	return TW.Utils.mixin;
