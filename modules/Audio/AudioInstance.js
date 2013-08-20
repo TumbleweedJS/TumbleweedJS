@@ -103,7 +103,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      */
     AudioInstance.prototype._setSource = function(src) {
         this.status = TW.Audio.Instance_NOT_READY;
-        if (src instanceof HTMLAudioElement) {
+        if (src.nodeType === 1 && src.nodeName === "AUDIO") {
             this._audio_tag = src;
         }
         else if (typeof src === "string") {
