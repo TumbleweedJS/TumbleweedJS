@@ -10,8 +10,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     TW.Audio.Instance_ERROR = "error";
     TW.Audio.Instance_STOPPED = "stopped";
-    TW.Audio.Instance_NOT_READY = "not ready"
-    TW.Audio.Instance_LOADING = "loading"
+    TW.Audio.Instance_NOT_READY = "not ready";
+    TW.Audio.Instance_LOADING = "loading";
     TW.Audio.Instance_PLAYING = "playing";
     TW.Audio.Instance_PAUSED = "paused";
 
@@ -87,8 +87,9 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
         EventProvider.call(this);
         this._setSource(src);
-        if (this._audio_tag.src == null || this._audio_tag.src == "")
-            throw new Error('AudioInstance: Unable to find a valid source');
+        if (this._audio_tag.src === null || this._audio_tag.src === "") {
+            this.emit("error", "AudioInstance: Unable to find a valid source");
+        }
     }
 
     inherit(AudioInstance, EventProvider);
@@ -105,21 +106,21 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
         if (src instanceof HTMLAudioElement) {
             this._audio_tag = src;
         }
-        else if (typeof src == "string") {
+        else if (typeof src === "string") {
             this._audio_tag = new Audio();
             this._audio_tag.src = this._lookUpSource(src);
         }
         else if (src instanceof Array) {
             this._audio_tag = new Audio();
-            for (i = 0; i < src.length; i++) {
+            for (var i = 0; i < src.length; i++) {
                 var valid_src = this._lookUpSource(src[i]);
-                if (valid_src != null) {
+                if (valid_src !== null) {
                     this._audio_tag.src = valid_src;
                     break;
                 }
             }
         }
-    }
+    };
 
     /**
      * Check if the source extension is compatible with the browser
@@ -132,10 +133,11 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     AudioInstance.prototype._lookUpSource = function(src) {
         var point = src.lastIndexOf(".");
         var ext = src.substr(point + 1).toLowerCase();
-        if (this._audio_tag.canPlayType("audio/" + ext))
+        if (this._audio_tag.canPlayType("audio/" + ext)) {
             return src;
+        }
         return null;
-    }
+    };
 
     /**
      * Load the sound and call the _readyHandler callback
@@ -147,7 +149,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
         this._audio_tag.addEventListener("canplaythrough", this._readyHandler, false);
         this.status = TW.Audio.Instance_LOADING;
         this._audio_tag.load();
-    }
+    };
 
     /**
      * Callback called when the sound is loaded
@@ -160,7 +162,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
         this._audio_tag.removeEventListener("canplaythrough", this._readyHandler, false);
         this.status = TW.Audio.Instance_STOPPED;
         this.play();
-    }
+    };
 
     /**
      * Callback called when the sound is stopped
@@ -174,7 +176,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
         this._audio_tag.removeEventListener("ended", this._stoppedHandler, false);
         this.status = TW.Audio.Instance_STOPPED;
         this.emit("stop");
-    }
+    };
 
     /**
      * Play sound
@@ -183,19 +185,19 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * @method play
      */
     AudioInstance.prototype.play = function() {
-        if (this.status == TW.Audio.Instance_NOT_READY) {
+        if (this.status === TW.Audio.Instance_NOT_READY) {
             this._load();
         }
-        else if (this.status == TW.Audio.Instance_STOPPED || this.status == TW.Audio.Instance_PAUSED) {
+        else if (this.status === TW.Audio.Instance_STOPPED || this.status === TW.Audio.Instance_PAUSED) {
             this._audio_tag.addEventListener("ended", this._stoppedHandler, false);
             this._audio_tag.play();
             var old_status = this.status;
             this.status = TW.Audio.Instance_PLAYING;
-            if (old_status == TW.Audio.Instance_STOPPED) {
+            if (old_status === TW.Audio.Instance_STOPPED) {
                 this.emit("play");
             }
         }
-    }
+    };
 
     /**
      * Pause sound
@@ -206,7 +208,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     AudioInstance.prototype.pause = function() {
         this._audio_tag.pause();
         this.status = TW.Audio.Instance_PAUSED;
-    }
+    };
 
     /**
      * Stop sound
@@ -218,7 +220,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
         this._audio_tag.pause();
         this._audio_tag.currentTime = 0;
         this._handleSoundStopped();
-    }
+    };
 
     /**
      * Get the current volume
@@ -228,7 +230,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      */
     AudioInstance.prototype.getVolume = function() {
         return this._volume;
-    }
+    };
 
     /**
      * Set the volume
@@ -241,7 +243,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
         volume = (volume < 0) ? 0 : volume;
         this._volume = volume;
         this._audio_tag.volume = volume / 100.0;
-    }
+    };
 
     /**
      * Mute or unmute the audio element
@@ -250,8 +252,9 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * @param {Boolean} is_muted, True if not specified
      */
     AudioInstance.prototype.mute = function(is_muted) {
-        if (is_muted == null)
+        if (is_muted === null || typeof(is_muted) === 'undefined') {
             is_muted = true;
+        }
         this._is_muted = is_muted;
         if (is_muted) {
             this._audio_tag.volume = 0.0;
@@ -260,7 +263,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
             this._audio_tag.volume = this._volume / 100.0;
         }
 
-    }
+    };
 
     /**
      * Function returning a boolean that define is the sound is muted or not
@@ -270,7 +273,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      */
     AudioInstance.prototype.isMuted = function() {
         return this._is_muted;
-    }
+    };
 
     /**
      * Get the audio source duration
@@ -280,7 +283,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      */
     AudioInstance.prototype.getDuration = function() {
         return this._audio_tag.duration;
-    }
+    };
 
     /**
      * Get the audio source playing position
@@ -290,7 +293,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      */
     AudioInstance.prototype.getPosition = function() {
         return this._audio_tag.currentTime;
-    }
+    };
 
     /**
      * Set the playing position
@@ -300,12 +303,12 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      */
     AudioInstance.prototype.setPosition = function(position) {
         if (position < 0 || position > this._audio_tag.duration) {
-            throw new Error('AudioInstance: Position out of bounds');
+            this.emit("error", "AudioInstance: Position out of bounds");
         }
         else {
             this._audio_tag.currentTime = position;
         }
-    }
+    };
 
     TW.Audio.AudioInstance = AudioInstance;
     return AudioInstance;

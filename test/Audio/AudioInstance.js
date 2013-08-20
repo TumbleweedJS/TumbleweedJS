@@ -3,8 +3,9 @@ define(['TW/Audio/AudioInstance'], function(AudioInstance) {
 
 	module("AudioInstance");
 
-	test("Usage of play/pause/stop", function() {
+	test("Usage of play/pause/stop with url source", function() {
         src = ['http://www.ilovewhat.co.uk/posts/to%20sort/Ini%20Kamoze%20-%20Here%20Comes%20The%20Hotstepper.mp3'];
+        src = document.getElementById('MUSICTAG');
         var audio = new AudioInstance(src);
 
         ok(audio.status == TW.Audio.Instance_NOT_READY, "Instance should not be ready for the moment");
@@ -43,20 +44,6 @@ define(['TW/Audio/AudioInstance'], function(AudioInstance) {
             ok(audio.getPosition() == 0, "Position should be 0")
         });
 
-		/*
-		This test should use:
-
-		- play()
-		- pause()
-		- stop()
-		- the `status` attribute.
-
-		- event play (after the file is loading)
-		- event stop
-
-		//when the music is ended: (/!\ tests must be fast !)
-		equal(audio.getPosition(), audio.getDuration(), "the final position should be the duration of the track.");
-		*/
 	});
 
 	test("play a corrumpted file", function() {
