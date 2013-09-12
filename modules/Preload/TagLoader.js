@@ -35,7 +35,8 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 	 *
 	 *
 	 * @class TagLoader
-	 * @param path Url to the remote file
+	 * @param {String|String[]} path Url to the remote file.
+	 *   You can pass many urls in an array. In this case, the first compatible url is used (useful for audio loading).
 	 * @param {String} [type="text"] type of the ressource.
 	 * @extends Event.EventProvider
 	 * @constructor
@@ -62,7 +63,7 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 		/**
 		 * URL of the ressource
 		 *
-		 * @property {String} _path
+		 * @property {String|String[]} _path
 		 * @private
 		 */
 		this._path = path;
@@ -131,10 +132,23 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 
 		this._tag.onerror = this.emit.bind(this, 'error');
 
-		if (this.type === "css") {
-			this._tag.href = this._path;
-		} else {
-			this._tag.src = this._path;
+		switch (this.type) {
+			case "css":
+				this._tag.href = this._path instanceof Array ? this._path[0] : this._path;
+				break;
+			case "sound":
+				if (this._path instanceof Array) {
+					for (var i = 0; i < this._path.length; i++) {
+						var source = document.createElement('source');
+						source.src = this._path[i];
+						this._tag.appendChild(source);
+					}
+				} else {
+					this._tag.src = this._path;
+				}
+				break;
+			default:
+				this._tag.src = this._path;
 		}
 
 		if (this.type === "css" || this.type === "script") {
