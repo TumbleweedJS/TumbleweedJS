@@ -10,7 +10,6 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     TW.Audio.Instance_ERROR = "error";
     TW.Audio.Instance_STOPPED = "stopped";
-    TW.Audio.Instance_NOT_READY = "not ready";
     TW.Audio.Instance_LOADING = "loading";
     TW.Audio.Instance_PLAYING = "playing";
     TW.Audio.Instance_PAUSED = "paused";
@@ -36,9 +35,9 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
          *
          * @property {String} status
          * @readonly
-         * @default TW.Audio.Instance_NOT_READY
+         * @default TW.Audio.Instance_LOADING
          */
-        this.status = TW.Audio.Instance_NOT_READY;
+        this.status = TW.Audio.Instance_LOADING;
 
         /**
          * Audio volume.
@@ -90,6 +89,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
         if (this._audio_tag.src === null || this._audio_tag.src === "") {
             this.emit("error", "AudioInstance: Unable to find a valid source");
         }
+        this._load();
     }
 
     inherit(AudioInstance, EventProvider);
@@ -102,7 +102,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * @private
      */
     AudioInstance.prototype._setSource = function(src) {
-        this.status = TW.Audio.Instance_NOT_READY;
+        this.status = TW.Audio.Instance_LOADING;
         if (src.nodeType === 1 && src.nodeName === "AUDIO") {
             this._audio_tag = src;
         }
@@ -153,15 +153,19 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Callback called when the sound is loaded
-     * set the status to TW.Audio.Instance_STOPPED and call the play function
+     * set the status to TW.Audio.Instance_READY
      *
      * @method _handleSoundReady
      * @private
      */
     AudioInstance.prototype._handleSoundReady = function() {
         this._audio_tag.removeEventListener("canplaythrough", this._readyHandler, false);
-        this.status = TW.Audio.Instance_STOPPED;
-        this.play();
+        if (this.status === TW.Audio.Instance_PLAYING) {
+            this.play();
+        }
+        else if (this.status === TW.Audio.Instance_LOADING) {
+            this.status = TW.Audio.Instance_STOPPED;
+        }
     };
 
     /**
@@ -185,17 +189,18 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * @method play
      */
     AudioInstance.prototype.play = function() {
-        if (this.status === TW.Audio.Instance_NOT_READY) {
-            this._load();
-        }
-        else if (this.status === TW.Audio.Instance_STOPPED || this.status === TW.Audio.Instance_PAUSED) {
+        if (this.status === TW.Audio.Instance_PLAYING ||
+            this.status === TW.Audio.Instance_STOPPED || this.status === TW.Audio.Instance_PAUSED) {
             this._audio_tag.addEventListener("ended", this._stoppedHandler, false);
             this._audio_tag.play();
             var old_status = this.status;
             this.status = TW.Audio.Instance_PLAYING;
-            if (old_status === TW.Audio.Instance_STOPPED) {
+            if (old_status !== TW.Audio.Instance_PAUSED) {
                 this.emit("play");
             }
+        }
+        else if (this.status === TW.Audio.Instance_LOADING) {
+            this.status = TW.Audio.Instance_PLAYING;
         }
     };
 
@@ -206,6 +211,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * @method pause
      */
     AudioInstance.prototype.pause = function() {
+        if (this.status !== TW.Audio.Instance_PLAYING)
+            return ;
         this._audio_tag.pause();
         this.status = TW.Audio.Instance_PAUSED;
     };
@@ -217,6 +224,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * @method stop
      */
     AudioInstance.prototype.stop = function() {
+        if (this.status !== TW.Audio.Instance_PLAYING)
+            return ;
         this._audio_tag.pause();
         this._audio_tag.currentTime = 0;
         this._handleSoundStopped();

@@ -8,10 +8,11 @@ define(['TW/Audio/AudioInstance'], function(AudioInstance) {
         src = document.getElementById('MUSICTAG');
         var audio = new AudioInstance(src);
 
-        ok(audio.status === TW.Audio.Instance_NOT_READY, "Instance should not be ready for the moment");
-
+        ok(audio.status === TW.Audio.Instance_LOADING || audio.status === TW.Audio.Instance_STOPPED,
+            "Instance should still be loading or ready and stopped");
         audio.play();
-        ok(audio.status === TW.Audio.Instance_LOADING, "Instance should be loading");
+        ok(audio.status === TW.Audio.Instance_LOADING || audio.status === TW.Audio.Instance_PLAYING,
+            "Instance should still be loading or playing");
 
         stop();
 
@@ -100,7 +101,7 @@ define(['TW/Audio/AudioInstance'], function(AudioInstance) {
             'http://www.ilovewhat.co.uk/posts/to%20sort/Ini%20Kamoze%20-%20Here%20Comes%20The%20Hotstepper.mp3'
         );
 
-		equal(audio.getVolume(), 100, "Default volume should be 100 -- TODO à définir");
+		equal(audio.getVolume(), 100, "Default volume should be 100 -- TODO ? d?finir");
 		audio.setVolume(0);
 		equal(audio.getVolume(), 0, "volume set to 0");
 
