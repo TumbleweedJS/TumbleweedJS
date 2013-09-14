@@ -8,7 +8,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     TW.Audio = TW.Audio || {};
 
     /**
-     * Manager class represents an HTML5 audio tag.
+     * Manager class represents a pool of Sounds (HTML5 audio tag wrappers).
      *
      * A Manager is used to manage a pool of Sounds
      * It can resume, pause or stop all the elements in the pool
@@ -18,9 +18,29 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * @constructor
      */
     function Manager() {
+        /**
+         * Sound instances
+         * @type {Array}
+         * @private
+         */
         this._sounds = [];
+
+        /**
+         * Volume of the manager
+         * @type {number}
+         * @default 100
+         * @private
+         */
         this._volume = 100;
+
+        /**
+         * Define if the Manager is muted
+         * @type {boolean}
+         * @default false
+         * @private
+         */
         this._is_muted = false;
+
         EventProvider.call(this);
     }
 
@@ -83,7 +103,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Check the presence of an element in the manager
-     * @param sound
+     * @param {Sound} sound
      * @returns {boolean} True if the element is present in the manager, otherwise false
      */
     Manager.prototype.has = function(sound) {
@@ -97,7 +117,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Mute or unmute all the elements in the manager
-     * @param is_muted Mute if true or undefined, unmute if false
+     * @param {boolean} is_muted Mute if true or undefined, unmute if false
      * @default true
      */
     Manager.prototype.mute = function(is_muted) {
@@ -158,7 +178,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * @param provider
      */
     Manager.prototype.errorHandler = function(event, data, provider) {
-        this.emit(provider, data);
+        this.emit("error", [provider, data]);
     };
 
     TW.Audio.Manager = Manager;

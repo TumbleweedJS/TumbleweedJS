@@ -85,7 +85,9 @@ define(['TW/Audio/Manager', 'TW/Audio/Sound'], function(Manager, Sound) {
 
         setTimeout(function() {
             start();
+            sound1.play();
             sound1.pause();
+            sound2.play();
             sound2.pause();
             sound3.stop();
             manager.resume();
@@ -113,8 +115,8 @@ define(['TW/Audio/Manager', 'TW/Audio/Sound'], function(Manager, Sound) {
                     cnt++;
                 }
             }
-            ok(cnt === 3, "3/3 instances should be paused (" + cnt + ")");
-        }, 50);
+            ok(cnt === 3, "3/3 instances should be stopped (" + cnt + ")");
+        }, 100);
 	});
 
 

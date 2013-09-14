@@ -211,8 +211,9 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * @method pause
      */
     AudioInstance.prototype.pause = function() {
-        if (this.status !== TW.Audio.Instance_PLAYING)
+        if (this.status !== TW.Audio.Instance_PLAYING) {
             return ;
+        }
         this._audio_tag.pause();
         this.status = TW.Audio.Instance_PAUSED;
     };
@@ -224,8 +225,9 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * @method stop
      */
     AudioInstance.prototype.stop = function() {
-        if (this.status !== TW.Audio.Instance_PLAYING)
+        if (this.status !== TW.Audio.Instance_PLAYING && this.status !== TW.Audio.Instance_PAUSED) {
             return ;
+        }
         this._audio_tag.pause();
         this._audio_tag.currentTime = 0;
         this._handleSoundStopped();
