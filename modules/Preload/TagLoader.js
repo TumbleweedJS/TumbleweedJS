@@ -78,6 +78,7 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 				break;
 			case 'sound':
 				tag = document.createElement('audio');
+				tag.preload = 'auto';
 				break;
 			case 'css':
 				tag = document.createElement('link');
@@ -137,6 +138,11 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 				this._tag.href = this._path instanceof Array ? this._path[0] : this._path;
 				break;
 			case "sound":
+				this._tag.addEventListener('canplaythrough', function() {
+					this.loaded = true;
+					this.emit('complete', this._tag);
+				}.bind(this));
+
 				if (this._path instanceof Array) {
 					for (var i = 0; i < this._path.length; i++) {
 						var source = document.createElement('source');
@@ -146,12 +152,13 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 				} else {
 					this._tag.src = this._path;
 				}
+				this._tag.load();
 				break;
 			default:
 				this._tag.src = this._path;
 		}
 
-		if (this.type === "css" || this.type === "script") {
+		if (this.type === "css" || this.type === "script" || this.type === "audio") {
 			document.head.appendChild(this._tag);
 		}
 	};
