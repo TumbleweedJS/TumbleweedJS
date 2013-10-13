@@ -4,44 +4,30 @@
  */
 
 var TW = TW || {};
-define(['../Utils/copyParam'], function(copyParam) {
+define(['../Utils/copyParam', '../Utils/inherit', '../Event/EventProvider'],
+       function(copyParam, inherit, EventProvider) {
 
 	TW.GameLogic = TW.GameLogic || {};
 
 
 	/**
-	 * The GameState class provides an object which handle severals methods which can be called by the GameStateStack.
-	 * Each GameState object contains some methods :
+	 * The GameState class represente a state of game (like the start screen, the ingame state, or the lobby).
 	 *
-	 * - onUpdate       this method is called when the GameState is updating.
-	 * - onDraw         this method is called when the GameState is drawing
-	 * - onCreation     this method is called when the GameState is added to a GameStateStack
-	 * - onDelete       this method is called when the GameState is removed from a GameStateStack
-	 * - onSleep        this method is called when the GameState looses the focus.
-	 * - onWakeUp       this method is called when the GameState takes back the focus.
-	 *
-	 * There are two ways to define these methods:
-	 *
-	 * - If you have a lot of code for the state, you can inherit from `GameState` and override these methods.
-	 *   Or more simply directly redefine a method of an instance :
-	 *
-	 *         var myGameState = new GameState();
-	 *         myGameState.onUpdate = myOnUpdateFunc;
-	 *         myGameState.onDraw = myOnDrawFunc;
-	 *
-	 * - For a little state, with just few code, methods can be passed in arguments:
-	 *
-	 *         new GameState({
-	 *              onUpdate: function(elapsedTime) {
-	 *                  //before update
-	 *              },
-	 *              onDraw() {
-	 *                  //before draw
-	 *              }
-	 *         });
+	 * A game is generally composed of several `GameState`, which can be used together, managed by a `GameStateStack`.
 	 *
 	 *
-	 * You can also insert Layers into the GameState. You can sort them by their z-index in asc or desc order.
+	 * The GameState class provides many events to handle the use and the transitions between states:
+	 *
+	 * - `update`:       this event is emited when the GameState is updating.
+	 * - `draw`:         this event is emited when the GameState is drawing
+	 * - `creation`:     this event is emited when the GameState is added to a GameStateStack
+	 * - `delete`:       this event is emited when the GameState is removed from a GameStateStack
+	 * - `sleep`:        this event is emited when the GameState looses the focus.
+	 * - `wakeUp`:       this event is emited when the GameState takes back the focus.
+	 *
+	 *
+	 *
+	 * You can also Layers into the GameState. You can sort them by their z-index in asc or desc order.
 	 * Layers allows you to render something on the context of the GameStateStack.
 	 *
 	 * You can also insert Callbacks into the GameState some callbacks which will be executed when the
@@ -70,14 +56,9 @@ define(['../Utils/copyParam'], function(copyParam) {
 	 *   Otherwise it must be equal to false. Default value equals true.
 	 *   @param {Boolean} [params.sortCallbackAsc=true] which is a boolean. It must be equal to true if you
 	 *   want to sort Callbacks by ascendant order. Otherwise it must be equal to false. default value equals true.
-	 *   @param {Function} [params.onUpdate] called when the GameState is updating.
-	 *   @param {Function} [params.onDraw] called when the GameState is drawing.
-	 *   @param {Function} [params.onCreation] called when the GameState is added to a GameStateStack.
-	 *   @param {Function} [params.onDelete] called when the GameState is removed from a GameStateStack.
-	 *   @param {Function} [params.onSleep] called when the GameState looses the focus.
-	 *   @param {Function} [params.onWakeUp] called when the GameState takes back the focus.
 	 */
 	function GameState(params) {
+		EventProvider.call(this, params);
 		this._gameStateStack = null;
 		this._layerList = [];
 		this._callbackList = [];
@@ -109,66 +90,53 @@ define(['../Utils/copyParam'], function(copyParam) {
 			 *
 			 * @property {Boolean} sortCallbackAsc
 			 */
-			sortCallbackAsc: true,
-
-			/**
-			 * method called before each update. Can be overridden or given as argument to the constructor.
-			 *
-			 * @method onUpdate
-			 * @param {Number} elapsedTime represents the amount of milliseconds elapsed since the last update call.
-			 */
-			/* jshint unused:false */
-			onUpdate:        function(elapsedTime) {
-			},
-
-			/**
-			 * method called before each draw. Can be overridden or given as argument to the constructor.
-			 *
-			 * @method onDraw
-			 */
-			onDraw: function() {
-			},
-
-			/**
-			 * method called when the state is created and placed on the stack.
-			 * Can be overridden or given as argument to the constructor.
-			 *
-			 * @method onCreation
-			 */
-			onCreation: function() {
-			},
-
-			/**
-			 * method called when the state is removed from the stack.
-			 * Can be overridden or given as argument to the constructor.
-			 *
-			 * **Note:** The state object is not always really deleted, and can be reused later.
-			 * This method should put the GameState as if it has never been used.
-			 *
-			 * @method onDelete
-			 */
-			onDelete: function() {
-			},
-
-			/**
-			 * method called when the state becomes active.
-			 * Can be overridden or given as argument to the constructor.
-			 *
-			 * @method onWakeUp
-			 */
-			onWakeUp: function() {
-			},
-
-			/**
-			 * method called when the state is put to sleep (another state becomes active).
-			 * Can be overridden or given as argument to the constructor.
-			 *
-			 * @method onSleep
-			 */
-			onSleep: function() {
-			}
+			sortCallbackAsc: true
 		});
+
+		/**
+		 * event emited before each update.
+		 *
+		 * @event onUpdate
+		 * @param {Number} elapsedTime represents the amount of milliseconds elapsed since the last update call.
+		 */
+
+		/**
+		 * event emited before each draw.
+		 *
+		 * @event draw
+		 * @param {CanvasRenderingContext2D} context canvas context used to draw all child elements.
+		 */
+
+		/**
+		 * event emited when the state is created and placed on the stack.
+		 *
+		 * @event creation
+		 */
+
+		/**
+		 * event emited when the state is removed from the stack.
+		 *
+		 * **Note:** The state object is not really deleted, and can be reused later.
+		 * This event is the perfect place to clean and destroy all objects.
+		 *
+		 * @event delete
+		 */
+
+		/**
+		 * event emited when the state becomes active.
+		 *
+		 * @event wakeUp
+		 */
+
+		/**
+		 * event emited when the state is put to sleep (another state becomes active).
+		 *
+		 * @event sleep
+		 */
+
 	}
+
+	inherit(GameState, EventProvider);
 
 
 	/**
@@ -307,7 +275,7 @@ define(['../Utils/copyParam'], function(copyParam) {
 	 * @param {Number} elapsedTime time elapsed since last update call.
 	 */
 	GameState.prototype.update = function(elapsedTime) {
-		this.onUpdate(elapsedTime);
+		this.emit('update', elapsedTime);
 		for (var i = 0; i < this._callbackList.length; i++) {
 			this._callbackList[i]();
 		}
@@ -320,7 +288,7 @@ define(['../Utils/copyParam'], function(copyParam) {
 	 * @param {CanvasRenderingContext2D} canvasContext graphicalContext on which graphical contents will be drawn.
 	 */
 	GameState.prototype.draw = function(canvasContext) {
-		this.onDraw();
+		this.emit('draw', canvasContext);
 		for (var i = 0; i < this._layerList.length; i++) {
 			this._layerList[i].draw(canvasContext);
 		}

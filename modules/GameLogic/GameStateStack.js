@@ -68,11 +68,11 @@ define([], function() {
 	 */
 	GameStateStack.prototype.push = function(gameState) {
 		if (this.viewStack.length > 0) {
-			this.viewStack[this.viewStack.length - 1].onSleep();
+			this.viewStack[this.viewStack.length - 1].emit('sleep');
 		}
 		this.viewStack.push(gameState);
 		gameState.setGameStateStack(this);
-		gameState.onCreation();
+		gameState.emit('creation');
 	};
 
 	/**
@@ -84,11 +84,11 @@ define([], function() {
 	GameStateStack.prototype.pop = function() {
 		if (this.viewStack.length > 0) {
 			var index = this.viewStack.length - 1;
-			this.viewStack[index].onDelete();
+			this.viewStack[index].emit('delete');
 			this.viewStack.splice(index, 1);
 		}
 		if (this.viewStack.length > 0) {
-			this.viewStack[this.viewStack.length - 1].onWakeUp();
+			this.viewStack[this.viewStack.length - 1].emit('wakeUp');
 		}
 	};
 
@@ -105,12 +105,12 @@ define([], function() {
 		var length = this.viewStack.length;
 		for (var i = length - 1; i >= 0; i--) {
 			if (this.viewStack[i].name === name) {
-				this.viewStack[length - 1].onSleep();
+				this.viewStack[length - 1].emit('sleep');
 				for (var j = i + 1; j < length; j++) {
-					this.viewStack[j].onDelete();
+					this.viewStack[j].emit('delete');
 				}
 				this.viewStack.splice(i + 1, length - i);
-				this.viewStack[i].onWakeUp();
+				this.viewStack[i].emit('wakeUp');
 				return true;
 			}
 		}
