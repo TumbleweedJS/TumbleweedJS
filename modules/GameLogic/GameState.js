@@ -279,6 +279,9 @@ define(['../Utils/copyParam', '../Utils/inherit', '../Event/EventProvider'],
 		for (var i = 0; i < this._callbackList.length; i++) {
 			this._callbackList[i]();
 		}
+		for (i = 0; i < this._layerList.length; i++) {
+			this._layerList[i].update(elapsedTime);
+		}
 	};
 
 	/**
