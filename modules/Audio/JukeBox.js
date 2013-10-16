@@ -26,21 +26,21 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     function JukeBox() {
         /**
          * Sound instances
-         * @type {Array}
+         * @property {Array} _sounds
          * @private
          */
         this._sounds = [];
 
         /**
          * Sound identifiers
-         * @type {Array}
+         * @property {Array} _ids
          * @private
          */
         this._ids = [];
 
         /**
          * ID of the current sound to play in this._sounds and this._ids
-         * @type {number}
+         * @property {number} _current
          * @default 0
          * @private
          */
@@ -49,34 +49,34 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
         /**
          * Status of the JukeBox (playing, paused, stopped, error)
          * @default TW.Audio.JukeBox_STOPPED
-         * @type {string}
+         * @property {string} status
          */
         this.status = TW.Audio.JukeBox_STOPPED;
 
         /**
          * Define if the JukeBox should loop if its reach the end of the playlist
          * @default false
-         * @type {boolean}
+         * @property {Boolean} loop
          */
         this.loop = false;
 
         /**
          * Define if the JukeBox should loop on the current sound
          * @default false
-         * @type {boolean}
+         * @property {Boolean} actif_loop
          */
         this.actif_loop = false;
 
         /**
          * Define if the JukeBox should random next sounds to play
          * @default false
-         * @type {boolean}
+         * @property {Boolean} random
          */
         this.random = false;
 
         /**
          * Volume of the JukeBox
-         * @type {number}
+         * @property {Number} _volume
          * @default 100
          * @private
          */
@@ -84,7 +84,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
         /**
          * Define if the JukeBox is muted
-         * @type {boolean}
+         * @property {Boolean} _is_muted
          * @default false
          * @private
          */
@@ -99,7 +99,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * Play the current element in the playlist
      * if the parameter id is specified, jump to this sound and play it
      *
-     * @param {String} id Sound id to play (play the current sound if not specified)
+     * @method play
+     * @param {String} [id] Sound id to play (play the current sound if not specified)
      */
     JukeBox.prototype.play = function(id) {
         if (this._sounds.length === 0) {
@@ -127,6 +128,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Pause the elements currently playing in the JukeBox
+     * @method pause
      */
     JukeBox.prototype.pause = function() {
         if (this._sounds.length === 0) {
@@ -140,6 +142,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Stop the elements currently playing in the JukeBox
+     * @method stop
      */
     JukeBox.prototype.stop = function() {
         this.status = TW.Audio.JukeBox_STOPPED;
@@ -154,6 +157,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     /**
      * Add a sound to the playlist with an ID and an instance
      *
+     * @method add
      * @param {String} id The identifier of this sound
      * @param {Sound} sound Sound instance to add
      */
@@ -169,6 +173,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     /**
      * Remove a sound from the playlist by its ID
      *
+     * @method rm
      * @param {String} id Identifier of the sound to remove
      */
     JukeBox.prototype.rm = function(id) {
@@ -189,6 +194,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     /**
      * Get a sound from the playlist by its ID
      *
+     * @method get
      * @param {String} id Identifier of the sound to get
      * @return {Sound | boolean} The instance of the sound or false if not found
      */
@@ -204,7 +210,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     /**
      * Get the current sound playing or to play
      *
-     * @returns {Sound | boolean} The instance of the current sound or false if the playlist is empty
+     * @method getCurrent
+     * @return {Sound | boolean} The instance of the current sound or false if the playlist is empty
      */
     JukeBox.prototype.getCurrent = function() {
         if (this._sounds.length === 0 || this._current >= this._sounds.length) {
@@ -216,6 +223,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     /**
      * Set the volume of the current sound to play (call by play)
      *
+     * @method _setVolumeOfCurrent
      * @private
      */
     JukeBox.prototype._setVolumeOfCurrent = function() {
@@ -228,6 +236,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     /**
      * Callback to handle the event emitted by the sound currently playing when its ends
      *
+     * @method _handleSoundStopped
      * @param event
      * @param data
      * @param provider
@@ -243,6 +252,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     /**
      * Callback to handle the event emitted by the sounds when they throw an error
      *
+     * @method _handleSoundError
      * @param event
      * @param data
      * @param provider
@@ -254,6 +264,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Jump to the next sound to play
+     * @method next
      */
     JukeBox.prototype.next = function() {
         if (this._sounds.length === 0) {
@@ -287,6 +298,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     /**
      * Random function for the next sound to play
      *
+     * @method _play_random
      * @private
      */
     JukeBox.prototype._play_random = function() {
@@ -297,7 +309,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     /**
      * Return the volume of the JukeBox
      *
-     * @returns {number} The current volume of the JukeBox
+     * @method getVolume
+     * @return {number} The current volume of the JukeBox
      */
     JukeBox.prototype.getVolume = function() {
         return this._volume;
@@ -306,6 +319,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     /**
      * Set the volume of the JukeBox
      *
+     * @method setVolume
      * @param {number} volume New volume for the JukeBox [0, 100]
      */
     JukeBox.prototype.setVolume = function(volume) {
@@ -317,8 +331,9 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Mute or unmute the JukeBox
-     * @param {boolean} is_muted Mute if true or undefined, unmute if false
-     * @default true
+     *
+     * @method mute
+     * @param {Boolean} [is_muted=true] Mute if true or undefined, unmute if false
      */
     JukeBox.prototype.mute = function(is_muted) {
         if (is_muted === null || typeof(is_muted) === 'undefined') {
@@ -330,7 +345,9 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Check if the JukeBox is muted
-     * @returns {boolean} True if the JukeBox is muted, false if it is not
+     *
+     * @method isMuted
+     * @return {boolean} True if the JukeBox is muted, false if it is not
      */
     JukeBox.prototype.isMuted = function() {
         return this._is_muted;

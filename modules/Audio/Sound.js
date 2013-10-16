@@ -31,27 +31,27 @@ define(['../Event/EventProvider', './AudioInstance', '../Utils/inherit'],
     function Sound(src) {
         /**
          * Audio resource
-         * @type {HTMLAudioElement|String|String[]}
+         * @property {HTMLAudioElement|String|String[]} _src
          * @private
          */
         this._src = src;
 
         /**
          * Define if the loop mode is enabled
-         * @type {boolean}
+         * @property {Boolean} is_loop
          */
         this.is_loop = false;
 
         /**
          * Define the max number of instances you can play simultaneously
-         * @type {number}
+         * @property {number} max_instances
          * @default 100
          */
         this.max_instances = 100;
 
         /**
          * Array of running and pending AudioInstances
-         * @type {Array}
+         * @property {Array} _instances
          * @private
          */
         this._instances = [];
@@ -59,7 +59,7 @@ define(['../Event/EventProvider', './AudioInstance', '../Utils/inherit'],
         /**
          * Handler for the stop signal
          * Used to play again a song that has finished when the loop mode is enabled
-         * @property {Function} loopHandler
+         * @property {Function} _loopHandler
          * @private
          */
         this._loopHandler =  this._handleLoop.bind(this);
@@ -123,6 +123,7 @@ define(['../Event/EventProvider', './AudioInstance', '../Utils/inherit'],
      * Handle the signal stopped emitted by the running AudioInstances.
      * This method is used to play AudioInstances in loop
      *
+     * @method _handleLoop
      * @param event
      * @param data
      * @param provider

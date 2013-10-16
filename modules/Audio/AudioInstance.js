@@ -127,7 +127,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      *
      * @method _lookUpSource
      * @param src Url of the audio source
-     * @returns {String} the first compatible extension, otherwise it returns null
+     * @return {String} the first compatible extension, otherwise it returns null
      * @private
      */
     AudioInstance.prototype._lookUpSource = function(src) {
@@ -237,7 +237,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * Get the current volume
      *
      * @method getVolume
-     * @returns {Number} the volume [0, 100]
+     * @return {Number} the volume [0, 100]
      */
     AudioInstance.prototype.getVolume = function() {
         return this._volume;
@@ -280,7 +280,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * Function returning a boolean that define is the sound is muted or not
      *
      * @method isMuted
-     * @returns {Boolean} isMuted
+     * @return {Boolean} isMuted
      */
     AudioInstance.prototype.isMuted = function() {
         return this._is_muted;
@@ -290,7 +290,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * Get the audio source duration
      *
      * @method getDuration
-     * @returns {Number} Audio source duration
+     * @return {Number} Audio source duration
      */
     AudioInstance.prototype.getDuration = function() {
         return this._audio_tag.duration;
@@ -300,7 +300,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * Get the audio source playing position
      *
      * @method getPosition
-     * @returns {Number} Audio source current position
+     * @return {Number} Audio source current position
      */
     AudioInstance.prototype.getPosition = function() {
         return this._audio_tag.currentTime;

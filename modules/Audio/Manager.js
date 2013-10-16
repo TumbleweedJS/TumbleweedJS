@@ -20,14 +20,14 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
     function Manager() {
         /**
          * Sound instances
-         * @type {Array}
+         * @property {Array} _sounds
          * @private
          */
         this._sounds = [];
 
         /**
          * Volume of the manager
-         * @type {number}
+         * @property {Number} _volume
          * @default 100
          * @private
          */
@@ -35,7 +35,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
         /**
          * Define if the Manager is muted
-         * @type {boolean}
+         * @property {Boolean} _is_muted
          * @default false
          * @private
          */
@@ -48,6 +48,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Pause all the elements currently playing in the manager
+     * @method pause
      */
     Manager.prototype.pause = function() {
         for (var i = 0; i < this._sounds.length; i++) {
@@ -59,6 +60,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      *  Resume all the elements currently paused in the manager
+     *  @method resume
      */
     Manager.prototype.resume = function() {
         for (var i = 0; i < this._sounds.length; i++) {
@@ -70,6 +72,7 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Stop all the elements in the manager
+     * @method stop
      */
     Manager.prototype.stop = function() {
         for (var i = 0; i < this._sounds.length; i++) {
@@ -79,6 +82,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Add an element to the manager
+     *
+     * @method add
      * @param {Sound} sound The element to add
      */
     Manager.prototype.add = function(sound) {
@@ -90,6 +95,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Remove an element from the manager
+     *
+     * @method rm
      * @param {Sound} sound The element to remove
      */
     Manager.prototype.rm = function(sound) {
@@ -103,8 +110,10 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Check the presence of an element in the manager
+     *
+     * @method has
      * @param {Sound} sound
-     * @returns {boolean} True if the element is present in the manager, otherwise false
+     * @return {boolean} True if the element is present in the manager, otherwise false
      */
     Manager.prototype.has = function(sound) {
         for (var i = 0; i < this._sounds.length; i++) {
@@ -117,6 +126,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Mute or unmute all the elements in the manager
+     *
+     * @method mute
      * @param {boolean} is_muted Mute if true or undefined, unmute if false
      * @default true
      */
@@ -132,7 +143,9 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Check if the manager's sounds are muted
-     * @returns {boolean} True if the sounds are muted, false if they are not
+     *
+     * @method isMuted
+     * @return {boolean} True if the sounds are muted, false if they are not
      */
     Manager.prototype.isMuted = function() {
         return this._is_muted;
@@ -140,7 +153,9 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Return the manager's volume (master volume)
-     * @returns {number} The volume [0, 100]
+     *
+     * @method getVolume
+     * @return {number} The volume [0, 100]
      */
     Manager.prototype.getVolume = function() {
         return this._volume;
@@ -151,6 +166,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
      * For example:
      * The manager's volume is 100 and one of the sound in the pool is 50.
      * if you set the volume of the manager to 50, the sound will take a volume of 25.
+     *
+     * @method setVolume
      * @param {number} The volume to set
      */
     Manager.prototype.setVolume = function(volume) {
@@ -173,6 +190,8 @@ define(['../Event/EventProvider', '../Utils/inherit'], function (EventProvider, 
 
     /**
      * Handle errors emitted by the sounds in the pool and re-emit them with their source and error message
+     *
+     * @method errorHandler
      * @param event
      * @param data
      * @param provider
