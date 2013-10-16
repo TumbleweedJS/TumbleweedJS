@@ -267,7 +267,7 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 	 * @param remoteEvent
 	 * @param input
 	 * @param startIndex
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 * @private
 	 */
 	InputMapper.prototype._isStateBound = function(idState, remoteEvent, input, startIndex) {

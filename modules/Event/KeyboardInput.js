@@ -338,7 +338,7 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 		 * enable or not the key repeat.
 		 *
 		 * @property {Boolean} enableKeyRepeat
-		 * @defualt false
+		 * @default false
 		 */
 		this.enableKeyRepeat = false;
 

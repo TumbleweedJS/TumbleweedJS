@@ -70,7 +70,7 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 		 * List of all groups.
 		 * Each group is an array containing references to each file member.
 		 *
-		 * @type {Array} _groups
+		 * @property {Array} _groups
 		 * @private
 		 */
 		this._groups = [];
@@ -78,7 +78,7 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 		/**
 		 * List of files in load.
 		 *
-		 * @type {Array}
+		 * @property {Array} _current
 		 * @private
 		 */
 		this._current = [];
@@ -473,6 +473,7 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 	/**
 	 * Compute the percentage of data loaded in a set of files.
 	 *
+	 * @method _computeProgress
 	 * @param {Array} items list of all items in the group;
 	 * @return {Number} percent of data loaded (between 0 and 100)
 	 * @private
@@ -496,8 +497,10 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 
 	/**
 	 * check if a group is completed
+	 *
+	 * @method _isGroupCompleted
 	 * @param group
-	 * @returns {Boolean} true if it's completed; otherwise false
+	 * @return {Boolean} true if it's completed; otherwise false
 	 * @private
 	 */
 	Loader.prototype._isGroupCompleted = function(group) {
@@ -528,7 +531,7 @@ define(['../Utils/inherit', '../Event/EventProvider', './XHRLoader', './TagLoade
 	 *
 	 * @method get
 	 * @param {String} id
-	 * @returns {*} result loaded. its content depends of the type of item.
+	 * @return {*} result loaded. its content depends of the type of item.
 	 */
 	Loader.prototype.get = function(id) {
 		for (var i = 0; i < this._items.length; i++) {
