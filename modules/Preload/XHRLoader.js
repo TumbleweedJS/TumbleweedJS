@@ -250,6 +250,7 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 	/**
 	 * Called when a progress event is fired.
 	 *
+	 * @method _handleProgress
 	 * @param event
 	 */
 	XHRLoader.prototype._handleProgress = function(event) {
@@ -277,6 +278,7 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 	/**
 	 * Called when a startLoad event is fired
 	 *
+	 * @method _handleLoadStart
 	 * @param event
 	 */
 	XHRLoader.prototype._handleLoadStart = function(event) {
@@ -288,6 +290,7 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 	/**
 	 * Catch an error, abort or timeout.
 	 *
+	 * @method _handleError
 	 * @param event
 	 * @private
 	 */
@@ -325,6 +328,7 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 	/**
 	 * Create a new XMLHttpRequest and configure it.
 	 *
+	 * @method _createXHR
 	 * @param {String} path url of the remote file
 	 * @param {String} type file type.
 	 * @private

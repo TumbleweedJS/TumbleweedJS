@@ -68,7 +68,7 @@ define(['./EventProvider', '../Utils/inherit'], function(EventProvider, inherit)
 		 * When the device is reenabled, these values are used to keep coherence
 		 * between the class and the material device.
 		 *
-		 * @type {Array}
+		 * @property {Array} _waitValues
 		 * @private
 		 */
 		this._waitValues = [];
