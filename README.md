@@ -8,7 +8,7 @@ its architecture is divided into modules, so you can easily use only a part of t
 Each Tumbleweed class is an AMD module, so you can directly load classes you need.
 With an AMD optimizer like [r.js](http://requirejs.org/docs/optimization.html), you can generate a really optimized file, throwing away all parts you don't use.
 
-[![Build Status](https://travis-ci.org/TumbleweedJS/TumbleweedJS.png?branch=master,dev,release-0.3)](https://travis-ci.org/TumbleweedJS/TumbleweedJS)
+[![Build Status](https://travis-ci.org/TumbleweedJS/TumbleweedJS.png?branch=master)](https://travis-ci.org/TumbleweedJS/TumbleweedJS)
 
 ## More informations ?
 
