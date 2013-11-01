@@ -1,9 +1,10 @@
- 
+
 /*global module: false */
 module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
+		pkg: grunt.file.readJSON("package.json"),
         jshint: {
             options: {
 
@@ -84,13 +85,6 @@ module.exports = function(grunt) {
 				options: {
 					optimize: 'uglify2',
 					out : 'build/TW.min.js',
-					uglify2: {
-						compress: {
-							global_defs: {
-								TW_DEBUG: false
-							}
-						}
-					}
 				}
 			},
             debug: {
@@ -102,11 +96,12 @@ module.exports = function(grunt) {
         },
         yuidoc: {
             tumbleweed: {
-                name:           "Tumbleweed.js",
-                Description:    "The Tumbleweed.js API",
-                version:        "0.3.1",
-                url:            "http://api.tumbleweed-studio.net",
-                themedir: "./theme_doc",
+                name:           "<%= pkg.name %>",
+                Description:    "<%= pkg.description %>",
+                version:        "<%= pkg.version %>",
+                url:            "<%= pkg.homepage %>",
+				logo:			"http://www.tumbleweed-studio.net/website/img/logo.png",
+                themedir:		"./theme_doc",
                 options: {
                     outdir:     "./docs",
                     paths: ["./modules/"]

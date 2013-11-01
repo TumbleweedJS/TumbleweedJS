@@ -1,0 +1,39 @@
+{
+	"name": "tumbleweed",
+	"version": "0.3.1",
+	"description": "Tumbleweed.js is a Javascript game framework using the lastest HTML5 features, destined to make interactive browser-based games",
+	"keywords": [
+		"tumbleweed",
+		"tumbleweedJS",
+		"games",
+		"gamedev",
+		"game library"
+	],
+	"homepage": "www.tumbleweed-studio.net",
+	"bugs": "https://github.com/TumbleweedJS/TumbleweedJS/issues",
+	"licenses": [{
+		"type": "BSD 3-Clause",
+		"url": "http://opensource.org/licenses/BSD-3-Clause"
+	}],
+	"contributors": [
+		"Kévin Bernard-Allies <kevin.bernard.allies@gmail.com>",
+		"Pierre Ruiz",
+		"Arnaud Bonnet de Larbogne",
+		"Amine Aissati",
+		"Fabrice Bascoulergue",
+		"Michael Guidet",
+		"Jeremy Grenier",
+		"Aymeric Bascoulergue",
+		"Axel Gambert",
+		"Fabien Olousouzian"
+	],
+	"repository" : "https://github.com/TumbleweedJS/TumbleweedJS",
+	"devDependencies": {
+		"grunt": "0.4.x",
+		"grunt-requirejs": "*",
+		"grunt-contrib-jshint": "*",
+		"grunt-contrib-qunit": "*",
+		"grunt-contrib-yuidoc": "*"
+	},
+	"private": "true"
+}
