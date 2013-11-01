@@ -88,9 +88,7 @@ You're now ready to code! You should go to see [the demos](http://www.tumbleweed
 Tumbleweed use mainly `grunt` and `require.js` for building concatenated file *TW.js*. So you need Node.js and `npm`.
 
 	npm install -g grunt-cli
-    npm install grunt
-    npm install grunt-requirejs grunt-contrib-yuidoc grunt-contrib-jshint grunt-contrib-qunit
-
+    npm install
 
 Grunt is a powerful command-line build system. With the grunt.js file, it provides these following commands:
 
