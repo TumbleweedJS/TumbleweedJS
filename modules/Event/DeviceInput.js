@@ -60,6 +60,17 @@ define(['./EventProvider', '../Utils/inherit'], function(EventProvider, inherit)
 		 */
 		this._values = [];
 
+		/**
+		 * List of real values for state variables, when disabled.
+		 *
+		 * When the device are disabled, events are always catched by the class,
+		 * and temporary put in `_waitValues`.
+		 * When the device is reenabled, these values are used to keep coherence
+		 * between the class and the material device.
+		 *
+		 * @type {Array}
+		 * @private
+		 */
 		this._waitValues = [];
 
 		/**

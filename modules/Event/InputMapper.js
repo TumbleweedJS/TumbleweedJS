@@ -39,10 +39,16 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 		 * If allowMultiInput is set to `true`, the both source events match to the same output event.
 		 *
 		 * @property {Boolean} allowMultiInput
-		 * @defualt false
+		 * @default false
 		 */
 		this.allowMultiInput = false;
 
+		/**
+		 * list of all correspondance between input event and output event.
+		 *
+		 * @property {Array} _binds
+		 * @private
+		 */
 		this._binds = [];
 	}
 
@@ -255,6 +261,15 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 		}
 	};
 
+	/**
+	 * @method _isStateBound
+	 * @param idState
+	 * @param remoteEvent
+	 * @param input
+	 * @param startIndex
+	 * @returns {Boolean}
+	 * @private
+	 */
 	InputMapper.prototype._isStateBound = function(idState, remoteEvent, input, startIndex) {
 		for (var i = startIndex || 0; i < this._binds[idState].length; i++) {
 			if (remoteEvent === this._binds[idState][i].event && input === this._binds[idState][i].input) {
@@ -294,7 +309,7 @@ define(['./DeviceInput', '../Utils/inherit', '../Utils/Polyfills'], function(Dev
 
 				for (var k = i + 1; k < this._binds.length; k++) {
 
-					if (this._isStateBound(k, this._binds[i][j].event, this._binds[i][j].input)) {
+					if (this._isStateBound(k, this._binds[i][j].event, this._binds[i][j].input, 0)) {
 						conflicts.push(this.states[k]);
 					}
 				}
