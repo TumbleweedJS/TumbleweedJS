@@ -1,6 +1,6 @@
 {
 	"name": "tumbleweed",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"description": "Tumbleweed.js is a Javascript game framework using the lastest HTML5 features, destined to make interactive browser-based games",
 	"keywords": [
 		"tumbleweed",
