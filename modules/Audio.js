@@ -25,9 +25,10 @@
 var TW = TW || {};
 
 define([
-	       './Audio/Sound',
+	       './Audio/AudioInstance',
+	       './Audio/JukeBox',
 	       './Audio/Manager',
-	       './Audio/Channel'
+           './Audio/Sound'
        ], function() {
 	return TW.Audio;
 });
