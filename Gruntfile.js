@@ -54,15 +54,18 @@ module.exports = function(grunt) {
 						equal: false,
 						deepEqual: false,
 						strictEqual: false,
+						notEqual: false,
 						notStrictEqual: false,
-						expect: false
+						expect: false,
+						start: false,
+						stop: false
 					}
 				},
 				src: 'test/!(vendor)**/*.js'
 			}
         },
         qunit: {
-            files: ['test/**/*.html']
+            files: ['test/**/index.html']
         },
         requirejs: {
             options: {
@@ -101,7 +104,7 @@ module.exports = function(grunt) {
             tumbleweed: {
                 name:           "Tumbleweed.js",
                 Description:    "The Tumbleweed.js API",
-                version:        "0.3.0",
+                version:        "0.3.1",
                 url:            "http://api.tumbleweed-studio.net",
                 themedir: "./theme_doc",
                 options: {
