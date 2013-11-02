@@ -177,8 +177,6 @@ define([], function() {
 	EventProvider.prototype.emit = function(event, data) {
 		var length = this._listeners.length;
 
-		data = data === undefined ? null : data;
-
 		for (var i = 0; i < length; i++) {
 			if ((this._listeners[i].event === null ||
 			     this._listeners[i].event === event) &&
