@@ -109,22 +109,23 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 		stack.pop();
 	});
 
-	test("/* mode transparence */", function() {
+	test("change isTransparent and isModal attributes", function() {
 
 		var stack = new Stack();
 		var state1 = new State();
 		var state2 = new State();
-		state2.previous = state1;
+		state1.next = state2;
 		var state3 = new State();
-		state3.previous = state2;
+		state2.next = state3;
 		var current = null;
 
-		var check = function(event, emitter) {
+		var check = function(event, _, emitter) {
+
 			var id = emitter === state1 ? 1 : (emitter === state2 ? 2 : 3);
 
 			ok(emitter === current ||
-			   (event === 'update' && !emitter.previous.isModal) ||
-			   (event === 'draw' && emitter.previous.isTransparent),
+			   (event === 'update' && !emitter.next.isModal) ||
+			   (event === 'draw' && emitter.next.isTransparent),
 		       "call to " + event + " event from state " + id);
 		};
 
@@ -136,6 +137,7 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 
 		stack.push(state1);
 		stack.push(state2);
+		current = state2;
 		stack.update();     //state2
 		stack.draw();       //state2
 
@@ -146,6 +148,7 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 		state3.isTransparent = true;
 		state3.isModal = false;
 		stack.push(state3);
+		current = state3;
 		stack.update();     //state2 + state3
 		stack.draw();       //state1 + state2 + state3
 
@@ -155,6 +158,7 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 	});
 
 	test("test link() method", function() {
+
 		////// TODO
 		var stack = new Stack();
 		var state1 = new State();
@@ -191,7 +195,7 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 			return state3;
 		});
 		stack.link(State3, function(arg) {
-			strictEqual(id, arg, "State3 instances use this link");
+			strictEqual(arg, "pop3", "State3 instances use this link");
 			return new State4();
 		});
 		stack.link(State4, State3);
@@ -203,9 +207,9 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 		stack.pop(27);// --> 2
 		stack.update();
 		stack.pop(28);// --> 3
-		id = 0;
+		id = 3;
 		stack.update();
-		stack.pop();// --> 4
+		stack.pop("pop3");// --> 4
 		ok(true, 'State4 are linked to new State3 !');
 		stack.pop(7);// --> 3
 	});

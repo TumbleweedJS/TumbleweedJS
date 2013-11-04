@@ -18,7 +18,7 @@ var TW = TW || {};
 
 define([
 	       './GameLogic/Gameloop',
-	       './GameLogic/GameStateStack',
+	       './GameLogic/GameStack',
 	       './GameLogic/GameState'
        ], function() {
 	return TW.Gameloop;
