@@ -63,19 +63,16 @@ define(['TW/GameLogic/GameState'], function(State) {
 
 	test("transfer params to update and draw method", function() {
 		var state = new State();
-		var model = {
-			update_expect:  undefined,
-			draw_expect:  undefined,
-			update: function(arg) {
-				strictEqual(this.update_expect, arg, "update called with expected arg");
-			},
-			draw: function(arg) {
-				strictEqual(this.draw_expect, arg, "draw called with expected arg");
-			}
-		};
+		var update_expect, draw_expect; //undeifned by default; nothing expected
 		var obj1 = {}, obj2 = {};
 
-		obj1.prototype = obj2.prototype = model;
+		obj1.update = obj2.update = function(arg) {
+			strictEqual(update_expect, arg, "update called with expected arg");
+		};
+		obj1.draw = obj2.draw = function(arg) {
+			strictEqual(draw_expect, arg, "draw called with expected arg");
+		};
+
 		state.addObject(obj1);
 		state.addObject(obj2);
 
@@ -83,8 +80,8 @@ define(['TW/GameLogic/GameState'], function(State) {
 
 		state.update();
 		state.draw();
-		model.draw_expect = true;
-		model.update_expect = 35;
+		draw_expect = 35;
+		update_expect = true;
 
 		state.update(true);
 		state.draw(35);
@@ -102,7 +99,7 @@ define(['TW/GameLogic/GameState'], function(State) {
 		state.on('update', check);
 		state.on('sleep', check);
 		state.on('wakeUp', check);
-		state.on('delete', check);
+		state.on('dispose', check);
 
 		expect(5);
 
@@ -114,7 +111,7 @@ define(['TW/GameLogic/GameState'], function(State) {
 		state.sleep();
 		event_expected = 'wakeUp';
 		state.wakeUp();
-		event_expected = 'delete';
-		state.delete();
+		event_expected = 'dispose';
+		state.dispose();
 	});
 });
