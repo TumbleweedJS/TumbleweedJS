@@ -54,6 +54,7 @@ define([], function() {
 
 		Foo.prototype = parent.prototype;
 		child.prototype = new Foo();
+		child.prototype.constructor = child;
 	};
 
 	return TW.Utils.inherit;
