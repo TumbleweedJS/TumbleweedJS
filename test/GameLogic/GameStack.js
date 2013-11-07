@@ -10,7 +10,7 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 
 		stack.push(state);
 
-		expect(4);
+		expect(5);
 
 		state.once('draw', function(_, arg) {
 			strictEqual(arg, "---context---", 'state.draw() should be called with the context.');
@@ -23,13 +23,20 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 		stack.draw("---context---");
 
 		state.once('draw', function(_, arg) {
-			strictEqual(arg, undefined, "draw can also be called without args");
+			strictEqual(arg, null, "draw can also be called without args");
 		});
 		state.once('update', function(_, arg) {
 			strictEqual(arg, undefined, "update can also be called without args");
 		});
+
 		stack.draw();
 		stack.update();
+
+		stack.draw_context = '#context';
+		state.once('draw', function(_, arg) {
+			strictEqual(arg, '#context', 'draw context is set to stack.draw_context attribute');
+		});
+		stack.draw();
 	});
 
 	test("update/draw calls with multi-states", function() {
@@ -159,7 +166,6 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 
 	test("test link() method", function() {
 
-		////// TODO
 		var stack = new Stack();
 		var state1 = new State();
 		var state2 = new State();
