@@ -65,7 +65,7 @@ define(['../Utils/inherit', '../Event/EventProvider', '../GameLogic/GameState'],
 	 * ### key/value storage
 	 *
 	 * The `GameState` class has a key/value storage system, wich is used to share data between all states.
-	 * It's patyiculary usefull for sharing global draw context, or global object (like keyboard, ...)
+	 * It's patyiculary usefull for sharing global object requested by all (like keyboard, ...)
 	 *
 	 * For use it, the `get()` and `set()` method are availlable.
 	 *
@@ -102,6 +102,14 @@ define(['../Utils/inherit', '../Event/EventProvider', '../GameLogic/GameState'],
 		 * Emitted when the `GameStack` is drawn.
 		 * @event draw
 		 */
+
+		/**
+		 * Context parameter passed to `GameState.draw()` methods.
+		 * It allow to easily share a graphic context (such a canvas context), between all states.
+		 *
+		 * @property {*} draw_context
+		 */
+		this.draw_context = null;
 
 		/**
 		 * the stack containing all `GameState`.
@@ -283,7 +291,8 @@ define(['../Utils/inherit', '../Event/EventProvider', '../GameLogic/GameState'],
 	 * A `GameState` is transparent if the `isTransparent` attribute is set to `true`.
 	 *
 	 * @method draw
-	 * @param {*} [arg] parameter passed to `draw()` GameState methods.
+	 * @param {*} [arg] parameter passed to `draw()` GameState methods. If no parameters is passed,
+	 * `this.draw_context` will be used. Can be usefull for debug.
 	 */
 	GameStack.prototype.draw = function(arg) {
 		if (this._stack.length > 0) {
@@ -292,10 +301,10 @@ define(['../Utils/inherit', '../Event/EventProvider', '../GameLogic/GameState'],
 				first--;
 			}
 			for (; first < this._stack.length; first++) {
-				this._stack[first].draw(arg);
+				this._stack[first].draw(arg === undefined ? this.draw_context : arg);
 			}
 		}
-		this.emit('draw', arg);
+		this.emit('draw', arg === undefined ? this.draw_context : arg);
 	};
 
 	/**
