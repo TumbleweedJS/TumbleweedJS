@@ -20,7 +20,7 @@ define(['../Utils/copyParam', '../Utils/inherit', '../Event/EventProvider'],
 	 *
 	 * - `update` and `draw` are emited when the state is updated and draw.
 	 * - `sleep` is called when the state is put in background, and `wakeUp` when it become the active state.
-	 * - `dispose` is called when the state is removed from the stack.
+	 * - `init` and `dispose` are called when the state is added and removed to/from the stack.
 	 *
 	 * A state is a purely logical class, which transfer `update()` and `draw()` calls to its childs without interfer.
 	 * It does not have specific graphic code.
@@ -110,6 +110,12 @@ define(['../Utils/copyParam', '../Utils/inherit', '../Event/EventProvider'],
 		 * event emited when the state is removed from the stack.
 		 *
 		 * This event is the perfect place to clean and destroy all objects.
+		 *
+		 * @event dispose
+		 */
+
+		/**
+		 * event emited when the state is added to a stack.
 		 *
 		 * @event dispose
 		 */
@@ -217,6 +223,14 @@ define(['../Utils/copyParam', '../Utils/inherit', '../Event/EventProvider'],
 				this._objects[i].draw(param);
 			}
 		}
+	};
+
+	/**
+	 * Called when the state is added to a stack.
+	 * @method init
+	 */
+	GameState.prototype.init = function() {
+		this.emit('init');
 	};
 
 	/**

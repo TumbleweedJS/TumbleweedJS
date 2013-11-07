@@ -80,6 +80,12 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 		var state2 = new State();
 		var i = 0;
 
+		state1.on('init', function() {
+			strictEqual(i, 0, 'state1 pushed.');
+		});
+		state2.on('init', function() {
+			strictEqual(i, 1, 'state2 pushed.');
+		});
 		state1.on('sleep', function() {
 			strictEqual(i, 1, 'state1 go sleep.');
 		});
@@ -100,8 +106,9 @@ define(['TW/GameLogic/GameState', 'TW/GameLogic/GameStack'], function(State, Sta
 			i++;
 		});
 
+		expect(6);
+
 		stack.push(state1);
-		expect(4);
 
 		//sleep 1
 		i++;
