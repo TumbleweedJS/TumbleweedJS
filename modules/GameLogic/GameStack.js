@@ -233,13 +233,13 @@ define(['../Utils/inherit', '../Event/EventProvider', '../GameLogic/GameState'],
 		var link = {
 			ended_state:    ended_state,
 			callback:       NextState,
-			name:           '[' + (NextState.name || "function") + "()]"
+			name:           '[ ' + (NextState.name || "function") + "() ]"
 		};
 
 		if (NextState === GameState || NextState.prototype instanceof GameState) {
 			//It's a class, and not a callback
 			link.callback = defaultCallback;
-			link.name = "new " + (NextState.name || "Class") + "()]";
+			link.name = "[ new " + (NextState.name || "Class") + "() ]";
 		}
 
 		this._links.push(link);
@@ -320,6 +320,49 @@ define(['../Utils/inherit', '../Event/EventProvider', '../GameLogic/GameState'],
 	 */
 	GameStack.prototype.set = function(key, value) {
 		this._shared_map[key] = value;
+	};
+
+	/**
+	 * Print all States in the stack, for debug.
+	 * Each State is represented by its constructor name.
+	 * After the name a "Up" and "Dr" are displayed if the state is updated and drawn.
+	 *
+	 * If there is a link, its index is displayed.
+	 *
+	 * @method printStack
+	 * @return {String} multi-line stack trace.
+	 */
+	GameStack.prototype.printStack = function() {
+		var ret = "";
+		var isDrawn = true, isUpdated = true;
+
+		for (var i = this._stack.length - 1; i >= 0; i--) {
+			var state = this._stack[i];
+
+			if (i !== (this._stack.length - 1)) {
+				ret += '\n';
+			}
+
+			ret += '[ ' + state.constructor.name + '\t';
+			ret += isUpdated ? 'Up\t' : '\t';
+			ret += isDrawn ? 'Dr\t' : '\t';
+			ret += ']';
+
+			for (var j = 0; j < this._links.length; j++) {
+				var link = this._links[j];
+				if (state === link.ended_state ||
+				    (typeof link.ended_state === "function" && state instanceof link.ended_state)) {
+					ret += ' -> #' + j + ' ' + link.name;
+					break;
+				}
+			}
+
+
+			//for next state:
+			isDrawn = isDrawn && state.isTransparent;
+			isUpdated = isUpdated && !state.isModal;
+		}
+		return ret;
 	};
 
 	TW.GameLogic.GameStack = GameStack;
