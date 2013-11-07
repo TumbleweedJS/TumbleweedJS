@@ -155,6 +155,7 @@ define(['../Utils/inherit', '../Event/EventProvider', '../GameLogic/GameState'],
 		}
 		this._stack.push(gameState);
 		gameState.setGameStack(this);
+		gameState.init();
 	};
 
 	/**
