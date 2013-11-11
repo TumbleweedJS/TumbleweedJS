@@ -117,7 +117,7 @@ define(['../Utils/copyParam', '../Utils/inherit', '../Event/EventProvider'],
 		/**
 		 * event emited when the state is added to a stack.
 		 *
-		 * @event dispose
+		 * @event init
 		 */
 
 		/**
