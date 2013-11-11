@@ -89,7 +89,11 @@ define(['../Event/EventProvider', './AudioInstance', '../Utils/inherit'],
             for (var i = 0; i < this.max_instances; i++)
             {
                 if (this._instances[i] === null || typeof(this._instances[i]) === 'undefined') {
-                    instance = new AudioInstance(this._src);
+	                if (this._src instanceof HTMLAudioElement) {
+		                instance = new AudioInstance(this._src.currentSrc);
+	                } else {
+		                instance = new AudioInstance(this._src);
+	                }
                     this._instances[i] = instance;
                     instance.on("stop", this._loopHandler);
                     this.emit("new_instance", instance);
