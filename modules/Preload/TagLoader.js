@@ -144,11 +144,16 @@ define(['../Utils/inherit', '../Event/EventProvider', '../Utils/Polyfills'], fun
 				}.bind(this));
 
 				if (this._path instanceof Array) {
+					var source;
 					for (var i = 0; i < this._path.length; i++) {
-						var source = document.createElement('source');
+						source = document.createElement('source');
 						source.src = this._path[i];
 						this._tag.appendChild(source);
 					}
+					var that = this;
+					source.addEventListener('error', function(e) {
+						that.emit('error', e);
+					});
 				} else {
 					this._tag.src = this._path;
 				}

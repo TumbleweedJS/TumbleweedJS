@@ -89,6 +89,7 @@ define(['../Event/EventProvider', './AudioInstance', '../Utils/inherit'],
             for (var i = 0; i < this.max_instances; i++)
             {
                 if (this._instances[i] === null || typeof(this._instances[i]) === 'undefined') {
+	                /* global HTMLAudioElement */
 	                if (this._src instanceof HTMLAudioElement) {
 		                instance = new AudioInstance(this._src.currentSrc);
 	                } else {
